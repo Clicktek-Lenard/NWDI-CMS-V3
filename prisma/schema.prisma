@@ -1,0 +1,252 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma/client"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+// ============================================================
+// Auth & Users
+// ============================================================
+
+model User {
+  id           Int       @id @default(autoincrement())
+  username     String    @unique @db.VarChar(100)
+  email        String?   @db.VarChar(255)
+  password     String    @db.VarChar(255)
+  first_name   String?   @db.VarChar(100)
+  last_name    String?   @db.VarChar(100)
+  department   String?   @db.VarChar(100)
+  role         String?   @db.Text
+  activated    Int       @default(1)
+  ldap_import  Int       @default(0)
+  deleted_at   DateTime?
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+
+  queues       Queue[]
+  payments     PaymentHistory[]
+  transactions Transaction[]
+
+  @@map("users")
+}
+
+// ============================================================
+// Queue Management
+// ============================================================
+
+model Queue {
+  id            Int       @id @default(autoincrement())
+  patient_id    String    @db.VarChar(50)
+  patient_name  String    @db.VarChar(255)
+  company_code  String?   @db.VarChar(50)
+  company_name  String?   @db.VarChar(255)
+  queue_number  Int
+  status        String    @default("WAITING") @db.VarChar(20)
+  priority      Int       @default(0)
+  clinic_code   String?   @db.VarChar(20)
+  created_by    Int?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+
+  creator       User?     @relation(fields: [created_by], references: [id])
+  payments      PaymentHistory[]
+
+  @@index([status])
+  @@index([clinic_code])
+  @@index([created_at])
+  @@map("queues")
+}
+
+// ============================================================
+// Card Enrollment
+// ============================================================
+
+model CardEnrollment {
+  id              Int       @id @default(autoincrement())
+  card_number     String    @unique @db.VarChar(50)
+  patient_id      String    @db.VarChar(50)
+  patient_name    String?   @db.VarChar(255)
+  status          String    @default("REGISTERED") @db.VarChar(20)
+  registered_by   String?   @db.VarChar(100)
+  registered_at   DateTime  @default(now())
+  received_by     String?   @db.VarChar(100)
+  received_at     DateTime?
+  verified_by     String?   @db.VarChar(100)
+  verified_at     DateTime?
+  transferred_to  String?   @db.VarChar(100)
+  transferred_at  DateTime?
+  clinic_code     String?   @db.VarChar(20)
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+
+  @@index([patient_id])
+  @@index([status])
+  @@map("card_enrollments")
+}
+
+model CardNumber {
+  id          Int      @id @default(autoincrement())
+  card_number String   @unique @db.VarChar(50)
+  barcode     String?  @db.VarChar(255)
+  is_used     Int      @default(0)
+  created_at  DateTime @default(now())
+
+  @@map("card_numbers")
+}
+
+// ============================================================
+// Payments
+// ============================================================
+
+model PaymentHistory {
+  id              Int       @id @default(autoincrement())
+  patient_id      String    @db.VarChar(50)
+  queue_id        Int?
+  amount          Decimal   @db.Decimal(12, 2)
+  payment_method  String?   @db.VarChar(50)
+  status          String    @default("PENDING") @db.VarChar(20)
+  transaction_no  String?   @db.VarChar(100)
+  or_no           String?   @db.VarChar(100)
+  clinic_code     String?   @db.VarChar(20)
+  created_by      Int?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+
+  queue           Queue?    @relation(fields: [queue_id], references: [id])
+  creator         User?     @relation(fields: [created_by], references: [id])
+
+  @@index([patient_id])
+  @@index([status])
+  @@map("payment_histories")
+}
+
+model Transaction {
+  id              Int       @id @default(autoincrement())
+  transaction_no  String    @unique @db.VarChar(100)
+  patient_id      String    @db.VarChar(50)
+  type            String    @db.VarChar(50)
+  amount          Decimal   @db.Decimal(12, 2)
+  description     String?   @db.Text
+  clinic_code     String?   @db.VarChar(20)
+  created_by      Int?
+  created_at      DateTime  @default(now())
+
+  creator         User?     @relation(fields: [created_by], references: [id])
+
+  @@index([patient_id])
+  @@map("transactions")
+}
+
+// ============================================================
+// Companies & Items (Eros mirror)
+// ============================================================
+
+model Company {
+  id          Int       @id @default(autoincrement())
+  eros_code   String    @unique @db.VarChar(50)
+  name        String    @db.VarChar(255)
+  address     String?   @db.Text
+  contact     String?   @db.VarChar(255)
+  status      String    @default("ACTIVE") @db.VarChar(20)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+
+  items       ItemPrice[]
+
+  @@map("companies")
+}
+
+model ItemMaster {
+  id          Int       @id @default(autoincrement())
+  item_code   String    @unique @db.VarChar(50)
+  item_name   String    @db.VarChar(255)
+  category    String?   @db.VarChar(100)
+  department  String?   @db.VarChar(100)
+  status      String    @default("ACTIVE") @db.VarChar(20)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+
+  prices      ItemPrice[]
+
+  @@map("item_masters")
+}
+
+model ItemPrice {
+  id           Int       @id @default(autoincrement())
+  item_code    String    @db.VarChar(50)
+  company_code String   @db.VarChar(50)
+  price        Decimal   @db.Decimal(12, 2)
+  price_group  String?   @db.VarChar(50)
+  status       String    @default("ACTIVE") @db.VarChar(20)
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+
+  item         ItemMaster @relation(fields: [item_code], references: [item_code])
+  company      Company    @relation(fields: [company_code], references: [eros_code])
+
+  @@unique([item_code, company_code])
+  @@map("item_prices")
+}
+
+// ============================================================
+// Physicians
+// ============================================================
+
+model Physician {
+  id          Int       @id @default(autoincrement())
+  code        String    @unique @db.VarChar(50)
+  name        String    @db.VarChar(255)
+  license_no  String?   @db.VarChar(100)
+  specialty   String?   @db.VarChar(100)
+  status      String    @default("ACTIVE") @db.VarChar(20)
+  created_at  DateTime  @default(now())
+  updated_at  DateTime  @updatedAt
+
+  @@map("physicians")
+}
+
+// ============================================================
+// HL7 Messages
+// ============================================================
+
+model HL7Message {
+  id              Int       @id @default(autoincrement())
+  facility_code   String    @db.VarChar(20)
+  message_type    String    @db.VarChar(10)
+  accession_no    String?   @db.VarChar(50)
+  patient_id      String?   @db.VarChar(50)
+  status          String    @default("PENDING") @db.VarChar(20)
+  raw_message     String?   @db.LongText
+  error_message   String?   @db.Text
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+
+  @@index([facility_code])
+  @@index([status])
+  @@map("hl7_messages")
+}
+
+// ============================================================
+// Roles & Settings
+// ============================================================
+
+model Role {
+  id          Int     @id @default(autoincrement())
+  ldap_role   String  @unique @db.VarChar(255)
+  module      String  @db.VarChar(100)
+  tab         String  @db.VarChar(100)
+  description String? @db.Text
+
+  @@map("roles")
+}
+
+model Setting {
+  id    Int    @id @default(autoincrement())
+  key   String @unique @db.VarChar(100)
+  value String @db.Text
+
+  @@map("settings")
+}
