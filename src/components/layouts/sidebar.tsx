@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Users,
   CreditCard,
   ClipboardList,
   FileText,
@@ -16,6 +15,7 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
+import { signOut } from "next-auth/react";
 
 interface NavItem {
   label: string;
@@ -87,7 +87,7 @@ interface SidebarProps {
   userRoles?: string[];
 }
 
-export function Sidebar({ userRoles = [] }: SidebarProps) {
+export function Sidebar({ userRoles: _userRoles = [] }: SidebarProps) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -136,7 +136,10 @@ export function Sidebar({ userRoles = [] }: SidebarProps) {
 
         {/* Bottom section */}
         <div className="absolute bottom-0 w-full border-t border-slate-700 p-4">
-          <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white">
+          <button
+            onClick={() => signOut({ callbackUrl: "/login" })}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white"
+          >
             <LogOut className="h-5 w-5" />
             Sign Out
           </button>

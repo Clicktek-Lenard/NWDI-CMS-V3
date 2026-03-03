@@ -1,35 +1,44 @@
 "use client";
 
-import { Bell, User } from "lucide-react";
+import { MapPin } from "lucide-react";
 
 interface HeaderProps {
   userName?: string;
   clinicName?: string;
 }
 
-export function Header({ userName = "User", clinicName = "Central" }: HeaderProps) {
+function getInitials(name: string) {
+  const parts = name.trim().split(" ").filter(Boolean);
+  if (parts.length === 0) return "?";
+  if (parts.length === 1) return parts[0][0].toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+export function Header({ userName = "User", clinicName = "—" }: HeaderProps) {
+  const initials = getInitials(userName);
+
   return (
     <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b bg-white px-6 shadow-sm">
       <div>
         <h2 className="text-lg font-semibold text-slate-800">
           Central Management System
         </h2>
-        <p className="text-xs text-slate-500">{clinicName}</p>
+        <div className="flex items-center gap-1.5 mt-0.5">
+          <MapPin className="h-3 w-3 text-slate-400" />
+          <p className="text-xs text-slate-500">{clinicName}</p>
+        </div>
       </div>
 
-      <div className="flex items-center gap-4">
-        {/* Notifications */}
-        <button className="relative rounded-full p-2 hover:bg-slate-100">
-          <Bell className="h-5 w-5 text-slate-600" />
-          <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-red-500" />
-        </button>
-
-        {/* User */}
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200">
-            <User className="h-4 w-4 text-slate-600" />
+      <div className="flex items-center gap-3">
+        {/* User info */}
+        <div className="flex items-center gap-2.5">
+          <div className="flex flex-col items-end">
+            <span className="text-sm font-semibold text-slate-800 leading-tight">{userName}</span>
+            <span className="text-[11px] text-slate-400 leading-tight">Logged in</span>
           </div>
-          <span className="text-sm font-medium text-slate-700">{userName}</span>
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-white text-sm font-bold shadow-sm">
+            {initials}
+          </div>
         </div>
       </div>
     </header>
