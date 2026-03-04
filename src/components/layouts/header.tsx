@@ -1,6 +1,7 @@
 "use client";
 
-import { Bell, User } from "lucide-react";
+import { Bell, User, LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 interface HeaderProps {
   userName?: string;
@@ -31,6 +32,16 @@ export function Header({ userName = "User", clinicName = "Central" }: HeaderProp
           </div>
           <span className="text-sm font-medium text-slate-700">{userName}</span>
         </div>
+
+        {/* Sign out */}
+        {/* <button
+          onClick={() => signOut({ redirectTo: "/login" })}
+          title="Sign out"
+          className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors"
+        >
+          <LogOut className="h-4 w-4" />
+          <span>Sign out</span>
+        </button> */}
       </div>
     </header>
   );

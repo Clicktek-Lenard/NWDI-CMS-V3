@@ -16,6 +16,7 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
+import { signOut } from "next-auth/react";
 
 interface NavItem {
   label: string;
@@ -28,7 +29,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   {
     label: "Queue",
-    href: "/queue",
+    href: "/cms/queue",
     icon: <ClipboardList className="h-5 w-5" />,
     module: "cms",
     tab: "queue",
@@ -136,7 +137,10 @@ export function Sidebar({ userRoles = [] }: SidebarProps) {
 
         {/* Bottom section */}
         <div className="absolute bottom-0 w-full border-t border-slate-700 p-4">
-          <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white">
+          <button
+            onClick={() => signOut({ redirectTo: "/login" })}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white"
+          >
             <LogOut className="h-5 w-5" />
             Sign Out
           </button>

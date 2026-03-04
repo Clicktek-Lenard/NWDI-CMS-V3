@@ -1,166 +1,168 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useAddToQueue } from "@/hooks/use-queue";
-import type { QueueEntry } from "@/types";
+import { useState, useEffect, useRef, useCallback } from "react";
 
-// ── Form schema ──────────────────────────────────────────────
-const formSchema = z.object({
-  patientId: z.string().min(1, "Patient ID is required"),
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
-  companyCode: z.string().optional(),
-  companyName: z.string().optional(),
-  priority: z.boolean(),
-});
+// ── Types ─────────────────────────────────────────────────────
+interface PatientResult {
+  id: number;
+  code: string;
+  fullName: string;
+  lastName: string;
+  firstName: string;
+  middleName: string;
+  gender: string;
+  dob: string | null;
+}
 
-type FormValues = z.infer<typeof formSchema>;
-
-// ── Company presets ──────────────────────────────────────────
-const COMPANIES = [
-  { code: "", name: "" },
-  { code: "CASH", name: "Cash / Walk-in" },
-  { code: "MAXICARE", name: "Maxicare Health Corp." },
-  { code: "INTEL", name: "Intellicare Inc." },
-  { code: "PHHEALTH", name: "PhilHealth" },
-  { code: "MEDICARD", name: "Medicard Phil. Inc." },
-  { code: "COCOLIFE", name: "Cocolife Healthcare" },
-  { code: "ASIANLIFE", name: "Asian Life Financial" },
-  { code: "VALUCARE", name: "Valucare Health Systems" },
-];
-
-// ── Props ────────────────────────────────────────────────────
 interface AddToQueueModalProps {
   open: boolean;
   onClose: () => void;
-  onSuccess: (entry: QueueEntry) => void;
-  currentQueueCount: number;
+  onSuccess: () => void; // caller refreshes the queue list
+}
+
+// ── Helpers ───────────────────────────────────────────────────
+function calcAge(dob: string | null): number | null {
+  if (!dob) return null;
+  const birth = new Date(dob);
+  const now = new Date();
+  let age = now.getFullYear() - birth.getFullYear();
+  const m = now.getMonth() - birth.getMonth();
+  if (m < 0 || (m === 0 && now.getDate() < birth.getDate())) age -= 1;
+  return age;
 }
 
 // ── Component ────────────────────────────────────────────────
-export function AddToQueueModal({
-  open,
-  onClose,
-  onSuccess,
-  currentQueueCount,
-}: AddToQueueModalProps) {
+export function AddToQueueModal({ open, onClose, onSuccess }: AddToQueueModalProps) {
   const backdropRef = useRef<HTMLDivElement>(null);
+
+  // Patient search
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState<PatientResult[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState<PatientResult | null>(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const searchRef = useRef<HTMLInputElement>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Form fields
+  const [patientType, setPatientType] = useState("OUT-PATIENT");
+  const [notes, setNotes] = useState("");
+
+  // Submission state
+  const [submitting, setSubmitting] = useState(false);
   const [apiError, setApiError] = useState("");
-  const addToQueue = useAddToQueue();
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    setValue,
-    watch,
-    formState: { errors, isSubmitting },
-  } = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      patientId: "",
-      firstName: "",
-      lastName: "",
-      companyCode: "",
-      companyName: "",
-      priority: false,
-    },
-  });
-
-  const selectedCompany = watch("companyCode");
-
-  // Sync company name when code changes
-  useEffect(() => {
-    const match = COMPANIES.find((c) => c.code === selectedCompany);
-    if (match) {
-      setValue("companyName", match.name);
-    }
-  }, [selectedCompany, setValue]);
-
-  // Reset form when modal opens
+  // Reset when modal opens/closes
   useEffect(() => {
     if (open) {
-      reset();
+      setSearchTerm("");
+      setSearchResults([]);
+      setSelectedPatient(null);
+      setShowDropdown(false);
+      setPatientType("OUT-PATIENT");
+      setNotes("");
       setApiError("");
+      setTimeout(() => searchRef.current?.focus(), 80);
     }
-  }, [open, reset]);
+  }, [open]);
 
-  // Close on Escape
+  // Escape key
   useEffect(() => {
-    function handleKey(e: KeyboardEvent) {
+    function onKey(e: KeyboardEvent) {
       if (e.key === "Escape" && open) onClose();
     }
-    document.addEventListener("keydown", handleKey);
-    return () => document.removeEventListener("keydown", handleKey);
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  async function onSubmit(data: FormValues) {
+  // Debounced patient search
+  const doSearch = useCallback(async (q: string) => {
+    if (q.trim().length < 2) {
+      setSearchResults([]);
+      setShowDropdown(false);
+      return;
+    }
+    setSearching(true);
+    try {
+      const res = await fetch(`/api/patients/search?q=${encodeURIComponent(q)}&limit=8`);
+      if (!res.ok) throw new Error();
+      const json: { data: PatientResult[] } = await res.json();
+      setSearchResults(json.data);
+      setShowDropdown(true);
+    } catch {
+      setSearchResults([]);
+    } finally {
+      setSearching(false);
+    }
+  }, []);
+
+  function handleSearchChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const val = e.target.value;
+    setSearchTerm(val);
+    setSelectedPatient(null);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => doSearch(val), 280);
+  }
+
+  function selectPatient(p: PatientResult) {
+    setSelectedPatient(p);
+    setSearchTerm(p.fullName);
+    setShowDropdown(false);
+    setSearchResults([]);
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!selectedPatient) {
+      setApiError("Please search and select a patient.");
+      return;
+    }
+    setSubmitting(true);
     setApiError("");
 
-    const patientName = `${data.lastName.toUpperCase()}, ${data.firstName.toUpperCase()}`;
-
     try {
-      await addToQueue.mutateAsync({
-        patientId: data.patientId,
-        patientName,
-        companyCode: data.companyCode || undefined,
-        companyName: data.companyName || undefined,
+      const res = await fetch("/api/queue", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          idPatient:   selectedPatient.id,
+          fullName:    selectedPatient.fullName,
+          lastName:    selectedPatient.lastName,
+          firstName:   selectedPatient.firstName,
+          middleName:  selectedPatient.middleName,
+          gender:      selectedPatient.gender,
+          dob:         selectedPatient.dob,
+          patientType,
+        }),
       });
 
-      // Create local entry for immediate display
-      const newEntry: QueueEntry = {
-        id: Date.now(),
-        queueNumber: currentQueueCount + 1,
-        patientId: data.patientId,
-        patientName,
-        companyCode: data.companyCode || "CASH",
-        companyName: data.companyName || "Cash / Walk-in",
-        status: "WAITING",
-        priorityLevel: data.priority ? 1 : 0,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error((err as { error?: string }).error || `HTTP ${res.status}`);
+      }
 
-      onSuccess(newEntry);
+      onSuccess();
       onClose();
-    } catch {
-      // If API fails (no DB), still add locally for demo
-      const newEntry: QueueEntry = {
-        id: Date.now(),
-        queueNumber: currentQueueCount + 1,
-        patientId: data.patientId,
-        patientName,
-        companyCode: data.companyCode || "CASH",
-        companyName: data.companyName || "Cash / Walk-in",
-        status: "WAITING",
-        priorityLevel: data.priority ? 1 : 0,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
-
-      setApiError("Could not save to database — added to local queue.");
-      onSuccess(newEntry);
-
-      // Auto-close after brief delay so user sees the message
-      setTimeout(() => onClose(), 1200);
+    } catch (err) {
+      setApiError(err instanceof Error ? err.message : "Failed to add to queue.");
+    } finally {
+      setSubmitting(false);
     }
   }
 
   if (!open) return null;
 
+  const age = calcAge(selectedPatient?.dob ?? null);
+
   return (
     <div
       ref={backdropRef}
-      onClick={(e) => {
-        if (e.target === backdropRef.current) onClose();
-      }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity"
+      onClick={(e) => { if (e.target === backdropRef.current) onClose(); }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
     >
-      <div className="relative mx-4 w-full max-w-lg animate-in rounded-2xl border border-slate-200 bg-white shadow-2xl">
-        {/* Header */}
+      <div className="relative mx-4 w-full max-w-lg rounded-2xl border border-slate-200 bg-white shadow-2xl">
+
+        {/* ── Header ── */}
         <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100">
@@ -169,8 +171,8 @@ export function AddToQueueModal({
               </svg>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-slate-800">Add Patient to Queue</h3>
-              <p className="text-xs text-slate-400">Queue #{currentQueueCount + 1}</p>
+              <h3 className="text-lg font-semibold text-slate-800">Add to Queue</h3>
+              <p className="text-xs text-slate-400">Search a patient and confirm details</p>
             </div>
           </div>
           <button
@@ -183,11 +185,12 @@ export function AddToQueueModal({
           </button>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-5">
-          {/* API Error */}
+        {/* ── Form ── */}
+        <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4">
+
+          {/* Error banner */}
           {apiError && (
-            <div className="mb-4 flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
+            <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700">
               <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
               </svg>
@@ -195,106 +198,122 @@ export function AddToQueueModal({
             </div>
           )}
 
-          <div className="space-y-4">
-            {/* Patient ID */}
-            <div>
-              <label htmlFor="patientId" className="mb-1.5 block text-sm font-medium text-slate-700">
-                Patient ID <span className="text-red-500">*</span>
-              </label>
+          {/* ── Patient search ── */}
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-slate-700">
+              Patient <span className="text-red-500">*</span>
+            </label>
+            <div className="relative">
+              <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+                {searching ? (
+                  <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                ) : (
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                  </svg>
+                )}
+              </div>
               <input
-                id="patientId"
-                {...register("patientId")}
-                placeholder="e.g. P-2024-01300"
-                className={`block w-full rounded-xl border bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm transition-colors placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 ${
-                  errors.patientId
-                    ? "border-red-300 focus:border-red-400"
-                    : "border-slate-200 hover:border-slate-300 focus:border-blue-400"
-                }`}
+                ref={searchRef}
+                type="text"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                onFocus={() => searchResults.length > 0 && setShowDropdown(true)}
+                onBlur={() => setTimeout(() => setShowDropdown(false), 150)}
+                placeholder="Type patient name or code…"
+                className="block w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-9 pr-4 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20"
               />
-              {errors.patientId && (
-                <p className="mt-1 text-xs text-red-500">{errors.patientId.message}</p>
-              )}
-            </div>
 
-            {/* Name row */}
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label htmlFor="lastName" className="mb-1.5 block text-sm font-medium text-slate-700">
-                  Last Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  id="lastName"
-                  {...register("lastName")}
-                  placeholder="Dela Cruz"
-                  className={`block w-full rounded-xl border bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm transition-colors placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 ${
-                    errors.lastName
-                      ? "border-red-300 focus:border-red-400"
-                      : "border-slate-200 hover:border-slate-300 focus:border-blue-400"
-                  }`}
-                />
-                {errors.lastName && (
-                  <p className="mt-1 text-xs text-red-500">{errors.lastName.message}</p>
-                )}
-              </div>
-              <div>
-                <label htmlFor="firstName" className="mb-1.5 block text-sm font-medium text-slate-700">
-                  First Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  id="firstName"
-                  {...register("firstName")}
-                  placeholder="Juan"
-                  className={`block w-full rounded-xl border bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm transition-colors placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 ${
-                    errors.firstName
-                      ? "border-red-300 focus:border-red-400"
-                      : "border-slate-200 hover:border-slate-300 focus:border-blue-400"
-                  }`}
-                />
-                {errors.firstName && (
-                  <p className="mt-1 text-xs text-red-500">{errors.firstName.message}</p>
-                )}
-              </div>
-            </div>
-
-            {/* Company / HMO */}
-            <div>
-              <label htmlFor="companyCode" className="mb-1.5 block text-sm font-medium text-slate-700">
-                Company / HMO
-              </label>
-              <select
-                id="companyCode"
-                {...register("companyCode")}
-                className="block w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm transition-colors hover:border-slate-300 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
-              >
-                <option value="">Select company (optional)</option>
-                {COMPANIES.filter((c) => c.code).map((c) => (
-                  <option key={c.code} value={c.code}>
-                    {c.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Priority toggle */}
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3">
-              <div className="flex items-center gap-2">
-                <svg className="h-4 w-4 text-orange-500" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-                </svg>
-                <div>
-                  <span className="text-sm font-medium text-slate-700">Priority Patient</span>
-                  <p className="text-[11px] text-slate-400">Senior citizen, PWD, or urgent case</p>
+              {/* Dropdown */}
+              {showDropdown && searchResults.length > 0 && (
+                <div className="absolute z-10 mt-1 w-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-lg">
+                  {searchResults.map((p) => (
+                    <button
+                      key={p.id}
+                      type="button"
+                      onMouseDown={() => selectPatient(p)}
+                      className="flex w-full items-start gap-3 px-4 py-2.5 text-left hover:bg-blue-50"
+                    >
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-500">
+                        {p.firstName.charAt(0)}{p.lastName.charAt(0)}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-medium text-slate-800">{p.fullName}</p>
+                        <p className="text-xs text-slate-400">
+                          {p.code} · {p.gender} · {p.dob ?? "DOB unknown"}
+                        </p>
+                      </div>
+                    </button>
+                  ))}
                 </div>
-              </div>
-              <label className="relative inline-flex cursor-pointer items-center">
-                <input type="checkbox" {...register("priority")} className="peer sr-only" />
-                <div className="h-6 w-11 rounded-full bg-slate-300 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow after:transition-transform peer-checked:bg-orange-500 peer-checked:after:translate-x-5 peer-focus:ring-2 peer-focus:ring-orange-400/20" />
-              </label>
+              )}
+
+              {showDropdown && !searching && searchResults.length === 0 && searchTerm.length >= 2 && (
+                <div className="absolute z-10 mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-400 shadow-lg">
+                  No patients found for &ldquo;{searchTerm}&rdquo;
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="mt-6 flex items-center justify-end gap-3">
+          {/* ── Selected patient card ── */}
+          {selectedPatient && (
+            <div className="rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-200 text-sm font-bold text-blue-700">
+                  {selectedPatient.firstName.charAt(0)}{selectedPatient.lastName.charAt(0)}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate font-semibold text-slate-800">{selectedPatient.fullName}</p>
+                  <p className="text-xs text-slate-500">
+                    Code: <span className="font-mono">{selectedPatient.code}</span>
+                    {age !== null && <span className="ml-2">{age}y</span>}
+                    {selectedPatient.gender && <span className="ml-1">{selectedPatient.gender}</span>}
+                    {selectedPatient.dob && <span className="ml-2">DOB: {selectedPatient.dob}</span>}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => { setSelectedPatient(null); setSearchTerm(""); searchRef.current?.focus(); }}
+                  className="shrink-0 rounded-lg p-1 text-slate-400 hover:bg-blue-100 hover:text-slate-600"
+                  title="Clear selection"
+                >
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* ── Patient Type ── */}
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-slate-700">
+              Patient Type
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {["OUT-PATIENT", "IN-PATIENT", "ER", "OB"].map((type) => (
+                <button
+                  key={type}
+                  type="button"
+                  onClick={() => setPatientType(type)}
+                  className={`rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors ${
+                    patientType === type
+                      ? "border-blue-500 bg-blue-50 text-blue-700"
+                      : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:bg-slate-50"
+                  }`}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* ── Footer ── */}
+          <div className="flex items-center justify-end gap-3 pt-2">
             <button
               type="button"
               onClick={onClose}
@@ -304,16 +323,16 @@ export function AddToQueueModal({
             </button>
             <button
               type="submit"
-              disabled={isSubmitting || addToQueue.isPending}
-              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+              disabled={submitting || !selectedPatient}
+              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {isSubmitting || addToQueue.isPending ? (
+              {submitting ? (
                 <>
                   <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
-                  Saving...
+                  Saving…
                 </>
               ) : (
                 <>

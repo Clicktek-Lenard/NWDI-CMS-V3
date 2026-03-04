@@ -34,24 +34,23 @@ export interface Session {
 
 // --- Queue ---
 export interface QueueEntry {
-  id: number;
-  patientId: string;
-  patientName: string;
-  companyCode: string;
-  companyName: string;
-  status: QueueStatus;
-  queueNumber: number;
-  priorityLevel: number;
-  createdAt: string;
-  updatedAt: string;
+  id: number;          // queue.Id
+  code: string;        // queue.Code (e.g. "CEN-20241201-001")
+  rowNumber: number;   // display sequence for today
+  idPatient: number;   // queue.IdPatient
+  patientName: string; // queue.QFullName
+  accessionNo: string; // queue.AccessionNo
+  statusCode: number;  // queue.Status (integer)
+  statusName: string;  // queuestatus.Name
+  patientType: string; // queue.PatientType
+  inputBy: string;     // queue.InputBy
+  age: number | null;  // queue.AgePatient
+  gender: string;      // queue.QGender
+  queueDateTime: string; // queue.DateTime (ISO string)
 }
 
-export type QueueStatus =
-  | "WAITING"
-  | "IN_PROGRESS"
-  | "COMPLETED"
-  | "CANCELLED"
-  | "NO_SHOW";
+// Keep for backwards-compat in any remaining usage
+export type QueueStatus = string;
 
 // --- Patient ---
 export interface Patient {
