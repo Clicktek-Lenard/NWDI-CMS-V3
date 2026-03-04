@@ -42,58 +42,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const password = credentials.password as string;
         const clinicCode = (credentials.clinicCode as string) || "";
 
-        // Demo accounts (remove in production)
-        const demoUsers: Record<string, { password: string; name: string; email: string; role: string }> = {
-          admin: {
-            password: "admin123",
-            name: "Admin User",
-            email: "admin@nwdi.ad",
-            role: JSON.stringify([
-              { module: "cms", tab: "queue" },
-              { module: "cms", tab: "enrollment" },
-              { module: "cms", tab: "payment" },
-              { module: "cms", tab: "results" },
-              { module: "cms", tab: "clinical" },
-              { module: "cms", tab: "settings" },
-              { module: "cms", tab: "reports" },
-              { module: "erosui", tab: "company" },
-              { module: "erosui", tab: "physician" },
-              { module: "erosui", tab: "itemmasterlist" },
-            ]),
-          },
-          nurse: {
-            password: "nurse123",
-            name: "Maria Santos",
-            email: "msantos@nwdi.ad",
-            role: JSON.stringify([
-              { module: "cms", tab: "queue" },
-              { module: "cms", tab: "results" },
-              { module: "cms", tab: "clinical" },
-            ]),
-          },
-          cashier: {
-            password: "cashier123",
-            name: "Juan Reyes",
-            email: "jreyes@nwdi.ad",
-            role: JSON.stringify([
-              { module: "cms", tab: "queue" },
-              { module: "cms", tab: "payment" },
-              { module: "cms", tab: "reports" },
-            ]),
-          },
-        };
-
-        if (demoUsers[username] && demoUsers[username].password === password) {
-          const demo = demoUsers[username];
-          return {
-            id: username,
-            name: demo.name,
-            email: demo.email,
-            role: demo.role,
-            clinicCode,
-          };
-        }
-
         // Step 1: Try LDAP authentication
         const ldapUser = await authenticateWithLDAP(username, password);
 

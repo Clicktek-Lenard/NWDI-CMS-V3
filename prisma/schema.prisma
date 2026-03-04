@@ -12,19 +12,53 @@ datasource db {
 // ============================================================
 
 model User {
-  id           Int       @id @default(autoincrement())
-  username     String    @unique @db.VarChar(100)
-  email        String?   @db.VarChar(255)
-  password     String    @db.VarChar(255)
-  first_name   String?   @db.VarChar(100)
-  last_name    String?   @db.VarChar(100)
-  department   String?   @db.VarChar(100)
-  role         String?   @db.Text
-  activated    Int       @default(1)
-  ldap_import  Int       @default(0)
-  deleted_at   DateTime?
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @updatedAt
+  id                  Int       @id @default(autoincrement()) @db.UnsignedInt
+  username            String?   @unique @db.VarChar(191)
+  email               String?   @db.VarChar(191)
+  password            String    @db.VarChar(191)
+  permissions         String?   @db.Text
+  activated           Int       @default(0) @db.TinyInt
+  created_by          Int?
+  activation_code     String?   @db.VarChar(191)
+  activated_at        DateTime?
+  last_login          DateTime?
+  persist_code        String?   @db.VarChar(191)
+  reset_password_code String?   @db.VarChar(191)
+  first_name          String?   @db.VarChar(191)
+  last_name           String?   @db.VarChar(191)
+  website             String?   @db.VarChar(191)
+  country             String?   @db.VarChar(191)
+  gravatar            String?   @db.VarChar(191)
+  location_id         Int?
+  phone               String?   @db.VarChar(191)
+  jobtitle            String?   @db.VarChar(191)
+  manager_id          Int?
+  employee_num        String?   @db.Text
+  avatar              String?   @db.VarChar(191)
+  notes               String?   @db.Text
+  company_id          Int?      @db.UnsignedInt
+  remember_token      String?   @db.Text
+  ldap_import         Int       @default(0) @db.TinyInt
+  locale              String?   @default("en") @db.VarChar(10)
+  show_in_list        Int       @default(1) @db.TinyInt
+  two_factor_secret   String?   @db.VarChar(32)
+  two_factor_enrolled Int       @default(0) @db.TinyInt
+  two_factor_optin    Int       @default(0) @db.TinyInt
+  department_id       Int?
+  address             String?   @db.VarChar(191)
+  city                String?   @db.VarChar(191)
+  state               String?   @db.VarChar(3)
+  zip                 String?   @db.VarChar(10)
+  skin                String?   @db.VarChar(191)
+  remote              Int?      @default(0) @db.TinyInt
+  status              String    @default("ACTIVE") @db.VarChar(15)
+  role                String?   @db.VarChar(2500)
+  department          String?   @db.VarChar(100)
+  AccessMapId         String    @default("0") @db.VarChar(30)
+  ldap_server_status  String?   @db.VarChar(255)
+  deleted_at          DateTime?
+  created_at          DateTime? @default(now())
+  updated_at          DateTime? @updatedAt
 
   queues       Queue[]
   payments     PaymentHistory[]
@@ -47,7 +81,7 @@ model Queue {
   status        String    @default("WAITING") @db.VarChar(20)
   priority      Int       @default(0)
   clinic_code   String?   @db.VarChar(20)
-  created_by    Int?
+  created_by    Int?      @db.UnsignedInt
   created_at    DateTime  @default(now())
   updated_at    DateTime  @updatedAt
 
@@ -111,7 +145,7 @@ model PaymentHistory {
   transaction_no  String?   @db.VarChar(100)
   or_no           String?   @db.VarChar(100)
   clinic_code     String?   @db.VarChar(20)
-  created_by      Int?
+  created_by      Int?      @db.UnsignedInt
   created_at      DateTime  @default(now())
   updated_at      DateTime  @updatedAt
 
@@ -121,6 +155,7 @@ model PaymentHistory {
   @@index([patient_id])
   @@index([status])
   @@map("payment_histories")
+
 }
 
 model Transaction {
@@ -131,7 +166,7 @@ model Transaction {
   amount          Decimal   @db.Decimal(12, 2)
   description     String?   @db.Text
   clinic_code     String?   @db.VarChar(20)
-  created_by      Int?
+  created_by      Int?      @db.UnsignedInt
   created_at      DateTime  @default(now())
 
   creator         User?     @relation(fields: [created_by], references: [id])
@@ -230,17 +265,195 @@ model HL7Message {
 }
 
 // ============================================================
+// Clinical / Doctor Module
+// ============================================================
+
+model Vitals {
+  id               Int      @id @default(autoincrement())
+  queue_id         Int
+  patient_id       String   @db.VarChar(50)
+  // Chief Complaint (recorded at vitals station)
+  chief_complaint  String?  @db.Text
+  // PCP Assignment
+  pcp_id           String?  @db.VarChar(50)
+  pcp_name         String?  @db.VarChar(255)
+  // Blood Pressure — 3 readings
+  bp_systolic      Int?
+  bp_diastolic     Int?
+  bp_systolic_2    Int?
+  bp_diastolic_2   Int?
+  bp_systolic_3    Int?
+  bp_diastolic_3   Int?
+  // Basic vitals
+  heart_rate       Int?
+  temperature      Decimal? @db.Decimal(4, 1)
+  respiratory_rate Int?
+  o2_saturation    Int?
+  weight           Decimal? @db.Decimal(5, 2)
+  height           Decimal? @db.Decimal(5, 2)
+  bmi              Decimal? @db.Decimal(4, 2)
+  bmi_category     String?  @db.VarChar(20)
+  // Vision — Far (uncorrected / corrected)
+  uncorrected_od   String?  @db.VarChar(10)
+  uncorrected_os   String?  @db.VarChar(10)
+  corrected_od     String?  @db.VarChar(10)
+  corrected_os     String?  @db.VarChar(10)
+  // Vision — Near
+  uncorrected_near_od String? @db.VarChar(10)
+  uncorrected_near_os String? @db.VarChar(10)
+  corrected_near_od   String? @db.VarChar(10)
+  corrected_near_os   String? @db.VarChar(10)
+  // Vision flags
+  with_contact_lens   Int    @default(0) @db.TinyInt
+  with_eyeglass       Int    @default(0) @db.TinyInt
+  color_vision        String? @db.VarChar(20)
+  // Audit
+  recorded_by      Int?
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  @@index([queue_id])
+  @@map("vitals")
+}
+
+model ConsultationNote {
+  id               Int       @id @default(autoincrement())
+  queue_id         Int       @unique
+  patient_id       String    @db.VarChar(50)
+  // SOAP — S (Subjective)
+  chief_complaint  String?   @db.Text
+  history_illness  String?   @db.Text
+  past_history     String?   @db.Text
+  family_history   String?   @db.Text
+  // SOAP — O (Objective)
+  pe_findings      String?   @db.Text
+  // SOAP — A (Assessment)
+  diagnosis        String?   @db.Text
+  icd_code         String?   @db.VarChar(20)
+  // SOAP — P (Plan)
+  treatment_plan   String?   @db.Text
+  orders           String?   @db.Text
+  // Doctor info
+  pcp_doctor       String?   @db.VarChar(150)
+  doctor_id        Int?
+  doctor_name      String?   @db.VarChar(255)
+  // State
+  is_draft         Int       @default(1) @db.TinyInt
+  status           String    @default("PENDING") @db.VarChar(20)
+  completed_at     DateTime?
+  recorded_by      Int?
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+
+  @@index([patient_id])
+  @@map("consultation_notes")
+}
+
+model PhysicalExamination {
+  id               Int       @id @default(autoincrement())
+  queue_id         Int       @unique
+  patient_id       String    @db.VarChar(50)
+  // Overall fitness class: A / B / C / D / Pending
+  fitness_class    String?   @db.VarChar(10)
+  checked_by       String?   @db.VarChar(255)
+  // Medical History (past)
+  liver_gallbladder   Int    @default(0) @db.TinyInt
+  heart_disease       Int    @default(0) @db.TinyInt
+  asthma_allergy      Int    @default(0) @db.TinyInt
+  tuberculosis        Int    @default(0) @db.TinyInt
+  ent_disorder        Int    @default(0) @db.TinyInt
+  eye_disorder        Int    @default(0) @db.TinyInt
+  diabetes_mellitus   Int    @default(0) @db.TinyInt
+  chronic_headache    Int    @default(0) @db.TinyInt
+  hypertension        Int    @default(0) @db.TinyInt
+  kidney_disease      Int    @default(0) @db.TinyInt
+  cancer              Int    @default(0) @db.TinyInt
+  std                 Int    @default(0) @db.TinyInt
+  past_med_others     String? @db.Text
+  // Social History
+  present_smoker          Int @default(0) @db.TinyInt
+  smoker_sticks_per_day   String? @db.VarChar(10)
+  smoker_years            String? @db.VarChar(10)
+  previous_smoker         Int @default(0) @db.TinyInt
+  prev_smoker_sticks      String? @db.VarChar(10)
+  prev_smoker_years       String? @db.VarChar(10)
+  alcohol_drinker         Int @default(0) @db.TinyInt
+  prev_alcohol_drinker    Int @default(0) @db.TinyInt
+  social_others           String? @db.Text
+  // OB-GYN
+  menarche                String? @db.VarChar(10)
+  menopausal_age          String? @db.VarChar(10)
+  last_menstruation       DateTime?
+  menstrual_period        String? @db.VarChar(50)
+  obgyn_others            String? @db.Text
+  // Family History
+  fam_asthma              Int @default(0) @db.TinyInt
+  fam_diabetes            Int @default(0) @db.TinyInt
+  fam_goiter              Int @default(0) @db.TinyInt
+  fam_ptb                 Int @default(0) @db.TinyInt
+  fam_heart_disease       Int @default(0) @db.TinyInt
+  fam_hypertension        Int @default(0) @db.TinyInt
+  fam_kidney              Int @default(0) @db.TinyInt
+  fam_others              String? @db.Text
+  // Physical Examination per body system
+  skin                    String? @db.Text
+  head_scalp              String? @db.Text
+  eyes                    String? @db.Text
+  ears_hearing            String? @db.Text
+  nose_sinuses            String? @db.Text
+  mouth_throat            String? @db.Text
+  neck_thyroid            String? @db.Text
+  chest_breast            String? @db.Text
+  lungs                   String? @db.Text
+  heart                   String? @db.Text
+  abdomen                 String? @db.Text
+  back_flanks             String? @db.Text
+  extremities             String? @db.Text
+  neurological            String? @db.Text
+  genitals_urinary        String? @db.Text
+  anus_rectum             String? @db.Text
+  // Audit
+  status           String    @default("PENDING") @db.VarChar(20)
+  recorded_by      Int?
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+
+  @@index([patient_id])
+  @@map("physical_examinations")
+}
+
+model MedicalEvaluation {
+  id               Int       @id @default(autoincrement())
+  queue_id         Int
+  patient_id       String    @db.VarChar(50)
+  item_code        String    @db.VarChar(50)
+  item_name        String?   @db.VarChar(255)
+  findings         String?   @db.Text  // JSON array
+  assessment       String?   @db.Text  // JSON array
+  recommendation   String?   @db.Text  // JSON array
+  class_value      String?   @db.VarChar(10) // A / B / C / D / Pending
+  recorded_by      Int?
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+
+  @@unique([queue_id, item_code])
+  @@index([queue_id])
+  @@index([patient_id])
+  @@map("medical_evaluations")
+}
+
+// ============================================================
 // Roles & Settings
 // ============================================================
 
 model Role {
-  id          Int     @id @default(autoincrement())
-  ldap_role   String  @unique @db.VarChar(255)
-  module      String  @db.VarChar(100)
-  tab         String  @db.VarChar(100)
-  description String? @db.Text
+  id        Int     @id @default(autoincrement())
+  module    String  @db.VarChar(255)
+  tab       String  @db.VarChar(255)
+  ldap_role String? @db.VarChar(255)
+  status    String  @db.VarChar(50)
 
-  @@map("roles")
+  @@map("role")
 }
 
 model Setting {
@@ -248,5 +461,95 @@ model Setting {
   key   String @unique @db.VarChar(100)
   value String @db.Text
 
-  @@map("settings")
+  @@map("cms_settings")
+}
+
+// ============================================================
+// CMS v2 Legacy Tables (existing DB — read-only mirrors)
+// ============================================================
+
+model Patient {
+  Id             BigInt    @id @default(autoincrement())
+  Code           String    @unique @db.VarChar(30)
+  FullName       String    @db.VarChar(200)
+  LastName       String?   @db.VarChar(80)
+  FirstName      String    @db.VarChar(150)
+  MiddleName     String?   @db.VarChar(80)
+  Suffix         String?   @db.VarChar(10)
+  Prefix         String?   @db.VarChar(10)
+  Gender         String    @db.VarChar(10)
+  DOB            DateTime  @db.Date
+  Email          String?   @db.VarChar(5000)
+  FullAddress    String?   @db.VarChar(500)
+  Address        String?   @db.VarChar(500)
+  Barangay       String?   @db.VarChar(255)
+  BarangayName   String?   @db.VarChar(255)
+  City           String?   @db.VarChar(50)
+  CityName       String?   @db.VarChar(50)
+  State          String?   @db.VarChar(255)
+  ZipCode        String?   @db.VarChar(255)
+  Nationality    String?   @db.VarChar(100)
+  Country        String?   @db.VarChar(255)
+  Religion       String?   @db.VarChar(255)
+  ContactNo      String?   @db.VarChar(80)
+  Moblie         String?   @db.VarChar(255)
+  FaxNo          String?   @db.VarChar(255)
+  PhilHealth     String?   @db.VarChar(255)
+  SeniorId       String?   @db.VarChar(20)
+  PWD            String?   @db.VarChar(30)
+  ExpiryDatePWD  DateTime? @db.Date
+  Status         String    @db.VarChar(80)
+  IsActive       Int       @default(1)
+  Remarks        String?   @db.Text
+  PictureLink    String?   @default("no-image.jpg") @db.VarChar(100)
+  UploadID       String?   @db.VarChar(50)
+  InputDate      DateTime? @db.Date
+  InputBy        String?   @db.VarChar(80)
+  UpdateDate     DateTime? @db.Date
+  UpdateBy       String?   @db.VarChar(80)
+  LastVisit      DateTime? @db.Date
+  PassPortNo     String?   @db.VarChar(50)
+  EmployeeId     String?   @db.VarChar(15)
+  RDOB           String?   @db.VarChar(15)
+  UploadDateTime DateTime  @default(now())
+
+  @@map("patient")
+}
+
+model Department {
+  Id     Int    @id @default(autoincrement())
+  Code   String @db.VarChar(30)
+  Name   String @db.VarChar(80)
+  Status String @default("Active") @db.VarChar(10)
+
+  @@map("department")
+}
+
+model BusinessUnit {
+  Id           Int     @id @default(autoincrement()) @db.SmallInt
+  Code         String  @unique @db.VarChar(5)
+  Description  String  @db.VarChar(50)
+  SDCode       Int
+  IPs          String? @db.VarChar(10)
+  IPs2         String? @db.VarChar(15)
+  GatewayIP    String? @db.VarChar(20)
+  DefaultPrice String? @db.VarChar(80)
+  Status       String  @db.VarChar(1)
+  StartDate    DateTime? @db.Date
+  HProfile     String? @db.VarChar(50)
+  DBServerId   String  @db.VarChar(500)
+  Address      String? @db.VarChar(500)
+  TIN          String? @db.VarChar(20)
+  BMs          String? @db.VarChar(100)
+
+  @@map("businessunits")
+}
+
+model QueueStatus {
+  Id     Int    @id @db.SmallInt
+  IdBU   Int    @db.SmallInt
+  Name   String @db.VarChar(30)
+  Status String @default("1") @db.VarChar(1)
+
+  @@map("queuestatus")
 }
