@@ -43,3 +43,8 @@ next-env.d.ts
 # prisma
 prisma/*.db
 prisma/*.db-journal
+
+# Large reference/schema files (kept locally, not tracked)
+*.sql
+*.txt
+CARD_ENROLLMENT.md

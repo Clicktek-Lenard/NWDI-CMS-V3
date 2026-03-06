@@ -12,7 +12,7 @@ const createSchema = z.object({
   department: z.string().optional(),
   password: z.string().min(6, "Password must be at least 6 characters"),
   role: z.string().optional(), // JSON string of UserRole[]
-  activated: z.number().int().min(0).max(1).default(1),
+  activated: z.boolean().default(true),
 });
 
 // GET /api/users — list users with search + pagination
@@ -39,8 +39,8 @@ export async function GET(request: NextRequest) {
             ],
           }
         : {}),
-      ...(status === "active" ? { activated: 1 } : {}),
-      ...(status === "inactive" ? { activated: 0 } : {}),
+      ...(status === "active" ? { activated: true } : {}),
+      ...(status === "inactive" ? { activated: false } : {}),
     };
 
     const [total, users] = await Promise.all([
@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
         password: hashedPassword,
         role: data.role || "[]",
         activated: data.activated,
-        ldap_import: 0,
+        ldap_import: false,
       },
       select: {
         id: true,

@@ -11,7 +11,7 @@ const updateSchema = z.object({
   department: z.string().optional(),
   password: z.string().min(6).or(z.literal("")).optional(),
   role: z.string().optional(),
-  activated: z.number().int().min(0).max(1),
+  activated: z.boolean(),
 });
 
 // GET /api/users/[id] — fetch single user
@@ -148,7 +148,7 @@ export async function DELETE(
 
     await prisma.user.update({
       where: { id: userId },
-      data: { deleted_at: new Date(), activated: 0 },
+      data: { deleted_at: new Date(), activated: false },
     });
 
     return NextResponse.json({ success: true, message: "User deleted successfully" });

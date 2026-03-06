@@ -235,7 +235,7 @@ PhysicianTableController@insertPhysician
 
 ### 4.1 CMS v3 Queue Status Values
 
-The Next.js v3 stack uses string-based status values on the `queues.status` column:
+The Next.js v3 stack tracks clinical status via the `consultation_notes.status` column (new CMS v3 table). The real `queue.Status` stores the legacy numeric codes.
 
 | Status | Meaning | Badge color |
 |--------|---------|-------------|
@@ -287,61 +287,62 @@ Body: { "status": "IN_PROGRESS" }
 
 ## 5. Database Schema
 
-### 5.0 CMS — `queues` Table
+### 5.0 CMS V2 — `queue` Table (Real DB Table)
 
-Primary queue table. Every patient visit creates one row here. All other CMS tables reference this via `queue_id`.
+Primary queue table. Every patient visit creates one row here. All clinical tables reference this via `IdQueue` (bigint FK).
 
-| # | Column | Type | Null | Default | Notes |
-|---|--------|------|------|---------|-------|
-| 1 | `id` | `int(11)` AUTO_INCREMENT | No | — | Primary key |
-| 2 | `patient_id` | `varchar(50)` | No | — | Patient identifier (from Eros) |
-| 3 | `patient_name` | `varchar(255)` | No | — | Full name display |
-| 4 | `company_code` | `varchar(50)` | Yes | NULL | HMO / company code |
-| 5 | `company_name` | `varchar(255)` | Yes | NULL | HMO / company display name |
-| 6 | `queue_number` | `int(11)` | No | — | Daily sequential number |
-| 7 | `status` | `varchar(20)` | No | `WAITING` | Queue state — see lifecycle below |
-| 8 | `priority` | `int(11)` | No | `0` | `1` = priority patient |
-| 9 | `clinic_code` | `varchar(20)` | Yes | NULL | Branch/clinic filter (e.g. `CEN`, `SMB`) |
-| 10 | `created_by` | `int(10) UNSIGNED` | Yes | NULL | FK → `users.id` |
-| 11 | `created_at` | `datetime(3)` | No | `current_timestamp(3)` | Millisecond precision |
-| 12 | `updated_at` | `datetime(3)` | No | — | Auto-updated |
+> **Note:** Table name is `queue` (lowercase) — MySQL is case-sensitive on Linux.
 
-**Indexes:** `status`, `clinic_code`, `created_by`, `created_at`
+| Column | Type | Notes |
+|--------|------|-------|
+| `Id` | `bigint` AUTO_INCREMENT | Primary key |
+| `IdBU` | `varchar(10)` | Business unit/clinic code (e.g. `CEN`, `SMB`) |
+| `Code` | `varchar(20)` | Queue code (daily reference) |
+| `Date` | `date` | Queue date |
+| `DateTime` | `datetime` | Full timestamp |
+| `IdPatient` | `bigint` | FK → `patient.Id` |
+| `QFullName` | `varchar(200)` | Patient full name (snapshot) |
+| `QGender` | `varchar(10)` | |
+| `QDOB` | `date` | Date of birth snapshot |
+| `AgePatient` | `int` | Age at time of visit |
+| `Status` | `smallint` | Numeric status code — see lifecycle table |
+| `AccessionNo` | `varchar(20)` | Accession number |
+| `Notes` | `longtext` | |
+| `InputBy` | `varchar(30)` | Created by username |
 
-**Status values used in this module:**
+**Status codes (numeric):**
 
-| Value | Meaning |
-|-------|---------|
-| `WAITING` | Patient registered, awaiting vitals |
-| `IN_PROGRESS` | Currently with doctor |
-| `COMPLETED` | Consultation done |
-| `CANCELLED` | Cancelled visit |
-| `NO_SHOW` | Patient did not appear |
+| Code | Meaning |
+|------|---------|
+| `100` | Queue created — awaiting routing |
+| `230` | Waiting for Vital Signs |
+| `280` | Vital signs done — Ready for Doctor |
+| `500` | Doctor consultation completed |
+| `630` | Medical evaluation completed |
 
-**Prisma model** (`src/generated/prisma/client`):
+**Prisma model** (`prisma/schema.prisma`):
 ```prisma
 model Queue {
-  id           Int       @id @default(autoincrement())
-  patient_id   String    @db.VarChar(50)
-  patient_name String    @db.VarChar(255)
-  company_code String?   @db.VarChar(50)
-  company_name String?   @db.VarChar(255)
-  queue_number Int
-  status       String    @default("WAITING") @db.VarChar(20)
-  priority     Int       @default(0)
-  clinic_code  String?   @db.VarChar(20)
-  created_by   Int?      @db.UnsignedInt
-  created_at   DateTime  @default(now()) @db.DateTime(3)
-  updated_at   DateTime  @updatedAt @db.DateTime(3)
+  Id        BigInt    @id @default(autoincrement())
+  IdBU      String?   @db.VarChar(10)
+  Code      String    @db.VarChar(20)
+  Date      DateTime  @db.Date
+  DateTime  DateTime
+  IdPatient BigInt
+  QFullName String?   @db.VarChar(200)
+  QGender   String?   @db.VarChar(10)
+  QDOB      DateTime? @db.Date
+  AgePatient Int?
+  Status    Int       @db.SmallInt
+  AccessionNo String? @db.VarChar(20)
+  Notes     String?   @db.LongText
+  InputBy   String    @db.VarChar(30)
 
-  @@index([status])
-  @@index([clinic_code])
-  @@index([created_by])
-  @@index([created_at])
-  @@map("queues")
+  @@index([Status])
+  @@index([IdBU])
+  @@map("queue")
 }
 ```
-
 ---
 
 ### 5.0.2 CMS v3 — `physical_examinations` Table
@@ -351,7 +352,7 @@ Physical examination findings per queue entry. One row per patient visit.
 | # | Column | Type | Null | Default | Notes |
 |---|--------|------|------|---------|-------|
 | 1 | `id` | `int(11)` AUTO_INCREMENT | No | — | Primary key |
-| 2 | `queue_id` | `int(11)` | No | — | FK → `queues.id` (Index) |
+| 2 | `queue_id` | `int(11)` | No | — | FK → `queue.Id` (Index) |
 | 3 | `patient_id` | `varchar(50)` | No | — | Patient identifier (Index) |
 | 4 | `fitness_class` | `varchar(10)` | Yes | NULL | Overall class: `A / B / C / D / Pending` |
 | 5 | `checked_by` | `varchar(255)` | Yes | NULL | Doctor/examiner name |
@@ -490,11 +491,65 @@ model PhysicalExamination {
 
 ---
 
-### 5.0.3 CMS v2 Auth Database — Actual Existing Tables
+### 5.0.3 CMS V2 — Real Existing Tables
 
-> These tables already exist in the production database (the same DB the app connects to via `DB_NAME` env var).
-> They are **NOT** created by `prisma db push` — they were migrated from the legacy CMS v2 application.
-> Clinical tables (`queues`, `vitals`, `physical_examinations`, etc.) are **CMS v3 only** and are created by `prisma db push`.
+> All tables below exist in the production `cms_v2` database. They are **NOT** created by `prisma db push` — they were present before CMS v3.
+> CMS v3 clinical tables (`consultation_notes`, `physical_examinations`, `medical_evaluations`, `vitalsign`) are **new** and are created by `prisma db push`.
+
+#### `physician` Table (Prisma: `Physician`)
+
+Physician/doctor master data. In the same `cms_v2` database (previously documented as Eros DB).
+
+| Column | Type | Notes |
+|--------|------|-------|
+| `Id` | `bigint` AUTO_INCREMENT | Primary key |
+| `Code` | `varchar(30)` | Physician code |
+| `FullName` | `varchar(150)` | Display name |
+| `DisplayName` | `varchar(150)` | Alternative display name |
+| `PrintName` | `varchar(150)` | Name for printing on reports |
+| `LastName` | `varchar(80)` | |
+| `FirstName` | `varchar(150)` | |
+| `MiddleName` | `varchar(80)` | |
+| `Suffix` | `varchar(30)` | |
+| `DOB` | `date` | Date of birth |
+| `Degree` | `varchar(150)` | Medical degree (e.g. MD) |
+| `PRCNo` | `varchar(80)` | PRC license number |
+| `PRCValidity` | `date` | License expiry |
+| `Email` | `varchar(200)` | |
+| `Mobile` | `varchar(80)` | |
+| `NWDBranch` | `varchar(30)` | Assigned branch |
+| `Schedule` | `varchar(500)` | Schedule info |
+| `TimeStart` | `varchar(30)` | |
+| `TimeEnd` | `varchar(30)` | |
+| `Status` | `varchar(30)` | `Approved` / `Active` / `For Approval` / `Disapproved` |
+| `SubGroup` | `varchar(10)` | `PCP` / `SPL` / `RP` |
+| `ErosCode` | `varchar(30)` | Legacy Eros code |
+
+**CMS v3 physicians API** (`GET /api/clinical/physicians`) queries this table directly using raw SQL filtering by Status IN ('Approved', 'Active', 'A').
+
+---
+
+#### `vitals` Table (Prisma: `CmsVitals`) — Medication/LastDose
+
+> **Different from vital signs** — this table stores medication intake notes taken at the nursing station. Vital signs measurements (BP, HR, temperature, weight, etc.) are stored in the **`vitalsign`** table.
+
+| Column | Type | Notes |
+|--------|------|-------|
+| `Id` | `int` AUTO_INCREMENT | Primary key |
+| `IdQueue` | `bigint` | FK → `queue.Id` |
+| `Medication` | `varchar(500)` | Current medications |
+| `LastDose` | `varchar(500)` | Last dose taken |
+| `LastPeriod` | `varchar(500)` | Last menstrual period (OB-GYN) |
+| `InputBy` | `varchar(30)` | Recorded by username |
+| `InputDateTime` | `datetime` | When recorded |
+
+---
+
+#### `vitalsign` Table (Prisma: `Vitals`) — Vital Signs Measurements
+
+CMS v3 stores vital signs here (BP, HR, temperature, weight, height, vision, etc.). Table is in the `cms_v2` database.
+
+See Prisma `Vitals` model in `prisma/schema.prisma` (`@@map("vitalsign")`) for full field list.
 
 #### `users` Table (Prisma: `User`)
 
@@ -559,7 +614,7 @@ The primary users/auth table. The CMS v3 Prisma `User` model maps directly to th
 
 #### `patient` Table (Prisma: `Patient`)
 
-Master patient data. Referenced by `queues.patient_id` (string FK via `Code`).
+Master patient data. Referenced by `queue.IdPatient` (bigint FK via `patient.Id`).
 
 | Column | Type | Notes |
 |--------|------|-------|
@@ -658,13 +713,20 @@ CMS v3 module/tab role definitions. Determines which LDAP roles have access to w
 
 ---
 
-### 5.1 CMS Database (Legacy)
+### 5.1 CMS V2 — Legacy Clinical Tables (Real DB)
 
-#### `VitalSign`
+> These tables exist in the `cms_v2` database and contain historical clinical data from the legacy CMS v2 application.
+> The real table names are all **lowercase** on the Linux MySQL server.
+
+#### `vitalsign` — Vital Signs Measurements
+
+> CMS v3 stores vital signs in this table via Prisma model `Vitals` (`@@map("vitalsign")`).
+> The legacy CMS v2 used column names like PulseRate, BloodPresure etc. CMS v3 uses snake_case equivalents.
 
 ```sql
+-- Legacy column names (CMS v2 reference — CMS v3 uses new column names via Prisma)
 CREATE TABLE VitalSign (
-    Id                  VARCHAR(36)  NOT NULL PRIMARY KEY,  -- UUID
+    Id                  VARCHAR(36)  NOT NULL PRIMARY KEY,  -- UUID (legacy)
     IdQueue             VARCHAR(36)  NOT NULL,
     QueueCode           VARCHAR(50),
     ChiefComplaint      TEXT,
@@ -710,11 +772,15 @@ CREATE TABLE VitalSign (
 );
 ```
 
-#### `SOAP`
+#### `soap` — Doctor Consultation Notes
+
+> Real table name: `soap` (lowercase). CMS v3 uses Prisma model `SoapRecord` (`@@map("soap")`) as a read-only mirror.
+> The clinical evaluation route (`POST /api/clinical/[queueId]/evaluation`) writes to `consultation_notes` (new CMS v3 table).
 
 ```sql
-CREATE TABLE SOAP (
-    Id              VARCHAR(36)   NOT NULL PRIMARY KEY,  -- UUID
+-- Real table (read-only from CMS v2 legacy data)
+CREATE TABLE soap (
+    Id              bigint        NOT NULL AUTO_INCREMENT,
     QueueCode       VARCHAR(50),
     IdPatient       VARCHAR(36),
     IdDoctor        VARCHAR(36),
@@ -750,21 +816,27 @@ CREATE TABLE SOAPTemp (
 );
 ```
 
-#### `PhysicalExaminationReport`
+#### `physicalexaminationreport` — Physical Examination Report
+
+> Real table name: `physicalexaminationreport` (lowercase). Prisma model: `PhysExamReport` (`@@map("physicalexaminationreport")`).
+> CMS v3 PE route writes to `physical_examinations` (new CMS v3 table). This table is the legacy v2 data source.
 
 ```sql
-CREATE TABLE PhysicalExaminationReport (
-    Id                          VARCHAR(36)  NOT NULL PRIMARY KEY,
-    IdQueue                     VARCHAR(36)  NOT NULL,
-    QueueCode                   VARCHAR(50),
-    -- GP Vision parsing field
-    GP                          VARCHAR(255),
-    Regular                     VARCHAR(10),
+CREATE TABLE physicalexaminationreport (
+    Id              bigint        NOT NULL AUTO_INCREMENT,
+    IdQueue         bigint        NOT NULL,
+    QueueCode       varchar(30),
+    IdTransaction   bigint,
+    IdPatient       bigint,
     -- Overall fitness class
-    Class                       VARCHAR(10),  -- A / B / C / D / Pending
-    CheckedBy                   VARCHAR(255),
-    CheckedDateTime             DATETIME,
-    Status                      VARCHAR(10),
+    Class           varchar(25)   NOT NULL,  -- A / B / C / D / Pending
+    Status          int,
+    InputBy         varchar(100),
+    InputDate       datetime,
+    Evaluator       varchar(100),
+    CheckedBy       varchar(100),
+    PRIMARY KEY (Id),
+    KEY idx_IdQueue (IdQueue)
     -- Medical History (Past)
     LiverGallbladderDisease     VARCHAR(10),
     Heartdisease                VARCHAR(10),
@@ -828,23 +900,28 @@ CREATE TABLE PhysicalExaminationReport (
 );
 ```
 
-#### `PEAssesAndRec`
+#### `peassesandrec` — Per-Item Medical Evaluation Records
+
+> Real table name: `peassesandrec` (lowercase). Prisma model: `PEAssessmentRecord` (`@@map("peassesandrec")`).
+> CMS v3 medical evaluation route writes to `medical_evaluations` (new CMS v3 table) but reads this for legacy data.
 
 ```sql
-CREATE TABLE PEAssesAndRec (
-    Id              VARCHAR(36)  NOT NULL PRIMARY KEY,
-    IdQueue         VARCHAR(36)  NOT NULL,
-    QueueCode       VARCHAR(50),
-    ItemCode        VARCHAR(50),
-    Findings        JSON,   -- array of finding strings
-    Assessment      JSON,   -- array of assessment strings
-    Recommendation  JSON,   -- array of recommendation strings
-    Class           JSON,   -- array of class values (A/B/C/D/Pending)
-    InputBy         VARCHAR(100),
-    InputDate       DATETIME,
-    UpdateBy        VARCHAR(100),
-    UpdateDate      DATETIME,
-    FOREIGN KEY (IdQueue) REFERENCES Queue(Id)
+CREATE TABLE peassesandrec (
+    Id              int           NOT NULL AUTO_INCREMENT,
+    IdQueue         int           NOT NULL,
+    QueueCode       varchar(30),
+    ItemCode        varchar(30),
+    Findings        varchar(1000),
+    Assessment      varchar(3000),
+    Recommendation  longtext,
+    Class           varchar(255),
+    FinalClass      varchar(15),
+    Evaluator       varchar(150),
+    InputBy         varchar(150),
+    DateAndTime     datetime,
+    SystemDateTime  datetime,
+    PRIMARY KEY (Id),
+    KEY idx_IdQueue (IdQueue)
 );
 ```
 
@@ -906,32 +983,36 @@ CREATE TABLE Transactions (
 
 ---
 
-### 5.2 Eros Database
+### 5.2 CMS V2 — `physician` Table (Full Schema)
 
-#### `Physician`
+> The physician table is in the same `cms_v2` database (previously in a separate Eros DB).
+> Prisma model: `Physician` with `@@map("physician")`.
 
 ```sql
-CREATE TABLE Physician (
-    Id                  VARCHAR(36)   NOT NULL PRIMARY KEY,
-    Code                VARCHAR(50),
-    FullName            VARCHAR(255)  NOT NULL,
-    DisplayName         VARCHAR(255),
-    PrintName           VARCHAR(255),
-    LastName            VARCHAR(100),
-    FirstName           VARCHAR(100),
-    MiddleName          VARCHAR(100),
-    Suffix              VARCHAR(20),
-    ErosCode            VARCHAR(50),
-    PRCNo               VARCHAR(50),
-    PRCValidity         DATE,
-    DOB                 DATE,
-    Email               VARCHAR(255),
-    Mobile              VARCHAR(20),
-    Description         VARCHAR(255),  -- specialty
-    SubDescription      VARCHAR(255),
-    SubGroup            VARCHAR(10),   -- 'PCP' | 'SPL' | 'RP'
-    Status              VARCHAR(50),   -- 'Approved' | 'For Approval' | 'Disapproved' | 'RP - For Approval'
-    BranchCode          VARCHAR(50),
+CREATE TABLE `physician` (
+  `Id`               bigint NOT NULL AUTO_INCREMENT,
+  `Code`             varchar(30)  DEFAULT NULL,
+  `FullName`         varchar(200) NOT NULL,
+  `DisplayName`      varchar(255) DEFAULT '',
+  `PrintName`        varchar(255) DEFAULT NULL,
+  `LastName`         varchar(80)  DEFAULT '',
+  `FirstName`        varchar(80)  DEFAULT '',
+  `MiddleName`       varchar(50)  DEFAULT '',
+  `Suffix`           varchar(30)  DEFAULT '',
+  `DOB`              date         DEFAULT NULL,
+  `Degree`           varchar(80)  DEFAULT NULL,
+  `PRCNo`            varchar(20)  DEFAULT '',
+  `PRCValidity`      date         DEFAULT NULL,
+  `Email`            varchar(50)  DEFAULT NULL,
+  `Mobile`           varchar(50)  DEFAULT NULL,
+  `Prescription_Link` varchar(100) NOT NULL DEFAULT 'no-image.jpg',
+  `NWDBranch`        longtext     NOT NULL,
+  `Schedule`         longtext     NOT NULL,
+  `TimeStart`        longtext     NOT NULL,
+  `TimeEnd`          longtext     NOT NULL,
+  `SubGroup`         varchar(10)  DEFAULT NULL,   -- 'PCP' | 'SPL' | 'RP'
+  `Status`           varchar(30)  DEFAULT NULL,   -- 'Approved' | 'Active' | 'For Approval' | 'Disapproved'
+  `ErosCode`         varchar(30)  DEFAULT NULL,
     -- JSON schedule fields
     NWDBranch           JSON,
     Schedule            JSON,   -- array of days per clinic
@@ -2100,6 +2181,212 @@ This is informational only — any available doctor can still evaluate.
 | `IN_PROGRESS` | `CANCELLED` | **Claiming doctor only** (or admin) | Claim cleared |
 | `COMPLETED` | `IN_PROGRESS` | **Any doctor** (or admin) | Re-claim by new doctor |
 | `CANCELLED` | `WAITING` | **Admin or receptionist** | Clears claim |
+
+---
+
+---
+
+## 15. Medical Evaluation — Company-Based View (Sample Data & UI Spec)
+
+### 15.1 Company List View
+
+The Medical Evaluation landing page shows a list of companies with patients pending evaluation. The doctor selects a company to see its patient list.
+
+**Sample Company Data:**
+
+| Company Code | Company Name | Evaluator |
+|---|---|---|
+| 4RC006692 | 4RCP PHOENIX SECURITY (12 SECURITY PERSONNEL) | Yes |
+| 10K006510 | 10K CONCRETE MIX SPECIALIST INC. | Yes |
+| ACE007547 | ACE HARDWARE PHILS., INC - DS MANILA | Yes |
+| ACE007594 | ACE HARDWARE PHILS., INC - DS QUIAPO | Yes |
+| ACE007637 | ACE HARDWARE PHILS., INC - SM CENTER LEMERY | Yes |
+| ACE007636 | ACE HARDWARE PHILS., INC - WALTERMART NASUGBU | Yes |
+| ACT007135 | ACTIVE ONE COCA COLA CALASIAO | Yes |
+| ACT007134 | ACTIVE ONE COCA COLA CARLATAN | Yes |
+| ACT006052 | ACTIVE ONE HEALTH INC. - COCA COLA CANLUBANG | Yes |
+| ADA006578 | ADAMSON UNIVERSITY | Yes |
+| ADA006511 | ADAMSON UNIVERSITY NURSING STUDENTS | Yes |
+
+**Data source:** `eros.company` table joined with queue to find patients in "For Evaluation" status.
+
+**Columns to display:** Company Code, Company Name, Evaluator flag (boolean/Yes).
+
+---
+
+### 15.2 Company Patients List View (Second Level)
+
+When a doctor clicks a company row from the company list, a patient list is shown for that company.
+
+**Header:**
+```
+Company Evaluation   4RCP PHOENIX SECURITY (12 SECURITY PERSONNEL)
+Search: [__________] [Search]
+```
+
+**Columns:** Patient Id | Full Name | Company | Date
+
+**Sample data for 4RC006692:**
+
+| Patient Id | Full Name | Company | Date |
+|---|---|---|---|
+| 39210959 | BUCAIS, REGNER DE FELIPE | 4RCP PHOENIX SECURITY (12 SECURITY PERSONNEL) | 2025-10-15 |
+| 39206909 | VICENTE, MA. DAISY GEROMIANO | 4RCP PHOENIX SECURITY (12 SECURITY PERSONNEL) | 2025-10-15 |
+| 39195509 | BIBON, SAMUEL JR. LAGUNOY | 4RCP PHOENIX SECURITY (12 SECURITY PERSONNEL) | 2025-10-15 |
+| 39189675 | DUMAGUIT, RAINIEL SURIO | 4RCP PHOENIX SECURITY (12 SECURITY PERSONNEL) | 2025-10-15 |
+| 39189525 | FIGURA, JULIE-ANN STO. NIÑO | 4RCP PHOENIX SECURITY (12 SECURITY PERSONNEL) | 2025-10-15 |
+| 39189375 | BIÑAS, JENNETH TANJUATCO | 4RCP PHOENIX SECURITY (12 SECURITY PERSONNEL) | 2025-10-15 |
+| 39189300 | LISTANA, MARILYN VICENTE | 4RCP PHOENIX SECURITY (12 SECURITY PERSONNEL) | 2025-10-15 |
+| 39189225 | CARANDANG, ALDRIN GREG | 4RCP PHOENIX SECURITY (12 SECURITY PERSONNEL) | 2025-10-15 |
+| 39189150 | RIVANO, LARRY MUERONG | 4RCP PHOENIX SECURITY (12 SECURITY PERSONNEL) | 2025-10-15 |
+| 39188925 | LOWATON, JOSEPH MERCIALES | 4RCP PHOENIX SECURITY (12 SECURITY PERSONNEL) | 2025-10-15 |
+| 39188850 | CUSTODIO, JOEFEL PANES | 4RCP PHOENIX SECURITY (12 SECURITY PERSONNEL) | 2025-10-15 |
+
+**Notes:**
+- "Patient Id" = `Queue.Id` (BigInt from real DB)
+- "Full Name" = `Queue.QFullName`
+- "Company" = `Queue.NameCompany` (company name stored in queue row)
+- "Date" = `Queue.Date`
+- Search filters by patient name or patient id
+- Clicking a row opens the patient evaluation detail
+
+---
+
+### 15.3 Company Evaluation Detail View (Third Level)
+
+When a doctor clicks a company row, they see the patient evaluation form.
+
+**Header:**
+```
+Company Evaluation   ACTIVE ONE COCA COLA CARLATAN   [Edit]
+```
+
+**Patient Info Panel:**
+
+| Field | Sample Value |
+|---|---|
+| Patient's Name | CASASIEMPRE, LARRY MANIAGO |
+| Date of Birth | 26-Dec-1979 |
+| Gender | M |
+| Age | 45 |
+| Notes | (free-text notes field) |
+| PID | IMDCW2512120308 |
+| Queue No. | IMDAZ2512160037 |
+| Date Time | 16-Dec-2025 07:49:52 |
+| Queue Status | Evaluated ✓ Checked |
+| Company | ACTIVE ONE COCA COLA CARLATAN |
+
+---
+
+### 15.3 Assessment and Recommendation Table
+
+Per-test evaluation table. Each row = one ordered test/exam:
+
+| Column | Description |
+|---|---|
+| Tests | Test/exam name from ItemMaster |
+| Status | `Evaluated` / `Pending` / etc. |
+| Class | Fitness class (A / B / C / D / combination e.g. "B B C") |
+| PDF Result | Link/button to view the result PDF |
+
+**Sample rows for ACT007134 patient:**
+
+| Tests | Status | Class | PDF Result |
+|---|---|---|---|
+| VS, VA, Medical History and PE | Evaluated | B B C | |
+| ELECTROCARDIOGRAM (ECG) | Evaluated | C | |
+| CHEST PA | Evaluated | A | |
+| CHOLESTEROL, TOTAL | Evaluated | A | |
+| CREATININE (CREA) | Evaluated | A | |
+| GLUCOSE, FASTING (FBS) | Evaluated | A | |
+| TRIGLYCERIDES (TG, TRIACYLGLYCEROL, TAG, OR TRIACYLGLYCERIDE) | Evaluated | A | |
+| UREA NITROGEN (BUN, BLOOD UREA NITROGEN) | Evaluated | A | |
+| URIC ACID (BUA, BLOOD URIC ACID) | Evaluated | A | |
+| ALANINE AMINOTRANSFERASE (ALT / SGPT) | Evaluated | C | |
+| COMPLETE BLOOD COUNT WITH PLATELET COUNT (CBC / QUANTITATIVE PLATELET) | Evaluated | B | |
+| FECALYSIS | Evaluated | A | |
+| URINALYSIS | Evaluated | B | |
+
+---
+
+### 15.4 Summary / Findings Text
+
+Large free-text area containing the doctor's written findings and recommendations per abnormal result. Each finding is separated by line breaks. Example content:
+
+```
+Obese I (27.04) - Gradual weight reduction, diet modification, and regular exercise
+
+Error of refraction, both eyes, corrected - Continue daily wear and regular updating of prescribed lenses
+
+History of Dyslipidemia - Continue medications as prescribed, follow up with attending physician
+
+Rule out cardiac pathology - See Internist/Cardiologist for evaluation and management of ECG findings
+
+Normal (Do not include in clinical assessment) - No Recommendation
+
+To consider erythrocytosis - Increase oral fluid intake, suggest to repeat CBC after 2 weeks, see physician if persistent
+
+Trace ketonuria - Increase oral fluid intake, suggest to repeat urinalysis, see physician if persistent
+
+Transaminitis - Low fat diet, see Internist for evaluation and management
+```
+
+---
+
+### 15.5 Medical Examination Rating Legend
+
+Always displayed at the bottom of the evaluation form. This is the DOLE OSHS classification system:
+
+| Class | Description |
+|---|---|
+| **A** | Physically fit for any work. |
+| **B** | Physically under-developed or with correctible defects (error of refraction, dental caries, defective hearing, and other similar defects) but otherwise fit to work. |
+| **C** | Employable but owing to certain impairments or conditions (heart disease, hypertension, anatomical defects) requires special placement or limited duty in specified or selected assignment requiring follow-up treatment/periodic evaluation. |
+| **D** | Unfit or unsafe for any type of employment (active PTB, advanced heart disease with threatened failure, malignant hypertension, and other similar illnesses). |
+| **Pending** | Incomplete test/s and/or result/s that need further evaluation. May be re-classified fit or unfit after completion or further evaluation by the Company Physician. |
+
+**Source:** Occupational Safety and Health Standards, Department of Labor and Employment (DOLE).
+
+---
+
+### 15.6 UI Layout — Company Evaluation Page
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Company Evaluation   ACTIVE ONE COCA COLA CARLATAN  [Edit] │
+├──────────────────────────┬──────────────────────────────────┤
+│  Patient Info            │  Assessment & Recommendation     │
+│  ─────────────────────   │  ────────────────────────────    │
+│  Patient's Name*         │  Tests | Status | Class | PDF    │
+│  Date of Birth*          │  ─────────────────────────────   │
+│  Gender*   Age           │  VS, VA, PE   Evaluated  B B C   │
+│  Notes                   │  ECG          Evaluated  C       │
+│  PID                     │  CHEST PA     Evaluated  A       │
+│  Queue No.               │  ...                             │
+│  Date Time               │                                  │
+│  Queue Status            │                                  │
+│  Company                 │                                  │
+├──────────────────────────┴──────────────────────────────────┤
+│  Summary (large text area)                                   │
+│  Obese I (27.04) - Gradual weight reduction...              │
+│  Error of refraction...                                      │
+├─────────────────────────────────────────────────────────────┤
+│  MEDICAL EXAMINATION RATING                                  │
+│  Class A | Class B | Class C | Class D | Pending            │
+│  (legend text from DOLE OSHS)                               │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### 15.7 Implementation Notes
+
+- **Company list** → query `eros.company` joined with queue entries (status = For Evaluation) to find which companies have pending evaluations
+- **Per-test rows** → come from `eros.itemmaster` / ordered tests per queue entry; evaluation class stored in `ConsultationNote` or a separate `MedicalEvaluation` table
+- **Summary field** → stored in `ConsultationNote.summary` or a dedicated `medical_eval.summary` column
+- **PDF Result column** → link to `/results/{testId}/pdf` route; may be null if result not yet uploaded
+- **Evaluator flag** → stored in `eros.company.IsEvaluator` (bit/boolean field)
+- **Overall fitness class** → computed from the worst class across all tests (D > C > B > A; Pending if any test is pending)
 
 ---
 

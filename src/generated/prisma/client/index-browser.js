@@ -122,7 +122,6 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  username: 'username',
   email: 'email',
   password: 'password',
   permissions: 'permissions',
@@ -135,6 +134,9 @@ exports.Prisma.UserScalarFieldEnum = {
   reset_password_code: 'reset_password_code',
   first_name: 'first_name',
   last_name: 'last_name',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
   website: 'website',
   country: 'country',
   gravatar: 'gravatar',
@@ -144,6 +146,7 @@ exports.Prisma.UserScalarFieldEnum = {
   manager_id: 'manager_id',
   employee_num: 'employee_num',
   avatar: 'avatar',
+  username: 'username',
   notes: 'notes',
   company_id: 'company_id',
   remember_token: 'remember_token',
@@ -161,176 +164,298 @@ exports.Prisma.UserScalarFieldEnum = {
   skin: 'skin',
   remote: 'remote',
   status: 'status',
+  is_deleted: 'is_deleted',
   role: 'role',
   department: 'department',
   AccessMapId: 'AccessMapId',
-  ldap_server_status: 'ldap_server_status',
-  deleted_at: 'deleted_at',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  ldap_server_status: 'ldap_server_status'
 };
 
 exports.Prisma.QueueScalarFieldEnum = {
-  id: 'id',
-  patient_id: 'patient_id',
-  patient_name: 'patient_name',
-  company_code: 'company_code',
-  company_name: 'company_name',
-  queue_number: 'queue_number',
-  status: 'status',
-  priority: 'priority',
-  clinic_code: 'clinic_code',
-  created_by: 'created_by',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  Id: 'Id',
+  IdBU: 'IdBU',
+  Code: 'Code',
+  Date: 'Date',
+  AnteDateQueueID: 'AnteDateQueueID',
+  AnteDate: 'AnteDate',
+  AnteDateCode: 'AnteDateCode',
+  AnteDateTime: 'AnteDateTime',
+  AnteDateStatus: 'AnteDateStatus',
+  AnteDateReason: 'AnteDateReason',
+  AnteDateApprovedBy: 'AnteDateApprovedBy',
+  AnteDateApprovedDate: 'AnteDateApprovedDate',
+  DateTime: 'DateTime',
+  IdPatient: 'IdPatient',
+  QFullName: 'QFullName',
+  QLastName: 'QLastName',
+  QFirstName: 'QFirstName',
+  QMiddleName: 'QMiddleName',
+  QGender: 'QGender',
+  QDOB: 'QDOB',
+  QFullAddress: 'QFullAddress',
+  AgePatient: 'AgePatient',
+  Status: 'Status',
+  AccessionNo: 'AccessionNo',
+  Notes: 'Notes',
+  CancelReason: 'CancelReason',
+  PatientType: 'PatientType',
+  Picture: 'Picture',
+  InputBy: 'InputBy',
+  Lab2LabId: 'Lab2LabId',
+  LabBarcode: 'LabBarcode',
+  LabId: 'LabId',
+  UpdateDate: 'UpdateDate',
+  UpdateBy: 'UpdateBy',
+  ErosStatus: 'ErosStatus',
+  SystemUpdateTime: 'SystemUpdateTime'
 };
 
 exports.Prisma.CardEnrollmentScalarFieldEnum = {
-  id: 'id',
-  card_number: 'card_number',
-  patient_id: 'patient_id',
-  patient_name: 'patient_name',
-  status: 'status',
-  registered_by: 'registered_by',
-  registered_at: 'registered_at',
-  received_by: 'received_by',
-  received_at: 'received_at',
-  verified_by: 'verified_by',
-  verified_at: 'verified_at',
-  transferred_to: 'transferred_to',
-  transferred_at: 'transferred_at',
-  clinic_code: 'clinic_code',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  Id: 'Id',
+  CardNumber: 'CardNumber',
+  DateEnrolled: 'DateEnrolled',
+  DateRelease: 'DateRelease',
+  ReleaseTo: 'ReleaseTo',
+  OldReleaseTo: 'OldReleaseTo',
+  ReleaseBy: 'ReleaseBy',
+  ReceivedBy: 'ReceivedBy',
+  ReceivedDate: 'ReceivedDate',
+  Status: 'Status',
+  TransferTo: 'TransferTo',
+  DateTransfer: 'DateTransfer',
+  TransferBy: 'TransferBy'
+};
+
+exports.Prisma.CardVerifiedScalarFieldEnum = {
+  Id: 'Id',
+  VerifiedCardNumbers: 'VerifiedCardNumbers',
+  ICTReceived: 'ICTReceived',
+  DateReceived: 'DateReceived'
 };
 
 exports.Prisma.CardNumberScalarFieldEnum = {
-  id: 'id',
-  card_number: 'card_number',
-  barcode: 'barcode',
-  is_used: 'is_used',
-  created_at: 'created_at'
-};
-
-exports.Prisma.PaymentHistoryScalarFieldEnum = {
-  id: 'id',
-  patient_id: 'patient_id',
-  queue_id: 'queue_id',
-  amount: 'amount',
-  payment_method: 'payment_method',
-  status: 'status',
-  transaction_no: 'transaction_no',
-  or_no: 'or_no',
-  clinic_code: 'clinic_code',
-  created_by: 'created_by',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  Id: 'Id',
+  Year: 'Year',
+  Batch: 'Batch',
+  Month: 'Month',
+  SeriesNum: 'SeriesNum',
+  MaskedSeries: 'MaskedSeries',
+  GeneratedCardNumber: 'GeneratedCardNumber',
+  CodeCompany: 'CodeCompany',
+  GeneratedBy: 'GeneratedBy'
 };
 
 exports.Prisma.TransactionScalarFieldEnum = {
-  id: 'id',
-  transaction_no: 'transaction_no',
-  patient_id: 'patient_id',
-  type: 'type',
-  amount: 'amount',
-  description: 'description',
-  clinic_code: 'clinic_code',
-  created_by: 'created_by',
-  created_at: 'created_at'
+  Id: 'Id',
+  IdQueue: 'IdQueue',
+  Date: 'Date',
+  IdDoctor: 'IdDoctor',
+  NameDoctor: 'NameDoctor',
+  IdCompany: 'IdCompany',
+  NameCompany: 'NameCompany',
+  TransactionType: 'TransactionType',
+  AccessionNo: 'AccessionNo',
+  IdItemPrice: 'IdItemPrice',
+  ItemUsedItemPrice: 'ItemUsedItemPrice',
+  CodeItemPrice: 'CodeItemPrice',
+  DescriptionItemPrice: 'DescriptionItemPrice',
+  PriceGroupItemPrice: 'PriceGroupItemPrice',
+  AmountItemPrice: 'AmountItemPrice',
+  AmountRemaining: 'AmountRemaining',
+  ReadersFee: 'ReadersFee',
+  OrigAmount: 'OrigAmount',
+  HCardNumber: 'HCardNumber',
+  GroupItemMaster: 'GroupItemMaster',
+  UsedPercentDefault: 'UsedPercentDefault',
+  ShowCompanyId: 'ShowCompanyId',
+  InputBy: 'InputBy',
+  InputId: 'InputId',
+  UpdateDateTime: 'UpdateDateTime',
+  UpdateBy: 'UpdateBy',
+  Status: 'Status',
+  Stat: 'Stat',
+  Token: 'Token',
+  SystemUpdateTime: 'SystemUpdateTime',
+  ResultOnlineStatus: 'ResultOnlineStatus'
 };
 
 exports.Prisma.CompanyScalarFieldEnum = {
-  id: 'id',
-  eros_code: 'eros_code',
-  name: 'name',
-  address: 'address',
-  contact: 'contact',
-  status: 'status',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.ItemMasterScalarFieldEnum = {
-  id: 'id',
-  item_code: 'item_code',
-  item_name: 'item_name',
-  category: 'category',
-  department: 'department',
-  status: 'status',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.ItemPriceScalarFieldEnum = {
-  id: 'id',
-  item_code: 'item_code',
-  company_code: 'company_code',
-  price: 'price',
-  price_group: 'price_group',
-  status: 'status',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  Id: 'Id',
+  IdBU: 'IdBU',
+  Num: 'Num',
+  Code: 'Code',
+  Name: 'Name',
+  NameOld: 'NameOld',
+  ShortName: 'ShortName',
+  Group: 'Group',
+  SubGroup: 'SubGroup',
+  BillingType: 'BillingType',
+  Address: 'Address',
+  Phone: 'Phone',
+  City: 'City',
+  Email: 'Email',
+  Status: 'Status',
+  StatusOnSite: 'StatusOnSite',
+  Notes: 'Notes',
+  StartDate: 'StartDate',
+  EndDate: 'EndDate',
+  InputBy: 'InputBy',
+  InputDate: 'InputDate',
+  UpdateBy: 'UpdateBy',
+  UpdateDate: 'UpdateDate',
+  ErosCode: 'ErosCode',
+  SalesCode: 'SalesCode',
+  SalesName: 'SalesName',
+  ContactNo: 'ContactNo',
+  Designation: 'Designation',
+  ResultUploading: 'ResultUploading',
+  UsedPriceDefault: 'UsedPriceDefault',
+  UsedPercentDefaultLAB: 'UsedPercentDefaultLAB',
+  UsedPercentDefaultIMG: 'UsedPercentDefaultIMG',
+  UsedPercentDefault: 'UsedPercentDefault',
+  UsedPercentItemGroup: 'UsedPercentItemGroup',
+  UsedPercentItemCode: 'UsedPercentItemCode',
+  UsedLessReadersFee: 'UsedLessReadersFee',
+  UsedLessRebates: 'UsedLessRebates',
+  UsedClinic: 'UsedClinic',
+  ChargeTo: 'ChargeTo',
+  Remarks: 'Remarks',
+  OptionalItemCode: 'OptionalItemCode',
+  EnabledEndDate: 'EnabledEndDate',
+  EmpId: 'EmpId',
+  EvaluatorId: 'EvaluatorId',
+  Parent: 'Parent',
+  KeyLeft: 'KeyLeft',
+  KeyRight: 'KeyRight',
+  CebuStatus: 'CebuStatus',
+  SMBStatus: 'SMBStatus',
+  TARStatus: 'TARStatus',
+  DAVStatus: 'DAVStatus',
+  LINStatus: 'LINStatus',
+  reUpload: 'reUpload'
 };
 
 exports.Prisma.PhysicianScalarFieldEnum = {
-  id: 'id',
-  code: 'code',
-  name: 'name',
-  license_no: 'license_no',
-  specialty: 'specialty',
-  status: 'status',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.HL7MessageScalarFieldEnum = {
-  id: 'id',
-  facility_code: 'facility_code',
-  message_type: 'message_type',
-  accession_no: 'accession_no',
-  patient_id: 'patient_id',
-  status: 'status',
-  raw_message: 'raw_message',
-  error_message: 'error_message',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  Id: 'Id',
+  Code: 'Code',
+  FullName: 'FullName',
+  DisplayName: 'DisplayName',
+  PrintName: 'PrintName',
+  LastName: 'LastName',
+  FirstName: 'FirstName',
+  MiddleName: 'MiddleName',
+  Suffix: 'Suffix',
+  DOB: 'DOB',
+  Degree: 'Degree',
+  PRCNo: 'PRCNo',
+  PRCValidity: 'PRCValidity',
+  Email: 'Email',
+  Mobile: 'Mobile',
+  Prescription_Link: 'Prescription_Link',
+  NWDBranch: 'NWDBranch',
+  Schedule: 'Schedule',
+  TimeStart: 'TimeStart',
+  TimeEnd: 'TimeEnd',
+  FirstEngagement: 'FirstEngagement',
+  LastEngagement: 'LastEngagement',
+  ByAppointment: 'ByAppointment',
+  ClinicScheduledBy: 'ClinicScheduledBy',
+  PCP: 'PCP',
+  Specialist: 'Specialist',
+  ResignDoctor: 'ResignDoctor',
+  RP: 'RP',
+  Regular: 'Regular',
+  Reliever: 'Reliever',
+  Visiting: 'Visiting',
+  Referring: 'Referring',
+  ApplicationLetter: 'ApplicationLetter',
+  CurriculumVitae: 'CurriculumVitae',
+  Diploma: 'Diploma',
+  PRCId: 'PRCId',
+  ResidencyCertificate: 'ResidencyCertificate',
+  DiplomateCertificate: 'DiplomateCertificate',
+  PhilHealth: 'PhilHealth',
+  PTR: 'PTR',
+  BIR: 'BIR',
+  MOA: 'MOA',
+  BranchCode: 'BranchCode',
+  DeclineReason: 'DeclineReason',
+  RequestorBy: 'RequestorBy',
+  ApproveBy: 'ApproveBy',
+  ApprovalLogs: 'ApprovalLogs',
+  Description: 'Description',
+  SubDescription: 'SubDescription',
+  Group: 'Group',
+  SubGroup: 'SubGroup',
+  Evaluator: 'Evaluator',
+  InputDate: 'InputDate',
+  InputBy: 'InputBy',
+  Status: 'Status',
+  UpdateBy: 'UpdateBy',
+  UpdateDate: 'UpdateDate',
+  ErosCode: 'ErosCode',
+  SECode: 'SECode',
+  EmpId: 'EmpId',
+  CENStatus: 'CENStatus',
+  CebuStatus: 'CebuStatus',
+  SMBStatus: 'SMBStatus',
+  TARStatus: 'TARStatus',
+  DAVStatus: 'DAVStatus',
+  LINStatus: 'LINStatus',
+  SystemUpdateTime: 'SystemUpdateTime',
+  XFullName: 'XFullName',
+  XErosCode: 'XErosCode',
+  XId: 'XId'
 };
 
 exports.Prisma.VitalsScalarFieldEnum = {
-  id: 'id',
-  queue_id: 'queue_id',
-  patient_id: 'patient_id',
-  chief_complaint: 'chief_complaint',
-  pcp_id: 'pcp_id',
-  pcp_name: 'pcp_name',
-  bp_systolic: 'bp_systolic',
-  bp_diastolic: 'bp_diastolic',
-  bp_systolic_2: 'bp_systolic_2',
-  bp_diastolic_2: 'bp_diastolic_2',
-  bp_systolic_3: 'bp_systolic_3',
-  bp_diastolic_3: 'bp_diastolic_3',
-  heart_rate: 'heart_rate',
-  temperature: 'temperature',
-  respiratory_rate: 'respiratory_rate',
-  o2_saturation: 'o2_saturation',
-  weight: 'weight',
-  height: 'height',
-  bmi: 'bmi',
-  bmi_category: 'bmi_category',
-  uncorrected_od: 'uncorrected_od',
-  uncorrected_os: 'uncorrected_os',
-  corrected_od: 'corrected_od',
-  corrected_os: 'corrected_os',
-  uncorrected_near_od: 'uncorrected_near_od',
-  uncorrected_near_os: 'uncorrected_near_os',
-  corrected_near_od: 'corrected_near_od',
-  corrected_near_os: 'corrected_near_os',
-  with_contact_lens: 'with_contact_lens',
-  with_eyeglass: 'with_eyeglass',
-  color_vision: 'color_vision',
-  recorded_by: 'recorded_by',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
+  Id: 'Id',
+  IdQueue: 'IdQueue',
+  QueueCode: 'QueueCode',
+  PcpId: 'PcpId',
+  PcpName: 'PcpName',
+  ChiefComplaint: 'ChiefComplaint',
+  PulseRate: 'PulseRate',
+  RespiratoryRate: 'RespiratoryRate',
+  BloodPresure: 'BloodPresure',
+  BloodPresureOver: 'BloodPresureOver',
+  BloodPresure2: 'BloodPresure2',
+  BloodPresureOver2: 'BloodPresureOver2',
+  BloodPresure3: 'BloodPresure3',
+  BloodPresureOver3: 'BloodPresureOver3',
+  Temperature: 'Temperature',
+  Height: 'Height',
+  Weight: 'Weight',
+  BMI: 'BMI',
+  BMICategory: 'BMICategory',
+  UcorrectedOD: 'UcorrectedOD',
+  UcorrectedOS: 'UcorrectedOS',
+  CorrectedOD: 'CorrectedOD',
+  CorrectedOS: 'CorrectedOS',
+  UncorrectedNearOD: 'UncorrectedNearOD',
+  UncorrectedNearOS: 'UncorrectedNearOS',
+  CorrectedNearOD: 'CorrectedNearOD',
+  CorrectedNearOS: 'CorrectedNearOS',
+  Deficient: 'Deficient',
+  ColorVision: 'ColorVision',
+  WithContactLens: 'WithContactLens',
+  WithEyeGlass: 'WithEyeGlass',
+  InputBy: 'InputBy',
+  InputDate: 'InputDate',
+  UpdateBy: 'UpdateBy',
+  UpdatedDate: 'UpdatedDate'
+};
+
+exports.Prisma.CmsVitalsScalarFieldEnum = {
+  Id: 'Id',
+  IdQueue: 'IdQueue',
+  Medication: 'Medication',
+  LastDose: 'LastDose',
+  LastPeriod: 'LastPeriod',
+  InputBy: 'InputBy',
+  InputDateTime: 'InputDateTime',
+  UpdateBy: 'UpdateBy',
+  UpdateDateTime: 'UpdateDateTime'
 };
 
 exports.Prisma.ConsultationNoteScalarFieldEnum = {
@@ -440,13 +565,8 @@ exports.Prisma.RoleScalarFieldEnum = {
   module: 'module',
   tab: 'tab',
   ldap_role: 'ldap_role',
-  status: 'status'
-};
-
-exports.Prisma.SettingScalarFieldEnum = {
-  id: 'id',
-  key: 'key',
-  value: 'value'
+  status: 'status',
+  is_deleted: 'is_deleted'
 };
 
 exports.Prisma.PatientScalarFieldEnum = {
@@ -527,6 +647,1133 @@ exports.Prisma.QueueStatusScalarFieldEnum = {
   Status: 'Status'
 };
 
+exports.Prisma.SessionScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  ip_address: 'ip_address',
+  user_agent: 'user_agent',
+  payload: 'payload',
+  last_activity: 'last_activity'
+};
+
+exports.Prisma.UserFromCdbScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  password: 'password',
+  permissions: 'permissions',
+  activated: 'activated',
+  created_by: 'created_by',
+  activation_code: 'activation_code',
+  activated_at: 'activated_at',
+  last_login: 'last_login',
+  persist_code: 'persist_code',
+  reset_password_code: 'reset_password_code',
+  first_name: 'first_name',
+  last_name: 'last_name',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  deleted_at: 'deleted_at',
+  website: 'website',
+  country: 'country',
+  gravatar: 'gravatar',
+  location_id: 'location_id',
+  phone: 'phone',
+  jobtitle: 'jobtitle',
+  manager_id: 'manager_id',
+  employee_num: 'employee_num',
+  avatar: 'avatar',
+  username: 'username',
+  notes: 'notes',
+  company_id: 'company_id',
+  remember_token: 'remember_token',
+  ldap_import: 'ldap_import',
+  locale: 'locale',
+  show_in_list: 'show_in_list',
+  two_factor_secret: 'two_factor_secret',
+  two_factor_enrolled: 'two_factor_enrolled',
+  two_factor_optin: 'two_factor_optin',
+  department_id: 'department_id',
+  address: 'address',
+  city: 'city',
+  state: 'state',
+  zip: 'zip',
+  skin: 'skin',
+  remote: 'remote',
+  status: 'status',
+  role: 'role',
+  department: 'department',
+  ldap_server_status: 'ldap_server_status'
+};
+
+exports.Prisma.PEAssessmentRecordScalarFieldEnum = {
+  Id: 'Id',
+  IdQueue: 'IdQueue',
+  QueueCode: 'QueueCode',
+  ItemCode: 'ItemCode',
+  Findings: 'Findings',
+  Assessment: 'Assessment',
+  Recommendation: 'Recommendation',
+  Class: 'Class',
+  FinalClass: 'FinalClass',
+  Evaluator: 'Evaluator',
+  InputBy: 'InputBy',
+  DateAndTime: 'DateAndTime'
+};
+
+exports.Prisma.SoapRecordScalarFieldEnum = {
+  Id: 'Id',
+  QueueCode: 'QueueCode',
+  IdPatient: 'IdPatient',
+  IdDoctor: 'IdDoctor',
+  NameDoctor: 'NameDoctor',
+  Subjective: 'Subjective',
+  Objective: 'Objective',
+  Assessment: 'Assessment',
+  Plan: 'Plan',
+  Status: 'Status',
+  InputBy: 'InputBy',
+  InputDate: 'InputDate',
+  SystemDateTime: 'SystemDateTime'
+};
+
+exports.Prisma.PhysExamReportScalarFieldEnum = {
+  Id: 'Id',
+  IdQueue: 'IdQueue',
+  QueueCode: 'QueueCode',
+  IdTransaction: 'IdTransaction',
+  IdPatient: 'IdPatient',
+  LiverGallbladderDisease: 'LiverGallbladderDisease',
+  Heartdisease: 'Heartdisease',
+  AsthmaAllergy: 'AsthmaAllergy',
+  Tuberculosis: 'Tuberculosis',
+  EarNoseThroatDisorder: 'EarNoseThroatDisorder',
+  EyeDisorder: 'EyeDisorder',
+  DiabetesMellitus: 'DiabetesMellitus',
+  ChronicHeadacheMigraine: 'ChronicHeadacheMigraine',
+  Hypertension: 'Hypertension',
+  KidneyDisease: 'KidneyDisease',
+  Cancer: 'Cancer',
+  SexuallyTransmittedDisease: 'SexuallyTransmittedDisease',
+  PastMedOthers: 'PastMedOthers',
+  PresentSmoker: 'PresentSmoker',
+  PresentSmokerSticksPerDay: 'PresentSmokerSticksPerDay',
+  PresentSmokerYears: 'PresentSmokerYears',
+  PreviousSmoker: 'PreviousSmoker',
+  PreviousSmokerSticksPerDay: 'PreviousSmokerSticksPerDay',
+  PreviousSmokerYears: 'PreviousSmokerYears',
+  PresentAlcoholDrinker: 'PresentAlcoholDrinker',
+  PrevAlcoholDrinker: 'PrevAlcoholDrinker',
+  PersonalSocialOther: 'PersonalSocialOther',
+  Menarche: 'Menarche',
+  MenopausalAge: 'MenopausalAge',
+  FirstDayofLastMenstruation: 'FirstDayofLastMenstruation',
+  PastMenstrualPeriod: 'PastMenstrualPeriod',
+  Duration: 'Duration',
+  Regular: 'Regular',
+  GP: 'GP',
+  OBGYNEOthers: 'OBGYNEOthers',
+  BronchialAsthma: 'BronchialAsthma',
+  FDiabetesMellitus: 'FDiabetesMellitus',
+  Goiter: 'Goiter',
+  PTB: 'PTB',
+  FHeartDisease: 'FHeartDisease',
+  FHypertension: 'FHypertension',
+  KedneyDisease: 'KedneyDisease',
+  FamilyOthers: 'FamilyOthers',
+  Skin: 'Skin',
+  HeadScalp: 'HeadScalp',
+  Eyes: 'Eyes',
+  EarsHearing: 'EarsHearing',
+  NoseSinuses: 'NoseSinuses',
+  MouthThroat: 'MouthThroat',
+  NeckThyroid: 'NeckThyroid',
+  ChestBreastAxilla: 'ChestBreastAxilla',
+  Lungs: 'Lungs',
+  Heart: 'Heart',
+  Abdomen: 'Abdomen',
+  BlackFlanks: 'BlackFlanks',
+  Extremities: 'Extremities',
+  Neurological: 'Neurological',
+  GenitalsUrinary: 'GenitalsUrinary',
+  AnusRectum: 'AnusRectum',
+  PhysicalExamOther: 'PhysicalExamOther',
+  Pregnant: 'Pregnant',
+  Class: 'Class',
+  Status: 'Status',
+  InputBy: 'InputBy',
+  InputDate: 'InputDate',
+  UpdateBy: 'UpdateBy',
+  UpdateDate: 'UpdateDate',
+  CheckedBy: 'CheckedBy',
+  CheckedDateTime: 'CheckedDateTime',
+  Evaluator: 'Evaluator',
+  EvaluatorDateTime: 'EvaluatorDateTime',
+  Evaluated: 'Evaluated',
+  EvaluatedDateTime: 'EvaluatedDateTime'
+};
+
+exports.Prisma.CmsCompanyScalarFieldEnum = {
+  Id: 'Id',
+  Server: 'Server',
+  IdCompany: 'IdCompany',
+  Code: 'Code',
+  Name: 'Name',
+  Status: 'Status',
+  BillingType: 'BillingType'
+};
+
+exports.Prisma.AccessionEntryScalarFieldEnum = {
+  Id: 'Id',
+  IdBU: 'IdBU',
+  Date: 'Date',
+  QueueCode: 'QueueCode',
+  IdTransaction: 'IdTransaction',
+  AccessionNo: 'AccessionNo',
+  IdQueue: 'IdQueue',
+  IdCompany: 'IdCompany',
+  IdDoctor: 'IdDoctor',
+  LISCode: 'LISCode',
+  ItemCode: 'ItemCode',
+  ItemDescription: 'ItemDescription',
+  ItemGroup: 'ItemGroup',
+  ItemSubGroup: 'ItemSubGroup',
+  Type: 'Type',
+  Stat: 'Stat',
+  AccessionMap: 'AccessionMap',
+  Status: 'Status',
+  SystemTimeCreated: 'SystemTimeCreated',
+  ResultOnlineStatus: 'ResultOnlineStatus',
+  RISFinalized: 'RISFinalized',
+  SystemUpdateTime: 'SystemUpdateTime',
+  ExamDate: 'ExamDate',
+  ReceivedBU: 'ReceivedBU',
+  RISSeverity: 'RISSeverity'
+};
+
+exports.Prisma.AssesmentcodeScalarFieldEnum = {
+  Id: 'Id',
+  Code: 'Code',
+  Findings: 'Findings',
+  Assesment: 'Assesment',
+  Recommendation: 'Recommendation',
+  Class: 'Class',
+  TestGroup: 'TestGroup',
+  TestCode: 'TestCode',
+  Status: 'Status'
+};
+
+exports.Prisma.BanknamesScalarFieldEnum = {
+  Id: 'Id',
+  BankName: 'BankName',
+  Status: 'Status',
+  CreditStatus: 'CreditStatus'
+};
+
+exports.Prisma.BillingcompanyScalarFieldEnum = {
+  Id: 'Id',
+  Code: 'Code',
+  Name: 'Name',
+  Address: 'Address',
+  Phone: 'Phone',
+  Email: 'Email',
+  ContactPerson: 'ContactPerson',
+  Position: 'Position'
+};
+
+exports.Prisma.CacheScalarFieldEnum = {
+  key: 'key',
+  value: 'value',
+  expiration: 'expiration'
+};
+
+exports.Prisma.Cache_locksScalarFieldEnum = {
+  key: 'key',
+  owner: 'owner',
+  expiration: 'expiration'
+};
+
+exports.Prisma.CisScalarFieldEnum = {
+  Id: 'Id',
+  CompanyId: 'CompanyId',
+  Description: 'Description',
+  FileName: 'FileName'
+};
+
+exports.Prisma.CityScalarFieldEnum = {
+  city_id: 'city_id',
+  city_name: 'city_name',
+  city_province: 'city_province',
+  city_ptc_crew: 'city_ptc_crew'
+};
+
+exports.Prisma.CompanycategoriesScalarFieldEnum = {
+  Id: 'Id',
+  Code: 'Code',
+  Description: 'Description',
+  KeyLeft: 'KeyLeft',
+  KeyRight: 'KeyRight',
+  IdBU: 'IdBU'
+};
+
+exports.Prisma.CompanyexcelScalarFieldEnum = {
+  Id: 'Id',
+  CompaCode: 'CompaCode',
+  CompaName: 'CompaName',
+  SEName: 'SEName'
+};
+
+exports.Prisma.ControlnumScalarFieldEnum = {
+  Id: 'Id',
+  IdBU: 'IdBU',
+  SVRID: 'SVRID',
+  Date: 'Date',
+  Num: 'Num',
+  PDate: 'PDate',
+  PNum: 'PNum'
+};
+
+exports.Prisma.CounternoScalarFieldEnum = {
+  Id: 'Id',
+  Key: 'Key',
+  Val: 'Val',
+  Status: 'Status'
+};
+
+exports.Prisma.DiscounttypeScalarFieldEnum = {
+  Id: 'Id',
+  Code: 'Code',
+  Description: 'Description',
+  Percentage: 'Percentage',
+  IdRequired: 'IdRequired',
+  Status: 'Status'
+};
+
+exports.Prisma.ExcelreadersfeeScalarFieldEnum = {
+  Id: 'Id',
+  ItemCode: 'ItemCode',
+  Fee: 'Fee',
+  Rebates: 'Rebates'
+};
+
+exports.Prisma.Failed_jobsScalarFieldEnum = {
+  id: 'id',
+  uuid: 'uuid',
+  connection: 'connection',
+  queue: 'queue',
+  payload: 'payload',
+  exception: 'exception',
+  failed_at: 'failed_at'
+};
+
+exports.Prisma.HclabuseraccountgroupScalarFieldEnum = {
+  Id: 'Id',
+  GroupCode: 'GroupCode',
+  UserID: 'UserID',
+  StatusSMB: 'StatusSMB',
+  StatusTAR: 'StatusTAR',
+  StatusCEB: 'StatusCEB',
+  StatusDAV: 'StatusDAV'
+};
+
+exports.Prisma.HclabuseraccprofileScalarFieldEnum = {
+  Id: 'Id',
+  UserID: 'UserID',
+  ProfileCode: 'ProfileCode',
+  StatusSMB: 'StatusSMB',
+  StatusTAR: 'StatusTAR',
+  StatusCEB: 'StatusCEB',
+  StatusDAV: 'StatusDAV'
+};
+
+exports.Prisma.HclabusergroupScalarFieldEnum = {
+  Id: 'Id',
+  GroupCode: 'GroupCode',
+  GroupName: 'GroupName',
+  GroupDesc: 'GroupDesc',
+  GroupUpdateBy: 'GroupUpdateBy',
+  GroupUpdateon: 'GroupUpdateon'
+};
+
+exports.Prisma.HclabuserprofileScalarFieldEnum = {
+  Id: 'Id',
+  ProfileCode: 'ProfileCode',
+  ProfileName: 'ProfileName',
+  Active: 'Active'
+};
+
+exports.Prisma.Hl7_generation_logsScalarFieldEnum = {
+  Id: 'Id',
+  CreatedAt: 'CreatedAt',
+  BUCode: 'BUCode',
+  QueueId: 'QueueId',
+  AccessionNo: 'AccessionNo',
+  Hl7Type: 'Hl7Type',
+  FileName: 'FileName',
+  PrimaryPath: 'PrimaryPath',
+  BackupPath: 'BackupPath',
+  Message: 'Message'
+};
+
+exports.Prisma.Integration_business_unitsScalarFieldEnum = {
+  id: 'id',
+  bu_code: 'bu_code',
+  queue_bu_pattern: 'queue_bu_pattern',
+  is_active: 'is_active',
+  lab_group_override: 'lab_group_override',
+  rad_group_override: 'rad_group_override',
+  rad_subgroups_override: 'rad_subgroups_override',
+  outbound_root_override: 'outbound_root_override',
+  outbound_lab_dir_override: 'outbound_lab_dir_override',
+  outbound_rad_dir_override: 'outbound_rad_dir_override',
+  outbound_bu_lab_dir_override: 'outbound_bu_lab_dir_override',
+  outbound_bu_rad_dir_override: 'outbound_bu_rad_dir_override',
+  outbound_log_dir_override: 'outbound_log_dir_override',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.Integration_configScalarFieldEnum = {
+  id: 'id',
+  config_key: 'config_key',
+  config_value: 'config_value',
+  description: 'description',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.ItemScalarFieldEnum = {
+  Id: 'Id',
+  IdBU: 'IdBU',
+  ItemCode: 'ItemCode',
+  ItemDescription: 'ItemDescription',
+  LISCode: 'LISCode',
+  MapCode: 'MapCode',
+  Notes: 'Notes'
+};
+
+exports.Prisma.ItemcodeScalarFieldEnum = {
+  Id: 'Id',
+  Code: 'Code',
+  Group: 'Group',
+  SubGroup: 'SubGroup',
+  Status: 'Status'
+};
+
+exports.Prisma.ItemgroupScalarFieldEnum = {
+  Id: 'Id',
+  GroupCode: 'GroupCode',
+  SubGroupCode: 'SubGroupCode',
+  Description: 'Description',
+  Status: 'Status'
+};
+
+exports.Prisma.ItemmasterScalarFieldEnum = {
+  Id: 'Id',
+  Code: 'Code',
+  NewCode: 'NewCode',
+  OldCode: 'OldCode',
+  Description: 'Description',
+  NewDescription: 'NewDescription',
+  OldDescription: 'OldDescription',
+  ShortName: 'ShortName',
+  LongName: 'LongName',
+  DepartmentGroup: 'DepartmentGroup',
+  Group: 'Group',
+  NewGroup: 'NewGroup',
+  OldGroup: 'OldGroup',
+  SubGroup: 'SubGroup',
+  NewSubGroup: 'NewSubGroup',
+  OldSubGroup: 'OldSubGroup',
+  Side: 'Side',
+  SO: 'SO',
+  Price: 'Price',
+  ReadersFee: 'ReadersFee',
+  Rebates: 'Rebates',
+  ReApply: 'ReApply',
+  OrderStatus: 'OrderStatus',
+  UsedClinic: 'UsedClinic',
+  ItemStatus: 'ItemStatus',
+  LinkType: 'LinkType',
+  NewLinkType: 'NewLinkType',
+  OldLinkType: 'OldLinkType',
+  LISCode: 'LISCode',
+  HCLABCode: 'HCLABCode',
+  Type: 'Type',
+  StandardPackage: 'StandardPackage',
+  AllowDiscount: 'AllowDiscount',
+  AllowDiscountType: 'AllowDiscountType',
+  AllowQty: 'AllowQty',
+  Notes: 'Notes',
+  InputBy: 'InputBy',
+  InputDate: 'InputDate',
+  UpdateBy: 'UpdateBy',
+  UpdateDate: 'UpdateDate',
+  SystemFrom: 'SystemFrom',
+  WebSiteStatus: 'WebSiteStatus',
+  WebSiteDescription: 'WebSiteDescription',
+  ViewVitalSigns: 'ViewVitalSigns'
+};
+
+exports.Prisma.ItemmasterlisfromerosScalarFieldEnum = {
+  Id: 'Id',
+  Code: 'Code',
+  NewCode: 'NewCode',
+  OldCode: 'OldCode',
+  Description: 'Description',
+  NewDescription: 'NewDescription',
+  OldDescription: 'OldDescription',
+  ShortName: 'ShortName',
+  LongName: 'LongName',
+  DepartmentGroup: 'DepartmentGroup',
+  Group: 'Group',
+  NewGroup: 'NewGroup',
+  OldGroup: 'OldGroup',
+  SubGroup: 'SubGroup',
+  NewSubGroup: 'NewSubGroup',
+  OldSubGroup: 'OldSubGroup',
+  Side: 'Side',
+  SO: 'SO',
+  Price: 'Price',
+  ReadersFee: 'ReadersFee',
+  Rebates: 'Rebates',
+  OrderStatus: 'OrderStatus',
+  UsedClinic: 'UsedClinic',
+  ItemStatus: 'ItemStatus',
+  LinkType: 'LinkType',
+  NewLinkType: 'NewLinkType',
+  OldLinkType: 'OldLinkType',
+  LISCode: 'LISCode',
+  LISCodeNewCen: 'LISCodeNewCen',
+  LISSMB: 'LISSMB',
+  HCLABCode: 'HCLABCode',
+  Type: 'Type',
+  StandardPackage: 'StandardPackage',
+  AllowDiscount: 'AllowDiscount',
+  AllowQty: 'AllowQty',
+  Notes: 'Notes',
+  InputBy: 'InputBy',
+  InputDate: 'InputDate',
+  UpdateBy: 'UpdateBy',
+  UpdateDate: 'UpdateDate',
+  SystemFrom: 'SystemFrom',
+  WebSiteStatus: 'WebSiteStatus',
+  WebSiteDescription: 'WebSiteDescription',
+  reUpdate: 'reUpdate'
+};
+
+exports.Prisma.ItempriceScalarFieldEnum = {
+  Id: 'Id',
+  ClinicCode: 'ClinicCode',
+  Code: 'Code',
+  OldCode: 'OldCode',
+  Description: 'Description',
+  OldDescription: 'OldDescription',
+  DescriptionEros: 'DescriptionEros',
+  CompanyCode: 'CompanyCode',
+  ServiceAgreementId: 'ServiceAgreementId',
+  Price: 'Price',
+  PriceGroup: 'PriceGroup',
+  ItemUsed: 'ItemUsed',
+  PriceType: 'PriceType',
+  LISCode: 'LISCode',
+  Notes: 'Notes',
+  InputDate: 'InputDate',
+  InputBy: 'InputBy',
+  UpdateDate: 'UpdateDate',
+  UpdateBy: 'UpdateBy',
+  Status: 'Status',
+  ErosStatus: 'ErosStatus',
+  HCLABStatus: 'HCLABStatus',
+  PackageUpdate: 'PackageUpdate',
+  selected: 'selected',
+  SystemUpdateTime: 'SystemUpdateTime',
+  CebuStatus: 'CebuStatus',
+  SMBStatus: 'SMBStatus',
+  TARStatus: 'TARStatus',
+  DAVStatus: 'DAVStatus',
+  LINStatus: 'LINStatus'
+};
+
+exports.Prisma.ItempricecisScalarFieldEnum = {
+  Id: 'Id',
+  CompanyId: 'CompanyId',
+  CompanyCode: 'CompanyCode',
+  Notes: 'Notes',
+  FileName: 'FileName',
+  FileLink: 'FileLink',
+  UploadBy: 'UploadBy',
+  SystemUpdateTime: 'SystemUpdateTime'
+};
+
+exports.Prisma.ItempriceschedScalarFieldEnum = {
+  Id: 'Id',
+  ClinicCode: 'ClinicCode',
+  Code: 'Code',
+  OldCode: 'OldCode',
+  Description: 'Description',
+  OldDescription: 'OldDescription',
+  DescriptionEros: 'DescriptionEros',
+  CompanyCode: 'CompanyCode',
+  ServiceAgreementId: 'ServiceAgreementId',
+  Price: 'Price',
+  PriceGroup: 'PriceGroup',
+  ItemUsed: 'ItemUsed',
+  PriceType: 'PriceType',
+  LISCode: 'LISCode',
+  Notes: 'Notes',
+  InputDate: 'InputDate',
+  InputBy: 'InputBy',
+  UpdateDate: 'UpdateDate',
+  UpdateBy: 'UpdateBy',
+  Status: 'Status',
+  ErosStatus: 'ErosStatus',
+  HCLABStatus: 'HCLABStatus',
+  PackageUpdate: 'PackageUpdate',
+  selected: 'selected',
+  SystemUpdateTime: 'SystemUpdateTime',
+  CebuStatus: 'CebuStatus',
+  SMBStatus: 'SMBStatus',
+  TARStatus: 'TARStatus',
+  DAVStatus: 'DAVStatus',
+  LINStatus: 'LINStatus',
+  EffectivityDate: 'EffectivityDate',
+  JobType: 'JobType'
+};
+
+exports.Prisma.ItemsortScalarFieldEnum = {
+  Id: 'Id',
+  ItemCode: 'ItemCode',
+  Sort: 'Sort',
+  Module: 'Module'
+};
+
+exports.Prisma.Job_batchesScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  total_jobs: 'total_jobs',
+  pending_jobs: 'pending_jobs',
+  failed_jobs: 'failed_jobs',
+  failed_job_ids: 'failed_job_ids',
+  options: 'options',
+  cancelled_at: 'cancelled_at',
+  created_at: 'created_at',
+  finished_at: 'finished_at'
+};
+
+exports.Prisma.JobsScalarFieldEnum = {
+  id: 'id',
+  queue: 'queue',
+  payload: 'payload',
+  attempts: 'attempts',
+  reserved_at: 'reserved_at',
+  available_at: 'available_at',
+  created_at: 'created_at'
+};
+
+exports.Prisma.MigrationsScalarFieldEnum = {
+  id: 'id',
+  migration: 'migration',
+  batch: 'batch'
+};
+
+exports.Prisma.Msg_queueScalarFieldEnum = {
+  Id: 'Id',
+  IdQueue: 'IdQueue',
+  QueueCode: 'QueueCode',
+  IdBU: 'IdBU',
+  ReceivedBU: 'ReceivedBU',
+  ItemGroup: 'ItemGroup',
+  AccessionNo: 'AccessionNo',
+  Status: 'Status'
+};
+
+exports.Prisma.NumcodeScalarFieldEnum = {
+  Id: 'Id',
+  HCLIS: 'HCLIS'
+};
+
+exports.Prisma.RenamedpackageScalarFieldEnum = {
+  Id: 'Id',
+  ItemPriceId: 'ItemPriceId',
+  ItemCode: 'ItemCode',
+  SystemUpdateTime: 'SystemUpdateTime'
+};
+
+exports.Prisma.Password_reset_tokensScalarFieldEnum = {
+  email: 'email',
+  token: 'token',
+  created_at: 'created_at'
+};
+
+exports.Prisma.Patient_tempScalarFieldEnum = {
+  Id: 'Id',
+  Code: 'Code',
+  FullName: 'FullName',
+  LastName: 'LastName',
+  FirstName: 'FirstName',
+  MiddleName: 'MiddleName',
+  Suffix: 'Suffix',
+  Gender: 'Gender',
+  DOB: 'DOB',
+  Address: 'Address',
+  City: 'City',
+  Status: 'Status',
+  StatusBizbox: 'StatusBizbox',
+  APEDate: 'APEDate',
+  Remarks: 'Remarks',
+  UploadID: 'UploadID',
+  UploadDateTime: 'UploadDateTime',
+  StatusBizboxDate: 'StatusBizboxDate',
+  FileStatus: 'FileStatus',
+  WithTest: 'WithTest',
+  WithTestStatus: 'WithTestStatus'
+};
+
+exports.Prisma.PatienterosScalarFieldEnum = {
+  Id: 'Id',
+  Code: 'Code',
+  FullName: 'FullName',
+  LastName: 'LastName',
+  FirstName: 'FirstName',
+  MiddleName: 'MiddleName',
+  Suffix: 'Suffix',
+  Prefix: 'Prefix',
+  Gender: 'Gender',
+  DOB: 'DOB',
+  Email: 'Email',
+  Address: 'Address',
+  Barangay: 'Barangay',
+  City: 'City',
+  State: 'State',
+  ZipCode: 'ZipCode',
+  Nationality: 'Nationality',
+  Country: 'Country',
+  Religion: 'Religion',
+  ContactNo: 'ContactNo',
+  Moblie: 'Moblie',
+  FaxNo: 'FaxNo',
+  PhilHealth: 'PhilHealth',
+  Status: 'Status',
+  Remarks: 'Remarks',
+  UploadID: 'UploadID',
+  InputDate: 'InputDate',
+  InputBy: 'InputBy',
+  UpdateDate: 'UpdateDate',
+  UpdateBy: 'UpdateBy',
+  LastVisit: 'LastVisit',
+  PassPortNo: 'PassPortNo',
+  RDOB: 'RDOB',
+  UploadDateTime: 'UploadDateTime'
+};
+
+exports.Prisma.PaymenthistoryScalarFieldEnum = {
+  Id: 'Id',
+  IdQueue: 'IdQueue',
+  IdTransaction: 'IdTransaction',
+  CurrentItemAmount: 'CurrentItemAmount',
+  ItemAmount: 'ItemAmount',
+  BalanceAmount: 'BalanceAmount',
+  RemainingAmount: 'RemainingAmount',
+  ProviderType: 'ProviderType',
+  BillTo: 'BillTo',
+  ORNum: 'ORNum',
+  CoverageType: 'CoverageType',
+  CoverageAmount: 'CoverageAmount',
+  PaymentType: 'PaymentType',
+  RefNo: 'RefNo',
+  PayAmount: 'PayAmount',
+  BankName: 'BankName',
+  doWhileInsert: 'doWhileInsert',
+  DiscType: 'DiscType',
+  DiscId: 'DiscId',
+  DiscAmount: 'DiscAmount',
+  LoyaltyId: 'LoyaltyId',
+  LoyaltyPoint: 'LoyaltyPoint',
+  AgentCode: 'AgentCode',
+  AgentName: 'AgentName',
+  Status: 'Status',
+  InputBy: 'InputBy',
+  InputDate: 'InputDate',
+  UpdateBy: 'UpdateBy',
+  UpdateDate: 'UpdateDate',
+  DeletedReason: 'DeletedReason',
+  PrevOR: 'PrevOR',
+  OReditReason: 'OReditReason',
+  HMOId: 'HMOId',
+  HMOPName: 'HMOPName'
+};
+
+exports.Prisma.PhysicianorderScalarFieldEnum = {
+  Id: 'Id',
+  IdQueueFrom: 'IdQueueFrom',
+  IdQueueTo: 'IdQueueTo',
+  IdPatient: 'IdPatient',
+  IdDoctor: 'IdDoctor',
+  ItemCode: 'ItemCode',
+  Status: 'Status',
+  DateOrder: 'DateOrder',
+  SystemDateTime: 'SystemDateTime',
+  SystemUpdateTime: 'SystemUpdateTime'
+};
+
+exports.Prisma.PhysiciantypeScalarFieldEnum = {
+  Id: 'Id',
+  Code: 'Code',
+  Description: 'Description',
+  Type: 'Type',
+  Status: 'Status'
+};
+
+exports.Prisma.ProvinceScalarFieldEnum = {
+  province_id: 'province_id',
+  province_name: 'province_name',
+  province_country: 'province_country'
+};
+
+exports.Prisma.ReceivingScalarFieldEnum = {
+  Id: 'Id',
+  IdQueue: 'IdQueue',
+  QueueCode: 'QueueCode',
+  IdBUFrom: 'IdBUFrom',
+  IdBUTo: 'IdBUTo',
+  IdTransaction: 'IdTransaction',
+  ItemCode: 'ItemCode',
+  PackageCode: 'PackageCode',
+  DateReceived: 'DateReceived',
+  ReceivedBy: 'ReceivedBy',
+  Notes: 'Notes',
+  Tubes: 'Tubes',
+  TubesSent: 'TubesSent',
+  TubesReject: 'TubesReject',
+  ReceivingBatchCode: 'ReceivingBatchCode',
+  Status: 'Status',
+  SendoutDate: 'SendoutDate',
+  SendoutBy: 'SendoutBy',
+  SendoutReceivedDate: 'SendoutReceivedDate',
+  SendoutReceivedBy: 'SendoutReceivedBy',
+  SendoutStatus: 'SendoutStatus',
+  BatchCode: 'BatchCode',
+  BloodBatchCode: 'BloodBatchCode',
+  RejectBy: 'RejectBy',
+  Reason: 'Reason',
+  RejectDateTime: 'RejectDateTime'
+};
+
+exports.Prisma.RejectedScalarFieldEnum = {
+  Id: 'Id',
+  IdQueue: 'IdQueue',
+  QueueCode: 'QueueCode',
+  IdBUFrom: 'IdBUFrom',
+  IdBUTo: 'IdBUTo',
+  IdTransaction: 'IdTransaction',
+  ItemCode: 'ItemCode',
+  PackageCode: 'PackageCode',
+  DateReceived: 'DateReceived',
+  ReceivedBy: 'ReceivedBy',
+  Notes: 'Notes',
+  Tubes: 'Tubes',
+  TubesSent: 'TubesSent',
+  TubesReject: 'TubesReject',
+  ReceivingBatchCode: 'ReceivingBatchCode',
+  Status: 'Status',
+  SendoutDate: 'SendoutDate',
+  SendoutBy: 'SendoutBy',
+  SendoutReceivedDate: 'SendoutReceivedDate',
+  SendoutReceivedBy: 'SendoutReceivedBy',
+  SendoutStatus: 'SendoutStatus',
+  BatchCode: 'BatchCode',
+  BloodBatchCode: 'BloodBatchCode',
+  RejectBy: 'RejectBy',
+  Reason: 'Reason',
+  RejectDateTime: 'RejectDateTime'
+};
+
+exports.Prisma.RejectionScalarFieldEnum = {
+  Id: 'Id',
+  Code: 'Code',
+  Description: 'Description',
+  Status: 'Status'
+};
+
+exports.Prisma.ResultsScalarFieldEnum = {
+  Id: 'Id',
+  SourceId: 'SourceId',
+  SourceCode: 'SourceCode',
+  UploadedBy: 'UploadedBy',
+  Action: 'Action',
+  SourceAction: 'SourceAction',
+  OrgName: 'OrgName',
+  SystemDateTime: 'SystemDateTime'
+};
+
+exports.Prisma.ResultsstatusScalarFieldEnum = {
+  Id: 'Id',
+  TransactionNo: 'TransactionNo',
+  StatusId: 'StatusId',
+  Description: 'Description',
+  UpdateBy: 'UpdateBy',
+  Action: 'Action',
+  SystemTimeCreated: 'SystemTimeCreated'
+};
+
+exports.Prisma.ServiceagreementScalarFieldEnum = {
+  Id: 'Id',
+  CompanyId: 'CompanyId',
+  Code: 'Code',
+  Signatory: 'Signatory',
+  SignatoryDesignation: 'SignatoryDesignation',
+  ContactPerson: 'ContactPerson',
+  ContactPersonDesignation: 'ContactPersonDesignation',
+  ServicePurpose: 'ServicePurpose',
+  ExaminationDateStart: 'ExaminationDateStart',
+  ExaminationDateEnd: 'ExaminationDateEnd',
+  PreferredBranch: 'PreferredBranch',
+  Packages: 'Packages',
+  TotalPatients: 'TotalPatients',
+  Requirements: 'Requirements',
+  DueDate: 'DueDate',
+  RecipientName: 'RecipientName',
+  RecipientDesignation: 'RecipientDesignation',
+  RecipientContactNo: 'RecipientContactNo',
+  RecipientDeliveryAddress: 'RecipientDeliveryAddress',
+  RecipientEmail: 'RecipientEmail',
+  ResultParticulars: 'ResultParticulars',
+  ModeOfPayment: 'ModeOfPayment',
+  PaymentBy: 'PaymentBy',
+  PaymentParticulars: 'PaymentParticulars',
+  BillingDue: 'BillingDue',
+  BillingName: 'BillingName',
+  BillingDesignation: 'BillingDesignation',
+  BillingContactNo: 'BillingContactNo',
+  BillingAddress: 'BillingAddress',
+  CollectionDue: 'CollectionDue',
+  CollectionName: 'CollectionName',
+  CollectionDesignation: 'CollectionDesignation',
+  CollectionContactNo: 'CollectionContactNo',
+  CollectionAddress: 'CollectionAddress',
+  Status: 'Status',
+  ContractExpiration: 'ContractExpiration'
+};
+
+exports.Prisma.ServiceagreementresetScalarFieldEnum = {
+  Id: 'Id',
+  CompanyId: 'CompanyId',
+  Code: 'Code',
+  Signatory: 'Signatory',
+  SignatoryDesignation: 'SignatoryDesignation',
+  ContactPerson: 'ContactPerson',
+  ContactPersonDesignation: 'ContactPersonDesignation',
+  ServicePurpose: 'ServicePurpose',
+  ExaminationDateStart: 'ExaminationDateStart',
+  ExaminationDateEnd: 'ExaminationDateEnd',
+  PreferredBranch: 'PreferredBranch',
+  Packages: 'Packages',
+  TotalPatients: 'TotalPatients',
+  Requirements: 'Requirements',
+  DueDate: 'DueDate',
+  RecipientName: 'RecipientName',
+  RecipientDesignation: 'RecipientDesignation',
+  RecipientContactNo: 'RecipientContactNo',
+  RecipientDeliveryAddress: 'RecipientDeliveryAddress',
+  RecipientEmail: 'RecipientEmail',
+  ResultParticulars: 'ResultParticulars',
+  ModeOfPayment: 'ModeOfPayment',
+  PaymentBy: 'PaymentBy',
+  PaymentParticulars: 'PaymentParticulars',
+  BillingDue: 'BillingDue',
+  BillingName: 'BillingName',
+  BillingDesignation: 'BillingDesignation',
+  BillingContactNo: 'BillingContactNo',
+  BillingAddress: 'BillingAddress',
+  CollectionDue: 'CollectionDue',
+  CollectionName: 'CollectionName',
+  CollectionDesignation: 'CollectionDesignation',
+  CollectionContactNo: 'CollectionContactNo',
+  CollectionAddress: 'CollectionAddress',
+  Status: 'Status'
+};
+
+exports.Prisma.SettingsScalarFieldEnum = {
+  id: 'id',
+  system_name: 'system_name',
+  system_email: 'system_email',
+  timezone: 'timezone',
+  ldap_server: 'ldap_server',
+  ldap_port: 'ldap_port',
+  ldap_base_dn: 'ldap_base_dn',
+  ldap_username: 'ldap_username',
+  ldap_password: 'ldap_password',
+  ldap_enabled: 'ldap_enabled',
+  api_key: 'api_key',
+  api_secret: 'api_secret',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.SoaptempScalarFieldEnum = {
+  Id: 'Id',
+  QueueCode: 'QueueCode',
+  IdPatient: 'IdPatient',
+  IdDoctor: 'IdDoctor',
+  NameDoctor: 'NameDoctor',
+  Subjective: 'Subjective',
+  Objective: 'Objective',
+  Assessment: 'Assessment',
+  Plan: 'Plan',
+  Status: 'Status',
+  InputBy: 'InputBy',
+  InputDate: 'InputDate',
+  SystemDateTime: 'SystemDateTime'
+};
+
+exports.Prisma.StandardpackageScalarFieldEnum = {
+  Id: 'Id',
+  ItemMasterPackageCode: 'ItemMasterPackageCode',
+  ItemMasterItemCode: 'ItemMasterItemCode',
+  ItemMasterDescription: 'ItemMasterDescription',
+  ItemMasterGroup: 'ItemMasterGroup'
+};
+
+exports.Prisma.TransactionsdeletedScalarFieldEnum = {
+  Id: 'Id',
+  IdQueue: 'IdQueue',
+  Date: 'Date',
+  IdDoctor: 'IdDoctor',
+  NameDoctor: 'NameDoctor',
+  IdCompany: 'IdCompany',
+  NameCompany: 'NameCompany',
+  TransactionType: 'TransactionType',
+  AccessionNo: 'AccessionNo',
+  IdItemPrice: 'IdItemPrice',
+  ItemUsedItemPrice: 'ItemUsedItemPrice',
+  CodeItemPrice: 'CodeItemPrice',
+  DescriptionItemPrice: 'DescriptionItemPrice',
+  PriceGroupItemPrice: 'PriceGroupItemPrice',
+  AmountItemPrice: 'AmountItemPrice',
+  AmountRemaining: 'AmountRemaining',
+  ReadersFee: 'ReadersFee',
+  OrigAmount: 'OrigAmount',
+  HCardNumber: 'HCardNumber',
+  GroupItemMaster: 'GroupItemMaster',
+  UsedPercentDefault: 'UsedPercentDefault',
+  ShowCompanyId: 'ShowCompanyId',
+  InputBy: 'InputBy',
+  InputId: 'InputId',
+  UpdateDateTime: 'UpdateDateTime',
+  UpdateBy: 'UpdateBy',
+  Status: 'Status',
+  Stat: 'Stat',
+  Token: 'Token',
+  SystemUpdateTime: 'SystemUpdateTime',
+  ResultOnlineStatus: 'ResultOnlineStatus'
+};
+
+exports.Prisma.TransactiontempScalarFieldEnum = {
+  Id: 'Id',
+  IdQueue: 'IdQueue',
+  IdPatient: 'IdPatient',
+  Date: 'Date',
+  IdDoctor: 'IdDoctor',
+  NameDoctor: 'NameDoctor',
+  IdCompany: 'IdCompany',
+  NameCompany: 'NameCompany',
+  TransactionType: 'TransactionType',
+  IdItemPrice: 'IdItemPrice',
+  ItemUsedItemPrice: 'ItemUsedItemPrice',
+  CodeItemPrice: 'CodeItemPrice',
+  DescriptionItemPrice: 'DescriptionItemPrice',
+  PriceGroupItemPrice: 'PriceGroupItemPrice',
+  AmountItemPrice: 'AmountItemPrice',
+  AmountRemaining: 'AmountRemaining',
+  ReadersFee: 'ReadersFee',
+  OrigAmount: 'OrigAmount',
+  HCardNumber: 'HCardNumber',
+  GroupItemMaster: 'GroupItemMaster',
+  UsedPercentDefault: 'UsedPercentDefault',
+  InputBy: 'InputBy',
+  InputId: 'InputId',
+  Status: 'Status',
+  Stat: 'Stat',
+  Token: 'Token',
+  SystemUpdateTime: 'SystemUpdateTime'
+};
+
+exports.Prisma.TransactiontypeScalarFieldEnum = {
+  Id: 'Id',
+  Code: 'Code',
+  Description: 'Description',
+  Status: 'Status'
+};
+
+exports.Prisma.TransmittalorderScalarFieldEnum = {
+  Id: 'Id',
+  BatchCode: 'BatchCode',
+  QueueCode: 'QueueCode',
+  PatientName: 'PatientName',
+  ItemDescription: 'ItemDescription',
+  Tubes: 'Tubes',
+  ReceivedTime: 'ReceivedTime',
+  ReceivedBy: 'ReceivedBy',
+  rowIndex: 'rowIndex'
+};
+
+exports.Prisma.TransportScalarFieldEnum = {
+  Id: 'Id',
+  BatchCode: 'BatchCode',
+  Quantity: 'Quantity',
+  TransportDate: 'TransportDate',
+  FromBU: 'FromBU',
+  ToBU: 'ToBU',
+  Status: 'Status',
+  PreparedBy: 'PreparedBy',
+  DepartureDateTime: 'DepartureDateTime',
+  ArrivalDateTime: 'ArrivalDateTime'
+};
+
+exports.Prisma.UpdatequeueScalarFieldEnum = {
+  Id: 'Id',
+  Module: 'Module',
+  ModuleId: 'ModuleId',
+  QueueCode: 'QueueCode',
+  Status: 'Status'
+};
+
+exports.Prisma.UserhclabScalarFieldEnum = {
+  Id: 'Id',
+  ADId: 'ADId',
+  UserID: 'UserID',
+  Password: 'Password',
+  UserName: 'UserName',
+  Status: 'Status',
+  LSCode: 'LSCode',
+  UserCtlFlag: 'UserCtlFlag',
+  UserCtlFlag1: 'UserCtlFlag1',
+  UserLdapID: 'UserLdapID',
+  UserWeSiteID: 'UserWeSiteID',
+  PasswordLastChange: 'PasswordLastChange',
+  UserFingerPrint: 'UserFingerPrint',
+  UserRemark: 'UserRemark',
+  UserUpdateBy: 'UserUpdateBy',
+  UserUpdateOn: 'UserUpdateOn',
+  StatusSMB: 'StatusSMB',
+  StatusTAR: 'StatusTAR',
+  StatusCEB: 'StatusCEB',
+  StatusDAV: 'StatusDAV'
+};
+
+exports.Prisma.WebitempriceScalarFieldEnum = {
+  Id: 'Id',
+  Code: 'Code',
+  Description: 'Description',
+  Price: 'Price',
+  GroupName: 'GroupName'
+};
+
+exports.Prisma.ZipScalarFieldEnum = {
+  zip_id: 'zip_id',
+  zip_code: 'zip_code',
+  zip_name: 'zip_name',
+  zip_city: 'zip_city'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -538,7 +1785,6 @@ exports.Prisma.NullsOrder = {
 };
 
 exports.Prisma.UserOrderByRelevanceFieldEnum = {
-  username: 'username',
   email: 'email',
   password: 'password',
   permissions: 'permissions',
@@ -554,6 +1800,7 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   jobtitle: 'jobtitle',
   employee_num: 'employee_num',
   avatar: 'avatar',
+  username: 'username',
   notes: 'notes',
   remember_token: 'remember_token',
   locale: 'locale',
@@ -571,104 +1818,214 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
 };
 
 exports.Prisma.QueueOrderByRelevanceFieldEnum = {
-  patient_id: 'patient_id',
-  patient_name: 'patient_name',
-  company_code: 'company_code',
-  company_name: 'company_name',
-  status: 'status',
-  clinic_code: 'clinic_code'
+  IdBU: 'IdBU',
+  Code: 'Code',
+  AnteDateCode: 'AnteDateCode',
+  AnteDateReason: 'AnteDateReason',
+  AnteDateApprovedBy: 'AnteDateApprovedBy',
+  QFullName: 'QFullName',
+  QLastName: 'QLastName',
+  QFirstName: 'QFirstName',
+  QMiddleName: 'QMiddleName',
+  QGender: 'QGender',
+  QFullAddress: 'QFullAddress',
+  AccessionNo: 'AccessionNo',
+  Notes: 'Notes',
+  CancelReason: 'CancelReason',
+  PatientType: 'PatientType',
+  Picture: 'Picture',
+  InputBy: 'InputBy',
+  Lab2LabId: 'Lab2LabId',
+  LabBarcode: 'LabBarcode',
+  LabId: 'LabId',
+  UpdateBy: 'UpdateBy',
+  ErosStatus: 'ErosStatus'
 };
 
 exports.Prisma.CardEnrollmentOrderByRelevanceFieldEnum = {
-  card_number: 'card_number',
-  patient_id: 'patient_id',
-  patient_name: 'patient_name',
-  status: 'status',
-  registered_by: 'registered_by',
-  received_by: 'received_by',
-  verified_by: 'verified_by',
-  transferred_to: 'transferred_to',
-  clinic_code: 'clinic_code'
+  CardNumber: 'CardNumber',
+  ReleaseTo: 'ReleaseTo',
+  OldReleaseTo: 'OldReleaseTo',
+  ReleaseBy: 'ReleaseBy',
+  ReceivedBy: 'ReceivedBy',
+  TransferTo: 'TransferTo',
+  TransferBy: 'TransferBy'
+};
+
+exports.Prisma.CardVerifiedOrderByRelevanceFieldEnum = {
+  VerifiedCardNumbers: 'VerifiedCardNumbers',
+  ICTReceived: 'ICTReceived'
 };
 
 exports.Prisma.CardNumberOrderByRelevanceFieldEnum = {
-  card_number: 'card_number',
-  barcode: 'barcode'
-};
-
-exports.Prisma.PaymentHistoryOrderByRelevanceFieldEnum = {
-  patient_id: 'patient_id',
-  payment_method: 'payment_method',
-  status: 'status',
-  transaction_no: 'transaction_no',
-  or_no: 'or_no',
-  clinic_code: 'clinic_code'
+  Year: 'Year',
+  Batch: 'Batch',
+  Month: 'Month',
+  SeriesNum: 'SeriesNum',
+  MaskedSeries: 'MaskedSeries',
+  GeneratedCardNumber: 'GeneratedCardNumber',
+  CodeCompany: 'CodeCompany',
+  GeneratedBy: 'GeneratedBy'
 };
 
 exports.Prisma.TransactionOrderByRelevanceFieldEnum = {
-  transaction_no: 'transaction_no',
-  patient_id: 'patient_id',
-  type: 'type',
-  description: 'description',
-  clinic_code: 'clinic_code'
+  NameDoctor: 'NameDoctor',
+  NameCompany: 'NameCompany',
+  TransactionType: 'TransactionType',
+  AccessionNo: 'AccessionNo',
+  CodeItemPrice: 'CodeItemPrice',
+  DescriptionItemPrice: 'DescriptionItemPrice',
+  PriceGroupItemPrice: 'PriceGroupItemPrice',
+  HCardNumber: 'HCardNumber',
+  GroupItemMaster: 'GroupItemMaster',
+  ShowCompanyId: 'ShowCompanyId',
+  InputBy: 'InputBy',
+  UpdateBy: 'UpdateBy',
+  Stat: 'Stat',
+  Token: 'Token',
+  ResultOnlineStatus: 'ResultOnlineStatus'
 };
 
 exports.Prisma.CompanyOrderByRelevanceFieldEnum = {
-  eros_code: 'eros_code',
-  name: 'name',
-  address: 'address',
-  contact: 'contact',
-  status: 'status'
-};
-
-exports.Prisma.ItemMasterOrderByRelevanceFieldEnum = {
-  item_code: 'item_code',
-  item_name: 'item_name',
-  category: 'category',
-  department: 'department',
-  status: 'status'
-};
-
-exports.Prisma.ItemPriceOrderByRelevanceFieldEnum = {
-  item_code: 'item_code',
-  company_code: 'company_code',
-  price_group: 'price_group',
-  status: 'status'
+  IdBU: 'IdBU',
+  Code: 'Code',
+  Name: 'Name',
+  NameOld: 'NameOld',
+  ShortName: 'ShortName',
+  Group: 'Group',
+  SubGroup: 'SubGroup',
+  BillingType: 'BillingType',
+  Address: 'Address',
+  Phone: 'Phone',
+  City: 'City',
+  Email: 'Email',
+  Status: 'Status',
+  StatusOnSite: 'StatusOnSite',
+  Notes: 'Notes',
+  InputBy: 'InputBy',
+  UpdateBy: 'UpdateBy',
+  ErosCode: 'ErosCode',
+  SalesCode: 'SalesCode',
+  SalesName: 'SalesName',
+  Designation: 'Designation',
+  ResultUploading: 'ResultUploading',
+  UsedPriceDefault: 'UsedPriceDefault',
+  UsedPercentItemGroup: 'UsedPercentItemGroup',
+  UsedPercentItemCode: 'UsedPercentItemCode',
+  UsedLessReadersFee: 'UsedLessReadersFee',
+  UsedLessRebates: 'UsedLessRebates',
+  UsedClinic: 'UsedClinic',
+  ChargeTo: 'ChargeTo',
+  Remarks: 'Remarks',
+  OptionalItemCode: 'OptionalItemCode',
+  EnabledEndDate: 'EnabledEndDate',
+  EmpId: 'EmpId',
+  EvaluatorId: 'EvaluatorId',
+  CebuStatus: 'CebuStatus',
+  SMBStatus: 'SMBStatus',
+  TARStatus: 'TARStatus',
+  DAVStatus: 'DAVStatus',
+  LINStatus: 'LINStatus',
+  reUpload: 'reUpload'
 };
 
 exports.Prisma.PhysicianOrderByRelevanceFieldEnum = {
-  code: 'code',
-  name: 'name',
-  license_no: 'license_no',
-  specialty: 'specialty',
-  status: 'status'
-};
-
-exports.Prisma.HL7MessageOrderByRelevanceFieldEnum = {
-  facility_code: 'facility_code',
-  message_type: 'message_type',
-  accession_no: 'accession_no',
-  patient_id: 'patient_id',
-  status: 'status',
-  raw_message: 'raw_message',
-  error_message: 'error_message'
+  Code: 'Code',
+  FullName: 'FullName',
+  DisplayName: 'DisplayName',
+  PrintName: 'PrintName',
+  LastName: 'LastName',
+  FirstName: 'FirstName',
+  MiddleName: 'MiddleName',
+  Suffix: 'Suffix',
+  Degree: 'Degree',
+  PRCNo: 'PRCNo',
+  Email: 'Email',
+  Mobile: 'Mobile',
+  Prescription_Link: 'Prescription_Link',
+  NWDBranch: 'NWDBranch',
+  Schedule: 'Schedule',
+  TimeStart: 'TimeStart',
+  TimeEnd: 'TimeEnd',
+  FirstEngagement: 'FirstEngagement',
+  LastEngagement: 'LastEngagement',
+  ByAppointment: 'ByAppointment',
+  ClinicScheduledBy: 'ClinicScheduledBy',
+  PCP: 'PCP',
+  Specialist: 'Specialist',
+  ResignDoctor: 'ResignDoctor',
+  RP: 'RP',
+  Regular: 'Regular',
+  Reliever: 'Reliever',
+  Visiting: 'Visiting',
+  Referring: 'Referring',
+  ApplicationLetter: 'ApplicationLetter',
+  CurriculumVitae: 'CurriculumVitae',
+  Diploma: 'Diploma',
+  PRCId: 'PRCId',
+  ResidencyCertificate: 'ResidencyCertificate',
+  DiplomateCertificate: 'DiplomateCertificate',
+  PhilHealth: 'PhilHealth',
+  PTR: 'PTR',
+  BIR: 'BIR',
+  MOA: 'MOA',
+  BranchCode: 'BranchCode',
+  DeclineReason: 'DeclineReason',
+  RequestorBy: 'RequestorBy',
+  ApproveBy: 'ApproveBy',
+  ApprovalLogs: 'ApprovalLogs',
+  Description: 'Description',
+  SubDescription: 'SubDescription',
+  Group: 'Group',
+  SubGroup: 'SubGroup',
+  Evaluator: 'Evaluator',
+  InputBy: 'InputBy',
+  Status: 'Status',
+  UpdateBy: 'UpdateBy',
+  ErosCode: 'ErosCode',
+  SECode: 'SECode',
+  EmpId: 'EmpId',
+  CENStatus: 'CENStatus',
+  CebuStatus: 'CebuStatus',
+  SMBStatus: 'SMBStatus',
+  TARStatus: 'TARStatus',
+  DAVStatus: 'DAVStatus',
+  LINStatus: 'LINStatus',
+  XFullName: 'XFullName',
+  XErosCode: 'XErosCode'
 };
 
 exports.Prisma.VitalsOrderByRelevanceFieldEnum = {
-  patient_id: 'patient_id',
-  chief_complaint: 'chief_complaint',
-  pcp_id: 'pcp_id',
-  pcp_name: 'pcp_name',
-  bmi_category: 'bmi_category',
-  uncorrected_od: 'uncorrected_od',
-  uncorrected_os: 'uncorrected_os',
-  corrected_od: 'corrected_od',
-  corrected_os: 'corrected_os',
-  uncorrected_near_od: 'uncorrected_near_od',
-  uncorrected_near_os: 'uncorrected_near_os',
-  corrected_near_od: 'corrected_near_od',
-  corrected_near_os: 'corrected_near_os',
-  color_vision: 'color_vision'
+  QueueCode: 'QueueCode',
+  PcpName: 'PcpName',
+  ChiefComplaint: 'ChiefComplaint',
+  PulseRate: 'PulseRate',
+  RespiratoryRate: 'RespiratoryRate',
+  Temperature: 'Temperature',
+  Height: 'Height',
+  Weight: 'Weight',
+  BMI: 'BMI',
+  BMICategory: 'BMICategory',
+  UcorrectedOD: 'UcorrectedOD',
+  UcorrectedOS: 'UcorrectedOS',
+  CorrectedOD: 'CorrectedOD',
+  CorrectedOS: 'CorrectedOS',
+  UncorrectedNearOD: 'UncorrectedNearOD',
+  UncorrectedNearOS: 'UncorrectedNearOS',
+  CorrectedNearOD: 'CorrectedNearOD',
+  CorrectedNearOS: 'CorrectedNearOS',
+  Deficient: 'Deficient',
+  ColorVision: 'ColorVision',
+  WithContactLens: 'WithContactLens',
+  WithEyeGlass: 'WithEyeGlass',
+  InputBy: 'InputBy',
+  UpdateBy: 'UpdateBy'
+};
+
+exports.Prisma.CmsVitalsOrderByRelevanceFieldEnum = {
+  Medication: 'Medication',
+  InputBy: 'InputBy',
+  UpdateBy: 'UpdateBy'
 };
 
 exports.Prisma.ConsultationNoteOrderByRelevanceFieldEnum = {
@@ -738,11 +2095,6 @@ exports.Prisma.RoleOrderByRelevanceFieldEnum = {
   status: 'status'
 };
 
-exports.Prisma.SettingOrderByRelevanceFieldEnum = {
-  key: 'key',
-  value: 'value'
-};
-
 exports.Prisma.PatientOrderByRelevanceFieldEnum = {
   Code: 'Code',
   FullName: 'FullName',
@@ -807,29 +2159,921 @@ exports.Prisma.QueueStatusOrderByRelevanceFieldEnum = {
   Status: 'Status'
 };
 
+exports.Prisma.SessionOrderByRelevanceFieldEnum = {
+  id: 'id',
+  ip_address: 'ip_address',
+  user_agent: 'user_agent',
+  payload: 'payload'
+};
+
+exports.Prisma.UserFromCdbOrderByRelevanceFieldEnum = {
+  email: 'email',
+  password: 'password',
+  permissions: 'permissions',
+  activation_code: 'activation_code',
+  persist_code: 'persist_code',
+  reset_password_code: 'reset_password_code',
+  first_name: 'first_name',
+  last_name: 'last_name',
+  website: 'website',
+  country: 'country',
+  gravatar: 'gravatar',
+  phone: 'phone',
+  jobtitle: 'jobtitle',
+  employee_num: 'employee_num',
+  avatar: 'avatar',
+  username: 'username',
+  notes: 'notes',
+  remember_token: 'remember_token',
+  locale: 'locale',
+  two_factor_secret: 'two_factor_secret',
+  address: 'address',
+  city: 'city',
+  state: 'state',
+  zip: 'zip',
+  skin: 'skin',
+  status: 'status',
+  role: 'role',
+  department: 'department',
+  ldap_server_status: 'ldap_server_status'
+};
+
+exports.Prisma.PEAssessmentRecordOrderByRelevanceFieldEnum = {
+  QueueCode: 'QueueCode',
+  ItemCode: 'ItemCode',
+  Findings: 'Findings',
+  Assessment: 'Assessment',
+  Recommendation: 'Recommendation',
+  Class: 'Class',
+  FinalClass: 'FinalClass',
+  Evaluator: 'Evaluator',
+  InputBy: 'InputBy'
+};
+
+exports.Prisma.SoapRecordOrderByRelevanceFieldEnum = {
+  QueueCode: 'QueueCode',
+  NameDoctor: 'NameDoctor',
+  Subjective: 'Subjective',
+  Objective: 'Objective',
+  Assessment: 'Assessment',
+  Plan: 'Plan',
+  InputBy: 'InputBy'
+};
+
+exports.Prisma.PhysExamReportOrderByRelevanceFieldEnum = {
+  QueueCode: 'QueueCode',
+  LiverGallbladderDisease: 'LiverGallbladderDisease',
+  Heartdisease: 'Heartdisease',
+  AsthmaAllergy: 'AsthmaAllergy',
+  Tuberculosis: 'Tuberculosis',
+  EarNoseThroatDisorder: 'EarNoseThroatDisorder',
+  EyeDisorder: 'EyeDisorder',
+  DiabetesMellitus: 'DiabetesMellitus',
+  ChronicHeadacheMigraine: 'ChronicHeadacheMigraine',
+  Hypertension: 'Hypertension',
+  KidneyDisease: 'KidneyDisease',
+  Cancer: 'Cancer',
+  SexuallyTransmittedDisease: 'SexuallyTransmittedDisease',
+  PastMedOthers: 'PastMedOthers',
+  PresentSmoker: 'PresentSmoker',
+  PresentSmokerSticksPerDay: 'PresentSmokerSticksPerDay',
+  PresentSmokerYears: 'PresentSmokerYears',
+  PreviousSmoker: 'PreviousSmoker',
+  PreviousSmokerSticksPerDay: 'PreviousSmokerSticksPerDay',
+  PreviousSmokerYears: 'PreviousSmokerYears',
+  PresentAlcoholDrinker: 'PresentAlcoholDrinker',
+  PrevAlcoholDrinker: 'PrevAlcoholDrinker',
+  PersonalSocialOther: 'PersonalSocialOther',
+  Menarche: 'Menarche',
+  MenopausalAge: 'MenopausalAge',
+  FirstDayofLastMenstruation: 'FirstDayofLastMenstruation',
+  PastMenstrualPeriod: 'PastMenstrualPeriod',
+  Duration: 'Duration',
+  Regular: 'Regular',
+  GP: 'GP',
+  OBGYNEOthers: 'OBGYNEOthers',
+  BronchialAsthma: 'BronchialAsthma',
+  FDiabetesMellitus: 'FDiabetesMellitus',
+  Goiter: 'Goiter',
+  PTB: 'PTB',
+  FHeartDisease: 'FHeartDisease',
+  FHypertension: 'FHypertension',
+  KedneyDisease: 'KedneyDisease',
+  FamilyOthers: 'FamilyOthers',
+  Skin: 'Skin',
+  HeadScalp: 'HeadScalp',
+  Eyes: 'Eyes',
+  EarsHearing: 'EarsHearing',
+  NoseSinuses: 'NoseSinuses',
+  MouthThroat: 'MouthThroat',
+  NeckThyroid: 'NeckThyroid',
+  ChestBreastAxilla: 'ChestBreastAxilla',
+  Lungs: 'Lungs',
+  Heart: 'Heart',
+  Abdomen: 'Abdomen',
+  BlackFlanks: 'BlackFlanks',
+  Extremities: 'Extremities',
+  Neurological: 'Neurological',
+  GenitalsUrinary: 'GenitalsUrinary',
+  AnusRectum: 'AnusRectum',
+  PhysicalExamOther: 'PhysicalExamOther',
+  Pregnant: 'Pregnant',
+  Class: 'Class',
+  InputBy: 'InputBy',
+  UpdateBy: 'UpdateBy',
+  CheckedBy: 'CheckedBy',
+  Evaluator: 'Evaluator',
+  Evaluated: 'Evaluated'
+};
+
+exports.Prisma.CmsCompanyOrderByRelevanceFieldEnum = {
+  Server: 'Server',
+  Code: 'Code',
+  Name: 'Name',
+  Status: 'Status',
+  BillingType: 'BillingType'
+};
+
+exports.Prisma.AccessionEntryOrderByRelevanceFieldEnum = {
+  IdBU: 'IdBU',
+  QueueCode: 'QueueCode',
+  AccessionNo: 'AccessionNo',
+  LISCode: 'LISCode',
+  ItemCode: 'ItemCode',
+  ItemDescription: 'ItemDescription',
+  ItemGroup: 'ItemGroup',
+  ItemSubGroup: 'ItemSubGroup',
+  Type: 'Type',
+  Stat: 'Stat',
+  AccessionMap: 'AccessionMap',
+  ResultOnlineStatus: 'ResultOnlineStatus',
+  ReceivedBU: 'ReceivedBU',
+  RISSeverity: 'RISSeverity'
+};
+
+exports.Prisma.assesmentcodeOrderByRelevanceFieldEnum = {
+  Code: 'Code',
+  Findings: 'Findings',
+  Assesment: 'Assesment',
+  Recommendation: 'Recommendation',
+  Class: 'Class',
+  TestGroup: 'TestGroup',
+  TestCode: 'TestCode',
+  Status: 'Status'
+};
+
+exports.Prisma.banknamesOrderByRelevanceFieldEnum = {
+  BankName: 'BankName'
+};
+
+exports.Prisma.billingcompanyOrderByRelevanceFieldEnum = {
+  Code: 'Code',
+  Name: 'Name',
+  Address: 'Address',
+  Phone: 'Phone',
+  Email: 'Email',
+  ContactPerson: 'ContactPerson',
+  Position: 'Position'
+};
+
+exports.Prisma.cacheOrderByRelevanceFieldEnum = {
+  key: 'key',
+  value: 'value'
+};
+
+exports.Prisma.cache_locksOrderByRelevanceFieldEnum = {
+  key: 'key',
+  owner: 'owner'
+};
+
+exports.Prisma.cisOrderByRelevanceFieldEnum = {
+  Description: 'Description',
+  FileName: 'FileName'
+};
+
+exports.Prisma.cityOrderByRelevanceFieldEnum = {
+  city_name: 'city_name'
+};
+
+exports.Prisma.companycategoriesOrderByRelevanceFieldEnum = {
+  Code: 'Code',
+  Description: 'Description'
+};
+
+exports.Prisma.companyexcelOrderByRelevanceFieldEnum = {
+  CompaCode: 'CompaCode',
+  CompaName: 'CompaName',
+  SEName: 'SEName'
+};
+
+exports.Prisma.controlnumOrderByRelevanceFieldEnum = {
+  IdBU: 'IdBU'
+};
+
+exports.Prisma.counternoOrderByRelevanceFieldEnum = {
+  Key: 'Key',
+  Status: 'Status'
+};
+
+exports.Prisma.discounttypeOrderByRelevanceFieldEnum = {
+  Code: 'Code',
+  Description: 'Description',
+  IdRequired: 'IdRequired'
+};
+
+exports.Prisma.excelreadersfeeOrderByRelevanceFieldEnum = {
+  ItemCode: 'ItemCode'
+};
+
+exports.Prisma.failed_jobsOrderByRelevanceFieldEnum = {
+  uuid: 'uuid',
+  connection: 'connection',
+  queue: 'queue',
+  payload: 'payload',
+  exception: 'exception'
+};
+
+exports.Prisma.hclabuseraccountgroupOrderByRelevanceFieldEnum = {
+  GroupCode: 'GroupCode',
+  UserID: 'UserID',
+  StatusSMB: 'StatusSMB',
+  StatusTAR: 'StatusTAR',
+  StatusCEB: 'StatusCEB',
+  StatusDAV: 'StatusDAV'
+};
+
+exports.Prisma.hclabuseraccprofileOrderByRelevanceFieldEnum = {
+  UserID: 'UserID',
+  ProfileCode: 'ProfileCode',
+  StatusSMB: 'StatusSMB',
+  StatusTAR: 'StatusTAR',
+  StatusCEB: 'StatusCEB',
+  StatusDAV: 'StatusDAV'
+};
+
+exports.Prisma.hclabusergroupOrderByRelevanceFieldEnum = {
+  GroupCode: 'GroupCode',
+  GroupName: 'GroupName',
+  GroupDesc: 'GroupDesc',
+  GroupUpdateBy: 'GroupUpdateBy'
+};
+
+exports.Prisma.hclabuserprofileOrderByRelevanceFieldEnum = {
+  ProfileCode: 'ProfileCode',
+  ProfileName: 'ProfileName',
+  Active: 'Active'
+};
+
+exports.Prisma.hl7_generation_logsOrderByRelevanceFieldEnum = {
+  BUCode: 'BUCode',
+  AccessionNo: 'AccessionNo',
+  FileName: 'FileName',
+  PrimaryPath: 'PrimaryPath',
+  BackupPath: 'BackupPath',
+  Message: 'Message'
+};
+
+exports.Prisma.integration_business_unitsOrderByRelevanceFieldEnum = {
+  bu_code: 'bu_code',
+  queue_bu_pattern: 'queue_bu_pattern',
+  lab_group_override: 'lab_group_override',
+  rad_group_override: 'rad_group_override',
+  rad_subgroups_override: 'rad_subgroups_override',
+  outbound_root_override: 'outbound_root_override',
+  outbound_lab_dir_override: 'outbound_lab_dir_override',
+  outbound_rad_dir_override: 'outbound_rad_dir_override',
+  outbound_bu_lab_dir_override: 'outbound_bu_lab_dir_override',
+  outbound_bu_rad_dir_override: 'outbound_bu_rad_dir_override',
+  outbound_log_dir_override: 'outbound_log_dir_override'
+};
+
+exports.Prisma.integration_configOrderByRelevanceFieldEnum = {
+  config_key: 'config_key',
+  config_value: 'config_value',
+  description: 'description'
+};
+
+exports.Prisma.itemOrderByRelevanceFieldEnum = {
+  IdBU: 'IdBU',
+  ItemCode: 'ItemCode',
+  ItemDescription: 'ItemDescription',
+  LISCode: 'LISCode',
+  MapCode: 'MapCode',
+  Notes: 'Notes'
+};
+
+exports.Prisma.itemcodeOrderByRelevanceFieldEnum = {
+  Code: 'Code',
+  Group: 'Group',
+  SubGroup: 'SubGroup'
+};
+
+exports.Prisma.itemgroupOrderByRelevanceFieldEnum = {
+  GroupCode: 'GroupCode',
+  SubGroupCode: 'SubGroupCode',
+  Description: 'Description'
+};
+
+exports.Prisma.itemmasterOrderByRelevanceFieldEnum = {
+  Code: 'Code',
+  NewCode: 'NewCode',
+  OldCode: 'OldCode',
+  Description: 'Description',
+  NewDescription: 'NewDescription',
+  OldDescription: 'OldDescription',
+  ShortName: 'ShortName',
+  LongName: 'LongName',
+  DepartmentGroup: 'DepartmentGroup',
+  Group: 'Group',
+  NewGroup: 'NewGroup',
+  OldGroup: 'OldGroup',
+  SubGroup: 'SubGroup',
+  NewSubGroup: 'NewSubGroup',
+  OldSubGroup: 'OldSubGroup',
+  Side: 'Side',
+  SO: 'SO',
+  OrderStatus: 'OrderStatus',
+  UsedClinic: 'UsedClinic',
+  ItemStatus: 'ItemStatus',
+  LinkType: 'LinkType',
+  NewLinkType: 'NewLinkType',
+  OldLinkType: 'OldLinkType',
+  LISCode: 'LISCode',
+  HCLABCode: 'HCLABCode',
+  Type: 'Type',
+  AllowDiscountType: 'AllowDiscountType',
+  Notes: 'Notes',
+  InputBy: 'InputBy',
+  UpdateBy: 'UpdateBy',
+  SystemFrom: 'SystemFrom',
+  WebSiteDescription: 'WebSiteDescription'
+};
+
+exports.Prisma.itemmasterlisfromerosOrderByRelevanceFieldEnum = {
+  Code: 'Code',
+  NewCode: 'NewCode',
+  OldCode: 'OldCode',
+  Description: 'Description',
+  NewDescription: 'NewDescription',
+  OldDescription: 'OldDescription',
+  ShortName: 'ShortName',
+  LongName: 'LongName',
+  DepartmentGroup: 'DepartmentGroup',
+  Group: 'Group',
+  NewGroup: 'NewGroup',
+  OldGroup: 'OldGroup',
+  SubGroup: 'SubGroup',
+  NewSubGroup: 'NewSubGroup',
+  OldSubGroup: 'OldSubGroup',
+  Side: 'Side',
+  SO: 'SO',
+  OrderStatus: 'OrderStatus',
+  UsedClinic: 'UsedClinic',
+  ItemStatus: 'ItemStatus',
+  LinkType: 'LinkType',
+  NewLinkType: 'NewLinkType',
+  OldLinkType: 'OldLinkType',
+  LISCode: 'LISCode',
+  LISCodeNewCen: 'LISCodeNewCen',
+  LISSMB: 'LISSMB',
+  HCLABCode: 'HCLABCode',
+  Type: 'Type',
+  Notes: 'Notes',
+  InputBy: 'InputBy',
+  UpdateBy: 'UpdateBy',
+  SystemFrom: 'SystemFrom',
+  WebSiteDescription: 'WebSiteDescription',
+  reUpdate: 'reUpdate'
+};
+
+exports.Prisma.itempriceOrderByRelevanceFieldEnum = {
+  ClinicCode: 'ClinicCode',
+  Code: 'Code',
+  OldCode: 'OldCode',
+  Description: 'Description',
+  OldDescription: 'OldDescription',
+  DescriptionEros: 'DescriptionEros',
+  CompanyCode: 'CompanyCode',
+  PriceGroup: 'PriceGroup',
+  PriceType: 'PriceType',
+  LISCode: 'LISCode',
+  Notes: 'Notes',
+  InputBy: 'InputBy',
+  UpdateBy: 'UpdateBy',
+  ErosStatus: 'ErosStatus',
+  HCLABStatus: 'HCLABStatus',
+  PackageUpdate: 'PackageUpdate',
+  selected: 'selected',
+  CebuStatus: 'CebuStatus',
+  SMBStatus: 'SMBStatus',
+  TARStatus: 'TARStatus',
+  DAVStatus: 'DAVStatus',
+  LINStatus: 'LINStatus'
+};
+
+exports.Prisma.itempricecisOrderByRelevanceFieldEnum = {
+  CompanyCode: 'CompanyCode',
+  Notes: 'Notes',
+  FileName: 'FileName',
+  FileLink: 'FileLink',
+  UploadBy: 'UploadBy'
+};
+
+exports.Prisma.itempriceschedOrderByRelevanceFieldEnum = {
+  ClinicCode: 'ClinicCode',
+  Code: 'Code',
+  OldCode: 'OldCode',
+  Description: 'Description',
+  OldDescription: 'OldDescription',
+  DescriptionEros: 'DescriptionEros',
+  CompanyCode: 'CompanyCode',
+  PriceGroup: 'PriceGroup',
+  PriceType: 'PriceType',
+  LISCode: 'LISCode',
+  Notes: 'Notes',
+  InputBy: 'InputBy',
+  UpdateBy: 'UpdateBy',
+  ErosStatus: 'ErosStatus',
+  HCLABStatus: 'HCLABStatus',
+  PackageUpdate: 'PackageUpdate',
+  selected: 'selected',
+  CebuStatus: 'CebuStatus',
+  SMBStatus: 'SMBStatus',
+  TARStatus: 'TARStatus',
+  DAVStatus: 'DAVStatus',
+  LINStatus: 'LINStatus',
+  JobType: 'JobType'
+};
+
+exports.Prisma.itemsortOrderByRelevanceFieldEnum = {
+  ItemCode: 'ItemCode',
+  Module: 'Module'
+};
+
+exports.Prisma.job_batchesOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  failed_job_ids: 'failed_job_ids',
+  options: 'options'
+};
+
+exports.Prisma.jobsOrderByRelevanceFieldEnum = {
+  queue: 'queue',
+  payload: 'payload'
+};
+
+exports.Prisma.migrationsOrderByRelevanceFieldEnum = {
+  migration: 'migration'
+};
+
+exports.Prisma.msg_queueOrderByRelevanceFieldEnum = {
+  QueueCode: 'QueueCode',
+  IdBU: 'IdBU',
+  ReceivedBU: 'ReceivedBU',
+  ItemGroup: 'ItemGroup',
+  AccessionNo: 'AccessionNo',
+  Status: 'Status'
+};
+
+exports.Prisma.RenamedpackageOrderByRelevanceFieldEnum = {
+  ItemCode: 'ItemCode'
+};
+
+exports.Prisma.password_reset_tokensOrderByRelevanceFieldEnum = {
+  email: 'email',
+  token: 'token'
+};
+
+exports.Prisma.patient_tempOrderByRelevanceFieldEnum = {
+  Code: 'Code',
+  FullName: 'FullName',
+  LastName: 'LastName',
+  FirstName: 'FirstName',
+  MiddleName: 'MiddleName',
+  Suffix: 'Suffix',
+  Gender: 'Gender',
+  Address: 'Address',
+  City: 'City',
+  Status: 'Status',
+  StatusBizbox: 'StatusBizbox',
+  Remarks: 'Remarks',
+  UploadID: 'UploadID',
+  StatusBizboxDate: 'StatusBizboxDate',
+  FileStatus: 'FileStatus',
+  WithTest: 'WithTest',
+  WithTestStatus: 'WithTestStatus'
+};
+
+exports.Prisma.patienterosOrderByRelevanceFieldEnum = {
+  Code: 'Code',
+  FullName: 'FullName',
+  LastName: 'LastName',
+  FirstName: 'FirstName',
+  MiddleName: 'MiddleName',
+  Suffix: 'Suffix',
+  Prefix: 'Prefix',
+  Gender: 'Gender',
+  Email: 'Email',
+  Address: 'Address',
+  Barangay: 'Barangay',
+  City: 'City',
+  State: 'State',
+  ZipCode: 'ZipCode',
+  Nationality: 'Nationality',
+  Country: 'Country',
+  Religion: 'Religion',
+  ContactNo: 'ContactNo',
+  Moblie: 'Moblie',
+  FaxNo: 'FaxNo',
+  PhilHealth: 'PhilHealth',
+  Status: 'Status',
+  Remarks: 'Remarks',
+  UploadID: 'UploadID',
+  InputBy: 'InputBy',
+  UpdateBy: 'UpdateBy',
+  PassPortNo: 'PassPortNo',
+  RDOB: 'RDOB'
+};
+
+exports.Prisma.paymenthistoryOrderByRelevanceFieldEnum = {
+  ProviderType: 'ProviderType',
+  ORNum: 'ORNum',
+  CoverageType: 'CoverageType',
+  PaymentType: 'PaymentType',
+  RefNo: 'RefNo',
+  BankName: 'BankName',
+  doWhileInsert: 'doWhileInsert',
+  DiscType: 'DiscType',
+  DiscId: 'DiscId',
+  LoyaltyId: 'LoyaltyId',
+  AgentCode: 'AgentCode',
+  AgentName: 'AgentName',
+  Status: 'Status',
+  InputBy: 'InputBy',
+  UpdateBy: 'UpdateBy',
+  DeletedReason: 'DeletedReason',
+  PrevOR: 'PrevOR',
+  OReditReason: 'OReditReason',
+  HMOId: 'HMOId',
+  HMOPName: 'HMOPName'
+};
+
+exports.Prisma.physicianorderOrderByRelevanceFieldEnum = {
+  ItemCode: 'ItemCode'
+};
+
+exports.Prisma.physiciantypeOrderByRelevanceFieldEnum = {
+  Code: 'Code',
+  Description: 'Description',
+  Type: 'Type'
+};
+
+exports.Prisma.provinceOrderByRelevanceFieldEnum = {
+  province_name: 'province_name'
+};
+
+exports.Prisma.receivingOrderByRelevanceFieldEnum = {
+  QueueCode: 'QueueCode',
+  IdBUFrom: 'IdBUFrom',
+  IdBUTo: 'IdBUTo',
+  ItemCode: 'ItemCode',
+  PackageCode: 'PackageCode',
+  ReceivedBy: 'ReceivedBy',
+  Notes: 'Notes',
+  Tubes: 'Tubes',
+  TubesSent: 'TubesSent',
+  TubesReject: 'TubesReject',
+  ReceivingBatchCode: 'ReceivingBatchCode',
+  Status: 'Status',
+  SendoutBy: 'SendoutBy',
+  SendoutReceivedBy: 'SendoutReceivedBy',
+  SendoutStatus: 'SendoutStatus',
+  BatchCode: 'BatchCode',
+  BloodBatchCode: 'BloodBatchCode',
+  RejectBy: 'RejectBy',
+  Reason: 'Reason'
+};
+
+exports.Prisma.rejectedOrderByRelevanceFieldEnum = {
+  QueueCode: 'QueueCode',
+  IdBUFrom: 'IdBUFrom',
+  IdBUTo: 'IdBUTo',
+  ItemCode: 'ItemCode',
+  PackageCode: 'PackageCode',
+  ReceivedBy: 'ReceivedBy',
+  Notes: 'Notes',
+  Tubes: 'Tubes',
+  TubesSent: 'TubesSent',
+  TubesReject: 'TubesReject',
+  ReceivingBatchCode: 'ReceivingBatchCode',
+  Status: 'Status',
+  SendoutBy: 'SendoutBy',
+  SendoutReceivedBy: 'SendoutReceivedBy',
+  SendoutStatus: 'SendoutStatus',
+  BatchCode: 'BatchCode',
+  BloodBatchCode: 'BloodBatchCode',
+  RejectBy: 'RejectBy',
+  Reason: 'Reason'
+};
+
+exports.Prisma.rejectionOrderByRelevanceFieldEnum = {
+  Code: 'Code',
+  Description: 'Description'
+};
+
+exports.Prisma.resultsOrderByRelevanceFieldEnum = {
+  SourceCode: 'SourceCode',
+  UploadedBy: 'UploadedBy',
+  Action: 'Action',
+  SourceAction: 'SourceAction',
+  OrgName: 'OrgName'
+};
+
+exports.Prisma.resultsstatusOrderByRelevanceFieldEnum = {
+  TransactionNo: 'TransactionNo',
+  Description: 'Description',
+  UpdateBy: 'UpdateBy',
+  Action: 'Action'
+};
+
+exports.Prisma.serviceagreementOrderByRelevanceFieldEnum = {
+  Code: 'Code',
+  Signatory: 'Signatory',
+  SignatoryDesignation: 'SignatoryDesignation',
+  ContactPerson: 'ContactPerson',
+  ContactPersonDesignation: 'ContactPersonDesignation',
+  ServicePurpose: 'ServicePurpose',
+  PreferredBranch: 'PreferredBranch',
+  Packages: 'Packages',
+  TotalPatients: 'TotalPatients',
+  Requirements: 'Requirements',
+  DueDate: 'DueDate',
+  RecipientName: 'RecipientName',
+  RecipientDesignation: 'RecipientDesignation',
+  RecipientContactNo: 'RecipientContactNo',
+  RecipientDeliveryAddress: 'RecipientDeliveryAddress',
+  RecipientEmail: 'RecipientEmail',
+  ResultParticulars: 'ResultParticulars',
+  ModeOfPayment: 'ModeOfPayment',
+  PaymentBy: 'PaymentBy',
+  PaymentParticulars: 'PaymentParticulars',
+  BillingDue: 'BillingDue',
+  BillingName: 'BillingName',
+  BillingDesignation: 'BillingDesignation',
+  BillingContactNo: 'BillingContactNo',
+  BillingAddress: 'BillingAddress',
+  CollectionDue: 'CollectionDue',
+  CollectionName: 'CollectionName',
+  CollectionDesignation: 'CollectionDesignation',
+  CollectionContactNo: 'CollectionContactNo',
+  CollectionAddress: 'CollectionAddress',
+  Status: 'Status'
+};
+
+exports.Prisma.serviceagreementresetOrderByRelevanceFieldEnum = {
+  Code: 'Code',
+  Signatory: 'Signatory',
+  SignatoryDesignation: 'SignatoryDesignation',
+  ContactPerson: 'ContactPerson',
+  ContactPersonDesignation: 'ContactPersonDesignation',
+  ServicePurpose: 'ServicePurpose',
+  PreferredBranch: 'PreferredBranch',
+  Packages: 'Packages',
+  TotalPatients: 'TotalPatients',
+  Requirements: 'Requirements',
+  DueDate: 'DueDate',
+  RecipientName: 'RecipientName',
+  RecipientDesignation: 'RecipientDesignation',
+  RecipientContactNo: 'RecipientContactNo',
+  RecipientDeliveryAddress: 'RecipientDeliveryAddress',
+  RecipientEmail: 'RecipientEmail',
+  ResultParticulars: 'ResultParticulars',
+  ModeOfPayment: 'ModeOfPayment',
+  PaymentBy: 'PaymentBy',
+  PaymentParticulars: 'PaymentParticulars',
+  BillingDue: 'BillingDue',
+  BillingName: 'BillingName',
+  BillingDesignation: 'BillingDesignation',
+  BillingContactNo: 'BillingContactNo',
+  BillingAddress: 'BillingAddress',
+  CollectionDue: 'CollectionDue',
+  CollectionName: 'CollectionName',
+  CollectionDesignation: 'CollectionDesignation',
+  CollectionContactNo: 'CollectionContactNo',
+  CollectionAddress: 'CollectionAddress',
+  Status: 'Status'
+};
+
+exports.Prisma.settingsOrderByRelevanceFieldEnum = {
+  system_name: 'system_name',
+  system_email: 'system_email',
+  timezone: 'timezone',
+  ldap_server: 'ldap_server',
+  ldap_base_dn: 'ldap_base_dn',
+  ldap_username: 'ldap_username',
+  ldap_password: 'ldap_password',
+  api_key: 'api_key',
+  api_secret: 'api_secret'
+};
+
+exports.Prisma.soaptempOrderByRelevanceFieldEnum = {
+  QueueCode: 'QueueCode',
+  NameDoctor: 'NameDoctor',
+  Subjective: 'Subjective',
+  Objective: 'Objective',
+  Assessment: 'Assessment',
+  Plan: 'Plan',
+  InputBy: 'InputBy'
+};
+
+exports.Prisma.standardpackageOrderByRelevanceFieldEnum = {
+  ItemMasterPackageCode: 'ItemMasterPackageCode',
+  ItemMasterItemCode: 'ItemMasterItemCode',
+  ItemMasterDescription: 'ItemMasterDescription',
+  ItemMasterGroup: 'ItemMasterGroup'
+};
+
+exports.Prisma.transactionsdeletedOrderByRelevanceFieldEnum = {
+  NameDoctor: 'NameDoctor',
+  NameCompany: 'NameCompany',
+  TransactionType: 'TransactionType',
+  AccessionNo: 'AccessionNo',
+  CodeItemPrice: 'CodeItemPrice',
+  DescriptionItemPrice: 'DescriptionItemPrice',
+  PriceGroupItemPrice: 'PriceGroupItemPrice',
+  HCardNumber: 'HCardNumber',
+  GroupItemMaster: 'GroupItemMaster',
+  ShowCompanyId: 'ShowCompanyId',
+  InputBy: 'InputBy',
+  UpdateBy: 'UpdateBy',
+  Stat: 'Stat',
+  Token: 'Token',
+  ResultOnlineStatus: 'ResultOnlineStatus'
+};
+
+exports.Prisma.transactiontempOrderByRelevanceFieldEnum = {
+  NameDoctor: 'NameDoctor',
+  NameCompany: 'NameCompany',
+  TransactionType: 'TransactionType',
+  CodeItemPrice: 'CodeItemPrice',
+  DescriptionItemPrice: 'DescriptionItemPrice',
+  PriceGroupItemPrice: 'PriceGroupItemPrice',
+  HCardNumber: 'HCardNumber',
+  GroupItemMaster: 'GroupItemMaster',
+  InputBy: 'InputBy',
+  Stat: 'Stat',
+  Token: 'Token'
+};
+
+exports.Prisma.transactiontypeOrderByRelevanceFieldEnum = {
+  Code: 'Code',
+  Description: 'Description'
+};
+
+exports.Prisma.transmittalorderOrderByRelevanceFieldEnum = {
+  BatchCode: 'BatchCode',
+  QueueCode: 'QueueCode',
+  PatientName: 'PatientName',
+  ItemDescription: 'ItemDescription',
+  ReceivedBy: 'ReceivedBy'
+};
+
+exports.Prisma.transportOrderByRelevanceFieldEnum = {
+  BatchCode: 'BatchCode',
+  FromBU: 'FromBU',
+  ToBU: 'ToBU',
+  Status: 'Status',
+  PreparedBy: 'PreparedBy'
+};
+
+exports.Prisma.updatequeueOrderByRelevanceFieldEnum = {
+  Module: 'Module',
+  QueueCode: 'QueueCode'
+};
+
+exports.Prisma.userhclabOrderByRelevanceFieldEnum = {
+  UserID: 'UserID',
+  Password: 'Password',
+  UserName: 'UserName',
+  Status: 'Status',
+  LSCode: 'LSCode',
+  UserCtlFlag: 'UserCtlFlag',
+  UserCtlFlag1: 'UserCtlFlag1',
+  UserLdapID: 'UserLdapID',
+  UserWeSiteID: 'UserWeSiteID',
+  PasswordLastChange: 'PasswordLastChange',
+  UserFingerPrint: 'UserFingerPrint',
+  UserRemark: 'UserRemark',
+  UserUpdateBy: 'UserUpdateBy',
+  StatusSMB: 'StatusSMB',
+  StatusTAR: 'StatusTAR',
+  StatusCEB: 'StatusCEB',
+  StatusDAV: 'StatusDAV'
+};
+
+exports.Prisma.webitempriceOrderByRelevanceFieldEnum = {
+  Code: 'Code',
+  Description: 'Description',
+  Price: 'Price',
+  GroupName: 'GroupName'
+};
+
+exports.Prisma.zipOrderByRelevanceFieldEnum = {
+  zip_name: 'zip_name'
+};
+exports.hl7_generation_logs_Hl7Type = exports.$Enums.hl7_generation_logs_Hl7Type = {
+  LAB: 'LAB',
+  RAD: 'RAD'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
   Queue: 'Queue',
   CardEnrollment: 'CardEnrollment',
+  CardVerified: 'CardVerified',
   CardNumber: 'CardNumber',
-  PaymentHistory: 'PaymentHistory',
   Transaction: 'Transaction',
   Company: 'Company',
-  ItemMaster: 'ItemMaster',
-  ItemPrice: 'ItemPrice',
   Physician: 'Physician',
-  HL7Message: 'HL7Message',
   Vitals: 'Vitals',
+  CmsVitals: 'CmsVitals',
   ConsultationNote: 'ConsultationNote',
   PhysicalExamination: 'PhysicalExamination',
   MedicalEvaluation: 'MedicalEvaluation',
   Role: 'Role',
-  Setting: 'Setting',
   Patient: 'Patient',
   Department: 'Department',
   BusinessUnit: 'BusinessUnit',
-  QueueStatus: 'QueueStatus'
+  QueueStatus: 'QueueStatus',
+  Session: 'Session',
+  UserFromCdb: 'UserFromCdb',
+  PEAssessmentRecord: 'PEAssessmentRecord',
+  SoapRecord: 'SoapRecord',
+  PhysExamReport: 'PhysExamReport',
+  CmsCompany: 'CmsCompany',
+  AccessionEntry: 'AccessionEntry',
+  assesmentcode: 'assesmentcode',
+  banknames: 'banknames',
+  billingcompany: 'billingcompany',
+  cache: 'cache',
+  cache_locks: 'cache_locks',
+  cis: 'cis',
+  city: 'city',
+  companycategories: 'companycategories',
+  companyexcel: 'companyexcel',
+  controlnum: 'controlnum',
+  counterno: 'counterno',
+  discounttype: 'discounttype',
+  excelreadersfee: 'excelreadersfee',
+  failed_jobs: 'failed_jobs',
+  hclabuseraccountgroup: 'hclabuseraccountgroup',
+  hclabuseraccprofile: 'hclabuseraccprofile',
+  hclabusergroup: 'hclabusergroup',
+  hclabuserprofile: 'hclabuserprofile',
+  hl7_generation_logs: 'hl7_generation_logs',
+  integration_business_units: 'integration_business_units',
+  integration_config: 'integration_config',
+  item: 'item',
+  itemcode: 'itemcode',
+  itemgroup: 'itemgroup',
+  itemmaster: 'itemmaster',
+  itemmasterlisfromeros: 'itemmasterlisfromeros',
+  itemprice: 'itemprice',
+  itempricecis: 'itempricecis',
+  itempricesched: 'itempricesched',
+  itemsort: 'itemsort',
+  job_batches: 'job_batches',
+  jobs: 'jobs',
+  migrations: 'migrations',
+  msg_queue: 'msg_queue',
+  numcode: 'numcode',
+  Renamedpackage: 'Renamedpackage',
+  password_reset_tokens: 'password_reset_tokens',
+  patient_temp: 'patient_temp',
+  patienteros: 'patienteros',
+  paymenthistory: 'paymenthistory',
+  physicianorder: 'physicianorder',
+  physiciantype: 'physiciantype',
+  province: 'province',
+  receiving: 'receiving',
+  rejected: 'rejected',
+  rejection: 'rejection',
+  results: 'results',
+  resultsstatus: 'resultsstatus',
+  serviceagreement: 'serviceagreement',
+  serviceagreementreset: 'serviceagreementreset',
+  settings: 'settings',
+  soaptemp: 'soaptemp',
+  standardpackage: 'standardpackage',
+  transactionsdeleted: 'transactionsdeleted',
+  transactiontemp: 'transactiontemp',
+  transactiontype: 'transactiontype',
+  transmittalorder: 'transmittalorder',
+  transport: 'transport',
+  updatequeue: 'updatequeue',
+  userhclab: 'userhclab',
+  webitemprice: 'webitemprice',
+  zip: 'zip'
 };
 
 /**

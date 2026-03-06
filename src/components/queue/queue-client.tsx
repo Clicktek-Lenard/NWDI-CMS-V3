@@ -183,32 +183,32 @@ const STATUS_CONFIG: Record<
 > = {
   WAITING: {
     label: "Waiting",
-    bg: "bg-amber-50",
-    text: "text-amber-700",
+    bg: "bg-amber-50 dark:bg-amber-900/20",
+    text: "text-amber-700 dark:text-amber-400",
     dot: "bg-amber-500",
   },
   IN_PROGRESS: {
     label: "In Progress",
-    bg: "bg-blue-50",
-    text: "text-blue-700",
+    bg: "bg-blue-50 dark:bg-blue-900/20",
+    text: "text-blue-700 dark:text-blue-400",
     dot: "bg-blue-500",
   },
   COMPLETED: {
     label: "Completed",
-    bg: "bg-emerald-50",
-    text: "text-emerald-700",
+    bg: "bg-emerald-50 dark:bg-emerald-900/20",
+    text: "text-emerald-700 dark:text-emerald-400",
     dot: "bg-emerald-500",
   },
   CANCELLED: {
     label: "Cancelled",
-    bg: "bg-red-50",
-    text: "text-red-700",
+    bg: "bg-red-50 dark:bg-red-900/20",
+    text: "text-red-700 dark:text-red-400",
     dot: "bg-red-500",
   },
   NO_SHOW: {
     label: "No Show",
-    bg: "bg-slate-50",
-    text: "text-slate-600",
+    bg: "bg-slate-100 dark:bg-slate-700",
+    text: "text-slate-600 dark:text-slate-400",
     dot: "bg-slate-400",
   },
 };
@@ -289,8 +289,8 @@ export function QueueClient() {
       {/* Header with Add button */}
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-slate-800">Patient Queue</h1>
-          <p className="text-sm text-slate-500">
+          <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Patient Queue</h1>
+          <p className="text-sm text-slate-500 dark:text-slate-400">
             {new Date().toLocaleDateString("en-PH", {
               weekday: "long",
               year: "numeric",
@@ -358,15 +358,15 @@ export function QueueClient() {
       {/* Filters + Search */}
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         {/* Filter tabs */}
-        <div className="flex gap-1 rounded-lg bg-slate-100 p-1">
+        <div className="flex gap-1 rounded-lg bg-slate-100 p-1 dark:bg-slate-700">
           {FILTER_TABS.map((tab) => (
             <button
               key={tab.key}
               onClick={() => setFilter(tab.key)}
               className={`rounded-md px-3 py-1.5 text-xs font-medium transition-all ${
                 filter === tab.key
-                  ? "bg-white text-slate-900 shadow-sm"
-                  : "text-slate-500 hover:text-slate-700"
+                  ? "bg-white text-slate-900 shadow-sm dark:bg-slate-600 dark:text-slate-100"
+                  : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
               }`}
             >
               {tab.label}
@@ -396,31 +396,31 @@ export function QueueClient() {
             placeholder="Search patient..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-lg border border-slate-200 bg-white py-2 pl-9 pr-4 text-sm text-slate-700 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20 sm:w-64"
+            className="w-full rounded-lg border border-slate-200 bg-white py-2 pl-9 pr-4 text-sm text-slate-700 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-400/20 sm:w-64 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:placeholder:text-slate-400"
           />
         </div>
       </div>
 
       {/* Table */}
-      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead>
-              <tr className="border-b border-slate-100 bg-slate-50/80">
-                <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600">Q#</th>
-                <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600">Patient ID</th>
-                <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600">Patient Name</th>
-                <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600">Company / HMO</th>
-                <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600">Status</th>
-                <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600">Priority</th>
-                <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600">Checked In</th>
-                <th className="whitespace-nowrap px-4 py-3 text-right font-semibold text-slate-600">Actions</th>
+              <tr className="border-b border-slate-100 bg-slate-50/80 dark:border-slate-700 dark:bg-slate-700">
+                <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600 dark:text-slate-300">Q#</th>
+                <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600 dark:text-slate-300">Patient ID</th>
+                <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600 dark:text-slate-300">Patient Name</th>
+                <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600 dark:text-slate-300">Company / HMO</th>
+                <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600 dark:text-slate-300">Status</th>
+                <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600 dark:text-slate-300">Priority</th>
+                <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600 dark:text-slate-300">Checked In</th>
+                <th className="whitespace-nowrap px-4 py-3 text-right font-semibold text-slate-600 dark:text-slate-300">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="px-4 py-12 text-center text-sm text-slate-400">
+                  <td colSpan={8} className="px-4 py-12 text-center text-sm text-slate-400 dark:text-slate-500">
                     No patients found.
                   </td>
                 </tr>
@@ -428,31 +428,31 @@ export function QueueClient() {
                 filtered.map((q) => {
                   const sc = STATUS_CONFIG[q.status];
                   return (
-                    <tr key={q.id} className="transition-colors hover:bg-slate-50/60">
+                    <tr key={q.id} className="transition-colors hover:bg-slate-50/60 dark:hover:bg-slate-700/60">
                       {/* Queue Number */}
                       <td className="whitespace-nowrap px-4 py-3">
-                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-700">
+                        <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 text-xs font-bold text-slate-700 dark:bg-slate-700 dark:text-slate-200">
                           {q.queueNumber}
                         </span>
                       </td>
 
                       {/* Patient ID */}
-                      <td className="whitespace-nowrap px-4 py-3 font-mono text-xs text-slate-500">
+                      <td className="whitespace-nowrap px-4 py-3 font-mono text-xs text-slate-500 dark:text-slate-400">
                         {q.patientId}
                       </td>
 
                       {/* Patient Name */}
-                      <td className="whitespace-nowrap px-4 py-3 font-medium text-slate-800">
+                      <td className="whitespace-nowrap px-4 py-3 font-medium text-slate-800 dark:text-slate-100">
                         {q.patientName}
                       </td>
 
                       {/* Company */}
-                      <td className="whitespace-nowrap px-4 py-3 text-slate-600">
+                      <td className="whitespace-nowrap px-4 py-3 text-slate-600 dark:text-slate-300">
                         <div className="flex items-center gap-2">
-                          <span className="inline-flex h-6 items-center rounded bg-slate-100 px-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500">
+                          <span className="inline-flex h-6 items-center rounded bg-slate-100 px-1.5 text-[10px] font-semibold uppercase tracking-wide text-slate-500 dark:bg-slate-700 dark:text-slate-400">
                             {q.companyCode}
                           </span>
-                          <span className="text-xs text-slate-400">{q.companyName}</span>
+                          <span className="text-xs text-slate-400 dark:text-slate-500">{q.companyName}</span>
                         </div>
                       </td>
 
@@ -469,22 +469,22 @@ export function QueueClient() {
                       {/* Priority */}
                       <td className="whitespace-nowrap px-4 py-3">
                         {q.priorityLevel === 1 ? (
-                          <span className="inline-flex items-center gap-1 rounded bg-orange-50 px-2 py-0.5 text-xs font-semibold text-orange-600">
+                          <span className="inline-flex items-center gap-1 rounded bg-orange-50 px-2 py-0.5 text-xs font-semibold text-orange-600 dark:bg-orange-900/20 dark:text-orange-400">
                             <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
                             </svg>
                             PRIORITY
                           </span>
                         ) : (
-                          <span className="text-xs text-slate-400">Normal</span>
+                          <span className="text-xs text-slate-400 dark:text-slate-500">Normal</span>
                         )}
                       </td>
 
                       {/* Checked In */}
                       <td className="whitespace-nowrap px-4 py-3">
                         <div>
-                          <span className="text-xs text-slate-700">{formatTime(q.createdAt)}</span>
-                          <span className="ml-2 text-[11px] text-slate-400">{timeAgo(q.createdAt)}</span>
+                          <span className="text-xs text-slate-700 dark:text-slate-300">{formatTime(q.createdAt)}</span>
+                          <span className="ml-2 text-[11px] text-slate-400 dark:text-slate-500">{timeAgo(q.createdAt)}</span>
                         </div>
                       </td>
 
@@ -492,16 +492,16 @@ export function QueueClient() {
                       <td className="whitespace-nowrap px-4 py-3 text-right">
                         <div className="flex items-center justify-end gap-1">
                           {q.status === "WAITING" && (
-                            <button className="rounded-md bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-600 transition-colors hover:bg-blue-100">
+                            <button className="rounded-md bg-blue-50 px-2.5 py-1 text-xs font-medium text-blue-600 transition-colors hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/40">
                               Start
                             </button>
                           )}
                           {q.status === "IN_PROGRESS" && (
-                            <button className="rounded-md bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-600 transition-colors hover:bg-emerald-100">
+                            <button className="rounded-md bg-emerald-50 px-2.5 py-1 text-xs font-medium text-emerald-600 transition-colors hover:bg-emerald-100 dark:bg-emerald-900/20 dark:text-emerald-400 dark:hover:bg-emerald-900/40">
                               Complete
                             </button>
                           )}
-                          <button className="rounded-md p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600">
+                          <button className="rounded-md p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-200">
                             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM18.75 12a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
                             </svg>
@@ -517,11 +517,11 @@ export function QueueClient() {
         </div>
 
         {/* Table footer */}
-        <div className="flex items-center justify-between border-t border-slate-100 bg-slate-50/50 px-4 py-3">
-          <span className="text-xs text-slate-500">
+        <div className="flex items-center justify-between border-t border-slate-100 bg-slate-50/50 px-4 py-3 dark:border-slate-700 dark:bg-slate-700/30">
+          <span className="text-xs text-slate-500 dark:text-slate-400">
             Showing {filtered.length} of {queue.length} patients
           </span>
-          <div className="flex items-center gap-2 text-xs text-slate-500">
+          <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
             <span className="flex items-center gap-1">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
               Auto-refresh: 15s
@@ -547,24 +547,24 @@ function StatCard({
 }) {
   const styles: Record<string, { card: string; icon: string; value: string }> = {
     amber: {
-      card: "border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50",
-      icon: "bg-amber-100 text-amber-600",
-      value: "text-amber-700",
+      card: "border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50 dark:border-amber-900/40 dark:from-amber-900/20 dark:to-orange-900/20",
+      icon: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400",
+      value: "text-amber-700 dark:text-amber-400",
     },
     blue: {
-      card: "border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50",
-      icon: "bg-blue-100 text-blue-600",
-      value: "text-blue-700",
+      card: "border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50 dark:border-blue-900/40 dark:from-blue-900/20 dark:to-indigo-900/20",
+      icon: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400",
+      value: "text-blue-700 dark:text-blue-400",
     },
     emerald: {
-      card: "border-emerald-200 bg-gradient-to-br from-emerald-50 to-teal-50",
-      icon: "bg-emerald-100 text-emerald-600",
-      value: "text-emerald-700",
+      card: "border-emerald-200 bg-gradient-to-br from-emerald-50 to-teal-50 dark:border-emerald-900/40 dark:from-emerald-900/20 dark:to-teal-900/20",
+      icon: "bg-emerald-100 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-400",
+      value: "text-emerald-700 dark:text-emerald-400",
     },
     slate: {
-      card: "border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100",
-      icon: "bg-slate-200 text-slate-600",
-      value: "text-slate-700",
+      card: "border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100 dark:border-slate-700 dark:from-slate-700/50 dark:to-slate-700",
+      icon: "bg-slate-200 text-slate-600 dark:bg-slate-600 dark:text-slate-300",
+      value: "text-slate-700 dark:text-slate-300",
     },
   };
 
@@ -573,7 +573,7 @@ function StatCard({
   return (
     <div className={`rounded-xl border p-4 ${s.card}`}>
       <div className="flex items-center justify-between">
-        <p className="text-sm font-medium text-slate-600">{label}</p>
+        <p className="text-sm font-medium text-slate-600 dark:text-slate-400">{label}</p>
         <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${s.icon}`}>
           {icon}
         </div>

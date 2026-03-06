@@ -151,6 +151,10 @@ export function AddToQueueModal({
 
   if (!open) return null;
 
+  const INPUT_CLS = "block w-full rounded-xl border bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm transition-colors placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:bg-slate-700 dark:text-slate-100 dark:placeholder:text-slate-400";
+  const INPUT_VALID = "border-slate-200 hover:border-slate-300 focus:border-blue-400 dark:border-slate-600 dark:hover:border-slate-500";
+  const INPUT_ERROR = "border-red-300 focus:border-red-400";
+
   return (
     <div
       ref={backdropRef}
@@ -159,23 +163,23 @@ export function AddToQueueModal({
       }}
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity"
     >
-      <div className="relative mx-4 w-full max-w-lg animate-in rounded-2xl border border-slate-200 bg-white shadow-2xl">
+      <div className="relative mx-4 w-full max-w-lg animate-in rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-800">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
+        <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4 dark:border-slate-700">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100">
-              <svg className="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 dark:bg-blue-900/30">
+              <svg className="h-5 w-5 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
               </svg>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-slate-800">Add Patient to Queue</h3>
-              <p className="text-xs text-slate-400">Queue #{currentQueueCount + 1}</p>
+              <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Add Patient to Queue</h3>
+              <p className="text-xs text-slate-400 dark:text-slate-500">Queue #{currentQueueCount + 1}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600"
+            className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-300"
           >
             <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -187,7 +191,7 @@ export function AddToQueueModal({
         <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-5">
           {/* API Error */}
           {apiError && (
-            <div className="mb-4 flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700">
+            <div className="mb-4 flex items-center gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-700 dark:border-amber-800 dark:bg-amber-900/20 dark:text-amber-400">
               <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
               </svg>
@@ -198,18 +202,14 @@ export function AddToQueueModal({
           <div className="space-y-4">
             {/* Patient ID */}
             <div>
-              <label htmlFor="patientId" className="mb-1.5 block text-sm font-medium text-slate-700">
+              <label htmlFor="patientId" className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">
                 Patient ID <span className="text-red-500">*</span>
               </label>
               <input
                 id="patientId"
                 {...register("patientId")}
                 placeholder="e.g. P-2024-01300"
-                className={`block w-full rounded-xl border bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm transition-colors placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 ${
-                  errors.patientId
-                    ? "border-red-300 focus:border-red-400"
-                    : "border-slate-200 hover:border-slate-300 focus:border-blue-400"
-                }`}
+                className={`${INPUT_CLS} ${errors.patientId ? INPUT_ERROR : INPUT_VALID}`}
               />
               {errors.patientId && (
                 <p className="mt-1 text-xs text-red-500">{errors.patientId.message}</p>
@@ -219,36 +219,28 @@ export function AddToQueueModal({
             {/* Name row */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label htmlFor="lastName" className="mb-1.5 block text-sm font-medium text-slate-700">
+                <label htmlFor="lastName" className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">
                   Last Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="lastName"
                   {...register("lastName")}
                   placeholder="Dela Cruz"
-                  className={`block w-full rounded-xl border bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm transition-colors placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 ${
-                    errors.lastName
-                      ? "border-red-300 focus:border-red-400"
-                      : "border-slate-200 hover:border-slate-300 focus:border-blue-400"
-                  }`}
+                  className={`${INPUT_CLS} ${errors.lastName ? INPUT_ERROR : INPUT_VALID}`}
                 />
                 {errors.lastName && (
                   <p className="mt-1 text-xs text-red-500">{errors.lastName.message}</p>
                 )}
               </div>
               <div>
-                <label htmlFor="firstName" className="mb-1.5 block text-sm font-medium text-slate-700">
+                <label htmlFor="firstName" className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">
                   First Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="firstName"
                   {...register("firstName")}
                   placeholder="Juan"
-                  className={`block w-full rounded-xl border bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm transition-colors placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 ${
-                    errors.firstName
-                      ? "border-red-300 focus:border-red-400"
-                      : "border-slate-200 hover:border-slate-300 focus:border-blue-400"
-                  }`}
+                  className={`${INPUT_CLS} ${errors.firstName ? INPUT_ERROR : INPUT_VALID}`}
                 />
                 {errors.firstName && (
                   <p className="mt-1 text-xs text-red-500">{errors.firstName.message}</p>
@@ -258,13 +250,13 @@ export function AddToQueueModal({
 
             {/* Company / HMO */}
             <div>
-              <label htmlFor="companyCode" className="mb-1.5 block text-sm font-medium text-slate-700">
+              <label htmlFor="companyCode" className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">
                 Company / HMO
               </label>
               <select
                 id="companyCode"
                 {...register("companyCode")}
-                className="block w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm transition-colors hover:border-slate-300 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+                className="block w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm transition-colors hover:border-slate-300 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:hover:border-slate-500"
               >
                 <option value="">Select company (optional)</option>
                 {COMPANIES.filter((c) => c.code).map((c) => (
@@ -276,19 +268,19 @@ export function AddToQueueModal({
             </div>
 
             {/* Priority toggle */}
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3">
+            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50/50 px-4 py-3 dark:border-slate-600 dark:bg-slate-700/50">
               <div className="flex items-center gap-2">
                 <svg className="h-4 w-4 text-orange-500" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
                 </svg>
                 <div>
-                  <span className="text-sm font-medium text-slate-700">Priority Patient</span>
-                  <p className="text-[11px] text-slate-400">Senior citizen, PWD, or urgent case</p>
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-200">Priority Patient</span>
+                  <p className="text-[11px] text-slate-400 dark:text-slate-500">Senior citizen, PWD, or urgent case</p>
                 </div>
               </div>
               <label className="relative inline-flex cursor-pointer items-center">
                 <input type="checkbox" {...register("priority")} className="peer sr-only" />
-                <div className="h-6 w-11 rounded-full bg-slate-300 transition-colors after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow after:transition-transform peer-checked:bg-orange-500 peer-checked:after:translate-x-5 peer-focus:ring-2 peer-focus:ring-orange-400/20" />
+                <div className="h-6 w-11 rounded-full bg-slate-300 transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow after:transition-transform peer-checked:bg-orange-500 peer-checked:after:translate-x-5 peer-focus:ring-2 peer-focus:ring-orange-400/20 dark:bg-slate-600" />
               </label>
             </div>
           </div>
@@ -298,7 +290,7 @@ export function AddToQueueModal({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100"
+              className="rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700"
             >
               Cancel
             </button>

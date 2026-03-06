@@ -65,28 +65,28 @@ export default function LoginPage() {
             <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 0h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Zm0 3h.008v.008h-.008v-.008Z" />
           </svg>
         </div>
-        <span className="text-lg font-semibold text-slate-800">NWD CMS</span>
+        <span className="text-lg font-semibold text-slate-800 dark:text-slate-100">NWD CMS</span>
       </div>
 
       {/* Heading */}
       <div className="mb-8">
-        <h2 className="text-2xl font-bold tracking-tight text-slate-900">
+        <h2 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
           Welcome back
         </h2>
-        <p className="mt-1.5 text-sm text-slate-500">
+        <p className="mt-1.5 text-sm text-slate-500 dark:text-slate-400">
           Sign in to your account to continue
         </p>
       </div>
 
       {/* Error */}
       {error && (
-        <div className="mb-5 flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3">
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-100">
-            <svg className="h-4 w-4 text-red-600" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+        <div className="mb-5 flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 dark:border-red-800 dark:bg-red-900/20">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/40">
+            <svg className="h-4 w-4 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
             </svg>
           </div>
-          <p className="text-sm font-medium text-red-700">{error}</p>
+          <p className="text-sm font-medium text-red-700 dark:text-red-400">{error}</p>
         </div>
       )}
 
@@ -97,7 +97,7 @@ export default function LoginPage() {
           <label
             htmlFor="username"
             className={`mb-1.5 block text-sm font-medium transition-colors ${
-              focusedField === "username" ? "text-blue-600" : "text-slate-700"
+              focusedField === "username" ? "text-blue-600" : "text-slate-700 dark:text-slate-200"
             }`}
           >
             Username
@@ -121,7 +121,7 @@ export default function LoginPage() {
               autoComplete="username"
               onFocus={() => setFocusedField("username")}
               onBlur={() => setFocusedField(null)}
-              className="block w-full rounded-xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm text-slate-900 shadow-sm transition-all placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10"
+              className="block w-full rounded-xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm text-slate-900 shadow-sm transition-all placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:placeholder:text-slate-400 dark:hover:border-slate-500"
               placeholder="Enter your username"
             />
           </div>
@@ -133,7 +133,7 @@ export default function LoginPage() {
             <label
               htmlFor="password"
               className={`text-sm font-medium transition-colors ${
-                focusedField === "password" ? "text-blue-600" : "text-slate-700"
+                focusedField === "password" ? "text-blue-600" : "text-slate-700 dark:text-slate-200"
               }`}
             >
               Password
@@ -164,7 +164,7 @@ export default function LoginPage() {
               autoComplete="current-password"
               onFocus={() => setFocusedField("password")}
               onBlur={() => setFocusedField(null)}
-              className="block w-full rounded-xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm text-slate-900 shadow-sm transition-all placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10"
+              className="block w-full rounded-xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm text-slate-900 shadow-sm transition-all placeholder:text-slate-400 hover:border-slate-300 focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:placeholder:text-slate-400 dark:hover:border-slate-500"
               placeholder="Enter your password"
             />
           </div>
@@ -175,7 +175,7 @@ export default function LoginPage() {
           <label
             htmlFor="clinicCode"
             className={`mb-1.5 block text-sm font-medium transition-colors ${
-              focusedField === "clinic" ? "text-blue-600" : "text-slate-700"
+              focusedField === "clinic" ? "text-blue-600" : "text-slate-700 dark:text-slate-200"
             }`}
           >
             Facility / Branch
@@ -196,7 +196,7 @@ export default function LoginPage() {
               name="clinicCode"
               onFocus={() => setFocusedField("clinic")}
               onBlur={() => setFocusedField(null)}
-              className="block w-full appearance-none rounded-xl border border-slate-200 bg-white py-3 pl-11 pr-10 text-sm text-slate-900 shadow-sm transition-all hover:border-slate-300 focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10"
+              className="block w-full appearance-none rounded-xl border border-slate-200 bg-white py-3 pl-11 pr-10 text-sm text-slate-900 shadow-sm transition-all hover:border-slate-300 focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/10 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:hover:border-slate-500"
             >
               {FACILITIES.map((f) => (
                 <option key={f.code} value={f.code}>
@@ -240,15 +240,15 @@ export default function LoginPage() {
       {/* Divider */}
       <div className="relative my-6">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-slate-200" />
+          <div className="w-full border-t border-slate-200 dark:border-slate-700" />
         </div>
         <div className="relative flex justify-center text-xs">
-          <span className="bg-slate-50 px-3 text-slate-400">Secured by Active Directory</span>
+          <span className="bg-slate-50 px-3 text-slate-400 dark:bg-slate-900 dark:text-slate-500">Secured by Active Directory</span>
         </div>
       </div>
 
       {/* Footer */}
-      <p className="text-center text-xs text-slate-400">
+      <p className="text-center text-xs text-slate-400 dark:text-slate-500">
         Having trouble signing in?{" "}
         <button type="button" className="font-medium text-blue-600 hover:text-blue-700">
           Contact IT Support

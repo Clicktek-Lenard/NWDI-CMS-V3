@@ -1,6 +1,6 @@
 import NextAuth, { type DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import { prisma } from "@/lib/db/prisma";
+import mysql from "mysql2/promise";
 import bcrypt from "bcryptjs";
 
 declare module "next-auth" {
@@ -42,69 +42,41 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const password = credentials.password as string;
         const clinicCode = (credentials.clinicCode as string) || "";
 
-        // Step 1: Try LDAP authentication
-        const ldapUser = await authenticateWithLDAP(username, password);
-
-        if (ldapUser) {
-          // Find or create user from LDAP
-          let user = await prisma.user.findFirst({
-            where: {
-              username,
-              deleted_at: null,
-              activated: 1,
-            },
+        try {
+          const conn = await mysql.createConnection({
+            host: process.env.DB_HOST || "localhost",
+            user: process.env.DB_USER || "root",
+            password: process.env.DB_PASSWORD || "",
+            database: process.env.DB_NAME || "cms_v2",
           });
 
-          if (!user) {
-            user = await prisma.user.create({
-              data: {
-                username,
-                email: ldapUser.email || "",
-                first_name: ldapUser.firstName || "",
-                last_name: ldapUser.lastName || "",
-                password: await bcrypt.hash(password, 10),
-                activated: 1,
-                ldap_import: 1,
-              },
-            });
-          } else if (user.ldap_import === 1) {
-            // Sync password for LDAP users
-            await prisma.user.update({
-              where: { id: user.id },
-              data: { password: await bcrypt.hash(password, 10) },
-            });
-          }
+          const [rows] = await conn.query<mysql.RowDataPacket[]>(
+            "SELECT id, username, email, password, first_name, last_name, role FROM users WHERE username = ? AND deleted_at IS NULL AND activated = 1 LIMIT 1",
+            [username]
+          );
+
+          await conn.end();
+
+          const user = rows[0];
+          if (!user) return null;
+
+          // Support both $2b$ (Node.js) and $2y$ (PHP) bcrypt hashes
+          const hash = (user.password as string) ?? "";
+          const normalizedHash = hash.startsWith("$2y$") ? hash.replace("$2y$", "$2b$") : hash;
+          const isValid = await bcrypt.compare(password, normalizedHash);
+          if (!isValid) return null;
 
           return {
             id: String(user.id),
-            name: `${user.first_name} ${user.last_name}`,
+            name: `${user.first_name ?? ""} ${user.last_name ?? ""}`.trim(),
             email: user.email || "",
             role: user.role || "",
             clinicCode,
           };
+        } catch (err) {
+          console.error("[auth] authorize error:", err);
+          return null;
         }
-
-        // Step 2: Fallback to local authentication
-        const user = await prisma.user.findFirst({
-          where: {
-            username,
-            deleted_at: null,
-            activated: 1,
-          },
-        });
-
-        if (!user) return null;
-
-        const isValidPassword = await bcrypt.compare(password, user.password);
-        if (!isValidPassword) return null;
-
-        return {
-          id: String(user.id),
-          name: `${user.first_name} ${user.last_name}`,
-          email: user.email || "",
-          role: user.role || "",
-          clinicCode,
-        };
       },
     }),
   ],
@@ -135,37 +107,3 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
 });
 
-// --- LDAP Authentication ---
-interface LDAPUser {
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  department: string;
-  memberOf: string[];
-}
-
-async function authenticateWithLDAP(
-  username: string,
-  password: string
-): Promise<LDAPUser | null> {
-  // TODO: Implement LDAP authentication
-  // Install ldapjs: npm install ldapjs @types/ldapjs
-  //
-  // Example implementation:
-  // const ldap = require("ldapjs");
-  // const client = ldap.createClient({ url: process.env.LDAP_SERVER });
-  //
-  // const userDn = `${username}@${process.env.LDAP_DOMAIN}`;
-  // await client.bind(userDn, password);
-  //
-  // const searchResult = await client.search(process.env.LDAP_BASE_DN, {
-  //   filter: `(sAMAccountName=${ldap.escape(username)})`,  // SAFE: escaped
-  //   scope: "sub",
-  // });
-  //
-  // return parsed user object;
-
-  console.log(`LDAP auth not configured for user: ${username}`);
-  return null;
-}

@@ -28,7 +28,7 @@ export default async function DashboardLayout({
   const clinicName = CLINIC_NAMES[clinicCode] || clinicCode || "—";
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
       <Sidebar />
 
       {/* Main content area */}
