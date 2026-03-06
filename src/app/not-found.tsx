@@ -36,7 +36,7 @@ export default function RootNotFound() {
             The page you&apos;re looking for doesn&apos;t exist.
           </p>
           <Link
-            href="/cms/queue"
+            href="/queue"
             style={{
               background: "#2563eb",
               color: "#fff",

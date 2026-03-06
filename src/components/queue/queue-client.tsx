@@ -150,7 +150,7 @@ export function QueueClient() {
             Refresh
           </button>
           <button
-            onClick={() => router.push("/cms/queue/create")}
+            onClick={() => router.push("/queue/create")}
             className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-blue-600/20 transition-all hover:bg-blue-700 active:scale-[0.98]"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
@@ -278,7 +278,7 @@ export function QueueClient() {
                         </span>
                       </td>
                       <td className="whitespace-nowrap px-4 py-3">
-                        <Link href={`/cms/queue/${q.id}/edit`} className="font-mono text-xs text-blue-600 hover:underline">
+                        <Link href={`/queue/${q.id}/edit`} className="font-mono text-xs text-blue-600 hover:underline">
                           {q.code}
                         </Link>
                       </td>

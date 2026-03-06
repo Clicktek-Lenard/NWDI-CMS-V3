@@ -683,7 +683,7 @@ export function EditQueueForm({
       const data = await res.json().catch(() => ({})) as { newQueueId?: number; newQueueCode?: string; error?: string };
       if (!res.ok) throw new Error(data.error ?? "Failed to cancel queue");
       setCancelModalOpen(false);
-      router.push(`/cms/queue/${data.newQueueId}/edit`);
+      router.push(`/queue/${data.newQueueId}/edit`);
     } catch (err) {
       setCancelError(err instanceof Error ? err.message : "An error occurred");
     } finally {
@@ -768,7 +768,7 @@ export function EditQueueForm({
             <span className="font-semibold text-slate-700">{queue.patientName}</span>
           </p>
         </div>
-        <button type="button" onClick={() => router.push("/cms/queue")}
+        <button type="button" onClick={() => router.push("/queue")}
           className="inline-flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100">
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
@@ -1251,7 +1251,7 @@ export function EditQueueForm({
         {/* Right row: Back | Cancel/Ante-date | Payment | Save */}
         <div className="flex items-center justify-between px-5 py-4">
           <div className="flex items-center gap-2">
-            <button type="button" onClick={() => router.push("/cms/queue")}
+            <button type="button" onClick={() => router.push("/queue")}
               className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100">
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />

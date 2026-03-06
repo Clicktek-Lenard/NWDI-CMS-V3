@@ -405,7 +405,7 @@ export function CreateTransactionForm({ clinicCode, clinicName }: { clinicCode: 
         throw new Error((err as { error?: string }).error || `HTTP ${res.status}`);
       }
 
-      router.push("/cms/queue");
+      router.push("/queue");
       router.refresh();
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : "Failed to save transaction.");

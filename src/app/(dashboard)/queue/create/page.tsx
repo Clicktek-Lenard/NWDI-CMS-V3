@@ -13,7 +13,7 @@ export default async function CreateTransactionPage() {
       {/* ── Page header ── */}
       <div className="mb-6 flex items-center gap-4">
         <Link
-          href="/cms/queue"
+          href="/queue"
           className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-600 shadow-sm hover:bg-slate-50"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
