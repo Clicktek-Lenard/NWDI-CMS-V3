@@ -1,118 +1,161 @@
 import { auth } from "@/lib/auth/auth";
 import { redirect } from "next/navigation";
-import type { UserRole } from "@/types";
 
 /**
- * Maps module/tab keys to the LDAP bracket groups that grant access.
- * Mirrors the old CMS strpos()-based role checks.
+ * Maps each role bracket string to the module/tab(s) it grants access to.
+ * A user with any of these roles gains access to the corresponding module tab.
  */
-const MODULE_ACCESS_MAP: Record<string, string[]> = {
-  "cms/queue": [
-    "[QUEUE]", "[PASTQUEUE]", "[PASTQUEUE-ONSITE]", "[CMS-PROCESSING]",
-    "[RECEPTION]", "[RECEPTION-OIC]", "[PAGES]",
-    "[KIOSK-RECEPTION]", "[KIOSK-RELEASING]",
-    "[USERCMS]", "[DEVTEAM]", "[IMDCMS]",
-  ],
-  "cms/payment": [
-    "[PAYMENT]", "[PASTPAYMENT]",
-    "[USERCMS]", "[DEVTEAM]", "[IMDCMS]",
-  ],
-  "cms/enrollment": [
-    "[PATIENT]", "[PATIENT-MASTER]", "[CARD-DEMOGRAPHICS]",
-    "[CARD-REGISTRATION]", "[CARD-VERIFICATION]", "[CARD-RECEIVING]",
-    "[CARD-RECEIVED]", "[CARDNUMBER]", "[CARD-SEARCH]", "[CARD-TRANSFER]",
-    "[CARD-AGENTSALES]", "[RECEPTION]", "[RECEPTION-OIC]",
-    "[USERCMS]", "[DEVTEAM]", "[IMDCMS]",
-  ],
-  "cms/results": [
-    "[RESULTS-RELEASING]", "[RESULTSMONITORING]", "[RESULTUPLOADING]", "[RESULTCOMPANY]",
-    "[LABORATORY]", "[RADIOLOGY]", "[XRAY]",
-    "[USERCMS]", "[DEVTEAM]", "[IMDCMS]",
-  ],
-  "cms/clinical": [
-    "[NURSE]", "[VITAL-SIGN]", "[KIOSK-NURSE]", "[DOCTORS-EVAL]",
-    "[DOCTOR]", "[PHYSICIAN]",
-    "[USERCMS]", "[DEVTEAM]", "[IMDCMS]",
-  ],
-  "cms/reports": [
-    "[REPORTS-DAILYSALES]", "[REPORTS-TAT]", "[REPORTS-DAILYCENSUS]",
-    "[REPORTS-LABORATORY]", "[REPORTS-LABREJECTED]",
-    "[REPORTS-COMPLIANCE]", "[REPORTS-CARDMANAGEMENT]",
-    "[DEVTEAM]", "[USERCMS]", "[IMDCMS]",
-  ],
-  "cms/settings": [
-    "[DEVTEAM]", "[BM-ROLE]", "[BM-MODULE]", "[WORKSTATION]", "[USERHCLAB]", "[HL7BTN]",
-  ],
-  "cms": [
-    "[QUEUE]", "[PASTQUEUE]", "[PASTQUEUE-ONSITE]", "[CMS-PROCESSING]",
-    "[RECEPTION]", "[RECEPTION-OIC]", "[PAGES]",
-    "[KIOSK-RECEPTION]", "[KIOSK-RELEASING]",
-    "[PAYMENT]", "[PASTPAYMENT]",
-    "[PATIENT]", "[PATIENT-MASTER]", "[CARD-DEMOGRAPHICS]",
-    "[RESULTS-RELEASING]", "[RESULTSMONITORING]", "[RESULTUPLOADING]", "[RESULTCOMPANY]",
-    "[LABORATORY]", "[RADIOLOGY]", "[XRAY]",
-    "[NURSE]", "[VITAL-SIGN]", "[KIOSK-NURSE]", "[DOCTORS-EVAL]", "[DOCTOR]", "[PHYSICIAN]",
-    "[REPORTS-DAILYSALES]", "[REPORTS-TAT]", "[REPORTS-DAILYCENSUS]",
-    "[DEVTEAM]", "[BM-ROLE]", "[BM-MODULE]", "[WORKSTATION]", "[USERHCLAB]", "[HL7BTN]",
-    "[USERCMS]", "[IMDCMS]",
-  ],
-  "erosui/company": [
-    "[COMPANY]", "[COMPANY-VIEW]", "[USEREROS]", "[DEVTEAM]",
-  ],
-  "erosui/physician": [
-    "[PHYSICIAN]", "[PHYSICIAN-APPROVER]", "[USEREROS]", "[DEVTEAM]",
-  ],
-  "erosui/itemmasterlist": [
-    "[ITEMMASTER]", "[CMS-ITEM-CREATE-ALL]", "[USEREROS]", "[DEVTEAM]",
-  ],
-  "erosui": [
-    "[COMPANY]", "[COMPANY-VIEW]", "[PHYSICIAN]", "[PHYSICIAN-APPROVER]",
-    "[ITEMMASTER]", "[CMS-ITEM-CREATE-ALL]", "[USEREROS]", "[DEVTEAM]",
-  ],
+const ROLE_ACCESS_MAP: Record<string, Array<{ module: string; tab: string }>> = {
+  // ── Card Enrollment ────────────────────────────────────────────
+  "[CARD-REGISTRATION]":      [{ module: "cms", tab: "enrollment" }],
+  "[CARD-RECEIVING]":         [{ module: "cms", tab: "enrollment" }],
+  "[CARD-RECEIVED]":          [{ module: "cms", tab: "enrollment" }],
+  "[CARD-VERIFICATION]":      [{ module: "cms", tab: "enrollment" }],
+  "[CARD-TRANSFER]":          [{ module: "cms", tab: "enrollment" }],
+  "[CARD-SEARCH]":            [{ module: "cms", tab: "enrollment" }],
+  "[CARDNUMBER]":             [{ module: "cms", tab: "enrollment" }],
+  "[CARD-PAGES]":             [{ module: "cms", tab: "enrollment" }],
+  "[CARD-AGENTSALES]":        [{ module: "cms", tab: "enrollment" }],
+  "[REPORTS-CARDMANAGEMENT]": [{ module: "cms", tab: "enrollment" }, { module: "cms", tab: "reports" }],
+  "[DISTRIBUTION]":           [{ module: "cms", tab: "enrollment" }],
+  "[VERIFIED]":               [{ module: "cms", tab: "enrollment" }],
+  "[VERIFIED-TEST]":          [{ module: "cms", tab: "enrollment" }],
+
+  // ── Queue & Reception ───────────────────────────────────────────
+  "[QUEUE]":                  [{ module: "cms", tab: "queue" }],
+  "[PASTQUEUE]":              [{ module: "cms", tab: "queue" }],
+  "[KIOSK-RECEPTION]":        [{ module: "cms", tab: "queue" }],
+  "[RECEPTION-OIC]":          [{ module: "cms", tab: "queue" }],
+  "[PAGES]":                  [{ module: "cms", tab: "queue" }],
+
+  // ── Clinical ────────────────────────────────────────────────────
+  "[NURSE]":                  [{ module: "cms", tab: "clinical" }],
+  "[DOCTOR]":                 [{ module: "cms", tab: "clinical" }],
+  "[DOCTORS-SOAP]":           [{ module: "cms", tab: "clinical" }],
+  "[DOCTORS-HISTORY]":        [{ module: "cms", tab: "clinical" }],
+  "[DOCTORS-EVAL]":           [{ module: "cms", tab: "clinical" }],
+  "[IMDOIC]":                 [{ module: "cms", tab: "clinical" }],
+  "[IMDCMS]":                 [{ module: "cms", tab: "clinical" }],
+
+  // ── Laboratory & Results ────────────────────────────────────────
+  "[LABORATORY]":             [{ module: "cms", tab: "results" }],
+  "[RESULTS-ENTRY]":          [{ module: "cms", tab: "results" }],
+  "[RESULTSMONITORING]":      [{ module: "cms", tab: "results" }],
+  "[RESULTUPLOADING]":        [{ module: "cms", tab: "results" }],
+  "[SENDOUT]":                [{ module: "cms", tab: "results" }],
+  "[BRANCHSENDOUT]":          [{ module: "cms", tab: "results" }],
+  "[LAB-RECIEVING]":          [{ module: "cms", tab: "results" }],
+  "[LAB-RELEASING]":          [{ module: "cms", tab: "results" }],
+  "[LAB-RELEASING-VIEW]":     [{ module: "cms", tab: "results" }],
+  "[LAB-RESULT]":             [{ module: "cms", tab: "results" }],
+  "[LAB-RESULT-PRINT]":       [{ module: "cms", tab: "results" }],
+  "[USERHCLAB]":              [{ module: "cms", tab: "results" }],
+
+  // ── Imaging & Radiology ─────────────────────────────────────────
+  "[RADIOLOGY]":              [{ module: "cms", tab: "results" }],
+  "[IMAGING]":                [{ module: "cms", tab: "results" }],
+  "[IMAGING-RESULT-ENTRY]":   [{ module: "cms", tab: "results" }],
+  "[XRAY]":                   [{ module: "cms", tab: "results" }],
+
+  // ── Payment ─────────────────────────────────────────────────────
+  "[PAYMENT]":                [{ module: "cms", tab: "payment" }],
+  "[PASTPAYMENT]":            [{ module: "cms", tab: "payment" }],
+  "[REPORTS-DAILYSALES]":     [{ module: "cms", tab: "payment" }, { module: "cms", tab: "reports" }],
+
+  // ── Patient ─────────────────────────────────────────────────────
+  "[PATIENT]":                [{ module: "cms", tab: "settings" }],
+  "[PATIENT-VIEW]":           [{ module: "cms", tab: "settings" }],
+
+  // ── System Access ────────────────────────────────────────────────
+  "[USERCMS]":                [{ module: "cms", tab: "settings" }],
+
+  // ── EROS Company ─────────────────────────────────────────────────
+  "[COMPANY]":                [{ module: "erosui", tab: "company" }],
+  "[COMPANY-VIEW]":           [{ module: "erosui", tab: "company" }],
+  "[SERVICEAGREEMENT]":       [{ module: "erosui", tab: "company" }],
+  "[USEREROS]":               [{ module: "erosui", tab: "company" }],
+
+  // ── EROS Physician ───────────────────────────────────────────────
+  "[PHYSICIAN]":              [{ module: "erosui", tab: "physician" }],
+  "[PHYSICIAN-APPROVER]":     [{ module: "erosui", tab: "physician" }],
+  "[PHYSICIAN-VIEW]":         [{ module: "erosui", tab: "physician" }],
+
+  // ── EROS Item Master ─────────────────────────────────────────────
+  "[ITEMMASTER]":             [{ module: "erosui", tab: "itemmasterlist" }],
 };
 
+type LegacyRole = { module: string; tab: string };
+
 /**
- * Check if the raw CMS role string grants access to a module/tab.
- * Uses bracket substring matching — the same logic as the old CMS strpos() checks.
+ * Parse user role JSON string. Supports two formats:
+ *  - New:    ["[QUEUE]", "[NURSE]", ...]         (bracket strings)
+ *  - Legacy: [{"module":"cms","tab":"queue"}, ...] (module/tab objects)
+ * Legacy roles are encoded as "legacy:module:tab" for use by hasAccess.
  */
-export function hasAccess(
-  roleString: string | null | undefined,
-  module: string,
-  tab?: string
-): boolean {
-  if (!roleString) return false;
-  const key = tab ? `${module}/${tab}` : module;
-  const allowed = MODULE_ACCESS_MAP[key] ?? [];
-  return allowed.some((r) => roleString.includes(r));
+export function parseUserRoles(roleJson: string | null): string[] {
+  if (!roleJson) return [];
+  try {
+    const parsed = JSON.parse(roleJson);
+    if (!Array.isArray(parsed) || parsed.length === 0) return [];
+    // New format: string[] of bracket strings
+    if (typeof parsed[0] === "string") return parsed as string[];
+    // Legacy format: [{module, tab}] — encode as "legacy:module:tab"
+    if (typeof parsed[0] === "object" && parsed[0] !== null && "module" in parsed[0]) {
+      return (parsed as LegacyRole[]).map((r) => `legacy:${r.module}:${r.tab}`);
+    }
+    return [];
+  } catch {
+    // Raw legacy format (old PHP): "\r\n[CARD-RECEIVING]\r\n[QUEUE]\r\n..."
+    // Extract all [ROLE-NAME] bracket strings directly
+    const matches = roleJson.match(/\[[^\]]+\]/g);
+    return matches ?? [];
+  }
 }
 
 /**
- * Parse the raw CMS role string into UserRole entries (one per bracket group).
- * Used for feature-flag checks such as isBmRole or isResultsReleasing.
+ * Check if user has access to a specific module and tab.
+ * Handles both new bracket-string roles and legacy module/tab roles.
  */
-export function parseUserRoles(roleString: string | null): UserRole[] {
-  if (!roleString) return [];
-  const matches = roleString.match(/\[[^\]]+\]/g) ?? [];
-  return matches.map((r) => ({ module: "", tab: "", ldap_role: r }));
+export function hasAccess(
+  roles: string[],
+  module: string,
+  tab?: string
+): boolean {
+  return roles.some((role) => {
+    // Legacy format encoded as "legacy:module:tab"
+    if (role.startsWith("legacy:")) {
+      const [, m, t] = role.split(":");
+      return tab ? m === module && t === tab : m === module;
+    }
+    // New format: look up ROLE_ACCESS_MAP
+    const accesses = ROLE_ACCESS_MAP[role] ?? [];
+    return accesses.some((a) => {
+      return tab ? a.module === module && a.tab === tab : a.module === module;
+    });
+  });
 }
 
 /**
  * Check if user has access to a specific facility/branch.
+ * Branch roles are stored as "[SMB-BRANCH]", "[LIN-BRANCH]", etc.
  */
-export function hasBranchAccess(
-  roleString: string | null | undefined,
-  branchCode: string
-): boolean {
-  if (!roleString) return false;
-  return roleString.includes(`[${branchCode}-BRANCH]`);
+export function hasBranchAccess(roles: string[], branchCode: string): boolean {
+  return roles.includes(`[${branchCode}-BRANCH]`);
+}
+
+/**
+ * Return all branch codes assigned to a user.
+ * e.g. ["[SMB-BRANCH]", "[BAE-BRANCH]"] → ["SMB", "BAE"]
+ */
+export function getUserBranches(roles: string[]): string[] {
+  return roles
+    .filter((r) => r.startsWith("[") && r.endsWith("-BRANCH]"))
+    .map((r) => r.slice(1, r.indexOf("-BRANCH]")));
 }
 
 /**
  * Server-side auth guard for pages.
  * Use in server components to protect routes.
- *
- * Usage:
- *   const session = await requireAuth("cms", "queue");
  */
 export async function requireAuth(module?: string, tab?: string) {
   const session = await auth();
@@ -122,7 +165,8 @@ export async function requireAuth(module?: string, tab?: string) {
   }
 
   if (module) {
-    if (!hasAccess(session.user.role, module, tab)) {
+    const roles = parseUserRoles(session.user.role);
+    if (!hasAccess(roles, module, tab)) {
       redirect("/unauthorized");
     }
   }
@@ -133,9 +177,6 @@ export async function requireAuth(module?: string, tab?: string) {
 /**
  * API route auth guard.
  * Returns the session or throws a 401/403 response.
- *
- * Usage:
- *   const session = await requireApiAuth(request, "cms", "queue");
  */
 export async function requireApiAuth(
   _request: Request,
@@ -152,7 +193,8 @@ export async function requireApiAuth(
   }
 
   if (module) {
-    if (!hasAccess(session.user.role, module, tab)) {
+    const roles = parseUserRoles(session.user.role);
+    if (!hasAccess(roles, module, tab)) {
       throw new Response(
         JSON.stringify({ error: "Forbidden", message: `No access to ${module}/${tab}` }),
         { status: 403, headers: { "Content-Type": "application/json" } }
@@ -163,16 +205,16 @@ export async function requireApiAuth(
   return session;
 }
 
-// CMS module definitions (matching the old system's modules)
+// CMS module definitions (used as constants for requireAuth calls)
 export const CMS_MODULES = {
   ENROLLMENT: { module: "cms", tab: "enrollment" },
-  QUEUE: { module: "cms", tab: "queue" },
-  PAYMENT: { module: "cms", tab: "payment" },
-  RESULTS: { module: "cms", tab: "results" },
-  CLINICAL: { module: "cms", tab: "clinical" },
-  SETTINGS: { module: "cms", tab: "settings" },
-  REPORTS: { module: "cms", tab: "reports" },
-  EROS: { module: "erosui", tab: "company" },
-  EROS_PHYSICIAN: { module: "erosui", tab: "physician" },
-  EROS_ITEMS: { module: "erosui", tab: "itemmasterlist" },
+  QUEUE:      { module: "cms", tab: "queue" },
+  PAYMENT:    { module: "cms", tab: "payment" },
+  RESULTS:    { module: "cms", tab: "results" },
+  CLINICAL:   { module: "cms", tab: "clinical" },
+  SETTINGS:   { module: "cms", tab: "settings" },
+  REPORTS:    { module: "cms", tab: "reports" },
+  EROS:            { module: "erosui", tab: "company" },
+  EROS_PHYSICIAN:  { module: "erosui", tab: "physician" },
+  EROS_ITEMS:      { module: "erosui", tab: "itemmasterlist" },
 } as const;

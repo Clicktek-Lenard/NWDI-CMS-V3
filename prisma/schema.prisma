@@ -753,3 +753,177 @@ model role {
   ldap_role String? @db.VarChar(255)
   status    String? @db.VarChar(50)
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Card Enrollment (CMS v3 tables)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model CardEnrollment {
+  id           Int       @id @default(autoincrement())
+  cardnumber   String?   @unique @db.VarChar(20)
+  dateenrolled DateTime?
+  receivedby   String?   @db.VarChar(255)
+  receiveddate DateTime?
+  releaseto    String?   @db.VarChar(255)
+  oldreleaseto String?   @db.VarChar(255)
+  releaseby    String?   @db.VarChar(255)
+  daterelease  DateTime?
+  transferto   String?   @db.VarChar(255)
+  datetransfer DateTime?
+  transferby   String?   @db.VarChar(255)
+  status       Int?
+
+  @@map("cardenrollment")
+}
+
+model CardNumber {
+  id                  Int     @id @default(autoincrement())
+  year                Int?
+  batch               Int?
+  month               Int?
+  seriesnum           Int?
+  maskedseries        String? @db.VarChar(255)
+  generatedcardnumber String  @unique @db.VarChar(50)
+  codecompany         String? @db.VarChar(50)
+  generatedby         String? @db.VarChar(50)
+
+  @@map("cardkey")
+}
+
+model CardVerified {
+  id                  Int       @id @default(autoincrement())
+  verifiedcardnumbers String    @unique @db.VarChar(20)
+  ictreceived         String?   @db.VarChar(50)
+  datereceived        DateTime?
+
+  @@map("cardverified")
+}
+
+model CmsCompany {
+  id          Int     @id @default(autoincrement())
+  server      String? @db.VarChar(50)
+  idcompany   BigInt?
+  code        String? @db.VarChar(30)
+  name        String? @db.VarChar(500)
+  status      String? @db.VarChar(10)
+  billingtype String? @db.VarChar(50)
+
+  @@map("companies")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Clinical (CMS v3 tables)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model VitalSign {
+  id               Int      @id @default(autoincrement())
+  queue_id         Int      @unique
+  patient_id       String?  @db.VarChar(30)
+  bp_systolic      Int?
+  bp_diastolic     Int?
+  bp_systolic2     Int?
+  bp_diastolic2    Int?
+  bp_systolic3     Int?
+  bp_diastolic3    Int?
+  heart_rate       Int?
+  temperature      Float?
+  respiratory_rate Int?
+  o2_saturation    Float?
+  weight_kg        Float?
+  height_cm        Float?
+  bmi              Float?
+  vision_right_od  String?  @db.VarChar(20)
+  vision_left_os   String?  @db.VarChar(20)
+  vision_corrected String?  @db.VarChar(50)
+  color_vision     String?  @db.VarChar(50)
+  chief_complaint  String?  @db.Text
+  pcp_doctor       String?  @db.VarChar(100)
+  recorded_by      Int?
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  @@map("vitalsign")
+}
+
+model PhysicalExamination {
+  id                  Int       @id @default(autoincrement())
+  queue_id            Int       @unique
+  patient_id          String?   @db.VarChar(30)
+  hypertension        Boolean   @default(false)
+  diabetes            Boolean   @default(false)
+  asthma              Boolean   @default(false)
+  heart_disease       Boolean   @default(false)
+  thyroid_disease     Boolean   @default(false)
+  kidney_disease      Boolean   @default(false)
+  allergies           Boolean   @default(false)
+  allergies_specify   String?   @db.VarChar(255)
+  surgery_history     Boolean   @default(false)
+  surgery_specify     String?   @db.VarChar(255)
+  smoker              Boolean   @default(false)
+  pack_years          Float?
+  alcoholic           Boolean   @default(false)
+  lmp                 DateTime? @db.Date
+  gravida             Int?
+  para                Int?
+  family_hypertension Boolean   @default(false)
+  family_diabetes     Boolean   @default(false)
+  family_cancer       Boolean   @default(false)
+  skin                String?   @db.Text
+  heent               String?   @db.Text
+  neck                String?   @db.Text
+  chest_lungs         String?   @db.Text
+  heart               String?   @db.Text
+  abdomen             String?   @db.Text
+  extremities         String?   @db.Text
+  neurological        String?   @db.Text
+  fitness_class       String?   @db.VarChar(20)
+  recorded_by         Int?
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+
+  @@map("physical_examinations")
+}
+
+model ConsultationNote {
+  id              Int       @id @default(autoincrement())
+  queue_id        Int       @unique
+  patient_id      String    @db.VarChar(30)
+  status          String    @default("PENDING") @db.VarChar(20)
+  is_draft        Int       @default(1)
+  chief_complaint String?   @db.Text
+  history_illness String?   @db.Text
+  past_history    String?   @db.Text
+  family_history  String?   @db.Text
+  pe_findings     String?   @db.Text
+  diagnosis       String?   @db.Text
+  icd_code        String?   @db.VarChar(50)
+  treatment_plan  String?   @db.Text
+  orders          String?   @db.Text
+  pcp_doctor      String?   @db.VarChar(100)
+  doctor_id       Int?
+  doctor_name     String?   @db.VarChar(100)
+  recorded_by     Int?
+  completed_at    DateTime?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+
+  @@map("consultation_notes")
+}
+
+model MedicalEvaluation {
+  id             Int      @id @default(autoincrement())
+  queue_id       Int
+  patient_id     String   @db.VarChar(30)
+  item_code      String   @db.VarChar(50)
+  item_name      String?  @db.VarChar(255)
+  findings       String?  @db.Text
+  assessment     String?  @db.Text
+  recommendation String?  @db.Text
+  class_value    String?  @db.VarChar(20)
+  recorded_by    Int?
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  @@unique([queue_id, item_code])
+  @@map("medical_evaluations")
+}

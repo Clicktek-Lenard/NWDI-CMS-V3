@@ -1,4 +1,8 @@
-import "dotenv/config";
+import { config } from "dotenv";
+
+// For Prisma CLI: use .env (PostgreSQL) not .env.local (old MySQL)
+config();
+
 import { defineConfig, env } from "prisma/config";
 
 export default defineConfig({

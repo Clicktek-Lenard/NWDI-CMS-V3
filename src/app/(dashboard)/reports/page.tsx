@@ -6,8 +6,8 @@ export default async function ReportsPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-slate-800">Reports</h1>
-        <p className="text-sm text-slate-500">
+        <h1 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Reports</h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400">
           Daily sales, card management, and transaction reports
         </p>
       </div>
@@ -23,10 +23,10 @@ export default async function ReportsPage() {
         ].map((report) => (
           <div
             key={report.title}
-            className="cursor-pointer rounded-lg border bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
+            className="cursor-pointer rounded-lg border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700"
           >
-            <h3 className="text-sm font-semibold text-slate-800">{report.title}</h3>
-            <p className="mt-1 text-xs text-slate-500">{report.description}</p>
+            <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100">{report.title}</h3>
+            <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">{report.description}</p>
           </div>
         ))}
       </div>

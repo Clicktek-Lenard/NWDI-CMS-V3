@@ -10,18 +10,15 @@ export interface User {
   first_name: string;
   last_name: string;
   department: string;
-  role: UserRole[];
+  role: string[]; // JSON array of role strings e.g. ["[QUEUE]", "[NURSE]"]
   activated: boolean;
   ldap_import: boolean;
   created_at: string;
   updated_at: string;
 }
 
-export interface UserRole {
-  module: string;
-  tab: string;
-  ldap_role?: string;
-}
+/** A role string in bracket notation, e.g. "[QUEUE]", "[NURSE]", "[CARD-REGISTRATION]" */
+export type UserRole = string;
 
 export interface Session {
   user: User;

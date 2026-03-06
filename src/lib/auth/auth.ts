@@ -141,7 +141,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (!user) return null;
 
-        const isValidPassword = await bcrypt.compare(password, user.password ?? "");
+        // Support both $2b$ (Node.js) and $2y$ (PHP) bcrypt hashes
+        const hash = (user.password as string) ?? "";
+        const normalizedHash = hash.startsWith("$2y$") ? hash.replace("$2y$", "$2b$") : hash;
+        const isValidPassword = await bcrypt.compare(password, normalizedHash);
         if (!isValidPassword) return null;
 
         return {

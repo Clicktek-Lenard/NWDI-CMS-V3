@@ -1,24 +1,39 @@
 import { Sidebar } from "@/components/layouts/sidebar";
 import { Header } from "@/components/layouts/header";
-import { requireAuth } from "@/lib/auth/rbac";
+import { auth } from "@/lib/auth/auth";
+
+const CLINIC_NAMES: Record<string, string> = {
+  CEN: "Central",
+  SMB: "San Miguel",
+  SRL: "SRL",
+  TAR: "Tarlac",
+  LIN: "Lingayen",
+  PAR: "Paranaque",
+  DTU: "DTU",
+  BAY: "Bayombong",
+  BAE: "Baguio",
+  DAG: "Dagupan",
+  MIR: "Mira-Nila",
+  ORT: "Ortho",
+};
 
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await requireAuth();
-
-  const userName = session.user.name ?? session.user.id ?? "User";
-  const clinicCode = session.user.clinicCode ?? "";
+  const session = await auth();
+  const userName = session?.user?.name || "User";
+  const clinicCode = session?.user?.clinicCode || "";
+  const clinicName = CLINIC_NAMES[clinicCode] || clinicCode || "—";
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
       <Sidebar />
 
       {/* Main content area */}
       <div className="lg:pl-64">
-        <Header userName={userName} clinicName={clinicCode} />
+        <Header userName={userName} clinicName={clinicName} />
         <main className="p-6">{children}</main>
       </div>
     </div>

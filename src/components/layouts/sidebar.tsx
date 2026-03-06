@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  Users,
   CreditCard,
   ClipboardList,
   FileText,
@@ -27,68 +26,21 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  {
-    label: "Queue",
-    href: "/cms/queue",
-    icon: <ClipboardList className="h-5 w-5" />,
-    module: "cms",
-    tab: "queue",
-  },
-  {
-    label: "Enrollment",
-    href: "/enrollment",
-    icon: <CreditCard className="h-5 w-5" />,
-    module: "cms",
-    tab: "enrollment",
-  },
-  {
-    label: "Payment",
-    href: "/payment",
-    icon: <FileText className="h-5 w-5" />,
-    module: "cms",
-    tab: "payment",
-  },
-  {
-    label: "Results",
-    href: "/results",
-    icon: <FileText className="h-5 w-5" />,
-    module: "cms",
-    tab: "results",
-  },
-  {
-    label: "Clinical",
-    href: "/clinical",
-    icon: <Stethoscope className="h-5 w-5" />,
-    module: "cms",
-    tab: "clinical",
-  },
-  {
-    label: "Reports",
-    href: "/reports",
-    icon: <BarChart3 className="h-5 w-5" />,
-    module: "cms",
-    tab: "reports",
-  },
-  {
-    label: "EROS",
-    href: "/eros/company",
-    icon: <Building2 className="h-5 w-5" />,
-    module: "erosui",
-  },
-  {
-    label: "Settings",
-    href: "/settings",
-    icon: <Settings className="h-5 w-5" />,
-    module: "cms",
-    tab: "settings",
-  },
+  { label: "Queue",      href: "/queue",          icon: <ClipboardList className="h-5 w-5" />, module: "cms", tab: "queue" },
+  { label: "Enrollment", href: "/enrollment",      icon: <CreditCard className="h-5 w-5" />,    module: "cms", tab: "enrollment" },
+  { label: "Payment",    href: "/payment",         icon: <FileText className="h-5 w-5" />,      module: "cms", tab: "payment" },
+  { label: "Results",    href: "/results",         icon: <FileText className="h-5 w-5" />,      module: "cms", tab: "results" },
+  { label: "Clinical",   href: "/clinical",        icon: <Stethoscope className="h-5 w-5" />,   module: "cms", tab: "clinical" },
+  { label: "Reports",    href: "/reports",         icon: <BarChart3 className="h-5 w-5" />,     module: "cms", tab: "reports" },
+  { label: "EROS",       href: "/eros/company",    icon: <Building2 className="h-5 w-5" />,     module: "erosui" },
+  { label: "Settings",   href: "/settings",        icon: <Settings className="h-5 w-5" />,      module: "cms", tab: "settings" },
 ];
 
 interface SidebarProps {
   userRoles?: string[];
 }
 
-export function Sidebar({ userRoles = [] }: SidebarProps) {
+export function Sidebar({ userRoles: _userRoles = [] }: SidebarProps) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -97,20 +49,20 @@ export function Sidebar({ userRoles = [] }: SidebarProps) {
       {/* Mobile toggle */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-4 left-4 z-50 rounded-md bg-slate-800 p-2 text-white lg:hidden"
+        className="fixed top-4 left-4 z-50 rounded-md bg-slate-800 p-2 text-white lg:hidden dark:bg-slate-700"
       >
         {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       </button>
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-64 transform bg-slate-900 text-white transition-transform duration-200 lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 w-64 transform bg-slate-900 text-white transition-transform duration-200 lg:translate-x-0 dark:bg-slate-950 dark:border-r dark:border-slate-800 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         {/* Logo */}
-        <div className="flex h-16 items-center justify-center border-b border-slate-700">
-          <h1 className="text-xl font-bold">CMS</h1>
+        <div className="flex h-16 items-center justify-center border-b border-slate-700 dark:border-slate-800">
+          <h1 className="text-xl font-bold tracking-tight">CMS</h1>
         </div>
 
         {/* Navigation */}
@@ -124,8 +76,8 @@ export function Sidebar({ userRoles = [] }: SidebarProps) {
                 onClick={() => setIsOpen(false)}
                 className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
                   isActive
-                    ? "bg-slate-700 text-white"
-                    : "text-slate-300 hover:bg-slate-800 hover:text-white"
+                    ? "bg-blue-600 text-white shadow-sm"
+                    : "text-slate-300 hover:bg-slate-800 hover:text-white dark:hover:bg-slate-800"
                 }`}
               >
                 {item.icon}
@@ -136,10 +88,10 @@ export function Sidebar({ userRoles = [] }: SidebarProps) {
         </nav>
 
         {/* Bottom section */}
-        <div className="absolute bottom-0 w-full border-t border-slate-700 p-4">
+        <div className="absolute bottom-0 w-full border-t border-slate-700 dark:border-slate-800 p-4">
           <button
-            onClick={() => signOut({ redirectTo: "/login" })}
-            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white"
+            onClick={() => signOut({ callbackUrl: "/login" })}
+            className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
           >
             <LogOut className="h-5 w-5" />
             Sign Out

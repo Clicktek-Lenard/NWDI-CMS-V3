@@ -10,8 +10,8 @@ export default async function EditQueuePage({
 }) {
   const session = await requireAuth(CMS_MODULES.QUEUE.module, CMS_MODULES.QUEUE.tab);
   const userRoles = parseUserRoles(session.user.role ?? null);
-  const isBmRole           = userRoles.some((r) => r.ldap_role === "[BM-ROLE]");
-  const isResultsReleasing = userRoles.some((r) => r.ldap_role === "[RESULTS-RELEASING]");
+  const isBmRole           = userRoles.includes("[BM-ROLE]");
+  const isResultsReleasing = userRoles.includes("[RESULTS-RELEASING]");
 
   const { id } = await params;
   const queueId = BigInt(id);

@@ -57,7 +57,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       </div>
 
       {/* Right panel — form */}
-      <div className="flex w-full items-center justify-center bg-slate-50 px-6 lg:w-1/2">
+      <div className="flex w-full items-center justify-center bg-slate-50 dark:bg-slate-900 px-6 lg:w-1/2">
         {children}
       </div>
     </div>

@@ -22,6 +22,18 @@ const CRON_ROUTES = ["/api/cron"];
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Check for auth token/session (Auth.js v5 uses "authjs.session-token")
+  const token =
+    request.cookies.get("authjs.session-token")?.value ||
+    request.cookies.get("__Secure-authjs.session-token")?.value ||
+    request.cookies.get("next-auth.session-token")?.value ||
+    request.cookies.get("__Secure-next-auth.session-token")?.value;
+
+  // If already logged in, redirect away from /login to the app
+  if (token && pathname === "/login") {
+    return NextResponse.redirect(new URL("/queue", request.url));
+  }
+
   // Allow public routes
   if (PUBLIC_ROUTES.some((route) => pathname.startsWith(route))) {
     return NextResponse.next();
@@ -35,13 +47,6 @@ export function middleware(request: NextRequest) {
     }
     return NextResponse.next();
   }
-
-  // Check for auth token/session (Auth.js v5 uses "authjs.session-token")
-  const token =
-    request.cookies.get("authjs.session-token")?.value ||
-    request.cookies.get("__Secure-authjs.session-token")?.value ||
-    request.cookies.get("next-auth.session-token")?.value ||
-    request.cookies.get("__Secure-next-auth.session-token")?.value;
 
   if (!token) {
     const loginUrl = new URL("/login", request.url);
