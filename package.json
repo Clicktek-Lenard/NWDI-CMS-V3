@@ -6,7 +6,8 @@
     "dev": "cross-env TZ=Asia/Manila next dev",
     "build": "cross-env TZ=Asia/Manila next build",
     "start": "cross-env TZ=Asia/Manila next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@auth/core": "^0.41.0",

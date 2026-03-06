@@ -1,0 +1,929 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Auth / System tables
+// ─────────────────────────────────────────────────────────────────────────────
+
+model User {
+  id                  Int       @id @default(autoincrement())
+  email               String?   @db.VarChar(191)
+  password            String?   @db.VarChar(191)
+  permissions         String?
+  activated           Boolean
+  created_by          Int?
+  activation_code     String?   @db.VarChar(191)
+  activated_at        DateTime? @db.Timestamp(6)
+  last_login          DateTime? @db.Timestamp(6)
+  persist_code        String?   @db.VarChar(191)
+  reset_password_code String?   @db.VarChar(191)
+  first_name          String?   @db.VarChar(191)
+  last_name           String?   @db.VarChar(191)
+  created_at          DateTime? @db.Timestamp(6)
+  updated_at          DateTime? @db.Timestamp(6)
+  deleted_at          DateTime? @db.Timestamp(6)
+  website             String?   @db.VarChar(191)
+  country             String?   @db.VarChar(191)
+  gravatar            String?   @db.VarChar(191)
+  location_id         Int?
+  phone               String?   @db.VarChar(191)
+  jobtitle            String?   @db.VarChar(191)
+  manager_id          Int?
+  employee_num        String?
+  avatar              String?   @db.VarChar(191)
+  username            String?   @unique(map: "users_username_unique") @db.VarChar(191)
+  notes               String?
+  company_id          Int?
+  remember_token      String?
+  ldap_import         Boolean
+  locale              String?   @db.VarChar(10)
+  show_in_list        Boolean   @default(false)
+  two_factor_secret   String?   @db.VarChar(32)
+  two_factor_enrolled Boolean   @default(false)
+  two_factor_optin    Boolean   @default(false)
+  department_id       Int?
+  address             String?   @db.VarChar(191)
+  city                String?   @db.VarChar(191)
+  state               String?   @db.VarChar(3)
+  zip                 String?   @db.VarChar(10)
+  skin                String?   @db.VarChar(191)
+  remote              Boolean?
+  status              String?   @db.VarChar(15)
+  role                String?   @db.VarChar(2500)
+  department          String?   @db.VarChar(100)
+  accessmapid         String?   @db.VarChar(30)
+  ldap_server_status  String?   @db.VarChar(255)
+
+  @@index([accessmapid])
+  @@index([activation_code])
+  @@index([company_id])
+  @@index([reset_password_code])
+  @@map("users")
+}
+
+model users_from_cdb {
+  id                  Int       @id
+  email               String?   @db.VarChar(191)
+  password            String?   @db.VarChar(191)
+  permissions         String?
+  activated           Int
+  created_by          Int?
+  activation_code     String?   @db.VarChar(191)
+  activated_at        DateTime? @db.Timestamp(6)
+  last_login          DateTime? @db.Timestamp(6)
+  persist_code        String?   @db.VarChar(191)
+  reset_password_code String?   @db.VarChar(191)
+  first_name          String?   @db.VarChar(191)
+  last_name           String?   @db.VarChar(191)
+  created_at          DateTime? @db.Timestamp(6)
+  updated_at          DateTime? @db.Timestamp(6)
+  deleted_at          DateTime? @db.Timestamp(6)
+  website             String?   @db.VarChar(191)
+  country             String?   @db.VarChar(191)
+  gravatar            String?   @db.VarChar(191)
+  location_id         Int?
+  phone               String?   @db.VarChar(191)
+  jobtitle            String?   @db.VarChar(191)
+  manager_id          Int?
+  employee_num        String?
+  avatar              String?   @db.VarChar(191)
+  username            String?   @db.VarChar(191)
+  notes               String?
+  company_id          Int?
+  remember_token      String?
+  ldap_import         Int
+  locale              String?   @db.VarChar(10)
+  show_in_list        Int
+  two_factor_secret   String?   @db.VarChar(32)
+  two_factor_enrolled Int
+  two_factor_optin    Int
+  department_id       Int?
+  address             String?   @db.VarChar(191)
+  city                String?   @db.VarChar(191)
+  state               String?   @db.VarChar(3)
+  zip                 String?   @db.VarChar(10)
+  skin                String?   @db.VarChar(191)
+  remote              Int?
+  status              String?   @db.VarChar(15)
+  role                String?   @db.VarChar(2500)
+  department          String?   @db.VarChar(100)
+  ldap_server_status  String?   @db.VarChar(255)
+
+  @@index([activation_code])
+  @@index([company_id])
+  @@index([reset_password_code])
+}
+
+model cache {
+  key        String  @id @db.VarChar(255)
+  value      String?
+  expiration Int
+}
+
+model cache_locks {
+  key        String  @id @db.VarChar(255)
+  owner      String? @db.VarChar(255)
+  expiration Int
+}
+
+model sessions {
+  id            String  @id @db.VarChar(255)
+  user_id       BigInt?
+  ip_address    String? @db.VarChar(45)
+  user_agent    String?
+  payload       String?
+  last_activity Int
+
+  @@index([last_activity])
+  @@index([user_id])
+}
+
+model password_reset_tokens {
+  email      String    @id @db.VarChar(255)
+  token      String?   @db.VarChar(255)
+  created_at DateTime? @db.Timestamp(6)
+}
+
+model failed_jobs {
+  id         BigInt   @id
+  uuid       String?  @db.VarChar(255)
+  connection String?
+  queue      String?
+  payload    String?
+  exception  String?
+  failed_at  DateTime @db.Timestamp(6)
+}
+
+model job_batches {
+  id             String  @id @db.VarChar(255)
+  name           String? @db.VarChar(255)
+  total_jobs     Int
+  pending_jobs   Int
+  failed_jobs    Int
+  failed_job_ids String?
+  options        String?
+  cancelled_at   Int?
+  created_at     Int
+  finished_at    Int?
+}
+
+model jobs {
+  id           BigInt  @id
+  queue        String? @db.VarChar(255)
+  payload      String?
+  attempts     Int
+  reserved_at  Int?
+  available_at Int
+  created_at   Int
+
+  @@index([queue])
+}
+
+model migrations {
+  id        Int     @id
+  migration String? @db.VarChar(255)
+  batch     Int
+}
+
+model settings {
+  id                                  Int       @id
+  created_at                          DateTime? @db.Timestamp(6)
+  updated_at                          DateTime? @db.Timestamp(6)
+  user_id                             Int?
+  per_page                            Int
+  site_name                           String?   @db.VarChar(100)
+  qr_code                             Int?
+  qr_text                             String?   @db.VarChar(32)
+  display_asset_name                  Int?
+  display_checkout_date               Int?
+  display_eol                         Int?
+  auto_increment_assets               Int
+  auto_increment_prefix               String?   @db.VarChar(191)
+  load_remote                         Int
+  logo                                String?   @db.VarChar(191)
+  header_color                        String?   @db.VarChar(191)
+  alert_email                         String?   @db.VarChar(191)
+  alerts_enabled                      Int
+  default_eula_text                   String?
+  barcode_type                        String?   @db.VarChar(191)
+  slack_endpoint                      String?   @db.VarChar(191)
+  slack_channel                       String?   @db.VarChar(191)
+  slack_botname                       String?   @db.VarChar(191)
+  default_currency                    String?   @db.VarChar(10)
+  custom_css                          String?
+  brand                               Int
+  ldap_enabled                        String?   @db.VarChar(191)
+  ldap_server                         String?   @db.VarChar(191)
+  ldap_uname                          String?   @db.VarChar(191)
+  ldap_pword                          String?
+  ldap_basedn                         String?   @db.VarChar(191)
+  ldap_filter                         String?
+  ldap_username_field                 String?   @db.VarChar(191)
+  ldap_lname_field                    String?   @db.VarChar(191)
+  ldap_fname_field                    String?   @db.VarChar(191)
+  ldap_auth_filter_query              String?   @db.VarChar(191)
+  ldap_version                        Int?
+  ldap_active_flag                    String?   @db.VarChar(191)
+  ldap_dept                           String?   @db.VarChar(191)
+  ldap_emp_num                        String?   @db.VarChar(191)
+  ldap_email                          String?   @db.VarChar(191)
+  ldap_phone_field                    String?   @db.VarChar(191)
+  ldap_jobtitle                       String?   @db.VarChar(191)
+  ldap_manager                        String?   @db.VarChar(191)
+  ldap_country                        String?   @db.VarChar(191)
+  full_multiple_companies_support     Int
+  ldap_server_cert_ignore             Int
+  locale                              String?   @db.VarChar(5)
+  labels_per_page                     Int
+  labels_width                        Decimal?  @db.Decimal(6, 5)
+  labels_height                       Decimal?  @db.Decimal(6, 5)
+  labels_pmargin_left                 Decimal?  @db.Decimal(6, 5)
+  labels_pmargin_right                Decimal?  @db.Decimal(6, 5)
+  labels_pmargin_top                  Decimal?  @db.Decimal(6, 5)
+  labels_pmargin_bottom               Decimal?  @db.Decimal(6, 5)
+  labels_display_bgutter              Decimal?  @db.Decimal(6, 5)
+  labels_display_sgutter              Decimal?  @db.Decimal(6, 5)
+  labels_fontsize                     Int
+  labels_pagewidth                    Decimal?  @db.Decimal(7, 5)
+  labels_pageheight                   Decimal?  @db.Decimal(7, 5)
+  labels_display_name                 Int
+  labels_display_serial               Int
+  labels_display_tag                  Int
+  alt_barcode                         String?   @db.VarChar(191)
+  alt_barcode_enabled                 Int?
+  alert_interval                      Int?
+  alert_threshold                     Int?
+  email_domain                        String?   @db.VarChar(191)
+  email_format                        String?   @db.VarChar(191)
+  username_format                     String?   @db.VarChar(191)
+  is_ad                               Int
+  ad_domain                           String?   @db.VarChar(191)
+  ldap_port                           String?   @db.VarChar(5)
+  ldap_tls                            Int
+  zerofill_count                      Int
+  ldap_pw_sync                        Int
+  two_factor_enabled                  Int?
+  require_accept_signature            Int
+  date_display_format                 String?   @db.VarChar(191)
+  time_display_format                 String?   @db.VarChar(191)
+  next_auto_tag_base                  BigInt
+  login_note                          String?
+  thumbnail_max_h                     Int?
+  pwd_secure_uncommon                 Int
+  pwd_secure_complexity               String?   @db.VarChar(191)
+  pwd_secure_min                      Int
+  audit_interval                      Int?
+  audit_warning_days                  Int?
+  show_url_in_emails                  Int
+  custom_forgot_pass_url              String?   @db.VarChar(191)
+  show_alerts_in_menu                 Int
+  labels_display_company_name         Int
+  show_archived_in_list               Int
+  dashboard_message                   String?
+  support_footer                      String?   @db.VarChar(5)
+  footer_text                         String?
+  modellist_displays                  String?   @db.VarChar(191)
+  login_remote_user_enabled           Int
+  login_common_disabled               Int
+  login_remote_user_custom_logout_url String?   @db.VarChar(191)
+  skin                                String?   @db.VarChar(191)
+  show_images_in_email                Int
+  admin_cc_email                      String?   @db.VarChar(191)
+  labels_display_model                Int
+  privacy_policy_link                 String?   @db.VarChar(191)
+  version_footer                      String?   @db.VarChar(5)
+  unique_serial                       Int
+  logo_print_assets                   Int
+  depreciation_method                 String?   @db.VarChar(10)
+  favicon                             String?   @db.VarChar(191)
+  email_logo                          String?   @db.VarChar(191)
+  label_logo                          String?   @db.VarChar(191)
+  allow_user_skin                     Int
+  show_assigned_assets                Int
+  login_remote_user_header_name       String?   @db.VarChar(191)
+  ad_append_domain                    Int
+  saml_enabled                        Int
+  saml_idp_metadata                   String?
+  saml_attr_mapping_username          String?   @db.VarChar(191)
+  saml_forcelogin                     Int
+  saml_slo                            Int
+  saml_sp_x509cert                    String?
+  saml_sp_privatekey                  String?
+  saml_custom_settings                String?
+  saml_sp_x509certnew                 String?
+  digit_separator                     String?   @db.VarChar(191)
+  ldap_client_tls_cert                String?
+  ldap_client_tls_key                 String?
+  ldap_description                    String?   @db.VarChar(255)
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CMS tables — PascalCase Prisma field names mapped to lowercase PG columns
+// ─────────────────────────────────────────────────────────────────────────────
+
+model businessunits {
+  Id           Int       @id @map("id") @db.SmallInt
+  Code         String?   @unique(map: "businessunits_code_unique") @map("code") @db.VarChar(5)
+  Description  String?   @map("description") @db.VarChar(50)
+  SDCode       Int       @map("sdcode")
+  IPs          String?   @map("ips") @db.VarChar(10)
+  IPs2         String?   @map("ips2") @db.VarChar(15)
+  GatewayIP    String?   @map("gatewayip") @db.VarChar(20)
+  DefaultPrice String?   @map("defaultprice") @db.VarChar(80)
+  Status       String?   @map("status") @db.VarChar(10)
+  StartDate    DateTime? @map("startdate") @db.Date
+  HProfile     String?   @map("hprofile") @db.VarChar(50)
+  DBServerId   String?   @map("dbserverid") @db.VarChar(500)
+  Address      String?   @map("address") @db.VarChar(500)
+  TIN          String?   @map("tin") @db.VarChar(20)
+  BMs          String?   @map("bms") @db.VarChar(100)
+
+  @@index([Code, IPs, Status])
+}
+
+model company {
+  Id                    Int       @id @map("id")
+  IdBU                  String?   @map("idbu") @db.VarChar(10)
+  Num                   BigInt?   @map("num")
+  Code                  String?   @map("code") @db.VarChar(50)
+  Name                  String?   @map("name") @db.VarChar(500)
+  NameOld               String?   @map("nameold") @db.VarChar(500)
+  ShortName             String?   @map("shortname") @db.VarChar(80)
+  Group                 String?   @db.VarChar(80)
+  SubGroup              String?   @map("subgroup") @db.VarChar(80)
+  BillingType           String?   @map("billingtype") @db.VarChar(80)
+  Address               String?   @map("address") @db.VarChar(500)
+  Phone                 String?   @map("phone") @db.VarChar(50)
+  City                  String?   @map("city") @db.VarChar(50)
+  Email                 String?   @map("email") @db.VarChar(300)
+  Status                String?   @map("status") @db.VarChar(10)
+  StatusOnSite          String?   @map("statusonsite") @db.VarChar(10)
+  Notes                 String?   @map("notes")
+  StartDate             DateTime? @map("startdate") @db.Date
+  EndDate               DateTime? @map("enddate") @db.Date
+  InputBy               String?   @map("inputby") @db.VarChar(50)
+  InputDate             DateTime  @map("inputdate") @db.Date
+  UpdateBy              String?   @map("updateby") @db.VarChar(50)
+  UpdateDate            DateTime? @map("updatedate") @db.Date
+  ErosCode              String?   @map("eroscode") @db.VarChar(80)
+  SalesCode             String?   @map("salescode") @db.VarChar(50)
+  SalesName             String?   @map("salesname") @db.VarChar(80)
+  ContactNo             Int?      @map("contactno")
+  Designation           String?   @map("designation") @db.VarChar(150)
+  ResultUploading       String?   @map("resultuploading") @db.VarChar(3)
+  UsedPriceDefault      String?   @map("usedpricedefault") @db.VarChar(4)
+  UsedPercentDefaultLAB Int       @map("usedpercentdefaultlab")
+  UsedPercentDefaultIMG Int       @map("usedpercentdefaultimg")
+  UsedPercentDefault    Int       @map("usedpercentdefault")
+  UsedPercentItemGroup  String?   @map("usedpercentitemgroup") @db.VarChar(200)
+  UsedPercentItemCode   String?   @map("usedpercentitemcode")
+  UsedLessReadersFee    String?   @map("usedlessreadersfee") @db.VarChar(3)
+  UsedLessRebates       String?   @map("usedlessrebates") @db.VarChar(3)
+  UsedClinic            String?   @map("usedclinic") @db.VarChar(500)
+  ChargeTo              String?   @map("chargeto") @db.VarChar(15)
+  Remarks               String?   @map("remarks")
+  OptionalItemCode      String?   @map("optionalitemcode") @db.VarChar(200)
+  EnabledEndDate        String?   @map("enabledenddate") @db.VarChar(10)
+  EmpId                 String?   @map("empid") @db.VarChar(15)
+  EvaluatorId           String?   @map("evaluatorid") @db.VarChar(255)
+  Parent                BigInt    @map("parent")
+  KeyLeft               Int       @map("keyleft")
+  KeyRight              Int       @map("keyright")
+  CebuStatus            String?   @map("cebustatus") @db.VarChar(30)
+  SMBStatus             String?   @map("smbstatus") @db.VarChar(10)
+  TARStatus             String?   @map("tarstatus") @db.VarChar(10)
+  DAVStatus             String?   @map("davstatus") @db.VarChar(10)
+  LINStatus             String?   @map("linstatus") @db.VarChar(10)
+  reUpload              String?   @map("reupload") @db.VarChar(30)
+
+  @@unique([Code, ErosCode], map: "company_code_eroscode_unique")
+  @@index([Code, ErosCode])
+  @@index([UsedClinic, UsedLessReadersFee, UsedPercentDefault, UsedPercentItemGroup, UsedPriceDefault, UsedPercentDefaultIMG, UsedPercentDefaultLAB])
+}
+
+model department {
+  Id     Int     @id @map("id")
+  Code   String? @map("code") @db.VarChar(30)
+  Name   String? @map("name") @db.VarChar(80)
+  Status String? @map("status") @db.VarChar(10)
+}
+
+model patient {
+  Id             BigInt    @id @map("id")
+  Code           String?   @unique(map: "patient_code_unique") @map("code") @db.VarChar(30)
+  FullName       String?   @map("fullname") @db.VarChar(200)
+  LastName       String?   @map("lastname") @db.VarChar(80)
+  FirstName      String?   @map("firstname") @db.VarChar(150)
+  MiddleName     String?   @map("middlename") @db.VarChar(80)
+  Suffix         String?   @map("suffix") @db.VarChar(10)
+  Prefix         String?   @map("prefix") @db.VarChar(10)
+  Gender         String?   @map("gender") @db.VarChar(10)
+  DOB            DateTime  @map("dob") @db.Date
+  Email          String?   @map("email") @db.VarChar(5000)
+  FullAddress    String?   @map("fulladdress") @db.VarChar(500)
+  Address        String?   @map("address") @db.VarChar(500)
+  Barangay       String?   @map("barangay") @db.VarChar(255)
+  BarangayName   String?   @map("barangayname") @db.VarChar(255)
+  City           String?   @map("city") @db.VarChar(50)
+  CityName       String?   @map("cityname") @db.VarChar(50)
+  State          String?   @map("state") @db.VarChar(255)
+  ZipCode        String?   @map("zipcode") @db.VarChar(255)
+  Nationality    String?   @map("nationality") @db.VarChar(100)
+  Country        String?   @map("country") @db.VarChar(255)
+  Religion       String?   @map("religion") @db.VarChar(255)
+  ContactNo      String?   @map("contactno") @db.VarChar(80)
+  Moblie         String?   @map("moblie") @db.VarChar(255)
+  FaxNo          String?   @map("faxno") @db.VarChar(255)
+  PhilHealth     String?   @map("philhealth") @db.VarChar(255)
+  SeniorId       String?   @map("seniorid") @db.VarChar(20)
+  PWD            String?   @map("pwd") @db.VarChar(30)
+  ExpiryDatePWD  DateTime? @map("expirydatepwd") @db.Date
+  Status         String?   @map("status") @db.VarChar(80)
+  IsActive       Int       @map("isactive")
+  Remarks        String?   @map("remarks")
+  PictureLink    String?   @map("picturelink") @db.VarChar(100)
+  UploadID       String?   @map("uploadid") @db.VarChar(50)
+  InputDate      DateTime? @map("inputdate") @db.Date
+  InputBy        String?   @map("inputby") @db.VarChar(80)
+  UpdateDate     DateTime? @map("updatedate") @db.Date
+  UpdateBy       String?   @map("updateby") @db.VarChar(80)
+  LastVisit      DateTime? @map("lastvisit") @db.Date
+  PassPortNo     String?   @map("passportno") @db.VarChar(50)
+  EmployeeId     String?   @map("employeeid") @db.VarChar(15)
+  RDOB           String?   @map("rdob") @db.VarChar(15)
+  UploadDateTime DateTime  @map("uploaddatetime") @db.Timestamp(6)
+
+  @@index([LastName, FirstName, MiddleName, Gender, DOB])
+  @@index([InputDate, UpdateDate, RDOB])
+}
+
+model physician {
+  Id                   BigInt    @id @map("id")
+  Code                 String?   @map("code") @db.VarChar(30)
+  FullName             String?   @map("fullname") @db.VarChar(200)
+  DisplayName          String?   @map("displayname") @db.VarChar(255)
+  PrintName            String?   @map("printname") @db.VarChar(255)
+  LastName             String?   @map("lastname") @db.VarChar(80)
+  FirstName            String?   @map("firstname") @db.VarChar(80)
+  MiddleName           String?   @map("middlename") @db.VarChar(50)
+  Suffix               String?   @map("suffix") @db.VarChar(30)
+  DOB                  DateTime? @map("dob") @db.Date
+  Degree               String?   @db.VarChar(80)
+  PRCNo                String?   @map("prcno") @db.VarChar(20)
+  PRCValidity          DateTime? @map("prcvalidity") @db.Date
+  Email                String?   @map("email") @db.VarChar(50)
+  Mobile               String?   @map("mobile") @db.VarChar(50)
+  Prescription_Link    String?   @map("prescription_link") @db.VarChar(100)
+  NWDBranch            String?   @map("nwdbranch")
+  Schedule             String?   @map("schedule")
+  TimeStart            String?   @map("timestart")
+  TimeEnd              String?   @map("timeend")
+  FirstEngagement      String?   @map("firstengagement")
+  LastEngagement       String?   @map("lastengagement")
+  ByAppointment        String?   @map("byappointment")
+  ClinicScheduledBy    String?   @map("clinicscheduledby")
+  PCP                  String?   @map("pcp") @db.VarChar(10)
+  Specialist           String?   @map("specialist") @db.VarChar(10)
+  ResignDoctor         String?   @map("resigndoctor") @db.VarChar(10)
+  RP                   String?   @map("rp") @db.VarChar(10)
+  Regular              String?   @map("regular") @db.VarChar(10)
+  Reliever             String?   @map("reliever") @db.VarChar(10)
+  Visiting             String?   @map("visiting") @db.VarChar(10)
+  Referring            String?   @map("referring") @db.VarChar(10)
+  ApplicationLetter    String?   @map("applicationletter") @db.VarChar(10)
+  CurriculumVitae      String?   @map("curriculumvitae") @db.VarChar(10)
+  Diploma              String?   @map("diploma") @db.VarChar(10)
+  PRCId                String?   @map("prcid") @db.VarChar(10)
+  ResidencyCertificate String?   @map("residencycertificate") @db.VarChar(10)
+  DiplomateCertificate String?   @map("diplomatecertificate") @db.VarChar(10)
+  PhilHealth           String?   @map("philhealth") @db.VarChar(10)
+  PTR                  String?   @map("ptr") @db.VarChar(10)
+  BIR                  String?   @map("bir") @db.VarChar(10)
+  MOA                  String?   @map("moa") @db.VarChar(10)
+  BranchCode           String?   @map("branchcode") @db.VarChar(3)
+  DeclineReason        String?   @map("declinereason") @db.VarChar(100)
+  RequestorBy          String?   @map("requestorby") @db.VarChar(30)
+  ApproveBy            String?   @map("approveby") @db.VarChar(30)
+  ApprovalLogs         String?   @map("approvallogs")
+  Description          String?   @map("description") @db.VarChar(500)
+  SubDescription       String?   @map("subdescription") @db.VarChar(80)
+  Group                String?   @db.VarChar(30)
+  SubGroup             String?   @map("subgroup") @db.VarChar(30)
+  Evaluator            String?   @map("evaluator") @db.VarChar(3)
+  InputDate            DateTime  @map("inputdate") @db.Date
+  InputBy              String?   @map("inputby") @db.VarChar(80)
+  Status               String?   @map("status") @db.VarChar(20)
+  UpdateBy             String?   @map("updateby") @db.VarChar(80)
+  UpdateDate           DateTime? @map("updatedate") @db.Date
+  ErosCode             String?   @unique(map: "physician_eroscode_unique") @map("eroscode") @db.VarChar(30)
+  SECode               String?   @map("secode") @db.VarChar(200)
+  EmpId                String?   @map("empid") @db.VarChar(15)
+  CENStatus            String?   @map("censtatus") @db.VarChar(10)
+  CebuStatus           String?   @map("cebustatus") @db.VarChar(10)
+  SMBStatus            String?   @map("smbstatus") @db.VarChar(10)
+  TARStatus            String?   @map("tarstatus") @db.VarChar(10)
+  DAVStatus            String?   @map("davstatus") @db.VarChar(10)
+  LINStatus            String?   @map("linstatus") @db.VarChar(30)
+  SystemUpdateTime     DateTime  @map("systemupdatetime") @db.Timestamp(6)
+  XFullName            String?   @map("xfullname") @db.VarChar(200)
+  XErosCode            String?   @map("xeroscode") @db.VarChar(30)
+  XId                  BigInt?   @map("xid")
+}
+
+model queue {
+  Id                   BigInt    @id @default(autoincrement()) @map("id")
+  IdBU                 String?   @map("idbu") @db.VarChar(10)
+  Code                 String?   @map("code") @db.VarChar(20)
+  Date                 DateTime  @db.Date
+  AnteDateQueueID      BigInt?   @map("antedatequeueid")
+  AnteDate             DateTime? @map("antedate") @db.Date
+  AnteDateCode         String?   @map("antedatecode") @db.VarChar(30)
+  AnteDateTime         DateTime? @map("antedatetime") @db.Timestamp(6)
+  AnteDateStatus       Int       @map("antedatestatus") @db.SmallInt
+  AnteDateReason       String?   @map("antedatereason") @db.VarChar(2000)
+  AnteDateApprovedBy   String?   @map("antedateapprovedby") @db.VarChar(30)
+  AnteDateApprovedDate DateTime? @map("antedateapproveddate") @db.Timestamp(6)
+  DateTime             DateTime  @map("datetime") @db.Timestamp(6)
+  IdPatient            BigInt    @map("idpatient")
+  QFullName            String?   @map("qfullname") @db.VarChar(200)
+  QLastName            String?   @map("qlastname") @db.VarChar(80)
+  QFirstName           String?   @map("qfirstname") @db.VarChar(150)
+  QMiddleName          String?   @map("qmiddlename") @db.VarChar(80)
+  QGender              String?   @map("qgender") @db.VarChar(10)
+  QDOB                 DateTime? @map("qdob") @db.Date
+  QFullAddress         String?   @map("qfulladdress") @db.VarChar(500)
+  AgePatient           Int?      @map("agepatient")
+  Status               Int       @map("status") @db.SmallInt
+  AccessionNo          String?   @map("accessionno") @db.VarChar(20)
+  Notes                String?   @map("notes")
+  CancelReason         String?   @map("cancelreason") @db.VarChar(2000)
+  PatientType          String?   @map("patienttype") @db.VarChar(80)
+  Picture              String?   @map("picture") @db.VarChar(200)
+  InputBy              String?   @map("inputby") @db.VarChar(30)
+  Lab2LabId            String?   @map("lab2labid") @db.VarChar(30)
+  LabBarcode           String?   @map("labbarcode") @db.VarChar(30)
+  LabId                String?   @map("labid") @db.VarChar(30)
+  UpdateDate           DateTime? @map("updatedate") @db.Date
+  UpdateBy             String?   @map("updateby") @db.VarChar(80)
+  ErosStatus           String?   @map("erosstatus") @db.VarChar(30)
+  SystemUpdateTime     DateTime? @map("systemupdatetime") @db.Timestamp(6)
+
+  @@index([AccessionNo])
+  @@index([Code])
+  @@index([Date])
+  @@index([IdBU])
+  @@index([InputBy])
+  @@index([Lab2LabId])
+  @@index([IdPatient])
+  @@index([Status])
+}
+
+model queuestatus {
+  Id     Int     @id @map("id") @db.SmallInt
+  IdBU   Int     @map("idbu") @db.SmallInt
+  Name   String? @map("name") @db.VarChar(30)
+  Status String? @map("status") @db.VarChar(10)
+
+  @@index([Id])
+}
+
+model transactions {
+  Id                   BigInt    @id @default(autoincrement()) @map("id")
+  IdQueue              BigInt    @map("idqueue")
+  Date                 DateTime  @db.Date
+  IdDoctor             BigInt?   @map("iddoctor")
+  NameDoctor           String?   @map("namedoctor") @db.VarChar(200)
+  IdCompany            Int?      @map("idcompany")
+  NameCompany          String?   @map("namecompany") @db.VarChar(500)
+  TransactionType      String?   @map("transactiontype") @db.VarChar(150)
+  IdItemPrice          BigInt?   @map("iditemprice")
+  ItemUsedItemPrice    String?   @map("itemuseditemprice") @db.VarChar(10)
+  CodeItemPrice        String?   @map("codeitemprice") @db.VarChar(30)
+  DescriptionItemPrice String?   @map("descriptionitemprice") @db.VarChar(500)
+  PriceGroupItemPrice  String?   @map("pricegroupitemprice") @db.VarChar(30)
+  AmountItemPrice      Decimal?  @map("amountitemprice") @db.Decimal(10, 2)
+  AmountRemaining      Decimal?  @map("amountremaining") @db.Decimal(10, 2)
+  ReadersFee           Decimal?  @map("readersfee") @db.Decimal(10, 2)
+  OrigAmount           Decimal?  @map("origamount") @db.Decimal(10, 2)
+  HCardNumber          String?   @map("hcardnumber") @db.VarChar(20)
+  GroupItemMaster      String?   @map("groupitemmaster") @db.VarChar(50)
+  InputBy              String?   @map("inputby") @db.VarChar(30)
+  InputId              String?   @map("inputid") @db.VarChar(30)
+  Status               Int       @map("status") @db.SmallInt
+  SystemUpdateTime     DateTime? @map("systemupdatetime") @db.Timestamp(6)
+
+  @@index([IdQueue])
+  @@index([CodeItemPrice])
+  @@index([Status])
+  @@index([Date])
+}
+
+model vitals {
+  Id            BigInt    @id @default(autoincrement()) @map("id")
+  IdQueue       BigInt    @map("idqueue")
+  Medication    String?   @map("medication") @db.VarChar(500)
+  LastDose      DateTime? @map("lastdose") @db.Timestamp(6)
+  LastPeriod    DateTime? @map("lastperiod") @db.Date
+  InputBy       String?   @map("inputby") @db.VarChar(30)
+  InputDateTime DateTime? @map("inputdatetime") @db.Timestamp(6)
+
+  @@index([IdQueue])
+}
+
+model itemmaster {
+  Id                 BigInt    @id @map("id")
+  Code               String?   @unique(map: "itemmaster_code_unique") @map("code") @db.VarChar(30)
+  NewCode            String?   @map("newcode") @db.VarChar(30)
+  OldCode            String?   @map("oldcode") @db.VarChar(30)
+  Description        String?   @map("description") @db.VarChar(500)
+  NewDescription     String?   @map("newdescription") @db.VarChar(500)
+  OldDescription     String?   @map("olddescription") @db.VarChar(500)
+  ShortName          String?   @map("shortname") @db.VarChar(50)
+  LongName           String?   @map("longname") @db.VarChar(2500)
+  DepartmentGroup    String?   @map("departmentgroup") @db.VarChar(30)
+  Group              String?   @db.VarChar(50)
+  NewGroup           String?   @map("newgroup") @db.VarChar(50)
+  OldGroup           String?   @map("oldgroup") @db.VarChar(50)
+  SubGroup           String?   @map("subgroup") @db.VarChar(50)
+  NewSubGroup        String?   @map("newsubgroup") @db.VarChar(50)
+  OldSubGroup        String?   @map("oldsubgroup") @db.VarChar(50)
+  Side               String?   @map("side") @db.VarChar(30)
+  SO                 String?   @map("so") @db.VarChar(1)
+  Price              Float     @map("price")
+  ReadersFee         Float     @map("readersfee")
+  Rebates            Float     @map("rebates")
+  ReApply            Int       @map("reapply")
+  OrderStatus        String?   @map("orderstatus") @db.VarChar(1)
+  UsedClinic         String?   @map("usedclinic") @db.VarChar(500)
+  ItemStatus         String?   @map("itemstatus") @db.VarChar(10)
+  LinkType           String?   @map("linktype") @db.VarChar(30)
+  NewLinkType        String?   @map("newlinktype") @db.VarChar(30)
+  OldLinkType        String?   @map("oldlinktype") @db.VarChar(30)
+  LISCode            String?   @map("liscode") @db.VarChar(30)
+  HCLABCode          String?   @map("hclabcode") @db.VarChar(30)
+  Type               String?   @db.VarChar(30)
+  StandardPackage    Int       @map("standardpackage")
+  AllowDiscount      Int       @map("allowdiscount")
+  AllowDiscountType  String?   @map("allowdiscounttype") @db.VarChar(100)
+  AllowQty           Int       @map("allowqty")
+  Notes              String?   @map("notes")
+  InputBy            String?   @map("inputby") @db.VarChar(30)
+  InputDate          DateTime? @map("inputdate") @db.Date
+  UpdateBy           String?   @map("updateby") @db.VarChar(30)
+  UpdateDate         DateTime? @map("updatedate") @db.Date
+  SystemFrom         String?   @map("systemfrom") @db.VarChar(15)
+  WebSiteStatus      Int       @map("websitestatus")
+  WebSiteDescription String?   @map("websitedescription") @db.VarChar(255)
+  ViewVitalSigns     Int       @map("viewvitalsigns")
+
+  @@index([ItemStatus, OrderStatus, OldCode])
+  @@index([ReApply])
+  @@index([WebSiteStatus])
+}
+
+model itemprice {
+  Id                 BigInt    @id @map("id")
+  ClinicCode         String?   @map("cliniccode") @db.VarChar(50)
+  Code               String?   @map("code") @db.VarChar(50)
+  OldCode            String?   @map("oldcode") @db.VarChar(30)
+  Description        String?   @map("description") @db.VarChar(500)
+  OldDescription     String?   @map("olddescription") @db.VarChar(500)
+  DescriptionEros    String?   @map("descriptioneros") @db.VarChar(250)
+  CompanyCode        String?   @map("companycode") @db.VarChar(50)
+  ServiceAgreementId BigInt?   @map("serviceagreementid")
+  Price              Float     @map("price")
+  PriceGroup         String?   @map("pricegroup") @db.VarChar(50)
+  ItemUsed           Int       @map("itemused")
+  PriceType          String?   @map("pricetype") @db.VarChar(30)
+  LISCode            String?   @map("liscode") @db.VarChar(6)
+  Notes              String?   @map("notes")
+  InputDate          DateTime  @map("inputdate") @db.Date
+  InputBy            String?   @map("inputby") @db.VarChar(80)
+  UpdateDate         DateTime? @map("updatedate") @db.Date
+  UpdateBy           String?   @map("updateby") @db.VarChar(150)
+  Status             Int       @map("status")
+  ErosStatus         String?   @map("erosstatus") @db.VarChar(50)
+  HCLABStatus        String?   @map("hclabstatus") @db.VarChar(10)
+  PackageUpdate      String?   @map("packageupdate") @db.VarChar(20)
+  selected           String?   @db.VarChar(10)
+  SystemUpdateTime   DateTime  @map("systemupdatetime") @db.Timestamp(6)
+  CebuStatus         String?   @map("cebustatus") @db.VarChar(10)
+  SMBStatus          String?   @map("smbstatus") @db.VarChar(10)
+  TARStatus          String?   @map("tarstatus") @db.VarChar(10)
+  DAVStatus          String?   @map("davstatus") @db.VarChar(10)
+  LINStatus          String?   @map("linstatus") @db.VarChar(10)
+
+  @@index([Code])
+  @@index([CompanyCode])
+  @@index([CebuStatus, SMBStatus, TARStatus, DAVStatus, LINStatus])
+}
+
+model msg_queue {
+  Id          BigInt  @id @map("id")
+  IdQueue     BigInt  @map("idqueue")
+  QueueCode   String? @map("queuecode") @db.VarChar(30)
+  IdBU        String? @map("idbu") @db.VarChar(10)
+  ReceivedBU  String? @map("receivedbu") @db.VarChar(10)
+  ItemGroup   String? @map("itemgroup") @db.VarChar(30)
+  AccessionNo String? @map("accessionno") @db.VarChar(30)
+  Status      String? @map("status") @db.VarChar(30)
+
+  @@index([IdQueue, QueueCode, IdBU, ReceivedBU, AccessionNo, Status, ItemGroup])
+}
+
+model transactiontype {
+  Id          Int     @id @map("id")
+  Code        String? @map("code") @db.VarChar(150)
+  Description String? @map("description") @db.VarChar(255)
+  Status      Int     @map("status")
+
+  @@index([Status])
+}
+
+model role {
+  id        Int     @id
+  module    String? @db.VarChar(255)
+  tab       String? @db.VarChar(255)
+  ldap_role String? @db.VarChar(255)
+  status    String? @db.VarChar(50)
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Card Enrollment (CMS v3 tables)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model CardEnrollment {
+  id           Int       @id @default(autoincrement())
+  cardnumber   String?   @unique @db.VarChar(20)
+  dateenrolled DateTime?
+  receivedby   String?   @db.VarChar(255)
+  receiveddate DateTime?
+  releaseto    String?   @db.VarChar(255)
+  oldreleaseto String?   @db.VarChar(255)
+  releaseby    String?   @db.VarChar(255)
+  daterelease  DateTime?
+  transferto   String?   @db.VarChar(255)
+  datetransfer DateTime?
+  transferby   String?   @db.VarChar(255)
+  status       Int?
+
+  @@map("cardenrollment")
+}
+
+model CardNumber {
+  id                  Int     @id @default(autoincrement())
+  year                Int?
+  batch               Int?
+  month               Int?
+  seriesnum           Int?
+  maskedseries        String? @db.VarChar(255)
+  generatedcardnumber String  @unique @db.VarChar(50)
+  codecompany         String? @db.VarChar(50)
+  generatedby         String? @db.VarChar(50)
+
+  @@map("cardkey")
+}
+
+model CardVerified {
+  id                  Int       @id @default(autoincrement())
+  verifiedcardnumbers String    @unique @db.VarChar(20)
+  ictreceived         String?   @db.VarChar(50)
+  datereceived        DateTime?
+
+  @@map("cardverified")
+}
+
+model CmsCompany {
+  id          Int     @id @default(autoincrement())
+  server      String? @db.VarChar(50)
+  idcompany   BigInt?
+  code        String? @db.VarChar(30)
+  name        String? @db.VarChar(500)
+  status      String? @db.VarChar(10)
+  billingtype String? @db.VarChar(50)
+
+  @@map("companies")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Clinical (CMS v3 tables)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model VitalSign {
+  id               Int      @id @default(autoincrement())
+  queue_id         Int      @unique
+  patient_id       String?  @db.VarChar(30)
+  bp_systolic      Int?
+  bp_diastolic     Int?
+  bp_systolic2     Int?
+  bp_diastolic2    Int?
+  bp_systolic3     Int?
+  bp_diastolic3    Int?
+  heart_rate       Int?
+  temperature      Float?
+  respiratory_rate Int?
+  o2_saturation    Float?
+  weight_kg        Float?
+  height_cm        Float?
+  bmi              Float?
+  vision_right_od  String?  @db.VarChar(20)
+  vision_left_os   String?  @db.VarChar(20)
+  vision_corrected String?  @db.VarChar(50)
+  color_vision     String?  @db.VarChar(50)
+  chief_complaint  String?  @db.Text
+  pcp_doctor       String?  @db.VarChar(100)
+  recorded_by      Int?
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  @@map("vitalsign")
+}
+
+model PhysicalExamination {
+  id                  Int       @id @default(autoincrement())
+  queue_id            Int       @unique
+  patient_id          String?   @db.VarChar(30)
+  hypertension        Boolean   @default(false)
+  diabetes            Boolean   @default(false)
+  asthma              Boolean   @default(false)
+  heart_disease       Boolean   @default(false)
+  thyroid_disease     Boolean   @default(false)
+  kidney_disease      Boolean   @default(false)
+  allergies           Boolean   @default(false)
+  allergies_specify   String?   @db.VarChar(255)
+  surgery_history     Boolean   @default(false)
+  surgery_specify     String?   @db.VarChar(255)
+  smoker              Boolean   @default(false)
+  pack_years          Float?
+  alcoholic           Boolean   @default(false)
+  lmp                 DateTime? @db.Date
+  gravida             Int?
+  para                Int?
+  family_hypertension Boolean   @default(false)
+  family_diabetes     Boolean   @default(false)
+  family_cancer       Boolean   @default(false)
+  skin                String?   @db.Text
+  heent               String?   @db.Text
+  neck                String?   @db.Text
+  chest_lungs         String?   @db.Text
+  heart               String?   @db.Text
+  abdomen             String?   @db.Text
+  extremities         String?   @db.Text
+  neurological        String?   @db.Text
+  fitness_class       String?   @db.VarChar(20)
+  recorded_by         Int?
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+
+  @@map("physical_examinations")
+}
+
+model ConsultationNote {
+  id              Int       @id @default(autoincrement())
+  queue_id        Int       @unique
+  patient_id      String    @db.VarChar(30)
+  status          String    @default("PENDING") @db.VarChar(20)
+  is_draft        Int       @default(1)
+  chief_complaint String?   @db.Text
+  history_illness String?   @db.Text
+  past_history    String?   @db.Text
+  family_history  String?   @db.Text
+  pe_findings     String?   @db.Text
+  diagnosis       String?   @db.Text
+  icd_code        String?   @db.VarChar(50)
+  treatment_plan  String?   @db.Text
+  orders          String?   @db.Text
+  pcp_doctor      String?   @db.VarChar(100)
+  doctor_id       Int?
+  doctor_name     String?   @db.VarChar(100)
+  recorded_by     Int?
+  completed_at    DateTime?
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+
+  @@map("consultation_notes")
+}
+
+model MedicalEvaluation {
+  id             Int      @id @default(autoincrement())
+  queue_id       Int
+  patient_id     String   @db.VarChar(30)
+  item_code      String   @db.VarChar(50)
+  item_name      String?  @db.VarChar(255)
+  findings       String?  @db.Text
+  assessment     String?  @db.Text
+  recommendation String?  @db.Text
+  class_value    String?  @db.VarChar(20)
+  recorded_by    Int?
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  @@unique([queue_id, item_code])
+  @@map("medical_evaluations")
+}
