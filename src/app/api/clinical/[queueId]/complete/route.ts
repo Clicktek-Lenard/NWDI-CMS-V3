@@ -10,7 +10,7 @@ export async function POST(request: NextRequest, { params }: Params) {
     const { queueId } = await params;
     const qid = parseInt(queueId, 10);
 
-    const queue = await prisma.queue.findFirst({ where: { Id: BigInt(qid) } });
+    const queue = await prisma.queue.findFirst({ where: { id: BigInt(qid) } });
     if (!queue) {
       return NextResponse.json({ success: false, error: "Queue entry not found" }, { status: 404 });
     }
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest, { params }: Params) {
       update: { status: "COMPLETED", completed_at: new Date() },
       create: {
         queue_id: qid,
-        patient_id: String(queue.IdPatient),
+        patient_id: String(queue.idpatient),
         status: "COMPLETED",
         completed_at: new Date(),
       },

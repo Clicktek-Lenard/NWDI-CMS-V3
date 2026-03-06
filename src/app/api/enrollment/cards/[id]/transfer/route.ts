@@ -26,17 +26,17 @@ export async function PATCH(
       );
     }
 
-    const card = await prisma.cardEnrollment.findUnique({ where: { Id: cardId } });
+    const card = await prisma.cardEnrollment.findUnique({ where: { id: cardId } });
     if (!card) {
       return NextResponse.json({ success: false, error: "Card not found" }, { status: 404 });
     }
-    if (card.TransferTo) {
+    if (card.transferto) {
       return NextResponse.json(
         { success: false, error: "Card has already been transferred" },
         { status: 409 }
       );
     }
-    if (!card.DateRelease) {
+    if (!card.daterelease) {
       return NextResponse.json(
         { success: false, error: "Card must be verified before transfer" },
         { status: 409 }
@@ -46,11 +46,11 @@ export async function PATCH(
     const staffName = session.user.name ?? session.user.id;
 
     const updated = await prisma.cardEnrollment.update({
-      where: { Id: cardId },
+      where: { id: cardId },
       data: {
-        TransferTo: parsed.data.transfer_to,
-        DateTransfer: new Date(),
-        TransferBy: staffName,
+        transferto: parsed.data.transfer_to,
+        datetransfer: new Date(),
+        transferby: staffName,
       },
     });
 

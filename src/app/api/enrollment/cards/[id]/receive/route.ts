@@ -12,11 +12,11 @@ export async function PATCH(
     const { id } = await params;
     const cardId = parseInt(id, 10);
 
-    const card = await prisma.cardEnrollment.findUnique({ where: { Id: cardId } });
+    const card = await prisma.cardEnrollment.findUnique({ where: { id: cardId } });
     if (!card) {
       return NextResponse.json({ success: false, error: "Card not found" }, { status: 404 });
     }
-    if (card.ReceivedDate) {
+    if (card.receiveddate) {
       return NextResponse.json(
         { success: false, error: "Card has already been received" },
         { status: 409 }
@@ -28,21 +28,21 @@ export async function PATCH(
 
     // Update cardenrollment with received info
     await prisma.cardEnrollment.update({
-      where: { Id: cardId },
-      data: { ReceivedBy: staffName, ReceivedDate: now },
+      where: { id: cardId },
+      data: { receivedby: staffName, receiveddate: now },
     });
 
     // Also create cardverified record if not exists
-    if (card.CardNumber) {
+    if (card.cardnumber) {
       const alreadyVerified = await prisma.cardVerified.findUnique({
-        where: { VerifiedCardNumbers: card.CardNumber },
+        where: { verifiedcardnumbers: card.cardnumber },
       });
       if (!alreadyVerified) {
         await prisma.cardVerified.create({
           data: {
-            VerifiedCardNumbers: card.CardNumber,
-            ICTReceived: staffName,
-            DateReceived: now,
+            verifiedcardnumbers: card.cardnumber,
+            ictreceived: staffName,
+            datereceived: now,
           },
         });
       }

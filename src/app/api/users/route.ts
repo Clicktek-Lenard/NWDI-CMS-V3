@@ -31,11 +31,11 @@ export async function GET(request: NextRequest) {
       ...(search
         ? {
             OR: [
-              { username: { contains: search } },
-              { first_name: { contains: search } },
-              { last_name: { contains: search } },
-              { email: { contains: search } },
-              { department: { contains: search } },
+              { username: { contains: search, mode: "insensitive" as const } },
+              { first_name: { contains: search, mode: "insensitive" as const } },
+              { last_name: { contains: search, mode: "insensitive" as const } },
+              { email: { contains: search, mode: "insensitive" as const } },
+              { department: { contains: search, mode: "insensitive" as const } },
             ],
           }
         : {}),

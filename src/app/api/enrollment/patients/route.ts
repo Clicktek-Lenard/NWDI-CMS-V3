@@ -16,22 +16,22 @@ export async function GET(request: NextRequest) {
 
     const patients = await prisma.patient.findMany({
       where: {
-        IsActive: 1,
+        isactive: 1,
         OR: [
-          { FullName: { contains: search } },
-          { Code: { contains: search } },
-          { EmployeeId: { contains: search } },
+          { fullname: { contains: search, mode: "insensitive" } },
+          { code: { contains: search, mode: "insensitive" } },
+          { employeeid: { contains: search, mode: "insensitive" } },
         ],
       },
       select: {
-        Id: true,
-        Code: true,
-        FullName: true,
-        Gender: true,
-        DOB: true,
+        id: true,
+        code: true,
+        fullname: true,
+        gender: true,
+        dob: true,
       },
       take: 20,
-      orderBy: { FullName: "asc" },
+      orderBy: { fullname: "asc" },
     });
 
     return NextResponse.json({ success: true, data: patients });

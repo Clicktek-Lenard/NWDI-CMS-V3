@@ -27,22 +27,22 @@ function getLifecycle(
 }
 
 type CardRow = {
-  Id: number;
-  CardNumber: string | null;
-  DateEnrolled: Date | null;
-  ReceivedBy: string | null;
-  ReceivedDate: Date | null;
-  ReleaseTo: string | null;
-  ReleaseBy: string | null;
-  DateRelease: Date | null;
-  TransferTo: string | null;
-  TransferBy: string | null;
-  DateTransfer: Date | null;
-  Status: number | null;
-  companyCode: string | null;
-  companyName: string | null;
-  dateReceived: Date | null;
-  ictReceived: string | null;
+  id: number;
+  cardnumber: string | null;
+  dateenrolled: Date | null;
+  receivedby: string | null;
+  receiveddate: Date | null;
+  releaseto: string | null;
+  releaseby: string | null;
+  daterelease: Date | null;
+  transferto: string | null;
+  transferby: string | null;
+  datetransfer: Date | null;
+  status: number | null;
+  companycode: string | null;
+  companyname: string | null;
+  datereceived: Date | null;
+  ictreceived: string | null;
 };
 
 type CountRow = { total: bigint };
@@ -63,43 +63,43 @@ export async function GET(request: NextRequest) {
     // Lifecycle filter: built from our own enum — safe to inline as SQL string
     const lifecycleFilter =
       lifecycle === "REGISTERED"
-        ? "AND e.ReceivedDate IS NULL AND v.VerifiedCardNumbers IS NULL AND e.DateRelease IS NULL AND e.TransferTo IS NULL"
+        ? "AND e.receiveddate IS NULL AND v.verifiedcardnumbers IS NULL AND e.daterelease IS NULL AND e.transferto IS NULL"
         : lifecycle === "RECEIVED"
-        ? "AND (e.ReceivedDate IS NOT NULL OR v.VerifiedCardNumbers IS NOT NULL) AND e.DateRelease IS NULL AND e.TransferTo IS NULL"
+        ? "AND (e.receiveddate IS NOT NULL OR v.verifiedcardnumbers IS NOT NULL) AND e.daterelease IS NULL AND e.transferto IS NULL"
         : lifecycle === "VERIFIED"
-        ? "AND e.DateRelease IS NOT NULL AND e.TransferTo IS NULL"
+        ? "AND e.daterelease IS NOT NULL AND e.transferto IS NULL"
         : lifecycle === "TRANSFERRED"
-        ? "AND e.TransferTo IS NOT NULL"
+        ? "AND e.transferto IS NOT NULL"
         : "";
 
     const [countRows, cards] = await Promise.all([
       prisma.$queryRawUnsafe<CountRow[]>(
         `SELECT COUNT(*) AS total
          FROM cardenrollment e
-         LEFT JOIN cardkey k ON k.GeneratedCardNumber = e.CardNumber
-         LEFT JOIN companies c ON c.Code = k.CodeCompany
-         LEFT JOIN cardverified v ON v.VerifiedCardNumbers = e.CardNumber
-         WHERE (e.CardNumber LIKE ? OR c.Name LIKE ?)
+         LEFT JOIN cardkey k ON k.generatedcardnumber = e.cardnumber
+         LEFT JOIN companies c ON c.code = k.codecompany
+         LEFT JOIN cardverified v ON v.verifiedcardnumbers = e.cardnumber
+         WHERE (e.cardnumber ILIKE $1 OR c.name ILIKE $2)
          ${lifecycleFilter}`,
         searchPattern, searchPattern
       ),
       prisma.$queryRawUnsafe<CardRow[]>(
         `SELECT
-           e.Id, e.CardNumber, e.DateEnrolled,
-           e.ReceivedBy, e.ReceivedDate,
-           e.ReleaseTo, e.ReleaseBy, e.DateRelease,
-           e.TransferTo, e.TransferBy, e.DateTransfer,
-           e.Status,
-           c.Code AS companyCode, c.Name AS companyName,
-           v.DateReceived AS dateReceived, v.ICTReceived AS ictReceived
+           e.id, e.cardnumber, e.dateenrolled,
+           e.receivedby, e.receiveddate,
+           e.releaseto, e.releaseby, e.daterelease,
+           e.transferto, e.transferby, e.datetransfer,
+           e.status,
+           c.code AS companycode, c.name AS companyname,
+           v.datereceived, v.ictreceived
          FROM cardenrollment e
-         LEFT JOIN cardkey k ON k.GeneratedCardNumber = e.CardNumber
-         LEFT JOIN companies c ON c.Code = k.CodeCompany
-         LEFT JOIN cardverified v ON v.VerifiedCardNumbers = e.CardNumber
-         WHERE (e.CardNumber LIKE ? OR c.Name LIKE ?)
+         LEFT JOIN cardkey k ON k.generatedcardnumber = e.cardnumber
+         LEFT JOIN companies c ON c.code = k.codecompany
+         LEFT JOIN cardverified v ON v.verifiedcardnumbers = e.cardnumber
+         WHERE (e.cardnumber ILIKE $1 OR c.name ILIKE $2)
          ${lifecycleFilter}
-         ORDER BY e.DateEnrolled DESC
-         LIMIT ? OFFSET ?`,
+         ORDER BY e.dateenrolled DESC
+         LIMIT $3 OFFSET $4`,
         searchPattern, searchPattern, pageSize, offset
       ),
     ]);
@@ -109,23 +109,23 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       data: cards.map((c) => ({
-        id: c.Id,
-        cardNumber: c.CardNumber ?? "",
-        enrollmentDate: c.DateEnrolled?.toISOString() ?? null,
-        receivedBy: c.ReceivedBy ?? null,
-        receivedDate: c.ReceivedDate?.toISOString() ?? null,
-        releaseTo: c.ReleaseTo ?? null,
-        releaseBy: c.ReleaseBy ?? null,
-        dateRelease: c.DateRelease?.toISOString() ?? null,
-        transferTo: c.TransferTo ?? null,
-        transferBy: c.TransferBy ?? null,
-        dateTransfer: c.DateTransfer?.toISOString() ?? null,
-        status: c.Status,
-        companyCode: c.companyCode ?? "",
-        companyName: c.companyName ?? "",
-        dateReceived: c.dateReceived?.toISOString() ?? null,
-        ictReceived: c.ictReceived ?? null,
-        lifecycle: getLifecycle(c.TransferTo, c.DateRelease, c.ReceivedDate, c.dateReceived),
+        id: c.id,
+        cardNumber: c.cardnumber ?? "",
+        enrollmentDate: c.dateenrolled?.toISOString() ?? null,
+        receivedBy: c.receivedby ?? null,
+        receivedDate: c.receiveddate?.toISOString() ?? null,
+        releaseTo: c.releaseto ?? null,
+        releaseBy: c.releaseby ?? null,
+        dateRelease: c.daterelease?.toISOString() ?? null,
+        transferTo: c.transferto ?? null,
+        transferBy: c.transferby ?? null,
+        dateTransfer: c.datetransfer?.toISOString() ?? null,
+        status: c.status,
+        companyCode: c.companycode ?? "",
+        companyName: c.companyname ?? "",
+        dateReceived: c.datereceived?.toISOString() ?? null,
+        ictReceived: c.ictreceived ?? null,
+        lifecycle: getLifecycle(c.transferto, c.daterelease, c.receiveddate, c.datereceived),
       })),
       total,
       page,
@@ -158,7 +158,7 @@ export async function POST(request: NextRequest) {
 
     // Validate card exists in cardkey
     const cardKey = await prisma.cardNumber.findUnique({
-      where: { GeneratedCardNumber: card_number },
+      where: { generatedcardnumber: card_number },
     });
     if (!cardKey) {
       return NextResponse.json(
@@ -169,7 +169,7 @@ export async function POST(request: NextRequest) {
 
     // Check not already enrolled
     const existing = await prisma.cardEnrollment.findFirst({
-      where: { CardNumber: card_number },
+      where: { cardnumber: card_number },
     });
     if (existing) {
       return NextResponse.json(
@@ -180,8 +180,8 @@ export async function POST(request: NextRequest) {
 
     const enrollment = await prisma.cardEnrollment.create({
       data: {
-        CardNumber: card_number,
-        DateEnrolled: new Date(),
+        cardnumber: card_number,
+        dateenrolled: new Date(),
       },
     });
 

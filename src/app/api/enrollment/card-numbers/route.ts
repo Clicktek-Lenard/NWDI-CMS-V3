@@ -14,19 +14,19 @@ export async function GET(request: NextRequest) {
 
     // Get all enrolled card numbers to compute is_used
     const enrolled = await prisma.cardEnrollment.findMany({
-      select: { CardNumber: true },
+      select: { cardnumber: true },
     });
-    const enrolledSet = new Set(enrolled.map((e) => e.CardNumber).filter(Boolean));
+    const enrolledSet = new Set(enrolled.map((e) => e.cardnumber).filter(Boolean));
 
     const where = {
-      ...(search ? { GeneratedCardNumber: { contains: search } } : {}),
+      ...(search ? { generatedcardnumber: { contains: search, mode: "insensitive" as const } } : {}),
     };
 
     const [total, numbers] = await Promise.all([
       prisma.cardNumber.count({ where }),
       prisma.cardNumber.findMany({
         where,
-        orderBy: { Id: "desc" },
+        orderBy: { id: "desc" },
         skip: (page - 1) * pageSize,
         take: pageSize,
       }),
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
       success: true,
       data: numbers.map((n) => ({
         ...n,
-        is_used: enrolledSet.has(n.GeneratedCardNumber) ? 1 : 0,
+        is_used: enrolledSet.has(n.generatedcardnumber) ? 1 : 0,
       })),
       total,
       page,

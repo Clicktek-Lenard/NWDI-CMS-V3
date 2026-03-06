@@ -23,7 +23,7 @@ export async function PATCH(
     const { status } = await request.json() as { status: string };
 
     // Verify queue entry exists
-    const queue = await prisma.queue.findFirst({ where: { Id: BigInt(id) } });
+    const queue = await prisma.queue.findFirst({ where: { id: BigInt(id) } });
     if (!queue) {
       return NextResponse.json({ success: false, error: "Queue entry not found" }, { status: 404 });
     }
@@ -51,7 +51,7 @@ export async function PATCH(
       where: { queue_id: id },
       create: {
         queue_id: id,
-        patient_id: String(queue.IdPatient),
+        patient_id: String(queue.idpatient),
         status,
         recorded_by: undefined,
       },

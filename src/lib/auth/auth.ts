@@ -1,6 +1,6 @@
 import NextAuth, { type DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-import mysql from "mysql2/promise";
+import { Pool } from "pg";
 import bcrypt from "bcryptjs";
 
 declare module "next-auth" {
@@ -43,21 +43,24 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const clinicCode = (credentials.clinicCode as string) || "";
 
         try {
-          const conn = await mysql.createConnection({
-            host: process.env.DB_HOST || "localhost",
-            user: process.env.DB_USER || "root",
-            password: process.env.DB_PASSWORD || "",
-            database: process.env.DB_NAME || "cms_v2",
-          });
+          const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
-          const [rows] = await conn.query<mysql.RowDataPacket[]>(
-            "SELECT id, username, email, password, first_name, last_name, role FROM users WHERE username = ? AND deleted_at IS NULL AND activated = 1 LIMIT 1",
+          const result = await pool.query<{
+            id: number;
+            username: string;
+            email: string | null;
+            password: string | null;
+            first_name: string | null;
+            last_name: string | null;
+            role: string | null;
+          }>(
+            "SELECT id, username, email, password, first_name, last_name, role FROM users WHERE username = $1 AND deleted_at IS NULL AND activated = true LIMIT 1",
             [username]
           );
 
-          await conn.end();
+          await pool.end();
 
-          const user = rows[0];
+          const user = result.rows[0];
           if (!user) return null;
 
           // Support both $2b$ (Node.js) and $2y$ (PHP) bcrypt hashes
@@ -106,4 +109,3 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     maxAge: 2 * 60 * 60, // 2 hours
   },
 });
-

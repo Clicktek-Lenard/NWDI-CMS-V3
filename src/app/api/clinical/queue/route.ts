@@ -23,17 +23,17 @@ export async function GET(request: NextRequest) {
     const clinicCode = session.user.clinicCode || "";
 
     const where = {
-      Status: { in: ACTIVE_STATUSES },
-      ...(clinicCode ? { IdBU: clinicCode } : {}),
+      status: { in: ACTIVE_STATUSES },
+      ...(clinicCode ? { idbu: clinicCode } : {}),
     };
 
     const queue = await prisma.queue.findMany({
       where,
-      orderBy: { DateTime: "asc" },
+      orderBy: { datetime: "asc" },
       take: 200,
     });
 
-    const queueIds = queue.map((q) => Number(q.Id));
+    const queueIds = queue.map((q) => Number(q.id));
 
     // Load consultation notes for display status and details
     let notes: {
@@ -58,22 +58,22 @@ export async function GET(request: NextRequest) {
 
     // Build entries with display status derived from ConsultationNote
     const allEntries = queue.map((q) => {
-      const note = notesMap.get(Number(q.Id));
+      const note = notesMap.get(Number(q.id));
       return {
-        id: Number(q.Id),
-        queueNumber: Number(q.Id),
-        patientId: String(q.IdPatient),
-        patientName: q.QFullName ?? "",
-        gender: q.QGender,
-        age: q.AgePatient,
-        accessionNo: q.AccessionNo,
+        id: Number(q.id),
+        queueNumber: Number(q.id),
+        patientId: String(q.idpatient),
+        patientName: q.qfullname ?? "",
+        gender: q.qgender,
+        age: q.agepatient,
+        accessionNo: q.accessionno,
         companyCode: null as string | null,
         companyName: null as string | null,
         status: getDisplayStatus(note?.status),
         priority: 0,
-        clinicCode: q.IdBU,
-        queueCode: q.Code,
-        createdAt: q.DateTime.toISOString(),
+        clinicCode: q.idbu,
+        queueCode: q.code,
+        createdAt: q.datetime.toISOString(),
         consultation: note
           ? { status: note.status, pcp_doctor: note.pcp_doctor, diagnosis: note.diagnosis, is_draft: note.is_draft }
           : null,
