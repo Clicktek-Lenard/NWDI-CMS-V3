@@ -10,30 +10,31 @@ export async function POST(request: NextRequest, { params }: Params) {
     const { queueId } = await params;
     const qid = parseInt(queueId, 10);
 
-    const queue = await prisma.queue.findFirst({ where: { id: qid } });
+    const queue = await prisma.queue.findFirst({ where: { Id: BigInt(qid) } });
     if (!queue) {
       return NextResponse.json({ success: false, error: "Queue entry not found" }, { status: 404 });
     }
-    if (queue.status === "COMPLETED") {
+
+    // Check current ConsultationNote status
+    const note = await prisma.consultationNote.findUnique({
+      where: { queue_id: qid },
+      select: { status: true },
+    }).catch(() => null);
+
+    if (note?.status === "COMPLETED") {
       return NextResponse.json({ success: false, error: "Already completed" }, { status: 400 });
     }
 
-    await Promise.all([
-      prisma.queue.update({
-        where: { id: qid },
-        data: { status: "COMPLETED" },
-      }),
-      prisma.consultationNote.upsert({
-        where: { queue_id: qid },
-        update: { status: "COMPLETED", completed_at: new Date() },
-        create: {
-          queue_id: qid,
-          patient_id: queue.patient_id,
-          status: "COMPLETED",
-          completed_at: new Date(),
-        },
-      }),
-    ]);
+    await prisma.consultationNote.upsert({
+      where: { queue_id: qid },
+      update: { status: "COMPLETED", completed_at: new Date() },
+      create: {
+        queue_id: qid,
+        patient_id: String(queue.IdPatient),
+        status: "COMPLETED",
+        completed_at: new Date(),
+      },
+    });
 
     return NextResponse.json({ success: true, message: "Consultation completed" });
   } catch (error) {

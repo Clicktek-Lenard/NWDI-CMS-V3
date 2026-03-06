@@ -1,7 +1,6 @@
 import { config } from "dotenv";
 
-// Load .env.local first (Next.js convention), fall back to .env
-config({ path: ".env.local" });
+// For Prisma CLI: use .env (PostgreSQL) not .env.local (old MySQL)
 config();
 
 import { defineConfig, env } from "prisma/config";

@@ -8,26 +8,41 @@ export async function GET(request: NextRequest) {
 
     const { searchParams } = new URL(request.url);
     const q = searchParams.get("q") ?? "";
+    const searchPattern = `%${q}%`;
 
-    const physicians = await prisma.physician.findMany({
-      where: {
-        status: "ACTIVE",
-        ...(q
-          ? {
-              OR: [
-                { name: { contains: q } },
-                { code: { contains: q } },
-                { specialty: { contains: q } },
-              ],
-            }
-          : {}),
-      },
-      select: { id: true, code: true, name: true, specialty: true, license_no: true },
-      orderBy: { name: "asc" },
-      take: 20,
+    type PhysicianRow = {
+      id: bigint;
+      code: string | null;
+      fullname: string | null;
+      displayname: string | null;
+      prcno: string | null;
+      degree: string | null;
+      subgroup: string | null;
+      status: string | null;
+    };
+
+    const physicians = await prisma.$queryRaw<PhysicianRow[]>`
+      SELECT id, code, fullname, displayname, prcno, degree, subgroup, status
+      FROM physician
+      WHERE status IN ('Approved', 'Active', 'A')
+        AND (${q} = '' OR fullname ILIKE ${searchPattern} OR code ILIKE ${searchPattern})
+      ORDER BY fullname ASC
+      LIMIT 50
+    `;
+
+    return NextResponse.json({
+      success: true,
+      data: physicians.map((p) => ({
+        id: Number(p.id),
+        code: p.code ?? "",
+        name: p.fullname ?? "",
+        displayName: p.displayname ?? null,
+        licenseNo: p.prcno ?? null,
+        degree: p.degree ?? null,
+        subGroup: p.subgroup ?? null,
+        status: p.status ?? "",
+      })),
     });
-
-    return NextResponse.json({ success: true, data: physicians });
   } catch (error) {
     if (error instanceof Response) throw error;
     const msg = error instanceof Error ? error.message : String(error);

@@ -1,112 +1,37 @@
-import prisma from "@/lib/db/prisma";
 import type { CardStatus, PaginatedResponse, CardEnrollment } from "@/types";
 
+// NOTE: cardEnrollment table does not exist in the current PostgreSQL database.
+// These methods are stubs until the table is created.
+
 export class EnrollmentService {
-  /**
-   * Get card enrollments with pagination.
-   */
   static async getEnrollments(
-    clinicCode: string,
-    page = 1,
-    pageSize = 50,
-    status?: CardStatus
+    _clinicCode: string,
+    _page = 1,
+    _pageSize = 50,
+    _status?: CardStatus
   ): Promise<PaginatedResponse<CardEnrollment>> {
-    const where = {
-      clinic_code: clinicCode,
-      ...(status && { status }),
-    };
-
-    const [data, total] = await Promise.all([
-      prisma.cardEnrollment.findMany({
-        where,
-        orderBy: { created_at: "desc" },
-        skip: (page - 1) * pageSize,
-        take: pageSize,
-      }),
-      prisma.cardEnrollment.count({ where }),
-    ]);
-
-    return {
-      data: data.map((row) => ({
-        id: row.id,
-        cardNumber: row.card_number,
-        patientId: row.patient_id,
-        status: row.status as CardStatus,
-        registeredBy: row.registered_by || "",
-        registeredAt: row.registered_at.toISOString(),
-        receivedBy: row.received_by || undefined,
-        receivedAt: row.received_at?.toISOString(),
-        verifiedBy: row.verified_by || undefined,
-        verifiedAt: row.verified_at?.toISOString(),
-      })),
-      total,
-      page,
-      pageSize,
-      totalPages: Math.ceil(total / pageSize),
-    };
+    throw new Error("EnrollmentService: cardEnrollment table not yet available");
   }
 
-  /**
-   * Register a new card.
-   */
-  static async registerCard(input: {
+  static async registerCard(_input: {
     cardNumber: string;
     patientId: string;
     patientName: string;
     registeredBy: string;
     clinicCode: string;
   }) {
-    return prisma.cardEnrollment.create({
-      data: {
-        card_number: input.cardNumber,
-        patient_id: input.patientId,
-        patient_name: input.patientName,
-        status: "REGISTERED",
-        registered_by: input.registeredBy,
-        clinic_code: input.clinicCode,
-      },
-    });
+    throw new Error("EnrollmentService: cardEnrollment table not yet available");
   }
 
-  /**
-   * Mark card as received.
-   */
-  static async receiveCard(id: number, receivedBy: string) {
-    return prisma.cardEnrollment.update({
-      where: { id },
-      data: {
-        status: "RECEIVED",
-        received_by: receivedBy,
-        received_at: new Date(),
-      },
-    });
+  static async receiveCard(_id: number, _receivedBy: string) {
+    throw new Error("EnrollmentService: cardEnrollment table not yet available");
   }
 
-  /**
-   * Verify a card.
-   */
-  static async verifyCard(id: number, verifiedBy: string) {
-    return prisma.cardEnrollment.update({
-      where: { id },
-      data: {
-        status: "VERIFIED",
-        verified_by: verifiedBy,
-        verified_at: new Date(),
-      },
-    });
+  static async verifyCard(_id: number, _verifiedBy: string) {
+    throw new Error("EnrollmentService: cardEnrollment table not yet available");
   }
 
-  /**
-   * Transfer a card.
-   */
-  static async transferCard(id: number, transferTo: string) {
-    return prisma.cardEnrollment.update({
-      where: { id },
-      data: {
-        status: "TRANSFERRED",
-        transferred_to: transferTo,
-        transferred_at: new Date(),
-      },
-    });
+  static async transferCard(_id: number, _transferTo: string) {
+    throw new Error("EnrollmentService: cardEnrollment table not yet available");
   }
 }

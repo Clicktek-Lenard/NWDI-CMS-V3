@@ -105,19 +105,19 @@ interface MedItem { item_code: string; item_name: string; findings: string; asse
 interface MedEvalData { items: MedItem[] }
 
 // ── Shared styles ─────────────────────────────────────────────
-const INP = "block w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm transition-colors focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20";
+const INP = "block w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-800 shadow-sm transition-colors focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500";
 const TEXTAREA = `${INP} resize-none`;
 const LBL = "mb-1 block text-xs font-semibold uppercase tracking-wider text-slate-400";
-const CHK = "flex items-center gap-2 text-sm text-slate-700";
+const CHK = "flex items-center gap-2 text-sm text-slate-700 dark:text-slate-200";
 
 // ── Mini helpers ──────────────────────────────────────────────
 function VitalBadge({ icon, label, value, unit }: { icon: React.ReactNode; label: string; value: string | null; unit: string }) {
   return (
-    <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2">
+    <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-600 dark:bg-slate-700">
       <span className="text-slate-400">{icon}</span>
       <div className="min-w-0">
         <p className="text-[10px] uppercase tracking-wider text-slate-400">{label}</p>
-        <p className="text-sm font-semibold text-slate-700">
+        <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">
           {value ?? <span className="font-normal text-slate-300">—</span>}
           {value && <span className="ml-0.5 text-xs font-normal text-slate-400">{unit}</span>}
         </p>
@@ -129,11 +129,11 @@ function VitalBadge({ icon, label, value, unit }: { icon: React.ReactNode; label
 function Section({ title, children, defaultOpen = true }: { title: string; children: React.ReactNode; defaultOpen?: boolean }) {
   const [open, setOpen] = useState(defaultOpen);
   return (
-    <div className="rounded-xl border border-slate-200 overflow-hidden">
+    <div className="rounded-xl border border-slate-200 overflow-hidden dark:border-slate-700">
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        className="flex w-full items-center justify-between bg-slate-50 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-slate-500 hover:bg-slate-100"
+        className="flex w-full items-center justify-between bg-slate-50 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-slate-500 hover:bg-slate-100 dark:bg-slate-700 dark:text-slate-400 dark:hover:bg-slate-600"
       >
         {title}
         {open ? <ChevronUp className="h-3.5 w-3.5" /> : <ChevronDown className="h-3.5 w-3.5" />}
@@ -429,35 +429,35 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
   ];
 
   const classColor = (c: string | null) => {
-    if (!c) return "bg-slate-100 text-slate-500";
-    if (c === "A") return "bg-emerald-100 text-emerald-700";
-    if (c === "B") return "bg-blue-100 text-blue-700";
-    if (c === "C") return "bg-amber-100 text-amber-700";
-    if (c === "D") return "bg-red-100 text-red-700";
-    return "bg-slate-100 text-slate-500";
+    if (!c) return "bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400";
+    if (c === "A") return "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400";
+    if (c === "B") return "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400";
+    if (c === "C") return "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400";
+    if (c === "D") return "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400";
+    return "bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400";
   };
 
   return (
     <>
       <div className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm" onClick={onClose} />
 
-      <div className="fixed inset-y-0 right-0 z-50 flex w-full max-w-3xl flex-col bg-white shadow-2xl">
+      <div className="fixed inset-y-0 right-0 z-50 flex w-full max-w-3xl flex-col bg-white shadow-2xl dark:bg-slate-800">
 
         {/* Header */}
-        <div className="flex items-start justify-between border-b border-slate-100 px-6 py-4 shrink-0">
+        <div className="flex items-start justify-between border-b border-slate-100 px-6 py-4 shrink-0 dark:border-slate-700">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600 font-bold text-sm">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600 font-bold text-sm dark:bg-blue-900/40 dark:text-blue-400">
               #{patient.queueNumber.toString().padStart(3, "0")}
             </div>
             <div>
-              <h3 className="font-semibold text-slate-800">{patient.patientName}</h3>
+              <h3 className="font-semibold text-slate-800 dark:text-slate-100">{patient.patientName}</h3>
               <div className="flex items-center gap-2 mt-0.5">
                 <span className="text-xs text-slate-400">{patient.patientId}</span>
                 {patient.companyName && (
-                  <><span className="text-slate-200">·</span><span className="text-xs text-slate-400">{patient.companyName}</span></>
+                  <><span className="text-slate-200 dark:text-slate-600">·</span><span className="text-xs text-slate-400">{patient.companyName}</span></>
                 )}
                 {patient.priority === 1 && (
-                  <span className="rounded-full bg-orange-100 px-1.5 py-0.5 text-[10px] font-medium text-orange-600">Priority</span>
+                  <span className="rounded-full bg-orange-100 px-1.5 py-0.5 text-[10px] font-medium text-orange-600 dark:bg-orange-900/30 dark:text-orange-400">Priority</span>
                 )}
                 {overallClass && (
                   <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${classColor(overallClass)}`}>
@@ -467,14 +467,14 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
               </div>
             </div>
           </div>
-          <button onClick={onClose} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100">
+          <button onClick={onClose} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700">
             <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Vitals summary bar */}
         {(vitals.bp_systolic || vitals.heart_rate || vitals.temperature) && (
-          <div className="grid grid-cols-4 gap-2 border-b border-slate-100 bg-slate-50 px-4 py-2 shrink-0">
+          <div className="grid grid-cols-4 gap-2 border-b border-slate-100 bg-slate-50 px-4 py-2 shrink-0 dark:border-slate-700 dark:bg-slate-700">
             <VitalBadge icon={<Heart className="h-3.5 w-3.5" />} label="BP" value={bpStr} unit="mmHg" />
             <VitalBadge icon={<Activity className="h-3.5 w-3.5" />} label="HR" value={vitals.heart_rate?.toString() ?? null} unit="bpm" />
             <VitalBadge icon={<Thermometer className="h-3.5 w-3.5" />} label="Temp" value={vitals.temperature?.toString() ?? null} unit="°C" />
@@ -483,15 +483,15 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
         )}
 
         {/* Tabs */}
-        <div className="flex gap-1 border-b border-slate-100 px-4 pt-3 shrink-0 overflow-x-auto">
+        <div className="flex gap-1 border-b border-slate-100 px-4 pt-3 shrink-0 overflow-x-auto dark:border-slate-700">
           {TABS.map((t) => (
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
               className={`flex shrink-0 items-center gap-1.5 rounded-t-lg px-4 py-2 text-xs font-medium transition-colors relative ${
                 tab === t.id
-                  ? "bg-white text-blue-600 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-blue-600"
-                  : "text-slate-500 hover:text-slate-700"
+                  ? "bg-white text-blue-600 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-blue-600 dark:bg-slate-800 dark:text-blue-400"
+                  : "text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
               }`}
             >
               {t.icon}{t.label}
@@ -502,7 +502,7 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
 
         {/* Error */}
         {saveError && (
-          <div className="mx-4 mt-3 flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700 shrink-0">
+          <div className="mx-4 mt-3 flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700 shrink-0 dark:border-red-800 dark:bg-red-900/20 dark:text-red-400">
             <AlertTriangle className="h-4 w-4 shrink-0" />{saveError}
           </div>
         )}
@@ -546,12 +546,12 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
                   )}
                 </div>
                 {pcpResults.length > 0 && (
-                  <div className="absolute z-10 mt-1 w-full rounded-xl border border-slate-200 bg-white shadow-lg">
+                  <div className="absolute z-10 mt-1 w-full rounded-xl border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
                     {pcpResults.map((p) => (
                       <button
                         key={p.id}
                         type="button"
-                        className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-slate-50"
+                        className="flex w-full items-center gap-2 px-4 py-2.5 text-left text-sm hover:bg-slate-50 dark:hover:bg-slate-700"
                         onClick={() => {
                           vitalsForm.setValue("pcp_id", p.code);
                           vitalsForm.setValue("pcp_name", p.name);
@@ -560,7 +560,7 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
                         }}
                       >
                         <div>
-                          <p className="font-medium text-slate-800">{p.name}</p>
+                          <p className="font-medium text-slate-800 dark:text-slate-100">{p.name}</p>
                           {p.specialty && <p className="text-xs text-slate-400">{p.specialty}</p>}
                         </div>
                       </button>
@@ -661,16 +661,16 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
               </div>
 
               {/* BMI */}
-              <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+              <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-600 dark:bg-slate-700">
                 <div>
                   <p className="text-xs text-slate-400 uppercase tracking-wider">BMI (Auto)</p>
-                  <p className="text-2xl font-bold text-slate-700">{vitals.bmi ?? "—"}</p>
+                  <p className="text-2xl font-bold text-slate-700 dark:text-slate-200">{vitals.bmi ?? "—"}</p>
                 </div>
                 {vitals.bmi && (
                   <span className={`rounded-full px-2.5 py-1 text-xs font-medium ${
-                    vitals.bmi < 18.5 ? "bg-blue-100 text-blue-700" :
-                    vitals.bmi < 25 ? "bg-emerald-100 text-emerald-700" :
-                    vitals.bmi < 30 ? "bg-amber-100 text-amber-700" : "bg-red-100 text-red-700"
+                    vitals.bmi < 18.5 ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400" :
+                    vitals.bmi < 25 ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" :
+                    vitals.bmi < 30 ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
                   }`}>
                     {vitals.bmi < 18.5 ? "Underweight" : vitals.bmi < 25 ? "Normal" : vitals.bmi < 30 ? "Overweight" : "Obese"}
                   </span>
@@ -716,15 +716,15 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
                         { label: "Near Corrected", od: "corrected_near_od" as keyof VitalsData, os: "corrected_near_os" as keyof VitalsData },
                       ].map((row) => (
                         <tr key={row.label}>
-                          <td className="py-1 pr-3 text-slate-500 whitespace-nowrap">{row.label}</td>
+                          <td className="py-1 pr-3 text-slate-500 whitespace-nowrap dark:text-slate-400">{row.label}</td>
                           <td className="py-1 px-1">
                             <input {...vitalsForm.register(row.od)} type="text" placeholder="20/20"
-                              className="block w-full rounded-lg border border-slate-200 px-2 py-1.5 text-xs text-slate-700 focus:border-blue-400 focus:outline-none"
+                              className="block w-full rounded-lg border border-slate-200 px-2 py-1.5 text-xs text-slate-700 focus:border-blue-400 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100"
                               disabled={isCompleted} />
                           </td>
                           <td className="py-1 px-1">
                             <input {...vitalsForm.register(row.os)} type="text" placeholder="20/20"
-                              className="block w-full rounded-lg border border-slate-200 px-2 py-1.5 text-xs text-slate-700 focus:border-blue-400 focus:outline-none"
+                              className="block w-full rounded-lg border border-slate-200 px-2 py-1.5 text-xs text-slate-700 focus:border-blue-400 focus:outline-none dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100"
                               disabled={isCompleted} />
                           </td>
                         </tr>
@@ -740,12 +740,12 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
           {tab === "soap" && (
             <div className="space-y-4">
               {patient.consultation?.is_draft === 0 && (
-                <div className="flex items-center gap-2 rounded-lg bg-emerald-50 border border-emerald-200 px-3 py-2 text-xs text-emerald-700">
+                <div className="flex items-center gap-2 rounded-lg bg-emerald-50 border border-emerald-200 px-3 py-2 text-xs text-emerald-700 dark:bg-emerald-900/20 dark:border-emerald-800 dark:text-emerald-400">
                   <CheckCircle className="h-4 w-4 shrink-0" /> SOAP note finalized
                 </div>
               )}
               {patient.consultation?.is_draft === 1 && (
-                <div className="flex items-center gap-2 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-700">
+                <div className="flex items-center gap-2 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2 text-xs text-amber-700 dark:bg-amber-900/20 dark:border-amber-800 dark:text-amber-400">
                   <FileText className="h-4 w-4 shrink-0" /> Draft — not yet finalized
                 </div>
               )}
@@ -823,7 +823,7 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
           {tab === "pe" && (
             <div className="space-y-4">
               {/* Overall Class */}
-              <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+              <div className="flex items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-600 dark:bg-slate-700">
                 <div className="flex-1">
                   <p className={LBL}>Overall Fitness Class</p>
                   <div className="flex gap-2 mt-1">
@@ -839,7 +839,7 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
                               : cls === "C" ? "bg-amber-500 text-white"
                               : cls === "D" ? "bg-red-600 text-white"
                               : "bg-slate-600 text-white"
-                            : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-100"
+                            : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
                         }`}
                       >
                         {cls}
@@ -1002,15 +1002,15 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
 
               {/* Item list */}
               {fields.length === 0 && (
-                <div className="rounded-xl border border-dashed border-slate-300 p-6 text-center">
-                  <Eye className="mx-auto h-8 w-8 text-slate-200 mb-2" />
+                <div className="rounded-xl border border-dashed border-slate-300 p-6 text-center dark:border-slate-600">
+                  <Eye className="mx-auto h-8 w-8 text-slate-200 mb-2 dark:text-slate-600" />
                   <p className="text-sm text-slate-400">No evaluation items yet. Add an item below.</p>
                 </div>
               )}
 
               <div className="space-y-4">
                 {fields.map((field, idx) => (
-                  <div key={field.id} className="rounded-xl border border-slate-200 p-4 space-y-3">
+                  <div key={field.id} className="rounded-xl border border-slate-200 p-4 space-y-3 dark:border-slate-700">
                     <div className="flex items-center gap-2">
                       <div className="flex-1 grid grid-cols-2 gap-2">
                         <div>
@@ -1026,7 +1026,7 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
                       </div>
                       {!isCompleted && (
                         <button type="button" onClick={() => remove(idx)}
-                          className="mt-4 rounded-lg p-2 text-red-400 hover:bg-red-50">
+                          className="mt-4 rounded-lg p-2 text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20">
                           <Trash2 className="h-4 w-4" />
                         </button>
                       )}
@@ -1061,7 +1061,7 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
                                   : cls === "C" ? "bg-amber-500 text-white"
                                   : cls === "D" ? "bg-red-600 text-white"
                                   : "bg-slate-600 text-white"
-                                : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-100"
+                                : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
                             }`}>
                             {cls}
                           </button>
@@ -1076,7 +1076,7 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
                 <button
                   type="button"
                   onClick={() => append({ item_code: "", item_name: "", findings: "", assessment: "", recommendation: "", class_value: "Pending" })}
-                  className="flex items-center gap-2 rounded-xl border border-dashed border-blue-300 px-4 py-2.5 text-sm font-medium text-blue-600 hover:bg-blue-50 w-full justify-center"
+                  className="flex items-center gap-2 rounded-xl border border-dashed border-blue-300 px-4 py-2.5 text-sm font-medium text-blue-600 hover:bg-blue-50 w-full justify-center dark:border-blue-700 dark:text-blue-400 dark:hover:bg-blue-900/20"
                 >
                   <Plus className="h-4 w-4" /> Add Evaluation Item
                 </button>
@@ -1086,9 +1086,9 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between border-t border-slate-100 px-6 py-4 shrink-0">
+        <div className="flex items-center justify-between border-t border-slate-100 px-6 py-4 shrink-0 dark:border-slate-700">
           <button onClick={onClose}
-            className="rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100">
+            className="rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-700">
             Close
           </button>
 
@@ -1098,14 +1098,14 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
                 {/* Tab-specific save */}
                 {tab === "vitals" && (
                   <button onClick={saveVitals} disabled={saving}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50">
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600">
                     {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Save Vitals
                   </button>
                 )}
                 {tab === "soap" && (
                   <>
                     <button onClick={() => saveSoap(true)} disabled={saving}
-                      className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50">
+                      className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600">
                       {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Save Draft
                     </button>
                     <button onClick={() => saveSoap(false)} disabled={saving}
@@ -1116,13 +1116,13 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
                 )}
                 {tab === "pe" && (
                   <button onClick={savePe} disabled={saving}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50">
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600">
                     {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Save PE
                   </button>
                 )}
                 {tab === "medeval" && (
                   <button onClick={saveMedEval} disabled={saving}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50">
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600">
                     {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Save Eval
                   </button>
                 )}
@@ -1135,7 +1135,7 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
               </>
             )}
             {isCompleted && (
-              <span className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-50 px-4 py-2.5 text-sm font-medium text-emerald-700">
+              <span className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-50 px-4 py-2.5 text-sm font-medium text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400">
                 <CheckCircle className="h-4 w-4" /> Consultation Completed
               </span>
             )}
