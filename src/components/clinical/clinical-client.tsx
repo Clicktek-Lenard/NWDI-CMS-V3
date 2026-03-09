@@ -5,7 +5,7 @@ import {
   RefreshCw, Users, Clock, Loader2, Stethoscope,
   AlertCircle, ChevronRight, Activity, CheckCircle2,
   Search, MoreVertical, CheckCheck, RotateCcw, XCircle,
-  PlayCircle, ChevronLeft,
+  PlayCircle, ChevronLeft, ChevronUp, ChevronDown, ChevronsUpDown,
 } from "lucide-react";
 import { EvaluationDrawer } from "./evaluation-drawer";
 import type { ClinicalQueueEntry } from "./evaluation-drawer";
@@ -94,6 +94,48 @@ function dropdownItems(status: string) {
   }
 }
 
+// ── Sorting helpers ───────────────────────────────────────────
+type SortDir = "asc" | "desc";
+
+function sortRows<T>(rows: T[], key: keyof T | "", dir: SortDir): T[] {
+  if (!key) return rows;
+  return [...rows].sort((a, b) => {
+    const av = a[key] ?? "";
+    const bv = b[key] ?? "";
+    let cmp = 0;
+    if (typeof av === "number" && typeof bv === "number") {
+      cmp = av - bv;
+    } else {
+      cmp = String(av).localeCompare(String(bv), undefined, { sensitivity: "base" });
+    }
+    return dir === "asc" ? cmp : -cmp;
+  });
+}
+
+function SortableHeader({
+  label, colKey, sortKey, sortDir, onSort, align = "left",
+}: {
+  label: string; colKey: string; sortKey: string; sortDir: SortDir;
+  onSort: (k: string) => void; align?: "left" | "right" | "center";
+}) {
+  const active = sortKey === colKey;
+  return (
+    <th
+      onClick={() => onSort(colKey)}
+      className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider cursor-pointer select-none transition-colors hover:bg-slate-100 dark:hover:bg-slate-600 text-${align} ${active ? "text-slate-700 dark:text-slate-200" : "text-slate-400"}`}
+    >
+      <span className="inline-flex items-center gap-1">
+        {label}
+        {active
+          ? sortDir === "asc"
+            ? <ChevronUp className="h-3.5 w-3.5 text-blue-500" />
+            : <ChevronDown className="h-3.5 w-3.5 text-blue-500" />
+          : <ChevronsUpDown className="h-3.5 w-3.5 opacity-30" />}
+      </span>
+    </th>
+  );
+}
+
 // ── Component ─────────────────────────────────────────────────
 export function ClinicalClient() {
   const [queue, setQueue] = useState<ClinicalQueueEntry[]>([]);
@@ -105,6 +147,16 @@ export function ClinicalClient() {
   const [selected, setSelected] = useState<ClinicalQueueEntry | null>(null);
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 10;
+  // Sort state
+  const [sortKey, setSortKey] = useState("");
+  const [sortDir, setSortDir] = useState<SortDir>("asc");
+
+  function handleSort(key: string) {
+    if (sortKey === key) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    else { setSortKey(key); setSortDir("asc"); }
+    setPage(1);
+  }
+
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const [dropdownPos, setDropdownPos] = useState<{ top: number; right: number } | null>(null);
   const [actionLoading, setActionLoading] = useState<number | null>(null);
@@ -179,10 +231,11 @@ export function ClinicalClient() {
   // Reset to page 1 when filter or search changes
   useEffect(() => { setPage(1); }, [search, statusFilter]);
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const sorted    = sortRows(filtered, sortKey as keyof ClinicalQueueEntry, sortDir);
+  const totalPages = Math.max(1, Math.ceil(sorted.length / PAGE_SIZE));
   const startIdx = (page - 1) * PAGE_SIZE + 1;
-  const endIdx = Math.min(page * PAGE_SIZE, filtered.length);
-  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const endIdx = Math.min(page * PAGE_SIZE, sorted.length);
+  const paginated = sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const TAB_FILTERS: { label: string; value: StatusFilter; count?: number; color: string }[] = [
     { label: "All", value: "", color: "text-slate-600" },
@@ -292,24 +345,24 @@ export function ClinicalClient() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-100 bg-slate-50/70 dark:border-slate-700 dark:bg-slate-700">
-                <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-400 w-20">Queue #</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">Patient</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">Company / HMO</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">Status</th>
+                <SortableHeader label="Queue #"      colKey="queueNumber"  sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                <SortableHeader label="Patient"      colKey="patientName"  sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                <SortableHeader label="Company / HMO" colKey="companyName" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                <SortableHeader label="Status"       colKey="status"       sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
                 <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">Diagnosis</th>
-                <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-400">Arrived</th>
+                <SortableHeader label="Arrived"      colKey="createdAt"    sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
                 <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-slate-400">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
-              {loading && filtered.length === 0 ? (
+              {loading && sorted.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="py-12 text-center">
                     <Loader2 className="mx-auto h-6 w-6 animate-spin text-slate-300" />
                     <p className="mt-2 text-sm text-slate-400">Loading queue…</p>
                   </td>
                 </tr>
-              ) : filtered.length === 0 ? (
+              ) : sorted.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="py-12 text-center">
                     <Users className="mx-auto h-8 w-8 text-slate-200" />
@@ -454,13 +507,13 @@ export function ClinicalClient() {
         </div>
 
         {/* Pagination */}
-        {filtered.length > 0 && (
+        {sorted.length > 0 && (
           <div className="flex items-center justify-between border-t border-slate-100 px-6 py-4 dark:border-slate-700">
             <p className="text-xs text-slate-400 dark:text-slate-500">
               Showing{" "}
               <span className="font-medium text-slate-600 dark:text-slate-300">{startIdx}–{endIdx}</span>{" "}
               of{" "}
-              <span className="font-medium text-slate-600 dark:text-slate-300">{filtered.length}</span> patient{filtered.length !== 1 ? "s" : ""}
+              <span className="font-medium text-slate-600 dark:text-slate-300">{sorted.length}</span> patient{sorted.length !== 1 ? "s" : ""}
               {search && ` matching "${search}"`}
             </p>
             <div className="flex items-center gap-1">
