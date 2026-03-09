@@ -7,7 +7,7 @@ const transferSchema = z.object({
   transfer_to: z.string().min(1, "Transfer destination is required"),
 });
 
-// PATCH — Transfer card to patient/branch
+// PATCH — Initiate transfer to another clinic (status 1 → 2)
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -30,31 +30,26 @@ export async function PATCH(
     if (!card) {
       return NextResponse.json({ success: false, error: "Card not found" }, { status: 404 });
     }
-    if (card.transferto) {
+    if (card.status !== 1) {
       return NextResponse.json(
-        { success: false, error: "Card has already been transferred" },
-        { status: 409 }
-      );
-    }
-    if (!card.daterelease) {
-      return NextResponse.json(
-        { success: false, error: "Card must be verified before transfer" },
+        { success: false, error: "Card must be RECEIVED before initiating a transfer" },
         { status: 409 }
       );
     }
 
     const staffName = session.user.name ?? session.user.id;
 
-    const updated = await prisma.cardEnrollment.update({
+    await prisma.cardEnrollment.update({
       where: { id: cardId },
       data: {
-        transferto: parsed.data.transfer_to,
+        transferto:   parsed.data.transfer_to,
         datetransfer: new Date(),
-        transferby: staffName,
+        transferby:   staffName,
+        status:       2,
       },
     });
 
-    return NextResponse.json({ success: true, data: updated });
+    return NextResponse.json({ success: true, message: "Transfer initiated" });
   } catch (error) {
     if (error instanceof Response) throw error;
     const msg = error instanceof Error ? error.message : String(error);

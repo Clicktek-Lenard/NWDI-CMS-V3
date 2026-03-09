@@ -5,102 +5,81 @@ import { z } from "zod";
 
 const registerSchema = z.object({
   card_number: z.string().min(1, "Card number is required"),
+  release_to:  z.string().min(1, "Destination clinic is required"),
 });
 
 /**
- * Lifecycle based on real cardenrollment fields:
- *  TRANSFERRED if TransferTo is set
- *  VERIFIED    if DateRelease is set (released to patient)
- *  RECEIVED    if ReceivedDate is set (physical card received by ICT)
- *  REGISTERED  otherwise
+ * Legacy status codes (from cardenrollment.status):
+ *   0 = Enrolled / Released to clinic — pending receipt
+ *   1 = Received at destination clinic
+ *   2 = Transfer initiated (in transit to another clinic)
+ *   3 = Transfer received — new clinic has it
  */
-function getLifecycle(
-  transferTo: string | null,
-  dateRelease: Date | null,
-  receivedDate: Date | null,
-  dateReceived: Date | null
-): "REGISTERED" | "RECEIVED" | "VERIFIED" | "TRANSFERRED" {
-  if (transferTo) return "TRANSFERRED";
-  if (dateRelease) return "VERIFIED";
-  if (receivedDate || dateReceived) return "RECEIVED";
-  return "REGISTERED";
-}
 
 type CardRow = {
-  id: number;
-  cardnumber: string | null;
-  dateenrolled: Date | null;
-  receivedby: string | null;
-  receiveddate: Date | null;
-  releaseto: string | null;
-  releaseby: string | null;
-  daterelease: Date | null;
-  transferto: string | null;
-  transferby: string | null;
-  datetransfer: Date | null;
-  status: number | null;
-  companycode: string | null;
-  companyname: string | null;
-  datereceived: Date | null;
-  ictreceived: string | null;
+  id:                  number;
+  cardnumber:          string | null;
+  status:              number | null;
+  dateenrolled:        Date   | null;
+  receivedby:          string | null;
+  receiveddate:        Date   | null;
+  releaseto:           string | null;
+  releaseby:           string | null;
+  daterelease:         Date   | null;
+  transferto:          string | null;
+  transferby:          string | null;
+  datetransfer:        Date   | null;
+  clinicname:          string | null;
+  transferclinicname:  string | null;
 };
-
 type CountRow = { total: bigint };
 
-// GET /api/enrollment/cards?status=REGISTERED|RECEIVED|VERIFIED|TRANSFERRED&search=&page=1&pageSize=10
+// GET /api/enrollment/cards?status=REGISTRATION|RECEIVING|TRANSFER&search=&page=1&pageSize=10
 export async function GET(request: NextRequest) {
   try {
     await requireApiAuth(request, "cms", "enrollment");
 
     const { searchParams } = new URL(request.url);
-    const lifecycle = searchParams.get("status") || "REGISTERED";
-    const search = searchParams.get("search") || "";
-    const page = parseInt(searchParams.get("page") || "1", 10);
-    const pageSize = parseInt(searchParams.get("pageSize") || "10", 10);
-    const offset = (page - 1) * pageSize;
-    const searchPattern = `%${search}%`;
+    const tabStatus  = searchParams.get("status")   || "REGISTRATION";
+    const search     = searchParams.get("search")   || "";
+    const page       = Math.max(1, parseInt(searchParams.get("page")     || "1",  10));
+    const pageSize   = Math.min(50, parseInt(searchParams.get("pageSize") || "10", 10));
+    const offset     = (page - 1) * pageSize;
+    const searchPat  = `%${search}%`;
 
-    // Lifecycle filter: built from our own enum — safe to inline as SQL string
-    const lifecycleFilter =
-      lifecycle === "REGISTERED"
-        ? "AND e.receiveddate IS NULL AND v.verifiedcardnumbers IS NULL AND e.daterelease IS NULL AND e.transferto IS NULL"
-        : lifecycle === "RECEIVED"
-        ? "AND (e.receiveddate IS NOT NULL OR v.verifiedcardnumbers IS NOT NULL) AND e.daterelease IS NULL AND e.transferto IS NULL"
-        : lifecycle === "VERIFIED"
-        ? "AND e.daterelease IS NOT NULL AND e.transferto IS NULL"
-        : lifecycle === "TRANSFERRED"
-        ? "AND e.transferto IS NOT NULL"
-        : "";
+    // Map tab key → SQL status filter
+    const statusFilter =
+      tabStatus === "REGISTRATION" ? "AND e.status = 0" :
+      tabStatus === "RECEIVING"    ? "AND e.status = 1" :
+      tabStatus === "TRANSFER"     ? "AND e.status IN (2, 3)" :
+      "";
+
+    const baseFrom = `
+      FROM cardenrollment e
+      LEFT JOIN businessunits bu ON bu.code = e.releaseto
+      LEFT JOIN businessunits bt ON bt.code = e.transferto
+      WHERE (e.cardnumber ILIKE $1)
+      ${statusFilter}
+    `;
 
     const [countRows, cards] = await Promise.all([
       prisma.$queryRawUnsafe<CountRow[]>(
-        `SELECT COUNT(*) AS total
-         FROM cardenrollment e
-         LEFT JOIN cardkey k ON k.generatedcardnumber = e.cardnumber
-         LEFT JOIN companies c ON c.code = k.codecompany
-         LEFT JOIN cardverified v ON v.verifiedcardnumbers = e.cardnumber
-         WHERE (e.cardnumber ILIKE $1 OR c.name ILIKE $2)
-         ${lifecycleFilter}`,
-        searchPattern, searchPattern
+        `SELECT COUNT(*) AS total ${baseFrom}`,
+        searchPat
       ),
       prisma.$queryRawUnsafe<CardRow[]>(
         `SELECT
-           e.id, e.cardnumber, e.dateenrolled,
+           e.id, e.cardnumber, e.status,
+           e.dateenrolled,
            e.receivedby, e.receiveddate,
            e.releaseto, e.releaseby, e.daterelease,
            e.transferto, e.transferby, e.datetransfer,
-           e.status,
-           c.code AS companycode, c.name AS companyname,
-           v.datereceived, v.ictreceived
-         FROM cardenrollment e
-         LEFT JOIN cardkey k ON k.generatedcardnumber = e.cardnumber
-         LEFT JOIN companies c ON c.code = k.codecompany
-         LEFT JOIN cardverified v ON v.verifiedcardnumbers = e.cardnumber
-         WHERE (e.cardnumber ILIKE $1 OR c.name ILIKE $2)
-         ${lifecycleFilter}
+           bu.description AS clinicname,
+           bt.description AS transferclinicname
+         ${baseFrom}
          ORDER BY e.dateenrolled DESC
-         LIMIT $3 OFFSET $4`,
-        searchPattern, searchPattern, pageSize, offset
+         LIMIT $2 OFFSET $3`,
+        searchPat, pageSize, offset
       ),
     ]);
 
@@ -109,23 +88,20 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       data: cards.map((c) => ({
-        id: c.id,
-        cardNumber: c.cardnumber ?? "",
-        enrollmentDate: c.dateenrolled?.toISOString() ?? null,
-        receivedBy: c.receivedby ?? null,
-        receivedDate: c.receiveddate?.toISOString() ?? null,
-        releaseTo: c.releaseto ?? null,
-        releaseBy: c.releaseby ?? null,
-        dateRelease: c.daterelease?.toISOString() ?? null,
-        transferTo: c.transferto ?? null,
-        transferBy: c.transferby ?? null,
-        dateTransfer: c.datetransfer?.toISOString() ?? null,
-        status: c.status,
-        companyCode: c.companycode ?? "",
-        companyName: c.companyname ?? "",
-        dateReceived: c.datereceived?.toISOString() ?? null,
-        ictReceived: c.ictreceived ?? null,
-        lifecycle: getLifecycle(c.transferto, c.daterelease, c.receiveddate, c.datereceived),
+        id:                  c.id,
+        cardNumber:          c.cardnumber      ?? "",
+        status:              c.status          ?? 0,
+        enrollmentDate:      c.dateenrolled?.toISOString()   ?? null,
+        receivedBy:          c.receivedby      ?? null,
+        receivedDate:        c.receiveddate?.toISOString()   ?? null,
+        releaseTo:           c.releaseto       ?? null,
+        releaseBy:           c.releaseby       ?? null,
+        dateRelease:         c.daterelease?.toISOString()    ?? null,
+        transferTo:          c.transferto      ?? null,
+        transferBy:          c.transferby      ?? null,
+        dateTransfer:        c.datetransfer?.toISOString()   ?? null,
+        clinicName:          c.clinicname      ?? c.releaseto ?? null,
+        transferClinicName:  c.transferclinicname ?? c.transferto ?? null,
       })),
       total,
       page,
@@ -140,12 +116,12 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST /api/enrollment/cards — enroll a card (register into cardenrollment)
+// POST /api/enrollment/cards — enroll a verified card to a clinic (status = 0)
 export async function POST(request: NextRequest) {
   try {
-    await requireApiAuth(request, "cms", "enrollment");
+    const session = await requireApiAuth(request, "cms", "enrollment");
 
-    const body = await request.json();
+    const body   = await request.json();
     const parsed = registerSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
@@ -154,41 +130,45 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { card_number } = parsed.data;
+    const { card_number, release_to } = parsed.data;
 
-    // Validate card exists in cardkey
-    const cardKey = await prisma.cardNumber.findUnique({
-      where: { generatedcardnumber: card_number },
+    // Guard 1: Card must be in cardverified (ICT verified it)
+    const verified = await prisma.cardVerified.findUnique({
+      where: { verifiedcardnumbers: card_number },
     });
-    if (!cardKey) {
+    if (!verified) {
       return NextResponse.json(
-        { success: false, error: "Card number not found in the system" },
-        { status: 404 }
+        { success: false, error: "Card must be verified by ICT before it can be enrolled." },
+        { status: 422 }
       );
     }
 
-    // Check not already enrolled
+    // Guard 2: Not already enrolled
     const existing = await prisma.cardEnrollment.findFirst({
       where: { cardnumber: card_number },
     });
     if (existing) {
       return NextResponse.json(
-        { success: false, error: "Card number is already enrolled" },
+        { success: false, error: "Card number is already enrolled." },
         { status: 409 }
       );
     }
 
+    const staffName = session.user.name ?? session.user.id;
+    const now = new Date();
+
     const enrollment = await prisma.cardEnrollment.create({
       data: {
-        cardnumber: card_number,
-        dateenrolled: new Date(),
+        cardnumber:  card_number,
+        releaseto:   release_to,
+        dateenrolled: now,
+        daterelease:  now,
+        releaseby:    staffName,
+        status:       0,
       },
     });
 
-    return NextResponse.json(
-      { success: true, data: enrollment },
-      { status: 201 }
-    );
+    return NextResponse.json({ success: true, data: enrollment }, { status: 201 });
   } catch (error) {
     if (error instanceof Response) throw error;
     const msg = error instanceof Error ? error.message : String(error);
