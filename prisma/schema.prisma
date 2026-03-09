@@ -7,16 +7,12 @@ datasource db {
   provider = "postgresql"
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Auth / System tables
-// ─────────────────────────────────────────────────────────────────────────────
-
 model User {
   id                  Int       @id @default(autoincrement())
   email               String?   @db.VarChar(191)
   password            String?   @db.VarChar(191)
   permissions         String?
-  activated           Boolean
+  activated           Boolean   @default(false)
   created_by          Int?
   activation_code     String?   @db.VarChar(191)
   activated_at        DateTime? @db.Timestamp(6)
@@ -37,13 +33,13 @@ model User {
   manager_id          Int?
   employee_num        String?
   avatar              String?   @db.VarChar(191)
-  username            String?   @unique(map: "users_username_unique") @db.VarChar(191)
+  username            String?   @unique @db.VarChar(191)
   notes               String?
   company_id          Int?
   remember_token      String?
-  ldap_import         Boolean
+  ldap_import         Boolean   @default(false)
   locale              String?   @db.VarChar(10)
-  show_in_list        Boolean   @default(false)
+  show_in_list        Boolean   @default(true)
   two_factor_secret   String?   @db.VarChar(32)
   two_factor_enrolled Boolean   @default(false)
   two_factor_optin    Boolean   @default(false)
@@ -53,17 +49,13 @@ model User {
   state               String?   @db.VarChar(3)
   zip                 String?   @db.VarChar(10)
   skin                String?   @db.VarChar(191)
-  remote              Boolean?
+  remote              Int?
   status              String?   @db.VarChar(15)
   role                String?   @db.VarChar(2500)
   department          String?   @db.VarChar(100)
   accessmapid         String?   @db.VarChar(30)
   ldap_server_status  String?   @db.VarChar(255)
 
-  @@index([accessmapid])
-  @@index([activation_code])
-  @@index([company_id])
-  @@index([reset_password_code])
   @@map("users")
 }
 
@@ -114,10 +106,6 @@ model users_from_cdb {
   role                String?   @db.VarChar(2500)
   department          String?   @db.VarChar(100)
   ldap_server_status  String?   @db.VarChar(255)
-
-  @@index([activation_code])
-  @@index([company_id])
-  @@index([reset_password_code])
 }
 
 model cache {
@@ -139,9 +127,6 @@ model sessions {
   user_agent    String?
   payload       String?
   last_activity Int
-
-  @@index([last_activity])
-  @@index([user_id])
 }
 
 model password_reset_tokens {
@@ -181,8 +166,6 @@ model jobs {
   reserved_at  Int?
   available_at Int
   created_at   Int
-
-  @@index([queue])
 }
 
 model migrations {
@@ -323,28 +306,22 @@ model settings {
   ldap_description                    String?   @db.VarChar(255)
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// CMS tables — PascalCase Prisma field names mapped to lowercase PG columns
-// ─────────────────────────────────────────────────────────────────────────────
-
 model businessunits {
   Id           Int       @id @map("id") @db.SmallInt
-  Code         String?   @unique(map: "businessunits_code_unique") @map("code") @db.VarChar(5)
+  Code         String?   @map("code") @db.VarChar(5)
   Description  String?   @map("description") @db.VarChar(50)
   SDCode       Int       @map("sdcode")
   IPs          String?   @map("ips") @db.VarChar(10)
   IPs2         String?   @map("ips2") @db.VarChar(15)
   GatewayIP    String?   @map("gatewayip") @db.VarChar(20)
   DefaultPrice String?   @map("defaultprice") @db.VarChar(80)
-  Status       String?   @map("status") @db.VarChar(10)
+  Status       String?   @map("status") @db.VarChar(1)
   StartDate    DateTime? @map("startdate") @db.Date
   HProfile     String?   @map("hprofile") @db.VarChar(50)
   DBServerId   String?   @map("dbserverid") @db.VarChar(500)
   Address      String?   @map("address") @db.VarChar(500)
   TIN          String?   @map("tin") @db.VarChar(20)
   BMs          String?   @map("bms") @db.VarChar(100)
-
-  @@index([Code, IPs, Status])
 }
 
 model company {
@@ -389,7 +366,7 @@ model company {
   ChargeTo              String?   @map("chargeto") @db.VarChar(15)
   Remarks               String?   @map("remarks")
   OptionalItemCode      String?   @map("optionalitemcode") @db.VarChar(200)
-  EnabledEndDate        String?   @map("enabledenddate") @db.VarChar(10)
+  EnabledEndDate        String?   @map("enabledenddate") @db.VarChar(1)
   EmpId                 String?   @map("empid") @db.VarChar(15)
   EvaluatorId           String?   @map("evaluatorid") @db.VarChar(255)
   Parent                BigInt    @map("parent")
@@ -401,10 +378,6 @@ model company {
   DAVStatus             String?   @map("davstatus") @db.VarChar(10)
   LINStatus             String?   @map("linstatus") @db.VarChar(10)
   reUpload              String?   @map("reupload") @db.VarChar(30)
-
-  @@unique([Code, ErosCode], map: "company_code_eroscode_unique")
-  @@index([Code, ErosCode])
-  @@index([UsedClinic, UsedLessReadersFee, UsedPercentDefault, UsedPercentItemGroup, UsedPriceDefault, UsedPercentDefaultIMG, UsedPercentDefaultLAB])
 }
 
 model department {
@@ -416,7 +389,7 @@ model department {
 
 model patient {
   Id             BigInt    @id @map("id")
-  Code           String?   @unique(map: "patient_code_unique") @map("code") @db.VarChar(30)
+  Code           String?   @map("code") @db.VarChar(30)
   FullName       String?   @map("fullname") @db.VarChar(200)
   LastName       String?   @map("lastname") @db.VarChar(80)
   FirstName      String?   @map("firstname") @db.VarChar(150)
@@ -458,9 +431,6 @@ model patient {
   EmployeeId     String?   @map("employeeid") @db.VarChar(15)
   RDOB           String?   @map("rdob") @db.VarChar(15)
   UploadDateTime DateTime  @map("uploaddatetime") @db.Timestamp(6)
-
-  @@index([LastName, FirstName, MiddleName, Gender, DOB])
-  @@index([InputDate, UpdateDate, RDOB])
 }
 
 model physician {
@@ -521,7 +491,7 @@ model physician {
   Status               String?   @map("status") @db.VarChar(20)
   UpdateBy             String?   @map("updateby") @db.VarChar(80)
   UpdateDate           DateTime? @map("updatedate") @db.Date
-  ErosCode             String?   @unique(map: "physician_eroscode_unique") @map("eroscode") @db.VarChar(30)
+  ErosCode             String?   @map("eroscode") @db.VarChar(30)
   SECode               String?   @map("secode") @db.VarChar(200)
   EmpId                String?   @map("empid") @db.VarChar(15)
   CENStatus            String?   @map("censtatus") @db.VarChar(10)
@@ -573,24 +543,13 @@ model queue {
   UpdateBy             String?   @map("updateby") @db.VarChar(80)
   ErosStatus           String?   @map("erosstatus") @db.VarChar(30)
   SystemUpdateTime     DateTime? @map("systemupdatetime") @db.Timestamp(6)
-
-  @@index([AccessionNo])
-  @@index([Code])
-  @@index([Date])
-  @@index([IdBU])
-  @@index([InputBy])
-  @@index([Lab2LabId])
-  @@index([IdPatient])
-  @@index([Status])
 }
 
 model queuestatus {
   Id     Int     @id @map("id") @db.SmallInt
   IdBU   Int     @map("idbu") @db.SmallInt
   Name   String? @map("name") @db.VarChar(30)
-  Status String? @map("status") @db.VarChar(10)
-
-  @@index([Id])
+  Status String? @map("status") @db.VarChar(1)
 }
 
 model transactions {
@@ -617,11 +576,6 @@ model transactions {
   InputId              String?   @map("inputid") @db.VarChar(30)
   Status               Int       @map("status") @db.SmallInt
   SystemUpdateTime     DateTime? @map("systemupdatetime") @db.Timestamp(6)
-
-  @@index([IdQueue])
-  @@index([CodeItemPrice])
-  @@index([Status])
-  @@index([Date])
 }
 
 model vitals {
@@ -632,13 +586,11 @@ model vitals {
   LastPeriod    DateTime? @map("lastperiod") @db.Date
   InputBy       String?   @map("inputby") @db.VarChar(30)
   InputDateTime DateTime? @map("inputdatetime") @db.Timestamp(6)
-
-  @@index([IdQueue])
 }
 
 model itemmaster {
   Id                 BigInt    @id @map("id")
-  Code               String?   @unique(map: "itemmaster_code_unique") @map("code") @db.VarChar(30)
+  Code               String?   @map("code") @db.VarChar(30)
   NewCode            String?   @map("newcode") @db.VarChar(30)
   OldCode            String?   @map("oldcode") @db.VarChar(30)
   Description        String?   @map("description") @db.VarChar(500)
@@ -681,10 +633,6 @@ model itemmaster {
   WebSiteStatus      Int       @map("websitestatus")
   WebSiteDescription String?   @map("websitedescription") @db.VarChar(255)
   ViewVitalSigns     Int       @map("viewvitalsigns")
-
-  @@index([ItemStatus, OrderStatus, OldCode])
-  @@index([ReApply])
-  @@index([WebSiteStatus])
 }
 
 model itemprice {
@@ -718,10 +666,6 @@ model itemprice {
   TARStatus          String?   @map("tarstatus") @db.VarChar(10)
   DAVStatus          String?   @map("davstatus") @db.VarChar(10)
   LINStatus          String?   @map("linstatus") @db.VarChar(10)
-
-  @@index([Code])
-  @@index([CompanyCode])
-  @@index([CebuStatus, SMBStatus, TARStatus, DAVStatus, LINStatus])
 }
 
 model msg_queue {
@@ -733,8 +677,6 @@ model msg_queue {
   ItemGroup   String? @map("itemgroup") @db.VarChar(30)
   AccessionNo String? @map("accessionno") @db.VarChar(30)
   Status      String? @map("status") @db.VarChar(30)
-
-  @@index([IdQueue, QueueCode, IdBU, ReceivedBU, AccessionNo, Status, ItemGroup])
 }
 
 model transactiontype {
@@ -742,8 +684,6 @@ model transactiontype {
   Code        String? @map("code") @db.VarChar(150)
   Description String? @map("description") @db.VarChar(255)
   Status      Int     @map("status")
-
-  @@index([Status])
 }
 
 model role {
@@ -753,10 +693,6 @@ model role {
   ldap_role String? @db.VarChar(255)
   status    String? @db.VarChar(50)
 }
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Card Enrollment (CMS v3 tables)
-// ─────────────────────────────────────────────────────────────────────────────
 
 model CardEnrollment {
   id           Int       @id @default(autoincrement())
@@ -811,10 +747,6 @@ model CmsCompany {
   @@map("companies")
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Clinical (CMS v3 tables)
-// ─────────────────────────────────────────────────────────────────────────────
-
 model VitalSign {
   id               Int      @id @default(autoincrement())
   queue_id         Int      @unique
@@ -836,7 +768,7 @@ model VitalSign {
   vision_left_os   String?  @db.VarChar(20)
   vision_corrected String?  @db.VarChar(50)
   color_vision     String?  @db.VarChar(50)
-  chief_complaint  String?  @db.Text
+  chief_complaint  String?
   pcp_doctor       String?  @db.VarChar(100)
   recorded_by      Int?
   created_at       DateTime @default(now())
@@ -868,14 +800,14 @@ model PhysicalExamination {
   family_hypertension Boolean   @default(false)
   family_diabetes     Boolean   @default(false)
   family_cancer       Boolean   @default(false)
-  skin                String?   @db.Text
-  heent               String?   @db.Text
-  neck                String?   @db.Text
-  chest_lungs         String?   @db.Text
-  heart               String?   @db.Text
-  abdomen             String?   @db.Text
-  extremities         String?   @db.Text
-  neurological        String?   @db.Text
+  skin                String?
+  heent               String?
+  neck                String?
+  chest_lungs         String?
+  heart               String?
+  abdomen             String?
+  extremities         String?
+  neurological        String?
   fitness_class       String?   @db.VarChar(20)
   recorded_by         Int?
   created_at          DateTime  @default(now())
@@ -890,15 +822,15 @@ model ConsultationNote {
   patient_id      String    @db.VarChar(30)
   status          String    @default("PENDING") @db.VarChar(20)
   is_draft        Int       @default(1)
-  chief_complaint String?   @db.Text
-  history_illness String?   @db.Text
-  past_history    String?   @db.Text
-  family_history  String?   @db.Text
-  pe_findings     String?   @db.Text
-  diagnosis       String?   @db.Text
+  chief_complaint String?
+  history_illness String?
+  past_history    String?
+  family_history  String?
+  pe_findings     String?
+  diagnosis       String?
   icd_code        String?   @db.VarChar(50)
-  treatment_plan  String?   @db.Text
-  orders          String?   @db.Text
+  treatment_plan  String?
+  orders          String?
   pcp_doctor      String?   @db.VarChar(100)
   doctor_id       Int?
   doctor_name     String?   @db.VarChar(100)
@@ -916,9 +848,9 @@ model MedicalEvaluation {
   patient_id     String   @db.VarChar(30)
   item_code      String   @db.VarChar(50)
   item_name      String?  @db.VarChar(255)
-  findings       String?  @db.Text
-  assessment     String?  @db.Text
-  recommendation String?  @db.Text
+  findings       String?
+  assessment     String?
+  recommendation String?
   class_value    String?  @db.VarChar(20)
   recorded_by    Int?
   created_at     DateTime @default(now())

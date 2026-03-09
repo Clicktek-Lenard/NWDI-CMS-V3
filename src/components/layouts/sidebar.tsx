@@ -27,7 +27,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Queue",      href: "/queue",          icon: <ClipboardList className="h-5 w-5" />, module: "cms", tab: "queue" },
-  { label: "Enrollment", href: "/enrollment",      icon: <CreditCard className="h-5 w-5" />,    module: "cms", tab: "enrollment" },
+  { label: "Card Management", href: "/enrollment",  icon: <CreditCard className="h-5 w-5" />,    module: "cms", tab: "enrollment" },
   { label: "Payment",    href: "/payment",         icon: <FileText className="h-5 w-5" />,      module: "cms", tab: "payment" },
   { label: "Results",    href: "/results",         icon: <FileText className="h-5 w-5" />,      module: "cms", tab: "results" },
   { label: "Clinical",   href: "/clinical",        icon: <Stethoscope className="h-5 w-5" />,   module: "cms", tab: "clinical" },
