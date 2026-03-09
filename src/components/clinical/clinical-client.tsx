@@ -5,7 +5,7 @@ import {
   RefreshCw, Users, Clock, Loader2, Stethoscope,
   AlertCircle, ChevronRight, Activity, CheckCircle2,
   Search, MoreVertical, CheckCheck, RotateCcw, XCircle,
-  PlayCircle,
+  PlayCircle, ChevronLeft,
 } from "lucide-react";
 import { EvaluationDrawer } from "./evaluation-drawer";
 import type { ClinicalQueueEntry } from "./evaluation-drawer";
@@ -103,7 +103,10 @@ export function ClinicalClient() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("");
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState<ClinicalQueueEntry | null>(null);
+  const [page, setPage] = useState(1);
+  const PAGE_SIZE = 10;
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+  const [dropdownPos, setDropdownPos] = useState<{ top: number; right: number } | null>(null);
   const [actionLoading, setActionLoading] = useState<number | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -147,6 +150,7 @@ export function ClinicalClient() {
 
   async function handleStatusChange(queueId: number, newStatus: string) {
     setActiveDropdown(null);
+    setDropdownPos(null);
     setActionLoading(queueId);
     try {
       await apiFetch(`/api/clinical/${queueId}/status`, {
@@ -171,6 +175,14 @@ export function ClinicalClient() {
       q.queueNumber.toString().includes(s)
     );
   });
+
+  // Reset to page 1 when filter or search changes
+  useEffect(() => { setPage(1); }, [search, statusFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const startIdx = (page - 1) * PAGE_SIZE + 1;
+  const endIdx = Math.min(page * PAGE_SIZE, filtered.length);
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const TAB_FILTERS: { label: string; value: StatusFilter; count?: number; color: string }[] = [
     { label: "All", value: "", color: "text-slate-600" },
@@ -306,7 +318,7 @@ export function ClinicalClient() {
                   </td>
                 </tr>
               ) : (
-                filtered.map((entry) => (
+                paginated.map((entry) => (
                   <tr
                     key={entry.id}
                     onClick={() => setSelected(entry)}
@@ -393,17 +405,29 @@ export function ClinicalClient() {
                         )}
 
                         {/* More actions dropdown */}
-                        <div className="relative" ref={activeDropdown === entry.id ? dropdownRef : null}>
+                        <div ref={activeDropdown === entry.id ? dropdownRef : null}>
                           <button
-                            onClick={() => setActiveDropdown(activeDropdown === entry.id ? null : entry.id)}
+                            onClick={(e) => {
+                              if (activeDropdown === entry.id) {
+                                setActiveDropdown(null);
+                                setDropdownPos(null);
+                              } else {
+                                const rect = (e.currentTarget as HTMLButtonElement).getBoundingClientRect();
+                                setDropdownPos({ top: rect.bottom + 4, right: window.innerWidth - rect.right });
+                                setActiveDropdown(entry.id);
+                              }
+                            }}
                             className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors dark:hover:bg-slate-700 dark:hover:text-slate-300"
                             title="More actions"
                           >
                             <MoreVertical className="h-4 w-4" />
                           </button>
 
-                          {activeDropdown === entry.id && (
-                            <div className="absolute right-0 top-full mt-1 z-50 min-w-45 rounded-xl border border-slate-200 bg-white py-1 shadow-xl shadow-slate-200/60 dark:border-slate-700 dark:bg-slate-800 dark:shadow-slate-900/60">
+                          {activeDropdown === entry.id && dropdownPos && (
+                            <div
+                              style={{ top: dropdownPos.top, right: dropdownPos.right }}
+                              className="fixed z-200 min-w-45 rounded-xl border border-slate-200 bg-white py-1 shadow-xl shadow-slate-200/60 dark:border-slate-700 dark:bg-slate-800 dark:shadow-slate-900/60"
+                            >
                               {dropdownItems(entry.status).map((item) => (
                                 <button
                                   key={item.to}
@@ -429,13 +453,59 @@ export function ClinicalClient() {
           </table>
         </div>
 
-        {/* Footer count */}
+        {/* Pagination */}
         {filtered.length > 0 && (
-          <div className="border-t border-slate-100 px-4 py-3 dark:border-slate-700">
-            <p className="text-xs text-slate-400">
-              Showing <span className="font-medium text-slate-600 dark:text-slate-300">{filtered.length}</span> patient{filtered.length !== 1 ? "s" : ""}
+          <div className="flex items-center justify-between border-t border-slate-100 px-6 py-4 dark:border-slate-700">
+            <p className="text-xs text-slate-400 dark:text-slate-500">
+              Showing{" "}
+              <span className="font-medium text-slate-600 dark:text-slate-300">{startIdx}–{endIdx}</span>{" "}
+              of{" "}
+              <span className="font-medium text-slate-600 dark:text-slate-300">{filtered.length}</span> patient{filtered.length !== 1 ? "s" : ""}
               {search && ` matching "${search}"`}
             </p>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={page === 1 || loading}
+                className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-slate-700 dark:hover:text-slate-200"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+
+              {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                let pageNum: number;
+                if (totalPages <= 5) {
+                  pageNum = i + 1;
+                } else if (page <= 3) {
+                  pageNum = i + 1;
+                } else if (page >= totalPages - 2) {
+                  pageNum = totalPages - 4 + i;
+                } else {
+                  pageNum = page - 2 + i;
+                }
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => setPage(pageNum)}
+                    className={`min-w-8 rounded-lg px-2 py-1.5 text-xs font-medium transition-colors ${
+                      pageNum === page
+                        ? "bg-blue-600 text-white"
+                        : "text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700"
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              })}
+
+              <button
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                disabled={page === totalPages || loading}
+                className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-slate-700 dark:hover:text-slate-200"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
           </div>
         )}
       </div>
