@@ -1,14 +1,20 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { X, CreditCard, Search, Loader2 } from "lucide-react";
+import { X, CreditCard, Search, Loader2, ChevronDown } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 
-interface CardNum {
-  Id: number;
-  GeneratedCardNumber: string;
-  CodeCompany: string;
-  is_used: number;
+interface VerifiedCard {
+  id: number;
+  verifiedcardnumber: string;
+  year: number | null;
+  batch: number | null;
+  month: number | null;
+}
+
+interface Clinic {
+  code: string;
+  name: string;
 }
 
 interface Props {
@@ -20,19 +26,37 @@ interface Props {
 export function RegisterCardModal({ open, onClose, onRegistered }: Props) {
   const backdropRef = useRef<HTMLDivElement>(null);
 
-  const [cardNumbers, setCardNumbers] = useState<CardNum[]>([]);
-  const [cardSearch, setCardSearch] = useState("");
-  const [selectedCard, setSelectedCard] = useState("");
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
+  const [availableCards, setAvailableCards] = useState<VerifiedCard[]>([]);
+  const [clinics, setClinics]               = useState<Clinic[]>([]);
+  const [cardSearch, setCardSearch]         = useState("");
+  const [selectedCard, setSelectedCard]     = useState("");
+  const [selectedClinic, setSelectedClinic] = useState("");
+  const [submitting, setSubmitting]         = useState(false);
+  const [loadingCards, setLoadingCards]     = useState(false);
+  const [error, setError]                   = useState("");
 
-  // Reset on open
+  // Reset on open + load data
   useEffect(() => {
-    if (open) {
-      setCardSearch("");
-      setSelectedCard("");
-      setError("");
-    }
+    if (!open) return;
+    setCardSearch("");
+    setSelectedCard("");
+    setSelectedClinic("");
+    setError("");
+
+    setLoadingCards(true);
+    Promise.all([
+      apiFetch<{ data: VerifiedCard[] }>("/api/enrollment/verified?available=true&pageSize=200"),
+      apiFetch<{ data: Clinic[] }>("/api/enrollment/clinics"),
+    ])
+      .then(([verifiedJson, clinicsJson]) => {
+        setAvailableCards(verifiedJson.data);
+        setClinics(clinicsJson.data);
+      })
+      .catch(() => {
+        setAvailableCards([]);
+        setClinics([]);
+      })
+      .finally(() => setLoadingCards(false));
   }, [open]);
 
   // Escape key
@@ -44,28 +68,21 @@ export function RegisterCardModal({ open, onClose, onRegistered }: Props) {
     return () => document.removeEventListener("keydown", onKey);
   }, [open, onClose]);
 
-  // Load available card numbers
-  useEffect(() => {
-    if (!open) return;
-    apiFetch<{ data: CardNum[] }>("/api/enrollment/card-numbers?pageSize=200")
-      .then((json) => setCardNumbers(json.data.filter((c) => c.is_used === 0)))
-      .catch(() => setCardNumbers([]));
-  }, [open]);
-
-  const filteredCards = cardNumbers.filter((c) =>
-    c.GeneratedCardNumber.toLowerCase().includes(cardSearch.toLowerCase())
+  const filteredCards = availableCards.filter((c) =>
+    c.verifiedcardnumber.toLowerCase().includes(cardSearch.toLowerCase())
   );
 
   async function handleSubmit(e?: { preventDefault?: () => void }) {
     e?.preventDefault?.();
-    if (!selectedCard) { setError("Please select a card number"); return; }
+    if (!selectedCard)   { setError("Please select a card number"); return; }
+    if (!selectedClinic) { setError("Please select a destination clinic"); return; }
     setSubmitting(true);
     setError("");
     try {
       await apiFetch("/api/enrollment/cards", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ card_number: selectedCard }),
+        body: JSON.stringify({ card_number: selectedCard, release_to: selectedClinic }),
       });
       onRegistered();
       onClose();
@@ -94,7 +111,7 @@ export function RegisterCardModal({ open, onClose, onRegistered }: Props) {
             </div>
             <div>
               <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Register Card</h3>
-              <p className="text-xs text-slate-400 dark:text-slate-500">Select an available card number to enroll</p>
+              <p className="text-xs text-slate-400 dark:text-slate-500">Enroll a verified card to a clinic</p>
             </div>
           </div>
           <button onClick={onClose} className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-300">
@@ -107,30 +124,36 @@ export function RegisterCardModal({ open, onClose, onRegistered }: Props) {
           {/* Card Number Selection */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-200">
-              Card Number <span className="text-red-500">*</span>
+              Verified Card Number <span className="text-red-500">*</span>
             </label>
             <div className="relative mb-2">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
               <input type="text" value={cardSearch} onChange={(e) => setCardSearch(e.target.value)}
-                placeholder="Search available card numbers..."
+                placeholder="Search verified card numbers..."
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-10 pr-4 text-sm focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:placeholder:text-slate-400" />
             </div>
-            <div className="max-h-52 overflow-y-auto rounded-xl border border-slate-200 bg-slate-50 dark:border-slate-600 dark:bg-slate-700">
-              {cardNumbers.length === 0 ? (
+            <div className="max-h-44 overflow-y-auto rounded-xl border border-slate-200 bg-slate-50 dark:border-slate-600 dark:bg-slate-700">
+              {loadingCards ? (
                 <div className="flex items-center justify-center gap-2 px-4 py-6 text-sm text-slate-400 dark:text-slate-500">
                   <Loader2 className="h-4 w-4 animate-spin" /> Loading...
                 </div>
               ) : filteredCards.length === 0 ? (
-                <p className="px-4 py-3 text-sm text-slate-400 dark:text-slate-500">No matches</p>
+                <p className="px-4 py-3 text-sm text-slate-400 dark:text-slate-500">
+                  {availableCards.length === 0 ? "No verified cards available for enrollment" : "No matches"}
+                </p>
               ) : filteredCards.slice(0, 100).map((c) => (
-                <button key={c.Id} type="button" onClick={() => setSelectedCard(c.GeneratedCardNumber)}
+                <button key={c.id} type="button" onClick={() => setSelectedCard(c.verifiedcardnumber)}
                   className={`w-full px-4 py-2.5 text-left text-sm font-mono border-b border-slate-100 last:border-0 transition-colors dark:border-slate-600 ${
-                    selectedCard === c.GeneratedCardNumber
+                    selectedCard === c.verifiedcardnumber
                       ? "bg-blue-50 text-blue-700 font-semibold dark:bg-blue-900/30 dark:text-blue-400"
                       : "hover:bg-white text-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
                   }`}>
-                  {c.GeneratedCardNumber}
-                  {c.CodeCompany && <span className="ml-2 text-xs text-slate-400 dark:text-slate-500">{c.CodeCompany}</span>}
+                  {c.verifiedcardnumber}
+                  {(c.year || c.batch) && (
+                    <span className="ml-2 text-xs text-slate-400 dark:text-slate-500">
+                      {[c.year, c.batch && `Batch ${c.batch}`, c.month && `Month ${c.month}`].filter(Boolean).join(" · ")}
+                    </span>
+                  )}
                 </button>
               ))}
             </div>
@@ -139,6 +162,26 @@ export function RegisterCardModal({ open, onClose, onRegistered }: Props) {
                 Selected: {selectedCard}
               </p>
             )}
+          </div>
+
+          {/* Destination Clinic */}
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5 dark:text-slate-200">
+              Release To (Destination Clinic) <span className="text-red-500">*</span>
+            </label>
+            <div className="relative">
+              <select
+                value={selectedClinic}
+                onChange={(e) => setSelectedClinic(e.target.value)}
+                className="w-full appearance-none rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-4 pr-10 text-sm focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-100 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100"
+              >
+                <option value="">Select clinic...</option>
+                {clinics.map((c) => (
+                  <option key={c.code} value={c.code}>{c.name}</option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            </div>
           </div>
 
           {error && (
@@ -153,7 +196,7 @@ export function RegisterCardModal({ open, onClose, onRegistered }: Props) {
             className="rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100 disabled:opacity-50 dark:text-slate-300 dark:hover:bg-slate-700">
             Cancel
           </button>
-          <button onClick={handleSubmit} disabled={submitting || !selectedCard}
+          <button onClick={handleSubmit} disabled={submitting || !selectedCard || !selectedClinic}
             className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60">
             {submitting && <Loader2 className="h-4 w-4 animate-spin" />}
             Register Card
