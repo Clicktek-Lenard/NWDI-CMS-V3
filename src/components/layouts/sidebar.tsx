@@ -5,15 +5,16 @@ import { usePathname } from "next/navigation";
 import {
   CreditCard,
   ClipboardList,
-  FileText,
   Stethoscope,
   BarChart3,
   Settings,
-  Building2,
   UserCheck,
   LogOut,
   Menu,
   X,
+  CalendarCheck,
+  History,
+  Receipt,
 } from "lucide-react";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
@@ -27,15 +28,15 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Queue",      href: "/queue",          icon: <ClipboardList className="h-5 w-5" />, module: "cms", tab: "queue" },
-  { label: "Card Management", href: "/enrollment",  icon: <CreditCard className="h-5 w-5" />,    module: "cms", tab: "enrollment" },
-  { label: "Payment",    href: "/payment",         icon: <FileText className="h-5 w-5" />,      module: "cms", tab: "payment" },
-  { label: "Results",    href: "/results",         icon: <FileText className="h-5 w-5" />,      module: "cms", tab: "results" },
-  { label: "Doctor",     href: "/clinical",        icon: <Stethoscope className="h-5 w-5" />,   module: "cms", tab: "clinical" },
-  { label: "Clinic Reports", href: "/reports",      icon: <BarChart3 className="h-5 w-5" />,     module: "cms", tab: "reports" },
-  { label: "EROS",       href: "/eros/company",    icon: <Building2 className="h-5 w-5" />,     module: "erosui" },
+  { label: "Queueing",              href: "/queue",          icon: <ClipboardList className="h-5 w-5" />, module: "cms", tab: "queue" },
+  { label: "Doctor",                href: "/clinical",       icon: <Stethoscope className="h-5 w-5" />,   module: "cms", tab: "clinical" },
+  { label: "Today's Queue",         href: "/queue/today",    icon: <CalendarCheck className="h-5 w-5" />, module: "cms", tab: "queue" },
+  { label: "Payment",               href: "/payment",        icon: <Receipt className="h-5 w-5" />,       module: "cms", tab: "payment" },
+  { label: "Past Queue",            href: "/queue/past",     icon: <History className="h-5 w-5" />,       module: "cms", tab: "queue" },
+  { label: "Card Management",       href: "/enrollment",     icon: <CreditCard className="h-5 w-5" />,    module: "cms", tab: "enrollment" },
   { label: "Physician Accreditation", href: "/eros/physician", icon: <UserCheck className="h-5 w-5" />, module: "erosui", tab: "physician" },
-  { label: "Settings",   href: "/settings",        icon: <Settings className="h-5 w-5" />,      module: "cms", tab: "settings" },
+  { label: "Admin Settings",        href: "/settings",       icon: <Settings className="h-5 w-5" />,      module: "cms", tab: "settings" },
+  { label: "Clinic Reports",        href: "/reports",        icon: <BarChart3 className="h-5 w-5" />,     module: "cms", tab: "reports" },
 ];
 
 interface SidebarProps {
