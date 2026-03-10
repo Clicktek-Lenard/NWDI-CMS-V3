@@ -21,6 +21,7 @@ import type { UserRecord } from "./user-modal";
 import { ViewUserModal } from "./view-user-modal";
 import { DeleteUserDialog } from "./delete-user-dialog";
 import { apiFetch } from "@/lib/api";
+import { useToast, ToastContainer } from "@/components/ui/toast";
 
 // ── Helpers ───────────────────────────────────────────────────
 function parsePermCount(role: string | null): number {
@@ -127,6 +128,8 @@ export function UserManagementClient() {
     setPage(1);
   }
 
+  const { toasts, toast, dismiss } = useToast();
+
   // Modal state
   const [addOpen, setAddOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -186,11 +189,13 @@ export function UserManagementClient() {
 
   const handleSaved = useCallback(() => {
     fetchUsers();
-  }, [fetchUsers]);
+    toast("User saved successfully.");
+  }, [fetchUsers, toast]);
 
   const handleDeleted = useCallback(() => {
     fetchUsers();
-  }, [fetchUsers]);
+    toast("User deleted successfully.", "error");
+  }, [fetchUsers, toast]);
 
   // ── Render ────────────────────────────────────────────────
   const startIdx = (page - 1) * PAGE_SIZE + 1;
@@ -507,6 +512,8 @@ export function UserManagementClient() {
         onClose={() => setDeleteOpen(false)}
         onDeleted={handleDeleted}
       />
+
+      <ToastContainer toasts={toasts} dismiss={dismiss} />
     </div>
   );
 }

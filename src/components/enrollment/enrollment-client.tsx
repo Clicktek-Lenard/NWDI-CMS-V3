@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { RegisterCardModal } from "./register-card-modal";
+import { useToast, ToastContainer } from "@/components/ui/toast";
 
 // ── Interfaces ────────────────────────────────────────────────
 
@@ -142,6 +143,7 @@ function fmtDateTime(date: string | null) {
 // ── Component ─────────────────────────────────────────────────
 
 export function EnrollmentClient() {
+  const { toasts, toast, dismiss } = useToast();
   const [activeTab, setActiveTab] = useState<AllTab>("VERIFICATION");
 
   const [cards, setCards]                 = useState<CardEnrollment[]>([]);
@@ -217,8 +219,11 @@ export function EnrollmentClient() {
     try {
       await apiFetch(`/api/enrollment/cards/${id}/receive`, { method: "PATCH" });
       await fetchData();
+      toast("Card marked as received.");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Action failed");
+      const msg = e instanceof Error ? e.message : "Action failed";
+      setError(msg);
+      toast(msg, "error");
     } finally {
       setActionLoading(null);
     }
@@ -237,8 +242,11 @@ export function EnrollmentClient() {
       });
       setTransferInputs((prev) => { const next = { ...prev }; delete next[id]; return next; });
       await fetchData();
+      toast("Transfer initiated successfully.");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Transfer failed");
+      const msg = e instanceof Error ? e.message : "Transfer failed";
+      setError(msg);
+      toast(msg, "error");
     } finally {
       setActionLoading(null);
     }
@@ -250,8 +258,11 @@ export function EnrollmentClient() {
     try {
       await apiFetch(`/api/enrollment/cards/${id}/confirm-transfer`, { method: "PATCH" });
       await fetchData();
+      toast("Transfer confirmed successfully.");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Confirm transfer failed");
+      const msg = e instanceof Error ? e.message : "Confirm transfer failed";
+      setError(msg);
+      toast(msg, "error");
     } finally {
       setActionLoading(null);
     }
@@ -577,8 +588,10 @@ export function EnrollmentClient() {
       <RegisterCardModal
         open={registerOpen}
         onClose={() => setRegisterOpen(false)}
-        onRegistered={fetchData}
+        onRegistered={() => { fetchData(); toast("Card registered successfully."); }}
       />
+
+      <ToastContainer toasts={toasts} dismiss={dismiss} />
     </div>
   );
 }

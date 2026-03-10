@@ -121,8 +121,23 @@ export async function POST(request: NextRequest) {
   const fullname = [body.firstname, body.middlename, body.lastname, body.suffix]
     .filter(Boolean).join(" ");
 
+  // Guard: PRC No must be unique (skip if empty)
+  if (body.prcno) {
+    const dup = await prisma.$queryRawUnsafe<Array<{ id: bigint }>>(
+      `SELECT id FROM physician WHERE prcno = $1 LIMIT 1`,
+      body.prcno
+    );
+    if (dup.length > 0) {
+      return NextResponse.json(
+        { error: `PRC No. "${body.prcno}" is already registered to another physician.` },
+        { status: 409 }
+      );
+    }
+  }
+
   await prisma.$executeRawUnsafe(
     `INSERT INTO physician (
+       id,
        fullname, lastname, firstname, middlename, suffix, dob,
        prcno, prcvalidity, "Degree", "Group", subgroup,
        branchcode, email, mobile,
@@ -132,6 +147,7 @@ export async function POST(request: NextRequest) {
        residencycertificate, diplomatecertificate, philhealth, ptr, bir, moa,
        status, requestorby, inputdate, inputby, systemupdatetime
      ) VALUES (
+       (SELECT COALESCE(MAX(id), 0) + 1 FROM physician),
        $1,$2,$3,$4,$5,$6,
        $7,$8,$9,$10,$11,
        $12,$13,$14,

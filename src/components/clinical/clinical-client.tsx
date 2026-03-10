@@ -10,6 +10,7 @@ import {
 import { EvaluationDrawer } from "./evaluation-drawer";
 import type { ClinicalQueueEntry } from "./evaluation-drawer";
 import { apiFetch } from "@/lib/api";
+import { useToast, ToastContainer } from "@/components/ui/toast";
 
 // ── Helpers ───────────────────────────────────────────────────
 function timeAgo(iso: string) {
@@ -138,6 +139,7 @@ function SortableHeader({
 
 // ── Component ─────────────────────────────────────────────────
 export function ClinicalClient() {
+  const { toasts, toast, dismiss } = useToast();
   const [queue, setQueue] = useState<ClinicalQueueEntry[]>([]);
   const [stats, setStats] = useState<Stats>({ waiting: 0, inProgress: 0, completed: 0 });
   const [loading, setLoading] = useState(false);
@@ -211,8 +213,12 @@ export function ClinicalClient() {
         body: JSON.stringify({ status: newStatus }),
       });
       await fetchQueue();
+      const label = newStatus === "IN_PROGRESS" ? "In Progress" : newStatus === "COMPLETED" ? "Completed" : newStatus === "CANCELLED" ? "Cancelled" : "Waiting";
+      toast(`Status updated to ${label}.`);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to update status");
+      const msg = e instanceof Error ? e.message : "Failed to update status";
+      setError(msg);
+      toast(msg, "error");
     } finally {
       setActionLoading(null);
     }
@@ -569,6 +575,8 @@ export function ClinicalClient() {
         onClose={() => setSelected(null)}
         onCompleted={fetchQueue}
       />
+
+      <ToastContainer toasts={toasts} dismiss={dismiss} />
     </div>
   );
 }

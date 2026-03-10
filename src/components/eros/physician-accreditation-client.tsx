@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { ChevronUp, ChevronDown, ChevronsUpDown, Plus, RefreshCw, CheckCircle, XCircle, Search } from "lucide-react";
+import { ChevronUp, ChevronDown, ChevronLeft, ChevronRight, ChevronsUpDown, Plus, RefreshCw, CheckCircle, XCircle, Search, AlertTriangle, Loader2, Pencil } from "lucide-react";
 import { PhysicianFormModal } from "./physician-form-modal";
+import { useToast, ToastContainer } from "@/components/ui/toast";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -137,6 +138,7 @@ const PAGE_SIZE = 20;
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export function PhysicianAccreditationClient() {
+  const { toasts, toast, dismiss } = useToast();
   const [activeTab, setActiveTab] = useState<"approval" | "accredited">("approval");
 
   // ── For Approval tab state ──────────────────────────────────────────────────
@@ -149,6 +151,7 @@ export function PhysicianAccreditationClient() {
   const [approvalSortDir, setApprovalSortDir] = useState<SortDir>("asc");
 
   // Approve / Decline modal state
+  const [approveTarget, setApproveTarget]   = useState<PhysicianRecord | null>(null);
   const [declineTarget, setDeclineTarget]   = useState<PhysicianRecord | null>(null);
   const [declineReason, setDeclineReason]   = useState("");
   const [actionLoading, setActionLoading]   = useState(false);
@@ -220,12 +223,17 @@ export function PhysicianAccreditationClient() {
 
   // ── Approve / Decline actions ──────────────────────────────────────────────
 
-  async function handleApprove(p: PhysicianRecord) {
-    if (!confirm(`Approve accreditation for ${p.fullname}?`)) return;
+  async function handleApproveConfirm() {
+    if (!approveTarget) return;
     setActionLoading(true);
     try {
-      await fetch(`/api/physician/accreditation/${p.id}/approve`, { method: "PATCH" });
+      const res = await fetch(`/api/physician/accreditation/${approveTarget.id}/approve`, { method: "PATCH" });
+      if (!res.ok) throw new Error((await res.json()).error ?? "Failed to approve");
+      setApproveTarget(null);
       fetchApproval();
+      toast("Application approved successfully.");
+    } catch (e) {
+      toast(e instanceof Error ? e.message : "Failed to approve", "error");
     } finally {
       setActionLoading(false);
     }
@@ -235,14 +243,18 @@ export function PhysicianAccreditationClient() {
     if (!declineTarget || !declineReason.trim()) return;
     setActionLoading(true);
     try {
-      await fetch(`/api/physician/accreditation/${declineTarget.id}/decline`, {
+      const res = await fetch(`/api/physician/accreditation/${declineTarget.id}/decline`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ declineReason }),
       });
+      if (!res.ok) throw new Error((await res.json()).error ?? "Failed to decline");
       setDeclineTarget(null);
       setDeclineReason("");
       fetchApproval();
+      toast("Application declined.", "warning");
+    } catch (e) {
+      toast(e instanceof Error ? e.message : "Failed to decline", "error");
     } finally {
       setActionLoading(false);
     }
@@ -365,20 +377,27 @@ export function PhysicianAccreditationClient() {
                       <td className="px-4 py-3 whitespace-nowrap">
                         <div className="flex items-center justify-center gap-2">
                           <button
-                            onClick={() => handleApprove(p)}
-                            disabled={actionLoading}
-                            title="Approve"
-                            className="rounded p-1 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 disabled:opacity-50"
+                            onClick={() => { setEditRecord(p); setFormOpen(true); }}
+                            className="inline-flex items-center gap-1.5 rounded-lg bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-600 transition-all hover:bg-slate-200 active:scale-[0.97] dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
                           >
-                            <CheckCircle className="h-4 w-4" />
+                            <Pencil className="h-3.5 w-3.5" />
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => setApproveTarget(p)}
+                            disabled={actionLoading}
+                            className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 transition-all hover:bg-emerald-100 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 dark:bg-emerald-900/30 dark:text-emerald-300 dark:hover:bg-emerald-900/50"
+                          >
+                            <CheckCircle className="h-3.5 w-3.5" />
+                            Approve
                           </button>
                           <button
                             onClick={() => { setDeclineTarget(p); setDeclineReason(""); }}
                             disabled={actionLoading}
-                            title="Decline"
-                            className="rounded p-1 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 disabled:opacity-50"
+                            className="inline-flex items-center gap-1.5 rounded-lg bg-red-50 px-3 py-1.5 text-xs font-semibold text-red-600 transition-all hover:bg-red-100 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50 dark:bg-red-900/30 dark:text-red-400 dark:hover:bg-red-900/50"
                           >
-                            <XCircle className="h-4 w-4" />
+                            <XCircle className="h-3.5 w-3.5" />
+                            Decline
                           </button>
                         </div>
                       </td>
@@ -389,25 +408,50 @@ export function PhysicianAccreditationClient() {
             </div>
 
             {/* Pagination */}
-            {approvalTotalPages > 1 && (
-              <div className="flex items-center justify-between border-t border-slate-200 px-4 py-3 dark:border-slate-700">
-                <span className="text-xs text-slate-500 dark:text-slate-400">
-                  Page {approvalPage} of {approvalTotalPages} ({approvalTotal} total)
-                </span>
-                <div className="flex gap-2">
+            {approvalTotal > 0 && (
+              <div className="flex items-center justify-between border-t border-slate-100 px-6 py-4 dark:border-slate-700">
+                <p className="text-xs text-slate-400 dark:text-slate-500">
+                  Showing{" "}
+                  <span className="font-medium text-slate-600 dark:text-slate-300">
+                    {(approvalPage - 1) * PAGE_SIZE + 1}–{Math.min(approvalPage * PAGE_SIZE, approvalTotal)}
+                  </span>{" "}
+                  of{" "}
+                  <span className="font-medium text-slate-600 dark:text-slate-300">{approvalTotal}</span> records
+                </p>
+                <div className="flex items-center gap-1">
                   <button
                     onClick={() => setApprovalPage((p) => Math.max(1, p - 1))}
-                    disabled={approvalPage <= 1}
-                    className="rounded border border-slate-200 px-3 py-1 text-xs disabled:opacity-40 dark:border-slate-700 dark:text-slate-300"
+                    disabled={approvalPage === 1 || approvalLoading}
+                    className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-slate-700 dark:hover:text-slate-200"
                   >
-                    Prev
+                    <ChevronLeft className="h-4 w-4" />
                   </button>
+                  {Array.from({ length: Math.min(approvalTotalPages, 5) }, (_, i) => {
+                    let pageNum: number;
+                    if (approvalTotalPages <= 5) pageNum = i + 1;
+                    else if (approvalPage <= 3) pageNum = i + 1;
+                    else if (approvalPage >= approvalTotalPages - 2) pageNum = approvalTotalPages - 4 + i;
+                    else pageNum = approvalPage - 2 + i;
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => setApprovalPage(pageNum)}
+                        className={`min-w-8 rounded-lg px-2 py-1.5 text-xs font-medium transition-colors ${
+                          pageNum === approvalPage
+                            ? "bg-blue-600 text-white"
+                            : "text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700"
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  })}
                   <button
                     onClick={() => setApprovalPage((p) => Math.min(approvalTotalPages, p + 1))}
-                    disabled={approvalPage >= approvalTotalPages}
-                    className="rounded border border-slate-200 px-3 py-1 text-xs disabled:opacity-40 dark:border-slate-700 dark:text-slate-300"
+                    disabled={approvalPage === approvalTotalPages || approvalLoading}
+                    className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-slate-700 dark:hover:text-slate-200"
                   >
-                    Next
+                    <ChevronRight className="h-4 w-4" />
                   </button>
                 </div>
               </div>
@@ -494,25 +538,50 @@ export function PhysicianAccreditationClient() {
             </div>
 
             {/* Pagination */}
-            {accreditedTotalPages > 1 && (
-              <div className="flex items-center justify-between border-t border-slate-200 px-4 py-3 dark:border-slate-700">
-                <span className="text-xs text-slate-500 dark:text-slate-400">
-                  Page {accreditedPage} of {accreditedTotalPages} ({accreditedTotal} total)
-                </span>
-                <div className="flex gap-2">
+            {accreditedTotal > 0 && (
+              <div className="flex items-center justify-between border-t border-slate-100 px-6 py-4 dark:border-slate-700">
+                <p className="text-xs text-slate-400 dark:text-slate-500">
+                  Showing{" "}
+                  <span className="font-medium text-slate-600 dark:text-slate-300">
+                    {(accreditedPage - 1) * PAGE_SIZE + 1}–{Math.min(accreditedPage * PAGE_SIZE, accreditedTotal)}
+                  </span>{" "}
+                  of{" "}
+                  <span className="font-medium text-slate-600 dark:text-slate-300">{accreditedTotal}</span> records
+                </p>
+                <div className="flex items-center gap-1">
                   <button
                     onClick={() => setAccreditedPage((p) => Math.max(1, p - 1))}
-                    disabled={accreditedPage <= 1}
-                    className="rounded border border-slate-200 px-3 py-1 text-xs disabled:opacity-40 dark:border-slate-700 dark:text-slate-300"
+                    disabled={accreditedPage === 1 || accreditedLoading}
+                    className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-slate-700 dark:hover:text-slate-200"
                   >
-                    Prev
+                    <ChevronLeft className="h-4 w-4" />
                   </button>
+                  {Array.from({ length: Math.min(accreditedTotalPages, 5) }, (_, i) => {
+                    let pageNum: number;
+                    if (accreditedTotalPages <= 5) pageNum = i + 1;
+                    else if (accreditedPage <= 3) pageNum = i + 1;
+                    else if (accreditedPage >= accreditedTotalPages - 2) pageNum = accreditedTotalPages - 4 + i;
+                    else pageNum = accreditedPage - 2 + i;
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => setAccreditedPage(pageNum)}
+                        className={`min-w-8 rounded-lg px-2 py-1.5 text-xs font-medium transition-colors ${
+                          pageNum === accreditedPage
+                            ? "bg-blue-600 text-white"
+                            : "text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700"
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  })}
                   <button
                     onClick={() => setAccreditedPage((p) => Math.min(accreditedTotalPages, p + 1))}
-                    disabled={accreditedPage >= accreditedTotalPages}
-                    className="rounded border border-slate-200 px-3 py-1 text-xs disabled:opacity-40 dark:border-slate-700 dark:text-slate-300"
+                    disabled={accreditedPage === accreditedTotalPages || accreditedLoading}
+                    className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700 disabled:cursor-not-allowed disabled:opacity-40 dark:hover:bg-slate-700 dark:hover:text-slate-200"
                   >
-                    Next
+                    <ChevronRight className="h-4 w-4" />
                   </button>
                 </div>
               </div>
@@ -521,43 +590,126 @@ export function PhysicianAccreditationClient() {
         </div>
       )}
 
-      {/* ── DECLINE MODAL ────────────────────────────────────────────────────── */}
-      {declineTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white shadow-2xl dark:bg-slate-800">
-            <div className="border-b border-slate-200 px-6 py-4 dark:border-slate-700">
-              <h2 className="text-base font-semibold text-slate-800 dark:text-slate-100">
-                Decline Application
-              </h2>
-              <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">
-                {declineTarget.fullname}
+      {/* ── APPROVE CONFIRMATION DIALOG ──────────────────────────────────────── */}
+      {approveTarget && (
+        <div
+          onClick={(e) => { if (e.target === e.currentTarget) setApproveTarget(null); }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+        >
+          <div className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-800">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4 dark:border-slate-700">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 dark:bg-emerald-900/30">
+                  <CheckCircle className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Approve Application</h3>
+                  <p className="text-xs text-slate-400 dark:text-slate-500">{approveTarget.fullname}</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setApproveTarget(null)}
+                className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-300"
+              >
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+            {/* Body */}
+            <div className="px-6 py-5">
+              <p className="text-sm text-slate-600 dark:text-slate-300">
+                Are you sure you want to approve the accreditation for{" "}
+                <span className="font-semibold text-slate-800 dark:text-slate-100">{approveTarget.fullname}</span>?
+              </p>
+              <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
+                Status will change from <span className="font-medium text-amber-600 dark:text-amber-400">Pending</span> to <span className="font-medium text-emerald-600 dark:text-emerald-400">Active</span>.
               </p>
             </div>
-            <div className="px-6 py-4">
-              <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
-                Reason to Disapprove <span className="text-red-500">*</span>
-              </label>
-              <textarea
-                rows={3}
-                value={declineReason}
-                onChange={(e) => setDeclineReason(e.target.value)}
-                placeholder="Enter reason..."
-                className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100"
-              />
+            {/* Footer */}
+            <div className="flex items-center justify-end gap-3 border-t border-slate-100 px-6 py-4 dark:border-slate-700">
+              <button
+                onClick={() => setApproveTarget(null)}
+                disabled={actionLoading}
+                className="rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 disabled:opacity-50 dark:text-slate-300 dark:hover:bg-slate-700"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleApproveConfirm}
+                disabled={actionLoading}
+                className="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-600/20 transition-all hover:bg-emerald-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {actionLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+                Approve
+              </button>
             </div>
-            <div className="flex justify-end gap-3 border-t border-slate-200 px-6 py-4 dark:border-slate-700">
+          </div>
+        </div>
+      )}
+
+      {/* ── DECLINE DIALOG ───────────────────────────────────────────────────── */}
+      {declineTarget && (
+        <div
+          onClick={(e) => { if (e.target === e.currentTarget) { setDeclineTarget(null); setDeclineReason(""); } }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+        >
+          <div className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white shadow-2xl dark:border-slate-700 dark:bg-slate-800">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4 dark:border-slate-700">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-100 dark:bg-red-900/30">
+                  <XCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Decline Application</h3>
+                  <p className="text-xs text-slate-400 dark:text-slate-500">{declineTarget.fullname}</p>
+                </div>
+              </div>
               <button
                 onClick={() => { setDeclineTarget(null); setDeclineReason(""); }}
-                className="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700"
+                className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-700 dark:hover:text-slate-300"
+              >
+                <XCircle className="h-5 w-5" />
+              </button>
+            </div>
+            {/* Body */}
+            <div className="px-6 py-5 space-y-4">
+              <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 dark:bg-amber-900/20 dark:border-amber-800">
+                <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-600 dark:text-amber-400" />
+                <div className="text-sm text-amber-700 dark:text-amber-400">
+                  <p className="font-medium">A reason is required to decline.</p>
+                  <p className="mt-0.5 text-amber-600 dark:text-amber-500">The physician will be notified with this reason.</p>
+                </div>
+              </div>
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">
+                  Reason to Disapprove <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  rows={3}
+                  value={declineReason}
+                  onChange={(e) => setDeclineReason(e.target.value)}
+                  placeholder="Enter reason..."
+                  className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-400 hover:border-slate-300 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:placeholder:text-slate-400"
+                />
+              </div>
+            </div>
+            {/* Footer */}
+            <div className="flex items-center justify-end gap-3 border-t border-slate-100 px-6 py-4 dark:border-slate-700">
+              <button
+                onClick={() => { setDeclineTarget(null); setDeclineReason(""); }}
+                disabled={actionLoading}
+                className="rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 disabled:opacity-50 dark:text-slate-300 dark:hover:bg-slate-700"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDeclineSubmit}
                 disabled={!declineReason.trim() || actionLoading}
-                className="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:opacity-50"
+                className="inline-flex items-center gap-2 rounded-xl bg-red-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-red-600/20 transition-all hover:bg-red-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {actionLoading ? "Saving..." : "Decline"}
+                {actionLoading && <Loader2 className="h-4 w-4 animate-spin" />}
+                Decline
               </button>
             </div>
           </div>
@@ -574,9 +726,12 @@ export function PhysicianAccreditationClient() {
             setEditRecord(null);
             fetchApproval();
             fetchAccredited();
+            toast(editRecord ? "Physician record updated successfully." : "Physician record created successfully.");
           }}
         />
       )}
+
+      <ToastContainer toasts={toasts} dismiss={dismiss} />
     </>
   );
 }
