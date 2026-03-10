@@ -5,6 +5,7 @@ import {
   ChevronUp, ChevronDown, ChevronsUpDown,
   ChevronLeft, ChevronRight,
   RefreshCw, Search, FileText, Download,
+  Printer, FileSpreadsheet,
 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { useToast, ToastContainer } from "@/components/ui/toast";
@@ -328,6 +329,20 @@ export function ReportsClient() {
     void generate(p);
   }
 
+  function buildExportUrl(format: "csv" | "xlsx") {
+    const params = new URLSearchParams({
+      dateFrom,
+      dateTo,
+      format,
+      ...(branch ? { branch } : {}),
+    });
+    return `/api/reports/${reportType}?${params}`;
+  }
+
+  function handlePrint() {
+    window.print();
+  }
+
   const cols    = COLUMNS[reportType];
   const sorted  = sortRows(rows, sortKey, sortDir);
   const startIdx = (page - 1) * PAGE_SIZE + 1;
@@ -344,6 +359,13 @@ export function ReportsClient() {
 
   return (
     <div className="space-y-5">
+      <style>{`
+        @media print {
+          body > * { display: none !important; }
+          [data-print-target] { display: block !important; }
+          [data-no-print] { display: none !important; }
+        }
+      `}</style>
 
       {/* ── Header ── */}
       <div>
@@ -354,7 +376,7 @@ export function ReportsClient() {
       </div>
 
       {/* ── Report type selector ── */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+      <div data-no-print className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
         <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
           Report Type
         </p>
@@ -377,7 +399,7 @@ export function ReportsClient() {
       </div>
 
       {/* ── Filters ── */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+      <div data-no-print className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
         <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
           Filters
         </p>
@@ -473,10 +495,10 @@ export function ReportsClient() {
 
       {/* ── Results table ── */}
       {generated && (
-        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <div data-print-target className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
 
           {/* Table toolbar */}
-          <div className="flex items-center justify-between border-b border-slate-100 px-5 py-3 dark:border-slate-700">
+          <div data-no-print className="flex items-center justify-between border-b border-slate-100 px-5 py-3 dark:border-slate-700">
             <div className="flex items-center gap-2">
               <FileText className="h-4 w-4 text-slate-400" />
               <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">
@@ -497,15 +519,35 @@ export function ReportsClient() {
               >
                 <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
               </button>
+              {/* CSV */}
               <a
-                href={`/api/reports/${reportType}?dateFrom=${dateFrom}&dateTo=${dateTo}${branch ? `&branch=${branch}` : ""}&pageSize=9999&page=1`}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={buildExportUrl("csv")}
+                download
                 className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-600 shadow-sm transition-colors hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                title="Export as CSV"
               >
                 <Download className="h-3.5 w-3.5" />
-                Export JSON
+                CSV
               </a>
+              {/* Excel */}
+              <a
+                href={buildExportUrl("xlsx")}
+                download
+                className="inline-flex items-center gap-1.5 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-medium text-emerald-700 shadow-sm transition-colors hover:bg-emerald-100 dark:border-emerald-800 dark:bg-emerald-900/20 dark:text-emerald-400 dark:hover:bg-emerald-900/40"
+                title="Export as Excel"
+              >
+                <FileSpreadsheet className="h-3.5 w-3.5" />
+                Excel
+              </a>
+              {/* Print */}
+              <button
+                onClick={handlePrint}
+                className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-medium text-slate-600 shadow-sm transition-colors hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600"
+                title="Print report"
+              >
+                <Printer className="h-3.5 w-3.5" />
+                Print
+              </button>
             </div>
           </div>
 
@@ -617,7 +659,7 @@ export function ReportsClient() {
 
           {/* Pagination */}
           {total > 0 && (
-            <div className="flex items-center justify-between border-t border-slate-100 px-6 py-4 dark:border-slate-700">
+            <div data-no-print className="flex items-center justify-between border-t border-slate-100 px-6 py-4 dark:border-slate-700">
               <p className="text-xs text-slate-400 dark:text-slate-500">
                 Showing{" "}
                 <span className="font-medium text-slate-600 dark:text-slate-300">{startIdx}–{endIdx}</span>{" "}
