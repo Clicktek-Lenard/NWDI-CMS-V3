@@ -10,6 +10,7 @@ import {
   BarChart3,
   Settings,
   Building2,
+  UserCheck,
   LogOut,
   Menu,
   X,
@@ -30,9 +31,10 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Card Management", href: "/enrollment",  icon: <CreditCard className="h-5 w-5" />,    module: "cms", tab: "enrollment" },
   { label: "Payment",    href: "/payment",         icon: <FileText className="h-5 w-5" />,      module: "cms", tab: "payment" },
   { label: "Results",    href: "/results",         icon: <FileText className="h-5 w-5" />,      module: "cms", tab: "results" },
-  { label: "Clinical",   href: "/clinical",        icon: <Stethoscope className="h-5 w-5" />,   module: "cms", tab: "clinical" },
-  { label: "Reports",    href: "/reports",         icon: <BarChart3 className="h-5 w-5" />,     module: "cms", tab: "reports" },
+  { label: "Doctor",     href: "/clinical",        icon: <Stethoscope className="h-5 w-5" />,   module: "cms", tab: "clinical" },
+  { label: "Clinic Reports", href: "/reports",      icon: <BarChart3 className="h-5 w-5" />,     module: "cms", tab: "reports" },
   { label: "EROS",       href: "/eros/company",    icon: <Building2 className="h-5 w-5" />,     module: "erosui" },
+  { label: "Physician Accreditation", href: "/eros/physician", icon: <UserCheck className="h-5 w-5" />, module: "erosui", tab: "physician" },
   { label: "Settings",   href: "/settings",        icon: <Settings className="h-5 w-5" />,      module: "cms", tab: "settings" },
 ];
 

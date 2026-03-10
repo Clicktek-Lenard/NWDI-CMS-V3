@@ -9,6 +9,9 @@ import {
   Trash2,
   ChevronLeft,
   ChevronRight,
+  ChevronUp,
+  ChevronDown,
+  ChevronsUpDown,
   RefreshCw,
   ShieldCheck,
   Users,
@@ -18,6 +21,7 @@ import type { UserRecord } from "./user-modal";
 import { ViewUserModal } from "./view-user-modal";
 import { DeleteUserDialog } from "./delete-user-dialog";
 import { apiFetch } from "@/lib/api";
+import { useToast, ToastContainer } from "@/components/ui/toast";
 
 // ── Helpers ───────────────────────────────────────────────────
 function parsePermCount(role: string | null): number {
@@ -57,6 +61,48 @@ interface ApiResponse {
   totalPages: number;
 }
 
+// ── Sorting helpers ───────────────────────────────────────────
+type SortDir = "asc" | "desc";
+
+function sortRows<T>(rows: T[], key: keyof T | "", dir: SortDir): T[] {
+  if (!key) return rows;
+  return [...rows].sort((a, b) => {
+    const av = a[key] ?? "";
+    const bv = b[key] ?? "";
+    let cmp = 0;
+    if (typeof av === "number" && typeof bv === "number") {
+      cmp = av - bv;
+    } else {
+      cmp = String(av).localeCompare(String(bv), undefined, { sensitivity: "base" });
+    }
+    return dir === "asc" ? cmp : -cmp;
+  });
+}
+
+function SortableHeader({
+  label, colKey, sortKey, sortDir, onSort, align = "left",
+}: {
+  label: string; colKey: string; sortKey: string; sortDir: SortDir;
+  onSort: (k: string) => void; align?: "left" | "right" | "center";
+}) {
+  const active = sortKey === colKey;
+  return (
+    <th
+      onClick={() => onSort(colKey)}
+      className={`px-4 py-3.5 text-xs font-semibold uppercase tracking-wider cursor-pointer select-none transition-colors hover:bg-slate-100 dark:hover:bg-slate-600 text-${align} ${active ? "text-slate-700 dark:text-slate-200" : "text-slate-500 dark:text-slate-400"}`}
+    >
+      <span className="inline-flex items-center gap-1">
+        {label}
+        {active
+          ? sortDir === "asc"
+            ? <ChevronUp className="h-3.5 w-3.5 text-blue-500" />
+            : <ChevronDown className="h-3.5 w-3.5 text-blue-500" />
+          : <ChevronsUpDown className="h-3.5 w-3.5 opacity-30" />}
+      </span>
+    </th>
+  );
+}
+
 // ── Component ─────────────────────────────────────────────────
 export function UserManagementClient() {
   // Data state
@@ -71,6 +117,18 @@ export function UserManagementClient() {
   const [statusFilter, setStatusFilter] = useState<"" | "active" | "inactive">("");
   const [page, setPage] = useState(1);
   const PAGE_SIZE = 10;
+
+  // Sort state
+  const [sortKey, setSortKey] = useState("");
+  const [sortDir, setSortDir] = useState<SortDir>("asc");
+
+  function handleSort(key: string) {
+    if (sortKey === key) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    else { setSortKey(key); setSortDir("asc"); }
+    setPage(1);
+  }
+
+  const { toasts, toast, dismiss } = useToast();
 
   // Modal state
   const [addOpen, setAddOpen] = useState(false);
@@ -131,15 +189,20 @@ export function UserManagementClient() {
 
   const handleSaved = useCallback(() => {
     fetchUsers();
-  }, [fetchUsers]);
+    toast("User saved successfully.");
+  }, [fetchUsers, toast]);
 
   const handleDeleted = useCallback(() => {
     fetchUsers();
-  }, [fetchUsers]);
+    toast("User deleted successfully.", "error");
+  }, [fetchUsers, toast]);
 
   // ── Render ────────────────────────────────────────────────
   const startIdx = (page - 1) * PAGE_SIZE + 1;
   const endIdx = Math.min(page * PAGE_SIZE, total);
+
+  const sortedUsers = sortRows(users, sortKey as keyof UserRecord, sortDir);
+  const paginatedUsers = sortedUsers.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
     <div className="space-y-4">
@@ -205,21 +268,13 @@ export function UserManagementClient() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-slate-100 bg-slate-50/70 dark:border-slate-700 dark:bg-slate-700">
-                <th className="px-6 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                  User
-                </th>
-                <th className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                  Username
-                </th>
-                <th className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                  Department
-                </th>
+                <SortableHeader label="User"       colKey="first_name"  sortKey={sortKey} sortDir={sortDir} onSort={handleSort} align="left" />
+                <SortableHeader label="Username"   colKey="username"    sortKey={sortKey} sortDir={sortDir} onSort={handleSort} align="left" />
+                <SortableHeader label="Department" colKey="department"  sortKey={sortKey} sortDir={sortDir} onSort={handleSort} align="left" />
                 <th className="px-4 py-3.5 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Permissions
                 </th>
-                <th className="px-4 py-3.5 text-center text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                  Status
-                </th>
+                <SortableHeader label="Status"     colKey="activated"   sortKey={sortKey} sortDir={sortDir} onSort={handleSort} align="center" />
                 <th className="px-4 py-3.5 text-right text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                   Actions
                 </th>
@@ -246,7 +301,7 @@ export function UserManagementClient() {
                   </td>
                 </tr>
               ) : (
-                users.map((user) => {
+                paginatedUsers.map((user) => {
                   const fullName =
                     [user.first_name, user.last_name].filter(Boolean).join(" ") || user.username || "Unknown";
                   const initials =
@@ -457,6 +512,8 @@ export function UserManagementClient() {
         onClose={() => setDeleteOpen(false)}
         onDeleted={handleDeleted}
       />
+
+      <ToastContainer toasts={toasts} dismiss={dismiss} />
     </div>
   );
 }

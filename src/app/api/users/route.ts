@@ -105,9 +105,22 @@ export async function POST(request: NextRequest) {
 
     if (existing) {
       return NextResponse.json(
-        { success: false, error: "Username already exists" },
+        { success: false, error: "Username already exists." },
         { status: 409 }
       );
+    }
+
+    // Guard: email uniqueness (if non-empty)
+    if (data.email) {
+      const dupEmail = await prisma.user.findFirst({
+        where: { email: data.email, deleted_at: null },
+      });
+      if (dupEmail) {
+        return NextResponse.json(
+          { success: false, error: "Email address is already used by another user." },
+          { status: 409 }
+        );
+      }
     }
 
     const hashedPassword = await bcrypt.hash(data.password, 10);

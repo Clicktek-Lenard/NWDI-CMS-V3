@@ -81,6 +81,19 @@ export async function PUT(
       return NextResponse.json({ success: false, error: "User not found" }, { status: 404 });
     }
 
+    // Guard: email uniqueness (if non-empty, exclude current user)
+    if (data.email) {
+      const dupEmail = await prisma.user.findFirst({
+        where: { email: data.email, deleted_at: null, NOT: { id: parseInt(id, 10) } },
+      });
+      if (dupEmail) {
+        return NextResponse.json(
+          { success: false, error: "Email address is already used by another user." },
+          { status: 409 }
+        );
+      }
+    }
+
     const updateData: Record<string, unknown> = {
       email: data.email ?? existing.email,
       first_name: data.first_name,

@@ -4,9 +4,11 @@ import { useState, useCallback, useEffect } from "react";
 import {
   CreditCard, RefreshCw, Search, ChevronLeft, ChevronRight,
   ArrowRightLeft, PackageCheck, ShieldCheck, Plus, CheckCircle2,
+  ChevronUp, ChevronDown, ChevronsUpDown,
 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { RegisterCardModal } from "./register-card-modal";
+import { useToast, ToastContainer } from "@/components/ui/toast";
 
 // ── Interfaces ────────────────────────────────────────────────
 
@@ -59,6 +61,48 @@ interface VerifiedApiResponse {
   totalPages: number;
 }
 
+// ── Sorting helpers ───────────────────────────────────────────
+type SortDir = "asc" | "desc";
+
+function sortRows<T>(rows: T[], key: keyof T | "", dir: SortDir): T[] {
+  if (!key) return rows;
+  return [...rows].sort((a, b) => {
+    const av = a[key] ?? "";
+    const bv = b[key] ?? "";
+    let cmp = 0;
+    if (typeof av === "number" && typeof bv === "number") {
+      cmp = av - bv;
+    } else {
+      cmp = String(av).localeCompare(String(bv), undefined, { sensitivity: "base" });
+    }
+    return dir === "asc" ? cmp : -cmp;
+  });
+}
+
+function SortableHeader({
+  label, colKey, sortKey, sortDir, onSort, align = "left",
+}: {
+  label: string; colKey: string; sortKey: string; sortDir: SortDir;
+  onSort: (k: string) => void; align?: "left" | "right" | "center";
+}) {
+  const active = sortKey === colKey;
+  return (
+    <th
+      onClick={() => onSort(colKey)}
+      className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider cursor-pointer select-none transition-colors hover:bg-slate-100 dark:hover:bg-slate-600 text-${align} ${active ? "text-slate-700 dark:text-slate-200" : "text-slate-500 dark:text-slate-400"}`}
+    >
+      <span className="inline-flex items-center gap-1">
+        {label}
+        {active
+          ? sortDir === "asc"
+            ? <ChevronUp className="h-3.5 w-3.5 text-blue-500" />
+            : <ChevronDown className="h-3.5 w-3.5 text-blue-500" />
+          : <ChevronsUpDown className="h-3.5 w-3.5 opacity-30" />}
+      </span>
+    </th>
+  );
+}
+
 // ── Helpers ───────────────────────────────────────────────────
 
 /**
@@ -99,6 +143,7 @@ function fmtDateTime(date: string | null) {
 // ── Component ─────────────────────────────────────────────────
 
 export function EnrollmentClient() {
+  const { toasts, toast, dismiss } = useToast();
   const [activeTab, setActiveTab] = useState<AllTab>("VERIFICATION");
 
   const [cards, setCards]                 = useState<CardEnrollment[]>([]);
@@ -118,6 +163,19 @@ export function EnrollmentClient() {
 
   // Inline transfer state: { [cardId]: clinicCode }
   const [transferInputs, setTransferInputs] = useState<Record<number, string>>({});
+
+  // Sort state — resets when tab changes
+  const [sortKey, setSortKey] = useState("");
+  const [sortDir, setSortDir] = useState<SortDir>("asc");
+
+  function handleSort(key: string) {
+    if (sortKey === key) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    else { setSortKey(key); setSortDir("asc"); }
+    setPage(1);
+  }
+
+  // Reset sort when switching tabs
+  useEffect(() => { setSortKey(""); setSortDir("asc"); }, [activeTab]);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -161,8 +219,11 @@ export function EnrollmentClient() {
     try {
       await apiFetch(`/api/enrollment/cards/${id}/receive`, { method: "PATCH" });
       await fetchData();
+      toast("Card marked as received.");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Action failed");
+      const msg = e instanceof Error ? e.message : "Action failed";
+      setError(msg);
+      toast(msg, "error");
     } finally {
       setActionLoading(null);
     }
@@ -181,8 +242,11 @@ export function EnrollmentClient() {
       });
       setTransferInputs((prev) => { const next = { ...prev }; delete next[id]; return next; });
       await fetchData();
+      toast("Transfer initiated successfully.");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Transfer failed");
+      const msg = e instanceof Error ? e.message : "Transfer failed";
+      setError(msg);
+      toast(msg, "error");
     } finally {
       setActionLoading(null);
     }
@@ -194,8 +258,11 @@ export function EnrollmentClient() {
     try {
       await apiFetch(`/api/enrollment/cards/${id}/confirm-transfer`, { method: "PATCH" });
       await fetchData();
+      toast("Transfer confirmed successfully.");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Confirm transfer failed");
+      const msg = e instanceof Error ? e.message : "Confirm transfer failed";
+      setError(msg);
+      toast(msg, "error");
     } finally {
       setActionLoading(null);
     }
@@ -218,12 +285,9 @@ export function EnrollmentClient() {
   const startIdx = Math.min((page - 1) * PAGE_SIZE + 1, total);
   const endIdx   = Math.min(page * PAGE_SIZE, total);
 
-  // Column headers per enrollment tab
-  const enrollHeaders: Record<EnrollTab, string[]> = {
-    REGISTRATION: ["Card Number", "Released To",   "Enrolled Date", "Status", "Action"],
-    RECEIVING:    ["Card Number", "Released To",   "Received By",   "Received Date", "Status", "Action"],
-    TRANSFER:     ["Card Number", "Current Clinic","Transfer To",   "Transfer Date", "Status", "Action"],
-  };
+  // Sorted views (client-side, applied to the current page data)
+  const sortedVerified = sortRows(verifiedCards, sortKey as keyof VerifiedCard, sortDir);
+  const sortedCards    = sortRows(cards,         sortKey as keyof CardEnrollment, sortDir);
 
   return (
     <div className="space-y-4">
@@ -287,17 +351,20 @@ export function EnrollmentClient() {
               <>
                 <thead className="bg-slate-50 border-b border-slate-200 dark:bg-slate-700 dark:border-slate-600">
                   <tr>
-                    {["Verified Card Number","Year","Batch","Month","ICT Received","Date Received"].map((h) => (
-                      <th key={h} className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">{h}</th>
-                    ))}
+                    <SortableHeader label="Verified Card Number" colKey="verifiedcardnumber" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="Year"          colKey="year"         sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="Batch"         colKey="batch"        sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="Month"         colKey="month"        sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="ICT Received"  colKey="ictreceived"  sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="Date Received" colKey="datereceived" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                   {loading ? (
                     <tr><td colSpan={6} className="py-16 text-center text-sm text-slate-400 dark:text-slate-500">Loading...</td></tr>
-                  ) : verifiedCards.length === 0 ? (
+                  ) : sortedVerified.length === 0 ? (
                     <tr><td colSpan={6} className="py-16 text-center text-sm text-slate-400 dark:text-slate-500">No verified cards found</td></tr>
-                  ) : verifiedCards.map((v) => (
+                  ) : sortedVerified.map((v) => (
                     <tr key={v.id} className="hover:bg-slate-50 transition-colors dark:hover:bg-slate-700">
                       <td className="px-4 py-3 font-mono font-medium text-slate-800 dark:text-slate-100">{v.verifiedcardnumber}</td>
                       <td className="px-4 py-3 text-slate-600 dark:text-slate-300">{v.year  ?? "—"}</td>
@@ -316,17 +383,19 @@ export function EnrollmentClient() {
               <>
                 <thead className="bg-slate-50 border-b border-slate-200 dark:bg-slate-700 dark:border-slate-600">
                   <tr>
-                    {enrollHeaders.REGISTRATION.map((h) => (
-                      <th key={h} className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 ${h === "Action" ? "text-right" : "text-left"}`}>{h}</th>
-                    ))}
+                    <SortableHeader label="Card Number"  colKey="cardNumber"     sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="Released To"  colKey="clinicName"     sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="Enrolled Date" colKey="enrollmentDate" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="Status"       colKey="status"         sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                   {loading ? (
                     <tr><td colSpan={5} className="py-16 text-center text-sm text-slate-400 dark:text-slate-500">Loading...</td></tr>
-                  ) : cards.length === 0 ? (
+                  ) : sortedCards.length === 0 ? (
                     <tr><td colSpan={5} className="py-16 text-center text-sm text-slate-400 dark:text-slate-500">No cards pending receipt</td></tr>
-                  ) : cards.map((card) => (
+                  ) : sortedCards.map((card) => (
                     <tr key={card.id} className="hover:bg-slate-50 transition-colors dark:hover:bg-slate-700">
                       <td className="px-4 py-3 font-mono font-medium text-slate-800 dark:text-slate-100">{card.cardNumber}</td>
                       <td className="px-4 py-3">
@@ -356,17 +425,20 @@ export function EnrollmentClient() {
               <>
                 <thead className="bg-slate-50 border-b border-slate-200 dark:bg-slate-700 dark:border-slate-600">
                   <tr>
-                    {enrollHeaders.RECEIVING.map((h) => (
-                      <th key={h} className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 ${h === "Action" ? "text-right" : "text-left"}`}>{h}</th>
-                    ))}
+                    <SortableHeader label="Card Number"   colKey="cardNumber"    sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="Released To"   colKey="clinicName"    sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="Received By"   colKey="receivedBy"    sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="Received Date" colKey="receivedDate"  sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="Status"        colKey="status"        sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                   {loading ? (
                     <tr><td colSpan={6} className="py-16 text-center text-sm text-slate-400 dark:text-slate-500">Loading...</td></tr>
-                  ) : cards.length === 0 ? (
+                  ) : sortedCards.length === 0 ? (
                     <tr><td colSpan={6} className="py-16 text-center text-sm text-slate-400 dark:text-slate-500">No received cards</td></tr>
-                  ) : cards.map((card) => (
+                  ) : sortedCards.map((card) => (
                     <tr key={card.id} className="hover:bg-slate-50 transition-colors dark:hover:bg-slate-700">
                       <td className="px-4 py-3 font-mono font-medium text-slate-800 dark:text-slate-100">{card.cardNumber}</td>
                       <td className="px-4 py-3">
@@ -410,17 +482,20 @@ export function EnrollmentClient() {
               <>
                 <thead className="bg-slate-50 border-b border-slate-200 dark:bg-slate-700 dark:border-slate-600">
                   <tr>
-                    {enrollHeaders.TRANSFER.map((h) => (
-                      <th key={h} className={`px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 ${h === "Action" ? "text-right" : "text-left"}`}>{h}</th>
-                    ))}
+                    <SortableHeader label="Card Number"     colKey="cardNumber"         sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="Current Clinic"  colKey="clinicName"         sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="Transfer To"     colKey="transferClinicName" sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="Transfer Date"   colKey="dateTransfer"       sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <SortableHeader label="Status"          colKey="status"             sortKey={sortKey} sortDir={sortDir} onSort={handleSort} />
+                    <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Action</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                   {loading ? (
                     <tr><td colSpan={6} className="py-16 text-center text-sm text-slate-400 dark:text-slate-500">Loading...</td></tr>
-                  ) : cards.length === 0 ? (
+                  ) : sortedCards.length === 0 ? (
                     <tr><td colSpan={6} className="py-16 text-center text-sm text-slate-400 dark:text-slate-500">No transfers found</td></tr>
-                  ) : cards.map((card) => (
+                  ) : sortedCards.map((card) => (
                     <tr key={card.id} className="hover:bg-slate-50 transition-colors dark:hover:bg-slate-700">
                       <td className="px-4 py-3 font-mono font-medium text-slate-800 dark:text-slate-100">{card.cardNumber}</td>
                       <td className="px-4 py-3">
@@ -513,8 +588,10 @@ export function EnrollmentClient() {
       <RegisterCardModal
         open={registerOpen}
         onClose={() => setRegisterOpen(false)}
-        onRegistered={fetchData}
+        onRegistered={() => { fetchData(); toast("Card registered successfully."); }}
       />
+
+      <ToastContainer toasts={toasts} dismiss={dismiss} />
     </div>
   );
 }
