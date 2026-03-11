@@ -40,7 +40,17 @@ export default function LoginForm({ clinics }: LoginFormProps) {
       if (result?.error) {
         setError("Invalid username or password. Please try again.");
       } else if (result?.ok) {
-        router.replace(result.url ?? callbackUrl);
+        // Extract only the path from result.url to avoid redirecting to a
+        // hardcoded host (e.g. localhost) when deployed on a different server.
+        let destination = callbackUrl;
+        if (result.url) {
+          try {
+            destination = new URL(result.url).pathname || callbackUrl;
+          } catch {
+            destination = result.url;
+          }
+        }
+        router.replace(destination);
         router.refresh();
       } else {
         setError("Login failed. Please try again.");
