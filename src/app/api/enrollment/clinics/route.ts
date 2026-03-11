@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   }
 
   const clinics = await prisma.businessunits.findMany({
-    where: { Status: "1" },
+    where: { Status: "ACTIVE" },
     select: { Code: true, Description: true },
     orderBy: { Description: "asc" },
   });

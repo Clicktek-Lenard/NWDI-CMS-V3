@@ -51480,10 +51480,10 @@ export namespace Prisma {
     remember_token?: string | null
     ldap_import: boolean
     locale?: string | null
-    show_in_list?: boolean
+    show_in_list: boolean
     two_factor_secret?: string | null
-    two_factor_enrolled?: boolean
-    two_factor_optin?: boolean
+    two_factor_enrolled: boolean
+    two_factor_optin: boolean
     department_id?: number | null
     address?: string | null
     city?: string | null
@@ -51530,10 +51530,10 @@ export namespace Prisma {
     remember_token?: string | null
     ldap_import: boolean
     locale?: string | null
-    show_in_list?: boolean
+    show_in_list: boolean
     two_factor_secret?: string | null
-    two_factor_enrolled?: boolean
-    two_factor_optin?: boolean
+    two_factor_enrolled: boolean
+    two_factor_optin: boolean
     department_id?: number | null
     address?: string | null
     city?: string | null
@@ -51679,10 +51679,10 @@ export namespace Prisma {
     remember_token?: string | null
     ldap_import: boolean
     locale?: string | null
-    show_in_list?: boolean
+    show_in_list: boolean
     two_factor_secret?: string | null
-    two_factor_enrolled?: boolean
-    two_factor_optin?: boolean
+    two_factor_enrolled: boolean
+    two_factor_optin: boolean
     department_id?: number | null
     address?: string | null
     city?: string | null

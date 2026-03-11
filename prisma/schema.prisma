@@ -12,7 +12,7 @@ model User {
   email               String?   @db.VarChar(191)
   password            String?   @db.VarChar(191)
   permissions         String?
-  activated           Boolean   @default(false)
+  activated           Boolean
   created_by          Int?
   activation_code     String?   @db.VarChar(191)
   activated_at        DateTime? @db.Timestamp(6)
@@ -33,23 +33,23 @@ model User {
   manager_id          Int?
   employee_num        String?
   avatar              String?   @db.VarChar(191)
-  username            String?   @unique @db.VarChar(191)
+  username            String?   @unique(map: "users_username_unique") @db.VarChar(191)
   notes               String?
   company_id          Int?
   remember_token      String?
-  ldap_import         Boolean   @default(false)
+  ldap_import         Boolean
   locale              String?   @db.VarChar(10)
-  show_in_list        Boolean   @default(true)
+  show_in_list        Boolean
   two_factor_secret   String?   @db.VarChar(32)
-  two_factor_enrolled Boolean   @default(false)
-  two_factor_optin    Boolean   @default(false)
+  two_factor_enrolled Boolean
+  two_factor_optin    Boolean
   department_id       Int?
   address             String?   @db.VarChar(191)
   city                String?   @db.VarChar(191)
   state               String?   @db.VarChar(3)
   zip                 String?   @db.VarChar(10)
   skin                String?   @db.VarChar(191)
-  remote              Int?
+  remote              Boolean?
   status              String?   @db.VarChar(15)
   role                String?   @db.VarChar(2500)
   department          String?   @db.VarChar(100)
@@ -308,14 +308,14 @@ model settings {
 
 model businessunits {
   Id           Int       @id @map("id") @db.SmallInt
-  Code         String?   @map("code") @db.VarChar(5)
+  Code         String?   @unique(map: "businessunits_code_unique") @map("code") @db.VarChar(5)
   Description  String?   @map("description") @db.VarChar(50)
   SDCode       Int       @map("sdcode")
   IPs          String?   @map("ips") @db.VarChar(10)
   IPs2         String?   @map("ips2") @db.VarChar(15)
   GatewayIP    String?   @map("gatewayip") @db.VarChar(20)
   DefaultPrice String?   @map("defaultprice") @db.VarChar(80)
-  Status       String?   @map("status") @db.VarChar(1)
+  Status       String?   @map("status") @db.VarChar(10)
   StartDate    DateTime? @map("startdate") @db.Date
   HProfile     String?   @map("hprofile") @db.VarChar(50)
   DBServerId   String?   @map("dbserverid") @db.VarChar(500)
@@ -366,7 +366,7 @@ model company {
   ChargeTo              String?   @map("chargeto") @db.VarChar(15)
   Remarks               String?   @map("remarks")
   OptionalItemCode      String?   @map("optionalitemcode") @db.VarChar(200)
-  EnabledEndDate        String?   @map("enabledenddate") @db.VarChar(1)
+  EnabledEndDate        String?   @map("enabledenddate") @db.VarChar(10)
   EmpId                 String?   @map("empid") @db.VarChar(15)
   EvaluatorId           String?   @map("evaluatorid") @db.VarChar(255)
   Parent                BigInt    @map("parent")
@@ -378,6 +378,8 @@ model company {
   DAVStatus             String?   @map("davstatus") @db.VarChar(10)
   LINStatus             String?   @map("linstatus") @db.VarChar(10)
   reUpload              String?   @map("reupload") @db.VarChar(30)
+
+  @@unique([Code, ErosCode], map: "company_code_eroscode_unique")
 }
 
 model department {
@@ -389,7 +391,7 @@ model department {
 
 model patient {
   Id             BigInt    @id @map("id")
-  Code           String?   @map("code") @db.VarChar(30)
+  Code           String?   @unique(map: "patient_code_unique") @map("code") @db.VarChar(30)
   FullName       String?   @map("fullname") @db.VarChar(200)
   LastName       String?   @map("lastname") @db.VarChar(80)
   FirstName      String?   @map("firstname") @db.VarChar(150)
@@ -491,7 +493,7 @@ model physician {
   Status               String?   @map("status") @db.VarChar(20)
   UpdateBy             String?   @map("updateby") @db.VarChar(80)
   UpdateDate           DateTime? @map("updatedate") @db.Date
-  ErosCode             String?   @map("eroscode") @db.VarChar(30)
+  ErosCode             String?   @unique(map: "physician_eroscode_unique") @map("eroscode") @db.VarChar(30)
   SECode               String?   @map("secode") @db.VarChar(200)
   EmpId                String?   @map("empid") @db.VarChar(15)
   CENStatus            String?   @map("censtatus") @db.VarChar(10)
@@ -549,7 +551,7 @@ model queuestatus {
   Id     Int     @id @map("id") @db.SmallInt
   IdBU   Int     @map("idbu") @db.SmallInt
   Name   String? @map("name") @db.VarChar(30)
-  Status String? @map("status") @db.VarChar(1)
+  Status String? @map("status") @db.VarChar(10)
 }
 
 model transactions {
@@ -590,7 +592,7 @@ model vitals {
 
 model itemmaster {
   Id                 BigInt    @id @map("id")
-  Code               String?   @map("code") @db.VarChar(30)
+  Code               String?   @unique(map: "itemmaster_code_unique") @map("code") @db.VarChar(30)
   NewCode            String?   @map("newcode") @db.VarChar(30)
   OldCode            String?   @map("oldcode") @db.VarChar(30)
   Description        String?   @map("description") @db.VarChar(500)
@@ -859,3 +861,4 @@ model MedicalEvaluation {
   @@unique([queue_id, item_code])
   @@map("medical_evaluations")
 }
+

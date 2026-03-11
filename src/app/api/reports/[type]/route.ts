@@ -157,7 +157,7 @@ export async function GET(
       const lines: string[] = [cols.map((c) => `"${c.label}"`).join(",")];
       for (const row of result.data) {
         lines.push(cols.map((c) => {
-          const v = row[c.key];
+          const v = (row as Record<string, unknown>)[c.key];
           const s = v === null || v === undefined ? "" : String(v);
           return `"${s.replace(/"/g, '""')}"`;
         }).join(","));
@@ -189,7 +189,7 @@ export async function GET(
       // Data rows
       for (const row of result.data) {
         ws.addRow(cols.map((c) => {
-          const v = row[c.key];
+          const v = (row as Record<string, unknown>)[c.key];
           if (c.fmt === "amount") return v === null || v === undefined ? 0 : Number(v);
           return v === null || v === undefined ? "" : String(v);
         }));
@@ -212,7 +212,7 @@ export async function GET(
 
       const buffer = await wb.xlsx.writeBuffer();
       const filename = `${type}-${dateFrom}-${dateTo}.xlsx`;
-      return new NextResponse(buffer as Buffer, {
+      return new NextResponse(buffer as unknown as BodyInit, {
         headers: {
           "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
           "Content-Disposition": `attachment; filename="${filename}"`,
@@ -685,12 +685,12 @@ async function summary(p: ReportParams) {
     pageSize: p.pageSize,
     totalPages: Math.ceil(total / p.pageSize),
     summary: {
+      totalTransactions: rows.reduce((s, r) => s + n(r.tx_count),        0),
+      totalPatients:    rows.reduce((s, r) => s + n(r.patient_count),    0),
       totalGross:       rows.reduce((s, r) => s + n(r.gross_amount),     0),
       totalNet:         rows.reduce((s, r) => s + n(r.net_amount),       0),
       totalCollected:   rows.reduce((s, r) => s + n(r.amount_collected), 0),
       totalRemaining:   rows.reduce((s, r) => s + n(r.remaining),        0),
-      totalPatients:    rows.reduce((s, r) => s + n(r.patient_count),    0),
-      totalTransactions: rows.reduce((s, r) => s + n(r.tx_count),        0),
     },
   };
 }

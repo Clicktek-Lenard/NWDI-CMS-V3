@@ -220,8 +220,24 @@ function SummaryCards({ summary }: { summary: Record<string, number> | null }) {
   const entries = Object.entries(summary).filter(([, v]) => typeof v === "number");
   if (entries.length === 0) return null;
 
+  const LABEL_MAP: Record<string, string> = {
+    totalTransactions: "Total Transactions",
+    totalAmount:       "Total Amount",
+    totalAmountPaid:   "Total Amount Paid",
+    totalReadersFee:   "Total Readers Fee",
+    totalRemaining:    "Total Remaining",
+    totalCollected:    "Total Collected",
+    totalGross:        "Total Gross",
+    totalNet:          "Total Net",
+    totalPatients:     "Total Patients",
+    totalItems:        "Total Items",
+    totalSendouts:     "Total Sendouts",
+    totalAmendments:   "Total Amendments",
+    totalDifference:   "Total Difference",
+    txCount:           "# Transactions",
+  };
   function labelFor(key: string) {
-    return key
+    return LABEL_MAP[key] ?? key
       .replace(/([A-Z])/g, " $1")
       .replace(/^./, (c) => c.toUpperCase())
       .trim();
@@ -280,7 +296,6 @@ export function ReportsClient() {
   const [generated,    setGenerated]    = useState(false);
   const [sortKey,      setSortKey]      = useState("");
   const [sortDir,      setSortDir]      = useState<SortDir>("asc");
-  const [branchSearch, setBranchSearch] = useState("");
 
   // Load branches on mount
   useEffect(() => {
@@ -348,12 +363,6 @@ export function ReportsClient() {
   const startIdx = (page - 1) * PAGE_SIZE + 1;
   const endIdx   = Math.min(page * PAGE_SIZE, total);
 
-  const filteredBranches = branchSearch
-    ? branches.filter((b) =>
-        b.code.toLowerCase().includes(branchSearch.toLowerCase()) ||
-        b.description.toLowerCase().includes(branchSearch.toLowerCase())
-      )
-    : branches;
 
   const INPUT_CLS = "block w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-800 shadow-sm placeholder:text-slate-400 focus:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-100 dark:placeholder:text-slate-400";
 
@@ -506,7 +515,7 @@ export function ReportsClient() {
               </span>
               {!loading && total > 0 && (
                 <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600 dark:bg-slate-700 dark:text-slate-300">
-                  {total.toLocaleString()} records
+                  {total.toLocaleString()} {["summary", "cashier-summary", "per-item"].includes(reportType) ? "groups" : "transactions"}
                 </span>
               )}
             </div>
@@ -664,7 +673,7 @@ export function ReportsClient() {
                 Showing{" "}
                 <span className="font-medium text-slate-600 dark:text-slate-300">{startIdx}–{endIdx}</span>{" "}
                 of{" "}
-                <span className="font-medium text-slate-600 dark:text-slate-300">{total}</span> records
+                <span className="font-medium text-slate-600 dark:text-slate-300">{total}</span> {["summary", "cashier-summary", "per-item"].includes(reportType) ? "groups" : "transactions"}
               </p>
               <div className="flex items-center gap-1">
                 <button

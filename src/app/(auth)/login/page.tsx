@@ -3,7 +3,7 @@ import LoginForm from "@/components/auth/login-form";
 
 export default async function LoginPage() {
   const rawClinics = await prisma.businessunits.findMany({
-    where:   { Status: "1" },
+    where:   { Status: "ACTIVE" },
     select:  { Code: true, Description: true },
     orderBy: { Code: "asc" },
   });

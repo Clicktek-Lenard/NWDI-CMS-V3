@@ -202,7 +202,7 @@ export function UserManagementClient() {
   const endIdx = Math.min(page * PAGE_SIZE, total);
 
   const sortedUsers = sortRows(users, sortKey as keyof UserRecord, sortDir);
-  const paginatedUsers = sortedUsers.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const paginatedUsers = sortedUsers;
 
   return (
     <div className="space-y-4">

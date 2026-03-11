@@ -136,6 +136,9 @@ export async function POST(request: NextRequest) {
         role: data.role || "[]",
         activated: data.activated,
         ldap_import: false,
+        show_in_list: true,
+        two_factor_enrolled: false,
+        two_factor_optin: false,
       },
       select: {
         id: true,
