@@ -196,6 +196,21 @@ const { resolvedTheme, setTheme } = useTheme();  // NOT theme
 const isDark = resolvedTheme === "dark";
 ```
 
+## Status Reporting
+
+After completing any feature, fix, or module work, **always update `CMS Status Reporting.html`** in the working directory (`c:\Clicktek\Projects\NWDI\CMS - Claude\CMS-v3\CMS Status Reporting.html`).
+
+Use these three sources as reference when updating:
+1. **CMS v3** (this codebase) — what is actually implemented
+2. **CMS v1** (`c:\Clicktek\Projects\NWDI\CMS - Claude\CMS`) — the Laravel source being replicated
+3. **`CMS_FRD.pdf`** (`c:\Clicktek\Projects\NWDI\CMS - Claude\CMS_FRD.pdf`) — the functional requirements document
+
+Update rules:
+- Mark features as ✅ Done, 🔄 In Progress, or ❌ Not Started based on actual code state
+- Cross-reference v1 behavior and FRD requirements — flag any gaps or deviations
+- Keep module sections (Queue, Past Queue, Payment, Amendment, Reports, etc.) up to date
+- Do not guess status — only mark Done if the feature is fully implemented and working
+
 ## Common Issues & Fixes
 
 | Error | Fix |

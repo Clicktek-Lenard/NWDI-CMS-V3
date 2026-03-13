@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>CMS Comparison — FRD · v1 · v3</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f0f4f8;color:#1e293b;line-height:1.6;font-size:13.5px}
+    code{font-size:11px;background:#f1f5f9;padding:1px 5px;border-radius:4px;font-family:monospace;color:#475569}
+
+    /* ── HEADER ── */
+    .hdr{background:linear-gradient(135deg,#0f2957 0%,#1a5fa8 55%,#1888d4 100%);color:#fff;padding:40px 52px 36px}
+    .hdr .eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;opacity:.6;margin-bottom:8px}
+    .hdr h1{font-size:28px;font-weight:800;line-height:1.2;letter-spacing:-.3px}
+    .hdr .meta{margin-top:12px;font-size:12px;opacity:.65;display:flex;gap:28px;flex-wrap:wrap}
+
+    .wrap{max-width:1400px;margin:0 auto;padding:40px 32px}
+
+    /* ── COL LEGEND ── */
+    .col-legend{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+    .cl-chip{display:flex;align-items:center;gap:8px;background:#fff;border-radius:10px;padding:10px 16px;box-shadow:0 1px 3px rgba(0,0,0,.07);font-size:12.5px;font-weight:600}
+    .cl-bar{width:14px;height:14px;border-radius:4px;flex-shrink:0}
+    .frd-c{background:#6366f1}.v1-c{background:#0ea5e9}.v3-c{background:#10b981}
+
+    /* ── SCORE ROW ── */
+    .scores{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:32px}
+    .sc{background:#fff;border-radius:14px;padding:22px 24px;box-shadow:0 1px 3px rgba(0,0,0,.07);border-top:4px solid}
+    .sc.frd{border-color:#6366f1}.sc.v1{border-color:#0ea5e9}.sc.v3{border-color:#10b981}
+    .sc-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+    .sc.frd .sc-label{color:#6366f1}.sc.v1 .sc-label{color:#0284c7}.sc.v3 .sc-label{color:#059669}
+    .sc-title{font-size:15px;font-weight:700;margin-bottom:2px}
+    .sc-sub{font-size:11.5px;color:#94a3b8;margin-bottom:12px}
+    .sc-pct{font-size:40px;font-weight:900;line-height:1}
+    .sc.frd .sc-pct{color:#6366f1}.sc.v1 .sc-pct{color:#0284c7}.sc.v3 .sc-pct{color:#059669}
+    .sc-bar{height:8px;background:#f1f5f9;border-radius:99px;overflow:hidden;margin-top:10px}
+    .sc-bar span{display:block;height:100%;border-radius:99px}
+    .sc.frd .sc-bar span{background:#6366f1}.sc.v1 .sc-bar span{background:#0ea5e9}.sc.v3 .sc-bar span{background:#10b981}
+    .sc-chips{margin-top:8px;font-size:11px;color:#64748b}
+
+    /* ── SECTION TITLE ── */
+    .stitle{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#64748b;display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #e2e8f0}
+    .si{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px}
+
+    /* ── COMPARISON TABLE ── */
+    .tbl-wrap{overflow-x:auto;background:#fff;border-radius:16px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:36px}
+    table{width:100%;border-collapse:collapse;min-width:900px}
+
+    /* sticky header */
+    thead th{position:sticky;top:0;z-index:2}
+
+    th{padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;text-align:left;border-bottom:2px solid #e2e8f0}
+    th.h-req{background:#f5f3ff;color:#6d28d9;width:26%}
+    th.h-v1{background:#e0f2fe;color:#0369a1;width:30%}
+    th.h-v3{background:#dcfce7;color:#166534;width:30%}
+    th.h-gap{background:#fef3c7;color:#92400e;width:14%}
+
+    /* group header row */
+    tr.grp-row td{background:#f8fafc;padding:10px 16px;font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#64748b;border-top:2px solid #e2e8f0}
+    tr.grp-row td:first-child{color:#334155}
+
+    td{padding:12px 16px;border-bottom:1px solid #f1f5f9;vertical-align:top}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:#fafafe}
+
+    .td-req{font-weight:600;color:#334155;font-size:13px}
+    .td-sub{font-size:11.5px;color:#94a3b8;font-weight:400;margin-top:2px}
+    .td-v1{font-size:12.5px;color:#0c4a6e}
+    .td-v3{font-size:12.5px;color:#14532d}
+    .td-gap{text-align:center}
+
+    .pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700;white-space:nowrap}
+    .p-done{background:#dcfce7;color:#166534}
+    .p-part{background:#fef3c7;color:#92400e}
+    .p-miss{background:#fee2e2;color:#991b1b}
+    .p-n-a{background:#f1f5f9;color:#64748b}
+    .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+    .d-g{background:#22c55e}.d-y{background:#f59e0b}.d-r{background:#ef4444}.d-s{background:#94a3b8}
+
+    /* gap badge */
+    .gap-new{display:inline-block;background:#fee2e2;color:#991b1b;border-radius:6px;padding:3px 8px;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+    .gap-ok{display:inline-block;background:#dcfce7;color:#166534;border-radius:6px;padding:3px 8px;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+    .gap-par{display:inline-block;background:#fef3c7;color:#92400e;border-radius:6px;padding:3px 8px;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}
+
+    /* tag chips inside cells */
+    .tag{display:inline-block;background:#f0f9ff;color:#0369a1;border-radius:4px;padding:1px 6px;font-size:10.5px;font-family:monospace;margin:1px}
+
+    /* v1 only / v3 only banners */
+    .v1-only{font-size:11px;background:#e0f2fe;color:#0c4a6e;border-radius:4px;padding:2px 7px;font-weight:700;margin-top:4px;display:inline-block}
+    .v3-only{font-size:11px;background:#dcfce7;color:#166534;border-radius:4px;padding:2px 7px;font-weight:700;margin-top:4px;display:inline-block}
+    .note{font-size:11px;color:#94a3b8;margin-top:3px;font-style:italic}
+
+    /* ── SUMMARY MATRIX ── */
+    .matrix{background:#fff;border-radius:16px;box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden;margin-bottom:36px}
+    .matrix table{min-width:600px}
+    .mx-head{background:#f8fafc}
+    .mx-head th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#94a3b8;padding:11px 18px;border-bottom:1px solid #e2e8f0}
+    .mx-mod{font-size:13px;font-weight:700;padding:11px 18px;border-bottom:1px solid #f1f5f9;vertical-align:middle;color:#334155}
+    .mx-mod small{display:block;font-size:11px;font-weight:400;color:#94a3b8}
+    .mx-cell{padding:11px 14px;border-bottom:1px solid #f1f5f9;text-align:center;vertical-align:middle}
+    .bar-mini{height:6px;border-radius:99px;min-width:40px;display:inline-block;vertical-align:middle;margin-left:6px}
+    .pct-val{font-size:13px;font-weight:800;vertical-align:middle}
+    .frd-pct{color:#6366f1}.v1-pct{color:#0284c7}.v3-pct{color:#059669}
+
+    /* ── V1 EXCLUSIVE ── */
+    .excl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:32px}
+    .excl-card{background:#fff;border-radius:12px;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,.07);border-left:3px solid #0ea5e9}
+    .excl-card h4{font-size:13px;font-weight:700;color:#0c4a6e;margin-bottom:6px}
+    .excl-card ul{padding-left:14px}
+    .excl-card ul li{font-size:11.5px;color:#475569;margin-bottom:3px}
+
+    /* ── V3 ADVANTAGES ── */
+    .adv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:32px}
+    .adv-card{background:#fff;border-radius:12px;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,.07);border-left:3px solid #10b981}
+    .adv-card h4{font-size:13px;font-weight:700;color:#065f46;margin-bottom:6px}
+    .adv-card ul{padding-left:14px}
+    .adv-card ul li{font-size:11.5px;color:#475569;margin-bottom:3px}
+
+    footer{text-align:center;font-size:11.5px;color:#94a3b8;padding:26px;border-top:1px solid #e2e8f0;margin-top:12px}
+    @media(max-width:640px){.hdr{padding:24px 18px}.wrap{padding:20px 12px}.scores{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="eyebrow">Feature Comparison · March 13, 2026</div>
+  <h1>CMS v1 (PHP Laravel) &nbsp;vs&nbsp; CMS v3 (Next.js) &nbsp;vs&nbsp; FRD Requirements</h1>
+  <div class="meta">
+    <span>&#128196; FRD: CMS_FRD.pdf — 15 sections, 40+ requirements</span>
+    <span>&#129419; v1: Laravel · 138 controllers · 38 models · 400+ routes</span>
+    <span>&#128640; v3: Next.js 16 · Prisma v7 · 51 API handlers · 20 components</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- COL LEGEND -->
+  <div class="col-legend">
+    <div class="cl-chip"><div class="cl-bar frd-c"></div> FRD Requirement</div>
+    <div class="cl-chip"><div class="cl-bar v1-c"></div> CMS v1 — PHP Laravel (production)</div>
+    <div class="cl-chip"><div class="cl-bar v3-c"></div> CMS v3 — Next.js rewrite (in progress)</div>
+  </div>
+
+  <!-- SCORE CARDS -->
+  <div class="scores">
+    <div class="sc frd">
+      <div class="sc-label">Baseline</div>
+      <div class="sc-title">FRD — Functional Requirements</div>
+      <div class="sc-sub">CMS_FRD.pdf · 15 modules</div>
+      <div class="sc-pct">100%</div>
+      <div class="sc-bar"><span style="width:100%"></span></div>
+      <div class="sc-chips">15 modules · 40+ requirements defined</div>
+    </div>
+    <div class="sc v1">
+      <div class="sc-label">CMS v1 · PHP Laravel</div>
+      <div class="sc-title">Current Production System</div>
+      <div class="sc-sub">10+ clinics · Fully operational</div>
+      <div class="sc-pct">92%</div>
+      <div class="sc-bar"><span style="width:92%"></span></div>
+      <div class="sc-chips">138 controllers · 38 models · 400+ routes · HL7 · EROS · Kiosk</div>
+    </div>
+    <div class="sc v3">
+      <div class="sc-label">CMS v3 · Next.js</div>
+      <div class="sc-title">Rewrite In Progress</div>
+      <div class="sc-sub">Multi-tenant · API-first</div>
+      <div class="sc-pct">42%</div>
+      <div class="sc-bar"><span style="width:42%"></span></div>
+      <div class="sc-chips">51 API handlers · 20 components · Queue + Clinical + Payment core done</div>
+    </div>
+  </div>
+
+  <!-- SUMMARY MATRIX -->
+  <div class="stitle" style="margin-bottom:16px"><div class="si" style="background:#eff6ff">&#128202;</div>Module Coverage Summary</div>
+  <div class="matrix">
+    <table>
+      <thead class="mx-head">
+        <tr>
+          <th style="width:28%;text-align:left;padding:12px 18px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#64748b;border-bottom:2px solid #e2e8f0">FRD Module</th>
+          <th style="width:24%;text-align:center;padding:12px 18px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#6d28d9;border-bottom:2px solid #e2e8f0;background:#f5f3ff">FRD Requires</th>
+          <th style="width:24%;text-align:center;padding:12px 18px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#0369a1;border-bottom:2px solid #e2e8f0;background:#e0f2fe">v1 PHP Coverage</th>
+          <th style="width:24%;text-align:center;padding:12px 18px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#166534;border-bottom:2px solid #e2e8f0;background:#dcfce7">v3 Next.js Coverage</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mx-mod">Patient Management §4 <small>Demographics, history, search</small></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
+          <td class="mx-cell"><span class="pct-val v1-pct">95%</span><div class="bar-mini" style="background:#0ea5e9;width:95px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">75%</span><div class="bar-mini" style="background:#10b981;width:75px"></div></td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Appointment &amp; Scheduling §5 <small>Consultations, teleconsult, ECU</small></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
+          <td class="mx-cell"><span class="pct-val v1-pct">40%</span><div class="bar-mini" style="background:#0ea5e9;width:40px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">0%</span><div class="bar-mini" style="background:#ef4444;width:3px"></div></td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Registration §6 <small>Check-in, queue generation, DRF</small></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
+          <td class="mx-cell"><span class="pct-val v1-pct">100%</span><div class="bar-mini" style="background:#0ea5e9;width:100px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">95%</span><div class="bar-mini" style="background:#10b981;width:95px"></div></td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Clinical Documentation §7 <small>Vitals, PE, SOAP, prescriptions</small></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
+          <td class="mx-cell"><span class="pct-val v1-pct">100%</span><div class="bar-mini" style="background:#0ea5e9;width:100px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">70%</span><div class="bar-mini" style="background:#10b981;width:70px"></div></td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Laboratory Management §8 <small>Specimen, barcodes, results, QC</small></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
+          <td class="mx-cell"><span class="pct-val v1-pct">100%</span><div class="bar-mini" style="background:#0ea5e9;width:100px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">10%</span><div class="bar-mini" style="background:#ef4444;width:10px"></div></td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Imaging Management §9 <small>Procedures, interpretations, validation</small></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
+          <td class="mx-cell"><span class="pct-val v1-pct">100%</span><div class="bar-mini" style="background:#0ea5e9;width:100px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">20%</span><div class="bar-mini" style="background:#f59e0b;width:20px"></div></td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Billing &amp; Payment §10 <small>OR, payment history, cashier reports</small></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
+          <td class="mx-cell"><span class="pct-val v1-pct">100%</span><div class="bar-mini" style="background:#0ea5e9;width:100px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">55%</span><div class="bar-mini" style="background:#10b981;width:55px"></div></td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Result Management §11 <small>Encoding, validation, release, email</small></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
+          <td class="mx-cell"><span class="pct-val v1-pct">100%</span><div class="bar-mini" style="background:#0ea5e9;width:100px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">5%</span><div class="bar-mini" style="background:#ef4444;width:5px"></div></td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Referral &amp; Endorsement §12 <small>EROS, branch referrals, tracking</small></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
+          <td class="mx-cell"><span class="pct-val v1-pct">100%</span><div class="bar-mini" style="background:#0ea5e9;width:100px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">5%</span><div class="bar-mini" style="background:#ef4444;width:5px"></div></td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Monitoring &amp; Reporting §13 <small>Dashboards, audit logs, exports</small></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
+          <td class="mx-cell"><span class="pct-val v1-pct">95%</span><div class="bar-mini" style="background:#0ea5e9;width:95px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">0%</span><div class="bar-mini" style="background:#ef4444;width:3px"></div></td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Security §14 <small>Auth, RBAC, confidentiality, audit</small></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
+          <td class="mx-cell"><span class="pct-val v1-pct">90%</span><div class="bar-mini" style="background:#0ea5e9;width:90px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">75%</span><div class="bar-mini" style="background:#10b981;width:75px"></div></td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Non-Functional §15 <small>Performance, reliability, scalability</small></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
+          <td class="mx-cell"><span class="pct-val v1-pct">85%</span><div class="bar-mini" style="background:#0ea5e9;width:85px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">85%</span><div class="bar-mini" style="background:#10b981;width:85px"></div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- DETAILED COMPARISON TABLE -->
+  <div class="stitle" style="margin-bottom:16px"><div class="si" style="background:#f0fdf4">&#128204;</div>Side-by-Side Requirement Comparison</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="h-req">FRD Requirement</th>
+          <th class="h-v1">&#129419; CMS v1 — PHP Laravel</th>
+          <th class="h-v3">&#128640; CMS v3 — Next.js</th>
+          <th class="h-gap">v3 Gap?</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- §4 PATIENT MANAGEMENT -->
+        <tr class="grp-row"><td colspan="4">§4 Patient Management</td></tr>
+        <tr>
+          <td><div class="td-req">Create patient records &amp; unique IDs</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">PatientController.php</span> Full CRUD, unique Code generation, webcam photo capture</td>
+          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Patients from legacy DB only. No create-patient form. Search via <code>GET /api/patients/search</code></td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Maintain demographics &amp; contact details</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Full schema: name, DOB, gender, address, PhilHealth, PWD, Senior ID, Passport</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Same schema via Prisma <code>patient</code> model. Editable in queue form.</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Medical history, consultations, diagnostic results</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Full history via <span class="tag">DoctorsConsultationHistoryController.php</span> · linked to LIS results</td>
+          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>SOAP/history captured in clinical module. Diagnostic results not linked (LIS external)</td>
+          <td class="td-gap"><span class="gap-par">Partial</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Update patient info &amp; record search</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Full update + full-text search + patient ID lookup</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>GET /api/patients/search?q=</code> — name contains + code prefix</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+
+        <!-- §5 APPOINTMENT -->
+        <tr class="grp-row"><td colspan="4">§5 Appointment and Scheduling</td></tr>
+        <tr>
+          <td><div class="td-req">Schedule physician consultations</div></td>
+          <td class="td-v1"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Via E-Card / enrollment system. No standalone scheduling calendar.</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No appointment module. Walk-in queue only.</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Teleconsultation &amp; ECU/home services</div></td>
+          <td class="td-v1"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Not found in v1 codebase</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Not built</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Appointment dashboards &amp; daily schedules</div></td>
+          <td class="td-v1"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br><span class="tag">QueueDisplayController.php</span> — real-time queue display per station</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Queue list exists but no per-doctor daily schedule view</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+
+        <!-- §6 REGISTRATION -->
+        <tr class="grp-row"><td colspan="4">§6 Registration Module</td></tr>
+        <tr>
+          <td><div class="td-req">Patient check-in &amp; queue number generation</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">QueueController.php</span> + <span class="tag">ReceptionQueueController.php</span> · Kiosk support · Queue display</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>POST /api/queue</code> · Code format: <code>CEN20260313001</code> · Status 201</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Verify patient details</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Patient card shown at check-in with demographics review</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Patient details displayed in queue form after search selection</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Register consultation &amp; diagnostic services</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Multi-item transactions · HMO/corporate coverage · Package support via EROS</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Transactions per item · <code>/api/item-prices</code> with 3-branch discount logic</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Link physicians &amp; generate request forms (DRF)</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Doctor linked per transaction · DRF printed via <span class="tag">hPDFController.php</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Doctor per transaction · DRF PDF: <code>/api/queue/[id]/pdf?type=drf</code></td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+
+        <!-- §7 CLINICAL -->
+        <tr class="grp-row"><td colspan="4">§7 Clinical Documentation</td></tr>
+        <tr>
+          <td><div class="td-req">Encode consultation details</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">MedicalEvaluationController.php</span> · Company &amp; patient variants · Modal UI</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>POST /api/clinical/[id]/evaluation</code> · Full SOAP in evaluation drawer</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Complaints, medical history, physician notes</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Vitals history modal · consultation history · SOAP + ICD coding</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Chief complaint, HPI, past history, family history, ICD code — all fields captured</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Physical examination (PE &amp; vitals)</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">PEController.php</span> + <span class="tag">VitalsController.php</span> — full 15-field vitals</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>15 fields: BP (×3), HR, Temp, RR, Weight, Height, BMI, Vision OD/OS, Color Vision</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Generate prescriptions</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">Physician.Prescription_Link</span> field used · PDF via hPDF</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No prescription form or PDF. <code>Prescription_Link</code> field exists but unused.</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Generate consultation summaries</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Consultation summary PDF generated per visit</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No summary document or print output</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+
+        <!-- §8 LABORATORY -->
+        <tr class="grp-row"><td colspan="4">§8 Laboratory Management</td></tr>
+        <tr>
+          <td><div class="td-req">Generate specimen barcodes &amp; labels</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">CardNumberGenController.php</span> + <span class="tag">QrcodeController.php</span> · Batch barcode printing</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Accession numbers assigned (A–L / M–X) but no barcode label PDF</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Track specimen receipt &amp; routing</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">SpecimenReceivingController.php</span> · <span class="tag">TransportController.php</span> · Rejection workflow</td>
+          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Routing Slip PDF exists. Queue status 300→360. No live receipt/routing UI.</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Encode laboratory results &amp; validate</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ResultsMonitoringController.php</span> · Multi-level validation · LIS integration</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br><code>/results</code> is a placeholder. No result entry form or API.</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Flag critical results</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Critical flag in result monitoring · Pathologist approval required</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Not built</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Maintain QC records</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>TAT tracking via <span class="tag">TurnaroundTimeController.php</span> · QC via LIS</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Not built</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+
+        <!-- §9 IMAGING -->
+        <tr class="grp-row"><td colspan="4">§9 Imaging Management</td></tr>
+        <tr>
+          <td><div class="td-req">Register imaging procedures</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">RadiologyController.php</span> · <span class="tag">ImagingQueueController.php</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Via transactions (<code>GroupItemMaster=IMAGING</code>). Accession M–X assigned.</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Radiologist encodes interpretations</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Radiology result entry + RIS integration via <span class="tag">RadiologyController.php</span></td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No imaging result form. Results module is shell.</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Store imaging reports &amp; attach images</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">FileUploadController.php</span> · RIS-linked image storage</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No file storage model or upload endpoint</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Validate imaging results prior to release</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ReleasingQueueController.php</span> · Radiologist approval step</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No validation workflow</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+
+        <!-- §10 BILLING -->
+        <tr class="grp-row"><td colspan="4">§10 Billing and Payment</td></tr>
+        <tr>
+          <td><div class="td-req">Record payment method (cash, HMO, corporate)</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">PaymentController.php</span> · Cash, card, check, bank, HMO, corporate · Agent name tracking</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Cash, Check (refNo+bank), Card (HMO), Corporate. Discount: senior/PWD/HMO coverage.</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Generate official receipts</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">EditOrController.php</span> · Auto OR number · OR editing · reprint</td>
+          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>O.R. PDF via <code>/api/queue/[id]/pdf?type=or</code>. OR number manually entered (no auto-gen).</td>
+          <td class="td-gap"><span class="gap-par">Partial</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Store payment records</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">PaymentHistory.php</span> model · Full payment history per queue · <span class="tag">PastPaymentController.php</span></td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br><code>paymentHistory</code> table absent from schema. <code>PaymentService</code> throws on every call.</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Cashier summary reports</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ReportsController.php</span> · Daily sales · Excel export via <span class="tag">DailySalesExport.php</span></td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Reports page has static "Daily Sales" card stub — no data queries</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+
+        <!-- §11 RESULT MANAGEMENT -->
+        <tr class="grp-row"><td colspan="4">§11 Result Management</td></tr>
+        <tr>
+          <td><div class="td-req">Encode diagnostic results</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ResultsMonitoringController.php</span> · LIS integration · EROS upload via <span class="tag">UploadingController.php</span></td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br><code>/results</code> is a text placeholder. No form, no API, no DB model.</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Multi-level validation workflow</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Med Tech → Pathologist → Release. <span class="tag">Verification.php</span> model · <span class="tag">ReleasingQueueController.php</span></td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No validation flow. RBAC roles defined but nothing to protect.</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Print or email results</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Print via <span class="tag">hPDFController.php</span> · Email integration</td>
+          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Lab Result PDF template exists. Values blank (LIS). Email not wired.</td>
+          <td class="td-gap"><span class="gap-par">Partial</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Online result access (patient portal)</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ErosPatientServerController.php</span> · Online result portal via EROS</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No patient portal or public result URL</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+
+        <!-- §12 REFERRAL -->
+        <tr class="grp-row"><td colspan="4">§12 Referral and Endorsement</td></tr>
+        <tr>
+          <td><div class="td-req">Branch-to-branch referrals</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ErosController.php</span> (67K lines) · Lab-to-Lab · Multi-branch routing</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>EROS shell with 4 empty tabs. No referral CRUD.</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Refer patients for lab/imaging procedures</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>E-Card system · <span class="tag">ECardRegistrationController.php</span> · <span class="tag">CardEnrollment.php</span></td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Not built</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Track referral completion</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ECardReceivedController.php</span> · <span class="tag">Receiving.php</span> model · Status tracking</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Not built</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+
+        <!-- §13 REPORTING -->
+        <tr class="grp-row"><td colspan="4">§13 Monitoring and Reporting</td></tr>
+        <tr>
+          <td><div class="td-req">Monitor queue and operational status</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">QueueDisplayController.php</span> · Real-time kiosk display per department</td>
+          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Queue list with 15s auto-refresh + status filters. No per-department display.</td>
+          <td class="td-gap"><span class="gap-par">Partial</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Generate operational &amp; workload reports</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ReportsController.php</span> · Daily sales · <span class="tag">ReportsLABController.php</span> · TAT · HMO reports · Excel exports</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>6 static card stubs. No DB queries. No exports.</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Maintain audit logs</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">PhysicianLogs.php</span> · <span class="tag">KioskLog.php</span> · Activity logging middleware</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No audit log model or middleware in any of 51 API routes</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+
+        <!-- §14 SECURITY -->
+        <tr class="grp-row"><td colspan="4">§14 Security Requirements</td></tr>
+        <tr>
+          <td><div class="td-req">User authentication</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Laravel Breeze · LDAP · Session-based auth · Password reset</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>NextAuth v5 JWT · 2hr sessions · LDAP stub · Clinic selector</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Role-based access control</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Middleware groups: 'CMS', 'CMS.settings', 'eros', 'hl7'. Role bracket strings.</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>requireApiAuth()</code> + <code>requireAuth()</code> on all routes. Full role/branch matrix in <code>rbac.ts</code>.</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Patient confidentiality protection</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Session-based auth · LDAP role scoping · Clinic-level data separation</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>All routes session-gated. <code>clinicCode</code> scoping on all DB queries.</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Activity logging</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">PhysicianLogs.php</span> · <span class="tag">KioskLog.php</span> per module</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No audit log table or logging middleware anywhere</td>
+          <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+
+        <!-- §15 NON-FUNCTIONAL -->
+        <tr class="grp-row"><td colspan="4">§15 Non-Functional Requirements</td></tr>
+        <tr>
+          <td><div class="td-req">Performance — concurrent users</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Laravel queue · Multi-DB (CMS + EROS + HCLAB + BizBox) · Production-tested</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Next.js App Router · TanStack Query · Prisma pooling · 15s auto-refresh</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Reliability &amp; backups</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Production-hardened across 10+ clinic branches</td>
+          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Application stable. No DB backup strategy in codebase.</td>
+          <td class="td-gap"><span class="gap-par">Partial</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Usability</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Blade + Vue/Inertia UI · Kiosk touchscreen support · Queue display screens</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Tailwind CSS v4 · Dark mode · Responsive · Modern component architecture</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Scalability — multiple branches</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>10+ clinics: BAE, IMD, HOME, MED, ICT, GHL, MAK, PCS, TAR, DTU, CEB · Dedicated HL7 per clinic</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>clinicCode</code> scoping (CEN/SMB/TAR). Multi-BU schema. Branch-level RBAC.</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- V1 EXCLUSIVE FEATURES -->
+  <div class="stitle" style="margin-bottom:16px"><div class="si" style="background:#e0f2fe">&#129419;</div>CMS v1 Features Not Yet in v3 (Priority Build List)</div>
+  <div class="excl-grid">
+    <div class="excl-card">
+      <h4>&#128203; Specimen &amp; Barcode Printing</h4>
+      <ul>
+        <li><code>CardNumberGenController.php</code></li>
+        <li><code>QrcodeController.php</code> — QR/barcode label PDF</li>
+        <li>Batch barcode generation per accession</li>
+        <li>Specimen rejection workflow via <code>TransportController.php</code></li>
+      </ul>
+    </div>
+    <div class="excl-card">
+      <h4>&#129514; Result Monitoring &amp; Validation</h4>
+      <ul>
+        <li><code>ResultsMonitoringController.php</code></li>
+        <li>Multi-level: Med Tech → Pathologist → Releasing</li>
+        <li><code>Verification.php</code> model per result</li>
+        <li><code>ReleasingQueueController.php</code> exit workflow</li>
+      </ul>
+    </div>
+    <div class="excl-card">
+      <h4>&#128178; Payment History &amp; Reports</h4>
+      <ul>
+        <li><code>PaymentHistory.php</code> model (missing in v3)</li>
+        <li><code>PastPaymentController.php</code> — full history</li>
+        <li>Daily sales with Excel export (<code>DailySalesExport.php</code>)</li>
+        <li>Auto OR number generation + OR edit</li>
+      </ul>
+    </div>
+    <div class="excl-card">
+      <h4>&#128257; EROS &amp; Referral System</h4>
+      <ul>
+        <li><code>ErosController.php</code> — 67,245 lines</li>
+        <li>Company, package, item, physician management</li>
+        <li>E-Card enrollment, receiving, transfer workflow</li>
+        <li>Branch-to-branch Lab-to-Lab routing</li>
+      </ul>
+    </div>
+    <div class="excl-card">
+      <h4>&#128241; Kiosk &amp; Queue Display</h4>
+      <ul>
+        <li>Reception, Lab, Imaging, Consultation, Vitals, Releasing kiosks</li>
+        <li><code>QueueDisplayController.php</code> — real-time display screen</li>
+        <li>Touchscreen check-in support</li>
+        <li><code>KioskLog.php</code> — activity tracking</li>
+      </ul>
+    </div>
+    <div class="excl-card">
+      <h4>&#128233; Integrations &amp; HL7</h4>
+      <ul>
+        <li>16 HL7 controllers (1 per clinic + EROS variants)</li>
+        <li>SMS notifications via <code>SMSController.php</code></li>
+        <li>BizBox, HC LAB, LIS, RIS integration</li>
+        <li>Database sync across branches (<code>SyncController.php</code>)</li>
+      </ul>
+    </div>
+    <div class="excl-card">
+      <h4>&#128736;&#65039; Prescription &amp; Consultation PDF</h4>
+      <ul>
+        <li>Prescription PDF via <code>hPDFController.php</code></li>
+        <li>Consultation summary printout</li>
+        <li>Patient photo capture (<code>WebCamController.php</code>)</li>
+        <li>Physician photo capture</li>
+      </ul>
+    </div>
+    <div class="excl-card">
+      <h4>&#128202; LAB &amp; TAT Reports</h4>
+      <ul>
+        <li><code>ReportsLABController.php</code> — lab workload</li>
+        <li><code>TurnaroundTimeController.php</code> — TAT analytics</li>
+        <li><code>HmoCorporateReportsController.php</code></li>
+        <li><code>SendoutreportsController.php</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- V3 ADVANTAGES -->
+  <div class="stitle" style="margin-bottom:16px"><div class="si" style="background:#dcfce7">&#128640;</div>CMS v3 Architectural Advantages over v1</div>
+  <div class="adv-grid">
+    <div class="adv-card">
+      <h4>&#128274; Type-Safe API Layer</h4>
+      <ul>
+        <li>Full TypeScript end-to-end</li>
+        <li>Zod validation on all API inputs</li>
+        <li>Prisma v7 type-safe ORM — no raw SQL</li>
+        <li>Compile-time schema errors caught before deploy</li>
+      </ul>
+    </div>
+    <div class="adv-card">
+      <h4>&#9889; Real-Time UI</h4>
+      <ul>
+        <li>TanStack Query v5 — auto-polling &amp; cache</li>
+        <li>Queue auto-refreshes every 15 seconds</li>
+        <li>No page reloads for status changes</li>
+        <li>Zustand global state management</li>
+      </ul>
+    </div>
+    <div class="adv-card">
+      <h4>&#128203; 5 PDF Document Types</h4>
+      <ul>
+        <li>Charge Slip, O.R., DRF, Routing Slip, Lab Result</li>
+        <li>Built with <code>@react-pdf/renderer</code></li>
+        <li>Real DB data in all PDF types</li>
+        <li>Inline browser preview (no download required)</li>
+      </ul>
+    </div>
+    <div class="adv-card">
+      <h4>&#127757; Modern Architecture</h4>
+      <ul>
+        <li>Next.js App Router — collocated API + UI</li>
+        <li>Single codebase, no Blade/Vue split</li>
+        <li>Dark mode built-in (next-themes)</li>
+        <li>Responsive layout — works on tablet/mobile</li>
+      </ul>
+    </div>
+    <div class="adv-card">
+      <h4>&#128203; Accession No. Logic</h4>
+      <ul>
+        <li>LAB: A–L grouped by doctor + company</li>
+        <li>IMAGING: M–X per unique test, offset-aware</li>
+        <li>Reuse logic for same doctor/company across queues</li>
+        <li>Manual-only trigger (specimen-collected checkpoint)</li>
+      </ul>
+    </div>
+    <div class="adv-card">
+      <h4>&#128202; RBAC Matrix</h4>
+      <ul>
+        <li>All roles in <code>rbac.ts</code> — single source of truth</li>
+        <li>Branch-level gating (<code>[CEN-BRANCH]</code>, <code>[SMB-BRANCH]</code>)</li>
+        <li><code>requireApiAuth()</code> enforced on every route</li>
+        <li>Easy to add new roles without touching middleware</li>
+      </ul>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+<footer>CMS Feature Comparison &nbsp;·&nbsp; March 13, 2026 &nbsp;·&nbsp; FRD: CMS_FRD.pdf &nbsp;·&nbsp; v1: 138 controllers, 38 models &nbsp;·&nbsp; v3: 51 API handlers, 20 components, 4 services</footer>
+</body>
+</html>

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   CreditCard,
-  ClipboardList,
   Stethoscope,
   BarChart3,
   Settings,
@@ -28,9 +27,8 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Queueing",              href: "/queue",          icon: <ClipboardList className="h-5 w-5" />, module: "cms", tab: "queue" },
   { label: "Doctor",                href: "/clinical",       icon: <Stethoscope className="h-5 w-5" />,   module: "cms", tab: "clinical" },
-  { label: "Today's Queue",         href: "/queue/today",    icon: <CalendarCheck className="h-5 w-5" />, module: "cms", tab: "queue" },
+  { label: "Today's Queue",         href: "/queue",          icon: <CalendarCheck className="h-5 w-5" />, module: "cms", tab: "queue" },
   { label: "Payment",               href: "/payment",        icon: <Receipt className="h-5 w-5" />,       module: "cms", tab: "payment" },
   { label: "Past Queue",            href: "/past-queue",     icon: <History className="h-5 w-5" />,       module: "cms", tab: "queue" },
   { label: "Card Management",       href: "/enrollment",     icon: <CreditCard className="h-5 w-5" />,    module: "cms", tab: "enrollment" },
