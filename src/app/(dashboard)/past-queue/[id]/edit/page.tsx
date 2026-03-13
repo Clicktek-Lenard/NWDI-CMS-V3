@@ -3,7 +3,7 @@ import { requireAuth, CMS_MODULES, parseUserRoles } from "@/lib/auth/rbac";
 import { EditQueueForm } from "@/components/queue/edit-queue-form";
 import prisma from "@/lib/db/prisma";
 
-export default async function EditQueuePage({
+export default async function PastQueueEditPage({
   params,
 }: {
   params: Promise<{ id: string }>;
@@ -78,7 +78,6 @@ export default async function EditQueuePage({
 
   const statusList = statuses.map((s) => ({ id: s.Id, name: s.Name ?? "" }));
 
-  // Item groups that already have a msg_queue entry (HL7 already sent)
   const hl7SentGroups = msgQueueRows
     .map((r) => r.ItemGroup ?? "")
     .filter(Boolean);

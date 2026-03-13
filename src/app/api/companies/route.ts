@@ -22,10 +22,11 @@ const SELECT_FIELDS = {
 export async function GET(request: NextRequest) {
   await requireApiAuth(request, "cms", "queue");
 
-  const isDefault  = request.nextUrl.searchParams.get("default") === "1";
-  const clinicCode = request.nextUrl.searchParams.get("clinicCode")?.trim() ?? "";
-  const q          = request.nextUrl.searchParams.get("q")?.trim() ?? "";
-  const limit      = Math.min(parseInt(request.nextUrl.searchParams.get("limit") || "20"), 100);
+  const isDefault   = request.nextUrl.searchParams.get("default") === "1";
+  const clinicCode  = request.nextUrl.searchParams.get("clinicCode")?.trim() ?? "";
+  const q           = request.nextUrl.searchParams.get("q")?.trim() ?? "";
+  const billingType = request.nextUrl.searchParams.get("billingType")?.trim() ?? "";
+  const limit       = Math.min(parseInt(request.nextUrl.searchParams.get("limit") || "20"), 100);
 
   try {
     // ── Default company for a clinic ─────────────────────────
@@ -55,6 +56,7 @@ export async function GET(request: NextRequest) {
     const companies = await prisma.company.findMany({
       where: {
         Status: "Active",
+        ...(billingType ? { BillingType: { contains: billingType } } : {}),
         ...(q.length >= 1
           ? {
               OR: [

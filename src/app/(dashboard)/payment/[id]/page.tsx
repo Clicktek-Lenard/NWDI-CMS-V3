@@ -3,12 +3,12 @@ import { requireAuth, CMS_MODULES } from "@/lib/auth/rbac";
 import { PaymentForm } from "@/components/payment/payment-form";
 import prisma from "@/lib/db/prisma";
 
-export default async function PaymentPage({
+export default async function PaymentDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  await requireAuth(CMS_MODULES.QUEUE.module, CMS_MODULES.QUEUE.tab);
+  await requireAuth(CMS_MODULES.PAYMENT.module, CMS_MODULES.PAYMENT.tab);
   const { id } = await params;
   const queueId = BigInt(id);
 

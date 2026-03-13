@@ -119,6 +119,7 @@ export class QueueService {
         AgePatient: age,
         Status: initialStatus,
         AnteDateStatus: 0,
+        AccessionNo: code,
         PatientType: patientType,
         Notes: notes || null,
         InputBy: inputBy.slice(0, 30),
@@ -260,6 +261,69 @@ export class QueueService {
       stats,
     };
   }
+
+  /**
+   * Past Queue — historical records (Date < today).
+   * Mirrors old CMS Queue::pastQueue() logic exactly:
+   * - All queues where Date < today for the clinic, no status restriction.
+   * - Optional patient name search (QFullName contains).
+   * - Limit: 1000 records, ordered by Date DESC.
+   */
+  static async getPastQueue(
+    clinicCode: string,
+    options: {
+      q?:         string;   // patient name search
+      dateFrom?:  string;   // "YYYY-MM-DD"
+      dateTo?:    string;   // "YYYY-MM-DD"
+      status?:    string;   // status name filter (client-side)
+      page?:      number;
+      pageSize?:  number;
+    } = {}
+  ): Promise<PaginatedResponse<QueueEntry & { date: string }>> {
+    const { q, dateFrom, dateTo, status, page = 1, pageSize = 100 } = options;
+
+    const todayStr = new Date().toLocaleDateString("en-CA"); // "YYYY-MM-DD" Manila
+    const today    = new Date(`${todayStr}T00:00:00Z`);
+
+    const dateFilter: Record<string, Date> = { lt: today };
+    if (dateFrom) dateFilter.gte = new Date(`${dateFrom}T00:00:00Z`);
+    if (dateTo)   dateFilter.lt  = new Date(`${dateTo}T00:00:00Z`);
+
+    const [queueStatuses, entries] = await Promise.all([
+      prisma.queuestatus.findMany(),
+      prisma.queue.findMany({
+        where: {
+          Date: dateFilter,
+          IdBU: clinicCode,
+          ...(q ? { QFullName: { contains: q } } : {}),
+        },
+        orderBy: { Date: "desc" },
+        take: 1000,
+      }),
+    ]);
+
+    const statusMap = new Map<number, string>();
+    for (const qs of queueStatuses) statusMap.set(qs.Id, qs.Name ?? "");
+
+    const allData = entries.map((queue, i) => ({
+      ...mapQueueEntry(queue, i + 1, statusMap),
+      date: queue.Date.toISOString().split("T")[0],
+    }));
+
+    const filtered = status
+      ? allData.filter((q) => q.statusName === status)
+      : allData;
+
+    const paged = filtered.slice((page - 1) * pageSize, page * pageSize);
+
+    return {
+      data: paged,
+      total: filtered.length,
+      page,
+      pageSize,
+      totalPages: Math.ceil(filtered.length / pageSize),
+    };
+  }
 }
 
 function mapQueueEntry(
@@ -280,6 +344,7 @@ function mapQueueEntry(
     AccessionNo: string | null;
     PatientType: string | null;
     InputBy: string | null;
+    Notes?: string | null;
   },
   rowNumber: number,
   statusMap: Map<number, string>
@@ -305,6 +370,7 @@ function mapQueueEntry(
     statusName: statusMap.get(q.Status) ?? "Unknown",
     patientType: q.PatientType ?? "",
     inputBy: q.InputBy ?? "",
+    notes: q.Notes ?? "",
     age: q.AgePatient ?? null,
     gender: q.QGender ?? "",
     queueDateTime: q.DateTime?.toISOString() ?? q.Date?.toISOString() ?? "",

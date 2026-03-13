@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CMS v3 — Project Milestone Summary Report</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      color: #1a1a2e;
+      background: #fff;
+      padding: 40px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .project-title {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 4px;
+    }
+    .report-subtitle {
+      font-size: 17px;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+    }
+    .report-meta {
+      font-size: 12px;
+      color: #555;
+      margin-bottom: 28px;
+    }
+    .report-meta a { color: #1a56db; text-decoration: underline; }
+
+    /* Glance */
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #1a1a2e;
+    }
+    .glance-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid #ddd;
+      margin-bottom: 28px;
+    }
+    .glance-card {
+      padding: 16px 12px;
+      text-align: center;
+      border-right: 1px solid #ddd;
+    }
+    .glance-card:last-child { border-right: none; }
+    .glance-number {
+      font-size: 28px;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .glance-label {
+      font-size: 11px;
+      color: #555;
+    }
+    .c-blue   { color: #1a56db; }
+    .c-green  { color: #057a55; }
+    .c-orange { color: #d97706; }
+    .c-purple { color: #7e3af2; }
+
+    /* Milestone Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 28px;
+      font-size: 12.5px;
+    }
+    thead tr {
+      background: #1a2e4a;
+      color: #fff;
+    }
+    thead th {
+      padding: 9px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+    }
+    tbody tr:nth-child(even) { background: #f8f9fa; }
+    tbody tr:hover { background: #eef2ff; }
+    tbody td {
+      padding: 9px 12px;
+      border-bottom: 1px solid #e5e7eb;
+      vertical-align: top;
+    }
+    .m-num { color: #6b7280; font-weight: 600; }
+    .m-name { font-weight: 700; color: #1a1a2e; }
+    .m-tasks {
+      font-weight: 700;
+      color: #057a55;
+      text-align: center;
+    }
+    .m-scope { color: #374151; line-height: 1.5; }
+    tfoot tr { background: #1a2e4a; color: #fff; }
+    tfoot td {
+      padding: 9px 12px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .total-tasks { color: #6ee7b7; font-size: 14px; }
+
+    /* Tech Stack */
+    .tech-stack {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+    }
+    .tech-stack p {
+      margin-bottom: 5px;
+      line-height: 1.6;
+      color: #374151;
+    }
+    .tech-stack p:last-child { margin-bottom: 0; }
+    .tech-label { font-weight: 700; color: #1a1a2e; }
+    .tech-tag {
+      display: inline-block;
+      background: #e0e7ff;
+      color: #3730a3;
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-size: 11px;
+      font-weight: 600;
+      margin: 0 1px;
+      text-decoration: underline;
+    }
+
+    /* Status Badge */
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-done    { background: #d1fae5; color: #065f46; }
+    .badge-partial { background: #fef3c7; color: #92400e; }
+    .badge-todo    { background: #fee2e2; color: #991b1b; }
+
+    /* Ongoing / Todo tables */
+    .status-section { margin-bottom: 28px; }
+    .status-section h3 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #1a1a2e;
+    }
+
+    /* Footer */
+    .report-footer {
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 11px;
+      color: #9ca3af;
+      text-align: center;
+    }
+
+    @media print {
+      body { padding: 20px; }
+      .glance-grid { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="project-title">NWD Central Management System v3</div>
+  <div class="report-subtitle">Project Milestone Summary Report</div>
+  <p class="report-meta">
+    Generated: March 9, 2026 &nbsp;|&nbsp;
+    Client: <a href="#">yGen Innovations</a> / <a href="#">Clicktek</a> &nbsp;|&nbsp;
+    Developer: Claude (Anthropic)
+  </p>
+
+  <!-- Project at a Glance -->
+  <div class="section-title">Project at a Glance</div>
+  <div class="glance-grid">
+    <div class="glance-card">
+      <span class="glance-number c-blue">5</span>
+      <span class="glance-label">Milestones Completed</span>
+    </div>
+    <div class="glance-card">
+      <span class="glance-number c-green">61</span>
+      <span class="glance-label">Total Tasks Done</span>
+    </div>
+    <div class="glance-card">
+      <span class="glance-number c-orange">31</span>
+      <span class="glance-label">API Routes</span>
+    </div>
+    <div class="glance-card">
+      <span class="glance-number c-purple">52%</span>
+      <span class="glance-label">Core CMS Features Migrated</span>
+    </div>
+  </div>
+
+  <!-- Milestone Breakdown (Done) -->
+  <div class="section-title">✅ Completed Milestones</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:50px">M#</th>
+        <th style="width:220px">Milestone</th>
+        <th style="width:60px;text-align:center">Tasks</th>
+        <th>Scope</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="m-num">M1</td>
+        <td class="m-name">Infrastructure &amp; Foundation</td>
+        <td class="m-tasks">15</td>
+        <td class="m-scope">
+          PostgreSQL migration (Prisma v7 + PrismaPg adapter), NextAuth v5 JWT session (2hr),
+          login page with clinic selector, bcrypt local auth, PHP <span class="tech-tag">$2y$→$2b$</span> hash compat,
+          RBAC bracket-role system, server + API route guards, dark mode toggle,
+          generated Prisma client committed to git, React Query, Zustand, utility helpers,
+          404 page, root redirect
+        </td>
+      </tr>
+      <tr>
+        <td class="m-num">M2</td>
+        <td class="m-name">Queue Management Module</td>
+        <td class="m-tasks">15</td>
+        <td class="m-scope">
+          Queue list with 15s live refresh, status filters &amp; search, Add to Queue modal
+          (patient search), Create Queue page (full transaction form), Edit Queue page
+          (details, vitals, transactions), edit individual transaction (doctor/company/item),
+          soft-cancel transaction (Status → 650), Cancel + Ante-date queue (Status 202 shadow),
+          approve amendment (202 → 201), payment recording, regenerate lab PDF (HL7 trigger),
+          queue code generation (<span class="tech-tag">CEN20260309001</span> format),
+          RBAC guards, role-based button visibility (BM-ROLE, RESULTS-RELEASING) —
+          <strong>8 API routes</strong>
+        </td>
+      </tr>
+      <tr>
+        <td class="m-num">M3</td>
+        <td class="m-name">Clinical Module</td>
+        <td class="m-tasks">13</td>
+        <td class="m-scope">
+          Clinical queue list (filtered for doctors/nurses), status tabs (Waiting/In Progress/Completed),
+          stats counters, evaluation side drawer, vital signs form (BP, HR, temp, O2, weight, height, BMI, vision),
+          physical examination form, medical history (liver, heart, asthma, TB, etc.),
+          social history (smoking, alcohol, OB-GYN), SOAP consultation notes,
+          item-based medical evaluation, mark clinical complete, physicians list API,
+          RBAC guards — <strong>8 API routes</strong>
+        </td>
+      </tr>
+      <tr>
+        <td class="m-num">M4</td>
+        <td class="m-name">Card Enrollment Module</td>
+        <td class="m-tasks">10</td>
+        <td class="m-scope">
+          Card enrollment list with full lifecycle tabs (Registered / Received / Verified / Transferred),
+          register card modal, receive card, verify card, transfer card actions,
+          card number lookup, enrollment patient list, search by card number / company,
+          pagination — <strong>6 API routes</strong>
+        </td>
+      </tr>
+      <tr>
+        <td class="m-num">M5</td>
+        <td class="m-name">User Management</td>
+        <td class="m-tasks">8</td>
+        <td class="m-scope">
+          User list with search + status filter, create user with bcrypt hashing,
+          edit user (role, active status), view user details, soft delete (<span class="tech-tag">deleted_at</span>),
+          LDAP import flag support, pagination (10/page),
+          RBAC guard (<span class="tech-tag">cms/settings</span>) — <strong>2 API routes</strong>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2" style="text-align:right; padding-right:16px;">TOTAL TASKS</td>
+        <td class="total-tasks" style="text-align:center;">61</td>
+        <td>Across 5 milestones &nbsp;|&nbsp; 31 API routes &nbsp;|&nbsp; PostgreSQL + Next.js App Router</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <!-- Ongoing -->
+  <div class="section-title">🔄 Ongoing / Partial Milestones</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:50px">M#</th>
+        <th style="width:220px">Milestone</th>
+        <th style="width:80px;text-align:center">Progress</th>
+        <th>What's Done / What's Pending</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="m-num">M6</td>
+        <td class="m-name">Payment Module</td>
+        <td style="text-align:center"><span class="badge badge-partial">2 / 7</span></td>
+        <td class="m-scope">
+          <strong>Done:</strong> Payment form (select transactions, method, submit),
+          <span class="tech-tag">POST /api/queue/[id]/payment</span><br/>
+          <strong>Pending:</strong> Standalone payment list page, payment history tracking,
+          OR number generation — blocked by missing <span class="tech-tag">paymentHistory</span> DB table
+        </td>
+      </tr>
+      <tr>
+        <td class="m-num">M7</td>
+        <td class="m-name">Settings — System Config</td>
+        <td style="text-align:center"><span class="badge badge-partial">1 / 7</span></td>
+        <td class="m-scope">
+          <strong>Done:</strong> User Management (CRUD — see M5)<br/>
+          <strong>Pending:</strong> LDAP configuration UI, facility/branch management,
+          workstation management, role management (<span class="tech-tag">[BM-ROLE]</span> / <span class="tech-tag">[BM-MODULE]</span>),
+          HL7 configuration (<span class="tech-tag">[HL7BTN]</span>)
+        </td>
+      </tr>
+      <tr>
+        <td class="m-num">M8</td>
+        <td class="m-name">EROS Module</td>
+        <td style="text-align:center"><span class="badge badge-partial">3 / 7</span></td>
+        <td class="m-scope">
+          <strong>Done:</strong> <span class="tech-tag">GET /api/companies</span>,
+          <span class="tech-tag">GET /api/physicians</span>,
+          <span class="tech-tag">GET /api/physicians/[id]</span><br/>
+          <strong>Pending:</strong> Company CRUD UI, Item Master List, Physician management UI,
+          Sync from EROS button — page shell with navigation tabs exists but is placeholder only
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- TODO -->
+  <div class="section-title">❌ Upcoming Milestones</div>
+  <table>
+    <thead>
+      <tr>
+        <th style="width:50px">M#</th>
+        <th style="width:220px">Milestone</th>
+        <th style="width:80px;text-align:center">Tasks</th>
+        <th>Scope</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="m-num">M9</td>
+        <td class="m-name">Results Module</td>
+        <td style="text-align:center"><span class="badge badge-todo">0 / 6</span></td>
+        <td class="m-scope">
+          Results monitoring list, results releasing workflow, result uploading,
+          company results portal, lab/radiology/X-ray role access
+          (<span class="tech-tag">[LABORATORY]</span>, <span class="tech-tag">[RADIOLOGY]</span>, <span class="tech-tag">[XRAY]</span>),
+          API routes for results — page shell only exists
+        </td>
+      </tr>
+      <tr>
+        <td class="m-num">M10</td>
+        <td class="m-name">Reports Suite</td>
+        <td style="text-align:center"><span class="badge badge-todo">0 / 11</span></td>
+        <td class="m-scope">
+          Daily Sales, Card Management, Transaction, Queue Summary, Payment Summary,
+          Facility Comparison, TAT (Turnaround Time), Daily Census, Lab Rejected,
+          Compliance reports — export to Excel via
+          <span class="tech-tag">ExcelJS</span> (installed, unused).
+          6 hardcoded cards exist on the page but none are functional.
+        </td>
+      </tr>
+      <tr>
+        <td class="m-num">M11</td>
+        <td class="m-name">LDAP Authentication</td>
+        <td style="text-align:center"><span class="badge badge-todo">0 / 4</span></td>
+        <td class="m-scope">
+          Install &amp; configure <span class="tech-tag">ldapjs</span>,
+          LDAP bind + user search, auto-sync LDAP roles to <span class="tech-tag">user.role</span> on login,
+          LDAP group → bracket role mapping —
+          stub exists in <span class="tech-tag">auth.ts</span> but always returns <code>null</code>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- CMS vs V3 Migration Coverage -->
+  <div class="section-title">CMS → v3 Migration Coverage (Reference: ALLPROD / Production CMS)</div>
+  <p style="font-size:11px;color:#6b7280;margin-bottom:10px;">
+    Source system: <strong>CMS ALLPROD</strong> — 118 controllers, 659 public methods, 138 views, 19+ modules (Laravel 8 / PHP 8 / MySQL).
+    Out-of-scope items (HL7 lab integrations, HCLAB sync, BizBox, RIS, clinic-specific DB sync) are listed separately below.
+  </p>
+
+  <!-- Migration Rate Bar -->
+  <div style="display:flex;gap:0;height:14px;border-radius:4px;overflow:hidden;margin-bottom:6px;">
+    <div style="background:#057a55;width:52%;"></div>
+    <div style="background:#d97706;width:16%;"></div>
+    <div style="background:#dc2626;width:32%;"></div>
+  </div>
+  <p style="font-size:11px;color:#555;margin-bottom:20px;">
+    <span style="display:inline-block;width:10px;height:10px;background:#057a55;border-radius:2px;margin-right:4px;"></span><strong>52% Done</strong> (13 of 25 in-scope features) &nbsp;
+    <span style="display:inline-block;width:10px;height:10px;background:#d97706;border-radius:2px;margin-right:4px;"></span><strong>16% In Progress</strong> (4 partial) &nbsp;
+    <span style="display:inline-block;width:10px;height:10px;background:#dc2626;border-radius:2px;margin-right:4px;"></span><strong>32% Pending</strong> (8 features)
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:40px">#</th>
+        <th style="width:180px">Feature</th>
+        <th style="width:245px">CMS (ALLPROD Production)</th>
+        <th style="width:225px">CMS v3 (Next.js)</th>
+        <th style="width:95px;text-align:center">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- AUTH -->
+      <tr>
+        <td colspan="5" style="background:#f1f5f9;font-size:11px;font-weight:700;color:#475569;padding:5px 12px;letter-spacing:.05em;">AUTHENTICATION</td>
+      </tr>
+      <tr>
+        <td class="m-num">1</td>
+        <td class="m-name">Login / Logout</td>
+        <td class="m-scope">AuthenticatedSessionController — DB credentials, session-based, clinic selector dropdown, bcrypt password</td>
+        <td class="m-scope">NextAuth v5 JWT (2hr expiry), clinic selector, bcrypt + <span class="tech-tag">$2y$→$2b$</span> compat, LDAP stub</td>
+        <td style="text-align:center"><span class="badge badge-done">Done ✦</span></td>
+      </tr>
+      <!-- QUEUE -->
+      <tr>
+        <td colspan="5" style="background:#f1f5f9;font-size:11px;font-weight:700;color:#475569;padding:5px 12px;letter-spacing:.05em;">QUEUE MANAGEMENT</td>
+      </tr>
+      <tr>
+        <td class="m-num">2</td>
+        <td class="m-name">Queue List (Today)</td>
+        <td class="m-scope">QueueController@index/today — DataTables server-side, AJAX, date filter, accession search</td>
+        <td class="m-scope">Live 15s auto-refresh, status badge filters, patient/accession search, pagination + stats counters</td>
+        <td style="text-align:center"><span class="badge badge-done">Done ✦</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">3</td>
+        <td class="m-name">Past Queue (Historical)</td>
+        <td class="m-scope">PastQueueController — historical queue records, past edit view</td>
+        <td class="m-scope">Not yet — planned as date-filter extension of queue list</td>
+        <td style="text-align:center"><span class="badge badge-todo">Pending</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">4</td>
+        <td class="m-name">Queue Create</td>
+        <td class="m-scope">QueueController@create/store — multi-step AJAX form, transaction temp staging, queue2 fallback page</td>
+        <td class="m-scope">Single-page form: Add to Queue modal (patient search), full transaction form, company/item/doctor lookup</td>
+        <td style="text-align:center"><span class="badge badge-done">Done ✦</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">5</td>
+        <td class="m-name">Queue Edit (details + vitals)</td>
+        <td class="m-scope">QueueController@edit/update — edit patient info, vitals, transaction list</td>
+        <td class="m-scope">Full edit form: patient info, vitals panel, committed transactions list, status management</td>
+        <td style="text-align:center"><span class="badge badge-done">Done ✦</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">6</td>
+        <td class="m-name">Transaction Edit &amp; Remove</td>
+        <td class="m-scope">QueueController@transactionModalData — modal AJAX, soft-cancel via AJAX</td>
+        <td class="m-scope">Edit transaction (doctor/company/item) inline; remove = soft-cancel Status→650; cancelled row styled grey/strikethrough</td>
+        <td style="text-align:center"><span class="badge badge-done">Done ✦</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">7</td>
+        <td class="m-name">Queue Cancel / Ante-date</td>
+        <td class="m-scope">Queue status 202 shadow queue workflow — original cancelled, new queue cloned with ante-date</td>
+        <td class="m-scope">Ante-date modal (reason + new date) → Status 202 shadow queue created with copied transactions</td>
+        <td style="text-align:center"><span class="badge badge-done">Done ✦</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">8</td>
+        <td class="m-name">Approve Amendment</td>
+        <td class="m-scope">Approve 202 shadow queue → becomes 201 (active), original voided</td>
+        <td class="m-scope">Approve amendment action → 202→201 promotion, original queue voided</td>
+        <td style="text-align:center"><span class="badge badge-done">Done</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">9</td>
+        <td class="m-name">HL7 / Lab PDF Trigger</td>
+        <td class="m-scope">19 lab-specific HL7 controllers — generate HL7 files, update queue status, create accession numbers per clinic</td>
+        <td class="m-scope">Simplified: "Regenerate PDF" button triggers HL7 POST to external endpoint; full per-lab HL7 generation is out of scope</td>
+        <td style="text-align:center"><span class="badge badge-partial">Partial</span></td>
+      </tr>
+      <!-- PAYMENT -->
+      <tr>
+        <td colspan="5" style="background:#f1f5f9;font-size:11px;font-weight:700;color:#475569;padding:5px 12px;letter-spacing:.05em;">PAYMENT</td>
+      </tr>
+      <tr>
+        <td class="m-num">10</td>
+        <td class="m-name">Payment Recording</td>
+        <td class="m-scope">PaymentController — select transactions, payment method, record receipt; SummaryPageTransactionsController for summary</td>
+        <td class="m-scope">Payment form: select transactions + method + submit; <span class="tech-tag">POST /api/queue/[id]/payment</span> records payment</td>
+        <td style="text-align:center"><span class="badge badge-done">Done</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">11</td>
+        <td class="m-name">Payment History &amp; OR Numbers</td>
+        <td class="m-scope">PastPaymentController — historical payment records, OR tracking, bank reconciliation</td>
+        <td class="m-scope">Blocked — <span class="tech-tag">paymentHistory</span> table not in Prisma schema; page shell exists, service stubs throw</td>
+        <td style="text-align:center"><span class="badge badge-todo">Pending</span></td>
+      </tr>
+      <!-- ENROLLMENT -->
+      <tr>
+        <td colspan="5" style="background:#f1f5f9;font-size:11px;font-weight:700;color:#475569;padding:5px 12px;letter-spacing:.05em;">ENROLLMENT / E-CARD</td>
+      </tr>
+      <tr>
+        <td class="m-num">12</td>
+        <td class="m-name">Card Registration</td>
+        <td class="m-scope">ECardRegistrationController — CRUD resource, barcode generation, batch card creation</td>
+        <td class="m-scope">Register card modal with company + patient lookup; <span class="tech-tag">POST /api/enrollment/cards</span></td>
+        <td style="text-align:center"><span class="badge badge-done">Done</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">13</td>
+        <td class="m-name">Card Receive / Verify / Transfer</td>
+        <td class="m-scope">ECardReceivingController, ECardReceivedController, ECardTransferController, VerifiedNumbersController — full lifecycle per controller</td>
+        <td class="m-scope">Full lifecycle tabs (Registered/Received/Verified/Transferred) with action buttons; <span class="tech-tag">/receive</span> <span class="tech-tag">/verify</span> <span class="tech-tag">/transfer</span> API routes</td>
+        <td style="text-align:center"><span class="badge badge-done">Done ✦</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">14</td>
+        <td class="m-name">Card Number Generation</td>
+        <td class="m-scope">CardNumberGenController — batch generation, barcode image output, get-last-series-number, get-last-batch</td>
+        <td class="m-scope">Card number lookup only (<span class="tech-tag">GET /api/enrollment/card-numbers</span>); batch generation + barcode not yet done</td>
+        <td style="text-align:center"><span class="badge badge-partial">Partial</span></td>
+      </tr>
+      <!-- CLINICAL -->
+      <tr>
+        <td colspan="5" style="background:#f1f5f9;font-size:11px;font-weight:700;color:#475569;padding:5px 12px;letter-spacing:.05em;">CLINICAL / MEDICAL</td>
+      </tr>
+      <tr>
+        <td class="m-num">15</td>
+        <td class="m-name">Vitals &amp; Physical Exam</td>
+        <td class="m-scope">VitalsController — vitals entry; limited PE fields in old CMS</td>
+        <td class="m-scope">Full vitals (BP/HR/temp/O2/weight/height/BMI/vision) + detailed PE form via evaluation drawer — significantly expanded</td>
+        <td style="text-align:center"><span class="badge badge-done">Done ✦</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">16</td>
+        <td class="m-name">Medical History &amp; SOAP Notes</td>
+        <td class="m-scope">Limited consultation fields in queue edit; no dedicated clinical workflow</td>
+        <td class="m-scope">Full medical history (liver/heart/asthma/TB/etc.), social history (smoking/alcohol/OB-GYN), SOAP consultation notes, item-based medical eval — entirely new workflow in v3</td>
+        <td style="text-align:center"><span class="badge badge-done">New ✦</span></td>
+      </tr>
+      <!-- RESULTS -->
+      <tr>
+        <td colspan="5" style="background:#f1f5f9;font-size:11px;font-weight:700;color:#475569;padding:5px 12px;letter-spacing:.05em;">RESULTS MANAGEMENT</td>
+      </tr>
+      <tr>
+        <td class="m-num">17</td>
+        <td class="m-name">Results Monitoring</td>
+        <td class="m-scope">ResultsMonitoringController — monitor result processing status, resultsMonitoringList view</td>
+        <td class="m-scope">Page shell only — M9 pending</td>
+        <td style="text-align:center"><span class="badge badge-todo">Pending</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">18</td>
+        <td class="m-name">Results Upload (Dropzone)</td>
+        <td class="m-scope">ResultUploadingController — Dropzone file upload, getFiles/deleteFile/updateFile/amendFile, PDF management</td>
+        <td class="m-scope">Not yet — M9 pending</td>
+        <td style="text-align:center"><span class="badge badge-todo">Pending</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">19</td>
+        <td class="m-name">Results Releasing</td>
+        <td class="m-scope">WWWawsController@onlineReleaseLAB — online result release, hclabReleased accession map update</td>
+        <td class="m-scope">Not yet — M9 pending; role guards (<span class="tech-tag">[RESULTS-RELEASING]</span>) defined but no page</td>
+        <td style="text-align:center"><span class="badge badge-todo">Pending</span></td>
+      </tr>
+      <!-- EROS -->
+      <tr>
+        <td colspan="5" style="background:#f1f5f9;font-size:11px;font-weight:700;color:#475569;padding:5px 12px;letter-spacing:.05em;">EROS MODULE</td>
+      </tr>
+      <tr>
+        <td class="m-num">20</td>
+        <td class="m-name">Company Management</td>
+        <td class="m-scope">CompanyController + CompanyItemsPackagesController + CompanyItemController + CompanyPackageController — full CRUD, packages, lab-to-lab</td>
+        <td class="m-scope"><span class="tech-tag">GET /api/companies</span> for lookup done; full CRUD UI, packages, lab-to-lab pending — M8</td>
+        <td style="text-align:center"><span class="badge badge-partial">Partial</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">21</td>
+        <td class="m-name">Physician Management</td>
+        <td class="m-scope">PhysicianController — full CRUD, physicianList views (create/edit)</td>
+        <td class="m-scope"><span class="tech-tag">GET /api/physicians</span> + <span class="tech-tag">GET /api/physicians/[id]</span> done; CRUD UI pending — M8</td>
+        <td style="text-align:center"><span class="badge badge-partial">Partial</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">22</td>
+        <td class="m-name">Item Master / Item Pricing</td>
+        <td class="m-scope">ItemMasterListController + ItemPriceController — CRUD, cron sync from EROS, price groups, inactive item tracking</td>
+        <td class="m-scope">Read-only via <span class="tech-tag">GET /api/item-prices</span> (3-branch discount logic); full Item Master CRUD pending — M8</td>
+        <td style="text-align:center"><span class="badge badge-partial">Partial</span></td>
+      </tr>
+      <!-- ADMIN -->
+      <tr>
+        <td colspan="5" style="background:#f1f5f9;font-size:11px;font-weight:700;color:#475569;padding:5px 12px;letter-spacing:.05em;">ADMINISTRATION / SETTINGS</td>
+      </tr>
+      <tr>
+        <td class="m-num">23</td>
+        <td class="m-name">User Management</td>
+        <td class="m-scope">UsersController — CRUD, DataTables list; usersCreate/Edit views</td>
+        <td class="m-scope">Full CRUD + bcrypt hashing + soft-delete (<span class="tech-tag">deleted_at</span>) + search + status filter + pagination + LDAP import flag</td>
+        <td style="text-align:center"><span class="badge badge-done">Done ✦</span></td>
+      </tr>
+      <tr>
+        <td class="m-num">24</td>
+        <td class="m-name">Role / Access Management</td>
+        <td class="m-scope">UserAccessController — usersAccessAdd/Edit views; assign module access per user</td>
+        <td class="m-scope">Not yet — M7 pending (Settings system config section)</td>
+        <td style="text-align:center"><span class="badge badge-todo">Pending</span></td>
+      </tr>
+      <!-- REPORTS -->
+      <tr>
+        <td colspan="5" style="background:#f1f5f9;font-size:11px;font-weight:700;color:#475569;padding:5px 12px;letter-spacing:.05em;">REPORTS</td>
+      </tr>
+      <tr>
+        <td class="m-num">25</td>
+        <td class="m-name">Daily Sales &amp; Card Mgmt Reports</td>
+        <td class="m-scope">ReportsController + DailySalesReportController — daily sales by clinic, card management summary, export</td>
+        <td class="m-scope">6 hardcoded report cards on page shell — none functional; ExcelJS installed unused — M10 pending</td>
+        <td style="text-align:center"><span class="badge badge-todo">Pending</span></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4" style="padding:9px 12px; font-size:11px;">
+          ✦ Enhanced or expanded beyond original CMS capability &nbsp;·&nbsp;
+          <strong style="color:#6ee7b7">13 done</strong> (52%) &nbsp;·&nbsp;
+          <strong style="color:#fde68a">4 partial</strong> (16%) &nbsp;·&nbsp;
+          <strong style="color:#fca5a5">8 pending</strong> (32%)
+        </td>
+        <td style="text-align:center; font-size:11px; color:#6ee7b7;">25 features</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <!-- Out of Scope -->
+  <div class="section-title">CMS Features — Out of Scope for v3</div>
+  <p style="font-size:11px;color:#6b7280;margin-bottom:10px;">
+    These CMS modules handle infrastructure integrations. They are <strong>not part of the v3 rewrite scope</strong> — they will continue to run on the existing CMS infrastructure.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Module</th>
+        <th>CMS Implementation</th>
+        <th style="width:160px;text-align:center">Scope Decision</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="m-name">HL7 Lab Integration (19 labs)</td>
+        <td class="m-scope">19 lab-specific controllers (LIN, BAY, BAE, BIN, DAG, MAL, MAK, MED, MIR, ORT, PCS, TAG, NOV, …) — generate HL7 files, accession numbers, update queue status per lab</td>
+        <td style="text-align:center"><span class="badge" style="background:#e0e7ff;color:#3730a3">External</span></td>
+      </tr>
+      <tr>
+        <td class="m-name">HCLAB Integration</td>
+        <td class="m-scope">HclabServerController + HCLABSyncController — patient master sync across 8 locations (SMB/LIN/PAR/SRL/LCB/CEB/TAR/DAV); lab user assignment</td>
+        <td style="text-align:center"><span class="badge" style="background:#e0e7ff;color:#3730a3">External</span></td>
+      </tr>
+      <tr>
+        <td class="m-name">Database Sync / Replication</td>
+        <td class="m-scope">ReSyncCMSTablesController — multi-directional sync (EROS↔CMS↔BizBox); replication monitoring dashboard</td>
+        <td style="text-align:center"><span class="badge" style="background:#e0e7ff;color:#3730a3">External</span></td>
+      </tr>
+      <tr>
+        <td class="m-name">RIS Integration (Radiology)</td>
+        <td class="m-scope">RISController — accession mapping, status updates (300/410), RIS finalization sync</td>
+        <td style="text-align:center"><span class="badge" style="background:#e0e7ff;color:#3730a3">External</span></td>
+      </tr>
+      <tr>
+        <td class="m-name">BizBox / ECG Integration</td>
+        <td class="m-scope">BizBoxController — APE/PEME processing, patient cross-sync between EROS and BizBox</td>
+        <td style="text-align:center"><span class="badge" style="background:#e0e7ff;color:#3730a3">External</span></td>
+      </tr>
+      <tr>
+        <td class="m-name">Clinic-Specific Sync (7 clinics)</td>
+        <td class="m-scope">CEB / CEN / DAV / LIN / SMB / TAR / DTU controllers — company/price/physician sync per clinic, scheduled cron jobs</td>
+        <td style="text-align:center"><span class="badge" style="background:#e0e7ff;color:#3730a3">External</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Tech Stack -->
+  <div class="section-title">Tech Stack</div>
+  <div class="tech-stack">
+    <p>
+      <span class="tech-label">Frontend:</span>
+      <span class="tech-tag">Next.js 16.1.6</span> App Router +
+      <span class="tech-tag">React 19</span> +
+      <span class="tech-tag">TypeScript 5</span> +
+      <span class="tech-tag">Tailwind CSS v4</span> +
+      <span class="tech-tag">TanStack Query</span> +
+      <span class="tech-tag">Zustand</span> +
+      <span class="tech-tag">React Hook Form</span> +
+      <span class="tech-tag">Lucide React</span>
+    </p>
+    <p>
+      <span class="tech-label">Backend:</span>
+      Next.js API Routes (Node.js) +
+      <span class="tech-tag">Prisma v7</span> +
+      <span class="tech-tag">@prisma/adapter-pg</span> +
+      <span class="tech-tag">PostgreSQL</span> (<code>cms_v2</code> schema) +
+      <span class="tech-tag">Zod v4</span> validation +
+      <span class="tech-tag">bcryptjs</span>
+    </p>
+    <p>
+      <span class="tech-label">Auth:</span>
+      <span class="tech-tag">NextAuth v5-beta</span> — JWT sessions (2hr), Credentials provider,
+      LDAP stub, bracket-string RBAC (<code>[QUEUE][NURSE][DEVTEAM]</code>)
+    </p>
+    <p>
+      <span class="tech-label">Infrastructure:</span>
+      <span class="tech-tag">next-themes</span> dark mode +
+      <span class="tech-tag">ExcelJS</span> (reports, pending) +
+      Timezone: <span class="tech-tag">Asia/Manila</span> +
+      Git: feature/my-branch → main
+    </p>
+    <p>
+      <span class="tech-label">Legacy Compat:</span>
+      PascalCase DB fields from PHP CMS (<code>IdPatient</code>, <code>QFullName</code>),
+      <span class="tech-tag">$2y$→$2b$</span> bcrypt hash conversion, bracket LDAP roles mirroring old CMS
+    </p>
+    <p>
+      <span class="tech-label">Replaces:</span>
+      CMS ALLPROD (Production) — <span class="tech-tag">Laravel 8</span> + <span class="tech-tag">PHP 8</span> +
+      <span class="tech-tag">MySQL</span> + <span class="tech-tag">jQuery DataTables</span> +
+      <span class="tech-tag">Bootstrap</span> + AJAX-only forms + 118 controllers / 659 methods / 138 views / 19 modules
+    </p>
+  </div>
+
+  <div class="report-footer">
+    NWD Central Management System v3 &nbsp;·&nbsp;
+    Generated March 9, 2026 &nbsp;·&nbsp;
+    Client: yGen Innovations / Clicktek &nbsp;·&nbsp;
+    Developer: Claude (Anthropic) &nbsp;·&nbsp;
+    Powered by <strong>claude-sonnet-4-6</strong>
+  </div>
+
+</body>
+</html>

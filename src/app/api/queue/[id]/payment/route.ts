@@ -3,12 +3,26 @@ import { requireApiAuth } from "@/lib/auth/rbac";
 import prisma from "@/lib/db/prisma";
 import { z } from "zod";
 
+const payModeDetailSchema = z.object({
+  mode:     z.string(),
+  amount:   z.number().default(0),
+  refNo:    z.string().optional().default(""),
+  bankName: z.string().optional().default(""),
+});
+
 const paymentSchema = z.object({
-  providerType:  z.enum(["PATIENT", "HMO"]),
-  billTo:        z.string().optional().default(""),
-  cardNumber:    z.string().optional().default(""),
-  paymentMethod: z.enum(["Cash", "GCash", "Credit Card", "Cheque", "Online Transfer"]),
-  orNumber:      z.string().optional().default(""),
+  providerType:   z.enum(["PATIENT", "HMO", "CORPORATE"]),
+  billTo:         z.string().optional().default(""),
+  cardNumber:     z.string().optional().default(""),
+  coverageType:   z.enum(["FULL", "PARTIAL"]).optional().default("FULL"),
+  coverageAmount: z.number().optional().default(0),
+  // primary method (legacy single-value field) + full multi-method array
+  paymentMethod:  z.string(),
+  paymentMethods: z.array(payModeDetailSchema).optional().default([]),
+  orNumber:       z.string().optional().default(""),
+  discountType:   z.string().optional().default("None"),
+  discountId:     z.string().optional().default(""),
+  discountAmount: z.number().optional().default(0),
   transactionIds: z.array(z.number().int()).min(1, "Select at least one transaction"),
 });
 
@@ -31,7 +45,9 @@ export async function POST(
     return NextResponse.json({ error: "Validation failed", issues: parsed.error.issues }, { status: 422 });
   }
 
-  const { providerType, billTo, cardNumber, paymentMethod, orNumber, transactionIds } = parsed.data;
+  const { providerType, billTo, cardNumber, coverageType, coverageAmount,
+          paymentMethod, paymentMethods, orNumber, discountType, discountId, discountAmount,
+          transactionIds } = parsed.data;
   const inputBy = (session.user.username || session.user.id || "system").slice(0, 30);
 
   const queue = await prisma.queue.findUnique({ where: { Id: queueId } });
@@ -92,8 +108,14 @@ export async function POST(
     message: allPaid ? "Payment complete — all transactions fully paid." : "Partial payment applied.",
     providerType,
     billTo,
+    coverageType,
+    coverageAmount,
     paymentMethod,
+    paymentMethods,
     orNumber,
+    discountType,
+    discountId,
+    discountAmount,
   });
 }
 

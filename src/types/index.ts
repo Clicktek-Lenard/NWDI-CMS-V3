@@ -41,6 +41,7 @@ export interface QueueEntry {
   statusName: string;  // queuestatus.Name
   patientType: string; // queue.PatientType
   inputBy: string;     // queue.InputBy
+  notes: string;       // queue.Notes
   age: number | null;  // queue.AgePatient
   gender: string;      // queue.QGender
   queueDateTime: string; // queue.DateTime (ISO string)

@@ -31,12 +31,33 @@ export async function POST(
   const approvedDate = new Date();
   const anteDateDate = queue.AnteDate; // the new scheduled date
 
+  // Restore the queue to its original status (saved as AnteDateStatus by the cancel route).
+  // Falls back to 201 if not set. Matches v1 EditTransactionController::approvalTransaction().
+  const restoreStatus = queue.AnteDateStatus && queue.AnteDateStatus !== 202
+    ? queue.AnteDateStatus
+    : 201;
+
   await prisma.$transaction(async (tx) => {
-    // 1. Approve the ante-date queue → Status 201 (For Payment), update Date to AnteDate
+    // 1. UpdateQueue — upsert by QueueCode + Module = 'Transaction' (matches v1 approvalTransaction).
+    const existingUQ = await tx.updatequeue.findFirst({
+      where: { QueueCode: queue.Code, Module: "Transaction" },
+    });
+    if (existingUQ) {
+      await tx.updatequeue.update({
+        where: { Id: existingUQ.Id },
+        data:  { ModuleId: queueId, Status: 1 },
+      });
+    } else {
+      await tx.updatequeue.create({
+        data: { QueueCode: queue.Code, Module: "Transaction", ModuleId: queueId, Status: 1 },
+      });
+    }
+
+    // 2. Approve the ante-date queue → restore to original status, update Date to AnteDate
     await tx.queue.update({
       where: { Id: queueId },
       data: {
-        Status:               201,
+        Status:               restoreStatus,
         Date:                 anteDateDate,
         DateTime:             queue.AnteDateTime ?? approvedDate,
         AnteDateApprovedBy:   approvedBy,
@@ -47,18 +68,19 @@ export async function POST(
       },
     });
 
-    // 2. Update all active transactions on this queue → Status 201, Date = AnteDate
+    // 3. Update all active transactions → Status 300 (For Specimen), Date = AnteDate.
+    // Matches v1 CMS ALLPROD behaviour (EditTransactionController::approvalTransaction).
     await tx.transactions.updateMany({
       where: { IdQueue: queueId, Status: { lt: 650 } },
-      data:  { Status: 201, Date: anteDateDate },
+      data:  { Status: 300, Date: anteDateDate },
     });
 
-    // 3. Void the original cancelled queue (if present via AnteDateQueueID)
+    // 4. Void the original cancelled queue (Status 650 → 900) via AnteDateQueueID link.
     if (queue.AnteDateQueueID && queue.AnteDateQueueID !== BigInt(0)) {
       await tx.queue.update({
         where: { Id: queue.AnteDateQueueID },
         data: {
-          Status:               900, // Voided
+          Status:               900,
           AnteDateApprovedBy:   approvedBy,
           AnteDateApprovedDate: approvedDate,
           UpdateBy:             approvedBy,

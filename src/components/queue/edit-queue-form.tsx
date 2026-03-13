@@ -38,6 +38,8 @@ interface TransactionData {
   cardNumber: string;
   inputBy: string;
   status: number;
+  statusName: string;
+  groupItemMaster: string;
 }
 
 interface VitalsData {
@@ -127,6 +129,10 @@ interface EditQueueFormProps {
   statuses: StatusOption[];
   isBmRole?: boolean;
   isResultsReleasing?: boolean;
+  isPayment?: boolean;
+  isCsrView?: boolean;
+  isHl7Btn?: boolean;
+  hl7SentGroups?: string[];
 }
 
 // ── Helpers ────────────────────────────────────────────────────
@@ -285,7 +291,8 @@ function TxTypeDropdown({ value, options, onChange }: {
 
 export function EditQueueForm({
   queue, transactions, vitals, statuses,
-  isBmRole = false, isResultsReleasing = false,
+  isBmRole = false, isResultsReleasing = false, isPayment = false, isCsrView = false,
+  isHl7Btn = false, hl7SentGroups = [],
 }: EditQueueFormProps) {
   const router = useRouter();
 
@@ -341,7 +348,8 @@ export function EditQueueForm({
   const [editTxError, setEditTxError]                 = useState("");
 
   // Remove transaction confirm modal
-  const [removingTx, setRemovingTx]   = useState<TransactionData | null>(null);
+  const [removingTx, setRemovingTx]     = useState<TransactionData | null>(null);
+  const [removeReason, setRemoveReason] = useState("");
   const [removeSaving, setRemoveSaving] = useState(false);
   const [removeError, setRemoveError]   = useState("");
 
@@ -356,12 +364,48 @@ export function EditQueueForm({
   const [viewDeletedOpen, setViewDeletedOpen] = useState(false);
 
   // Amendment Approve
-  const [approveSaving, setApproveSaving] = useState(false);
-  const [approveError, setApproveError]   = useState("");
+  const [approveConfirmOpen, setApproveConfirmOpen] = useState(false);
+  const [approveSaving, setApproveSaving]           = useState(false);
+  const [approveError, setApproveError]             = useState("");
 
   // Re-Generate Lab PDF
   const [regenSaving, setRegenSaving] = useState(false);
   const [regenMsg, setRegenMsg]       = useState("");
+
+  // To Comeback
+  const [toComeBack, setToComeBack]   = useState(false);
+  const [qrLoading, setQrLoading]     = useState(false);
+
+  // HL7 resend — tracks which itemGroups have been sent this session
+  const [hl7Sent, setHl7Sent]         = useState<Set<string>>(new Set(hl7SentGroups));
+  const [hl7Sending, setHl7Sending]   = useState<Set<number>>(new Set()); // txId set
+
+  async function handleGenerateQR() {
+    if (!toComeBack) return;
+    setQrLoading(true);
+    try {
+      const url = `/api/reports/to-comeback?queueId=${queue.id}`;
+      window.open(url, "_blank");
+    } finally {
+      setQrLoading(false);
+    }
+  }
+
+  async function handleHl7Resend(tx: TransactionData) {
+    if (hl7Sending.has(tx.id)) return;
+    setHl7Sending((prev) => new Set(prev).add(tx.id));
+    try {
+      const res = await fetch(`/api/transactions/${tx.id}/hl7-resend`, { method: "POST" });
+      if (!res.ok) throw new Error("Failed");
+      const data = await res.json() as { itemGroup?: string };
+      const group = data.itemGroup ?? tx.groupItemMaster;
+      setHl7Sent((prev) => { const next = new Set(prev); next.add(group); return next; });
+    } catch {
+      // silent — button stays in sending state briefly then resets
+    } finally {
+      setHl7Sending((prev) => { const next = new Set(prev); next.delete(tx.id); return next; });
+    }
+  }
 
   // Fetch transaction types on mount
   useEffect(() => {
@@ -645,15 +689,17 @@ export function EditQueueForm({
 
   function openRemoveTx(tx: TransactionData) {
     setRemovingTx(tx);
+    setRemoveReason("");
     setRemoveError("");
   }
 
   async function handleRemoveTx() {
-    if (!removingTx) return;
+    if (!removingTx || !removeReason.trim()) return;
     setRemoveSaving(true);
     setRemoveError("");
     try {
-      const res = await fetch(`/api/transactions/${removingTx.id}`, { method: "DELETE" });
+      const url = `/api/transactions/${removingTx.id}?reason=${encodeURIComponent(removeReason.trim())}`;
+      const res = await fetch(url, { method: "DELETE" });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         throw new Error((data as { error?: string }).error ?? "Failed to remove");
@@ -693,8 +739,8 @@ export function EditQueueForm({
 
   // ── Amendment Approve handler ─────────────────────────────────
 
-  async function handleApproveAmendment() {
-    if (!confirm("Approve this ante-date queue? The queue will be activated and the original cancelled queue will be voided.")) return;
+  async function confirmApproveAmendment() {
+    setApproveConfirmOpen(false);
     setApproveSaving(true);
     setApproveError("");
     try {
@@ -890,6 +936,32 @@ export function EditQueueForm({
               <label className="mb-1 block text-xs font-medium text-slate-500">Date Time</label>
               <input readOnly value={formatDateTime(queue.dateTime)}
                 className="block w-full rounded-lg border border-slate-100 bg-slate-50 px-3 py-2 text-sm text-slate-900 outline-none" />
+            </div>
+            {/* To Comeback */}
+            <div className="flex items-center justify-between rounded-lg border border-amber-200 bg-amber-50 px-3 py-2">
+              <label className="flex cursor-pointer items-center gap-2 text-sm font-medium text-amber-800">
+                <input
+                  type="checkbox"
+                  checked={toComeBack}
+                  onChange={(e) => setToComeBack(e.target.checked)}
+                  className="h-4 w-4 rounded border-amber-400 accent-amber-600"
+                />
+                To Comeback
+              </label>
+              {toComeBack && (
+                <button
+                  type="button"
+                  onClick={handleGenerateQR}
+                  disabled={qrLoading}
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-amber-700 disabled:opacity-60"
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h.75v.75h-.75v-.75ZM13.5 19.5h.75v.75h-.75v-.75ZM19.5 13.5h.75v.75h-.75v-.75ZM19.5 19.5h.75v.75h-.75v-.75ZM16.5 16.5h.75v.75h-.75v-.75Z" />
+                  </svg>
+                  {qrLoading ? "Opening…" : "Generate QR"}
+                </button>
+              )}
             </div>
           </div>
 
@@ -1108,24 +1180,57 @@ export function EditQueueForm({
                       </td>
                       <td className={`px-4 py-2.5 ${tx.status === 650 ? "text-slate-400" : "text-slate-500"}`}>{tx.inputBy}</td>
                       <td className="px-4 py-2.5">
-                        {tx.status < 650 && (
-                          <div className="flex items-center gap-0.5">
-                            <button type="button" onClick={() => openEditTx(tx)}
-                              title="Edit transaction"
-                              className="rounded p-1 text-slate-400 hover:bg-blue-50 hover:text-blue-600">
-                              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" />
-                              </svg>
-                            </button>
-                            <button type="button" onClick={() => openRemoveTx(tx)}
-                              title="Remove transaction"
-                              className="rounded p-1 text-slate-300 hover:bg-red-50 hover:text-red-500">
-                              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-                              </svg>
-                            </button>
-                          </div>
-                        )}
+                        <div className="flex items-center gap-0.5">
+                          {tx.status < 210 && (
+                            <>
+                              <button type="button" onClick={() => openRemoveTx(tx)}
+                                title="Remove transaction"
+                                className="rounded p-1 text-slate-300 hover:bg-red-50 hover:text-red-500">
+                                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                                </svg>
+                              </button>
+                              <button type="button" onClick={() => openEditTx(tx)}
+                                title="Amendment — edit doctor / company / item"
+                                className="rounded p-1 text-slate-300 hover:bg-emerald-50 hover:text-emerald-600">
+                                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125" />
+                                </svg>
+                              </button>
+                            </>
+                          )}
+                          {/* HL7 Resend button — only for [HL7BTN] role */}
+                          {isHl7Btn && tx.status < 210 && (() => {
+                            const sent    = hl7Sent.has(tx.groupItemMaster);
+                            const sending = hl7Sending.has(tx.id);
+                            return (
+                              <button
+                                type="button"
+                                onClick={() => !sent && handleHl7Resend(tx)}
+                                disabled={sending}
+                                title={sent ? "HL7 message sent" : "Resend HL7 message"}
+                                className={`rounded p-1 ${sent ? "cursor-default text-green-600" : "text-blue-500 hover:bg-blue-50 hover:text-blue-700"}`}
+                              >
+                                {sending ? (
+                                  <svg className="h-3.5 w-3.5 animate-spin" viewBox="0 0 24 24" fill="none">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                                  </svg>
+                                ) : sent ? (
+                                  /* checkmark */
+                                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                                  </svg>
+                                ) : (
+                                  /* repeat/refresh */
+                                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                  </svg>
+                                )}
+                              </button>
+                            );
+                          })()}
+                        </div>
                       </td>
                     </tr>
                   )),
@@ -1200,10 +1305,23 @@ export function EditQueueForm({
         </div>
       )}
       <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
-        {/* Left row: View Deleted | Amendment Approve | Re-Generate Lab PDF */}
+        {/* Left row: Amendment Que | View Deleted | Amendment Approve | Re-Generate Lab PDF */}
         <div className="flex items-center gap-2 border-b border-slate-100 px-5 py-3">
+          {/* Amendment Que — opens cancel/ante-date modal; disabled if already cancelled or ante-dated */}
+          <button type="button"
+            onClick={() => setCancelModalOpen(true)}
+            disabled={queue.status >= 650 || queue.status === 202}
+            title={queue.status === 202 ? "Already an ante-date queue" : queue.status >= 650 ? "Queue is cancelled" : "Create amendment / ante-date queue"}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-orange-300 bg-orange-50 px-3 py-2 text-sm font-semibold text-orange-700 hover:enabled:bg-orange-100 disabled:cursor-not-allowed disabled:opacity-40">
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+            </svg>
+            Amendment Que
+          </button>
+
           <button type="button" onClick={() => setViewDeletedOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-cyan-200 bg-cyan-50 px-3 py-2 text-sm font-semibold text-cyan-700 hover:bg-cyan-100">
+            disabled={transactions.filter((tx) => tx.status === 650).length === 0}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-cyan-200 bg-cyan-50 px-3 py-2 text-sm font-semibold text-cyan-700 hover:enabled:bg-cyan-100 disabled:cursor-not-allowed disabled:opacity-40">
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.641 0-8.573-3.007-9.964-7.178Z" />
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
@@ -1211,95 +1329,102 @@ export function EditQueueForm({
             View - Deleted
           </button>
 
-          {/* Amendment Approve — BM-ROLE + queue.status === 202 */}
-          {isBmRole && queue.status === 202 && (
-            <button type="button" onClick={handleApproveAmendment} disabled={approveSaving}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-700 hover:bg-emerald-100 disabled:opacity-50">
-              {approveSaving ? (
+          {/* Amendment Approve — always visible; active only for BM-ROLE when status === 202 */}
+          <button type="button"
+            onClick={() => setApproveConfirmOpen(true)}
+            disabled={approveSaving || !isBmRole || queue.status !== 202}
+            title={!isBmRole ? "Requires BM-ROLE" : queue.status !== 202 ? "Only available for ante-date queues (status 202)" : "Approve amendment"}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-600 hover:enabled:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40">
+            {approveSaving ? (
+              <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+              </svg>
+            ) : (
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+              </svg>
+            )}
+            Amendment Approve
+          </button>
+
+          {/* Re-Generate Lab PDF — always visible; active only for RESULTS-RELEASING role */}
+          <button type="button"
+            onClick={handleRegenPdf}
+            disabled={regenSaving || !isResultsReleasing}
+            title={!isResultsReleasing ? "Requires Results-Releasing role" : "Re-generate lab PDF result"}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700 hover:enabled:bg-rose-100 disabled:cursor-not-allowed disabled:opacity-40">
+            {regenSaving ? (
+              <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+              </svg>
+            ) : (
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+              </svg>
+            )}
+            Re-Generate Lab PDF Result
+          </button>
+
+          {/* View Lab Result PDF — opens generated PDF in new tab */}
+          <a
+            href={`/api/queue/${queue.id}/pdf?type=lab-result`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-violet-200 bg-violet-50 px-3 py-2 text-sm font-semibold text-violet-700 hover:bg-violet-100 transition-colors">
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25M9 16.5v.75m3-3v3M15 12v5.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+            </svg>
+            View Lab PDF
+          </a>
+
+          {/* spacer pushes Payment + Save to the right */}
+          <div className="flex-1" />
+
+          {/* Payment button — hidden for [CMS-CSR-VIEW] role (matches PHP CMS) */}
+          {!isCsrView && (
+            <button type="button"
+              onClick={() => router.push(`/payment/${queue.id}`)}
+              disabled={queue.status >= 650}
+              className="inline-flex items-center gap-2 rounded-xl border border-amber-300 bg-amber-50 px-5 py-2 text-sm font-semibold text-amber-700 hover:enabled:bg-amber-100 disabled:cursor-not-allowed disabled:opacity-40">
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+              </svg>
+              Payment
+            </button>
+          )}
+
+          <button type="button" onClick={handleSave} disabled={saving}
+            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50">
+            {saving ? (
+              <>
                 <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
                 </svg>
-              ) : (
+                Saving…
+              </>
+            ) : (
+              <>
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
-              )}
-              Amendment Approve
-            </button>
-          )}
-
-          {/* Re-Generate Lab PDF — RESULTS-RELEASING role */}
-          {isResultsReleasing && (
-            <button type="button" onClick={handleRegenPdf} disabled={regenSaving}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-semibold text-rose-700 hover:bg-rose-100 disabled:opacity-50">
-              {regenSaving ? (
-                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-                </svg>
-              ) : (
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                </svg>
-              )}
-              Re-Generate Lab PDF Result
-            </button>
-          )}
+                Save
+              </>
+            )}
+          </button>
         </div>
 
-        {/* Right row: Back | Cancel/Ante-date | Payment | Save */}
-        <div className="flex items-center justify-between px-5 py-4">
-          <div className="flex items-center gap-2">
-            <button type="button" onClick={() => router.push("/queue")}
-              className="inline-flex items-center gap-2 rounded-xl px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100">
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
-              </svg>
-              Back
-            </button>
-            {queue.status < 650 && (
-              <button type="button"
-                onClick={() => { setCancelModalOpen(true); setCancelReason(""); setCancelAnteDate(""); setCancelError(""); }}
-                className="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-semibold text-red-600 hover:bg-red-100">
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                </svg>
-                Cancel / Ante-date
-              </button>
-            )}
-          </div>
-          <div className="flex items-center gap-2">
-            {/* Payment button */}
-            {queue.status < 650 && (
-              <button type="button" onClick={() => router.push(`/cms/payment/${queue.id}`)}
-                className="inline-flex items-center gap-2 rounded-xl border border-amber-300 bg-amber-50 px-5 py-2.5 text-sm font-semibold text-amber-700 hover:bg-amber-100">
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
-                </svg>
-                Payment
-              </button>
-            )}
-            <button type="button" onClick={handleSave} disabled={saving}
-              className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50">
-              {saving ? (
-                <>
-                  <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-                  </svg>
-                  Saving…
-                </>
-              ) : (
-                <>
-                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                  </svg>
-                  Save
-                </>
-              )}
-            </button>
-          </div>
+        {/* Back row — below the main action bar */}
+        <div className="border-t border-slate-100 px-5 py-2">
+          <button type="button" onClick={() => router.push("/queue")}
+            className="inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium text-slate-500 hover:bg-slate-100">
+            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+            </svg>
+            Back
+          </button>
         </div>
       </div>
 
@@ -1498,7 +1623,7 @@ export function EditQueueForm({
             {/* Header */}
             <div className="flex items-center justify-between border-b border-slate-100 px-6 py-4">
               <div>
-                <h3 className="text-base font-bold text-slate-900">Edit Transaction</h3>
+                <h3 className="text-base font-bold text-slate-900">Amendment For — Doctor / Company / Transaction Type</h3>
                 <p className="mt-0.5 text-xs text-slate-500 font-mono">{editingTx.codeItemPrice} — {editingTx.descriptionItemPrice}</p>
               </div>
               <button type="button" onClick={() => setEditingTx(null)}
@@ -1511,24 +1636,24 @@ export function EditQueueForm({
 
             {/* Body */}
             <div className="px-6 py-4 space-y-4">
-              {/* Company / Doctor / TxType row */}
+              {/* Doctor / Company / TxType row — order matches v1 */}
               <div className="grid gap-4 sm:grid-cols-3">
+                <SearchDropdown<PhysicianResult>
+                  label="Doctor's Name" placeholder="Search physician…" required
+                  value={editTxPhysician} displayValue={editTxPhysician?.displayName ?? ""}
+                  onSelect={setEditTxPhysician} onClear={() => setEditTxPhysician(null)}
+                  results={physicianResults} loading={physicianLoading} onSearch={searchPhysicians}
+                  renderItem={(p) => (<div><p className="font-medium text-slate-800">{p.displayName}</p><p className="text-xs text-slate-400">{p.degree}</p></div>)}
+                  renderSelected={(p) => (<div><p className="text-sm font-semibold text-slate-800">{p.displayName}</p><p className="text-xs text-slate-500">{p.degree}</p></div>)}
+                />
                 <SearchDropdown<CompanyResult>
-                  label="Company / HMO" placeholder="Search company…" required
+                  label="Company Name" placeholder="Search company…" required
                   value={editTxCompany} displayValue={editTxCompany?.Name ?? ""}
                   onSelect={setEditTxCompany}
                   onClear={() => { setEditTxCompany(null); setEditTxItems([]); setEditTxSelectedItemId(null); }}
                   results={companyResults} loading={companyLoading} onSearch={searchCompanies}
                   renderItem={(c) => (<div><p className="font-medium text-slate-800">{c.Name}</p><p className="text-xs text-slate-400">{c.Code}</p></div>)}
                   renderSelected={(c) => (<div><p className="text-sm font-semibold text-slate-800">{c.Name}</p><p className="text-xs text-slate-500">{c.Code}</p></div>)}
-                />
-                <SearchDropdown<PhysicianResult>
-                  label="Doctor" placeholder="Search physician…" required
-                  value={editTxPhysician} displayValue={editTxPhysician?.displayName ?? ""}
-                  onSelect={setEditTxPhysician} onClear={() => setEditTxPhysician(null)}
-                  results={physicianResults} loading={physicianLoading} onSearch={searchPhysicians}
-                  renderItem={(p) => (<div><p className="font-medium text-slate-800">{p.displayName}</p><p className="text-xs text-slate-400">{p.degree}</p></div>)}
-                  renderSelected={(p) => (<div><p className="text-sm font-semibold text-slate-800">{p.displayName}</p><p className="text-xs text-slate-500">{p.degree}</p></div>)}
                 />
                 <TxTypeDropdown value={editTxType} options={txTypes} onChange={setEditTxType} />
               </div>
@@ -1614,44 +1739,81 @@ export function EditQueueForm({
       {/* ── Remove Transaction Confirm Modal ── */}
       {removingTx !== null && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setRemovingTx(null)} />
-          <div className="relative w-full max-w-sm rounded-2xl bg-white shadow-2xl">
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+          <div className="relative w-full max-w-lg rounded-xl bg-white shadow-2xl">
             {/* Header */}
-            <div className="flex items-center gap-3 border-b border-slate-100 px-6 py-4">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-red-100">
-                <svg className="h-5 w-5 text-red-600" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-base font-bold text-slate-900">Remove Transaction</h3>
-                <p className="text-xs text-slate-500">This action cannot be undone.</p>
-              </div>
+            <div className="rounded-t-xl bg-green-600 px-6 py-3">
+              <h3 className="text-base font-bold text-white">Transaction - Remove</h3>
             </div>
 
             {/* Body */}
-            <div className="px-6 py-4">
-              <div className="rounded-lg border border-slate-100 bg-slate-50 p-3 text-sm">
-                <p className="font-semibold text-slate-800">{removingTx.descriptionItemPrice}</p>
-                <p className="mt-0.5 font-mono text-xs text-slate-500">{removingTx.codeItemPrice} · {removingTx.nameCompany}</p>
-                <p className="mt-1.5 text-sm font-bold text-slate-700">
-                  ₱{removingTx.amount.toLocaleString("en-PH", { minimumFractionDigits: 2 })}
-                </p>
+            <div className="space-y-3 px-6 py-5">
+              {/* Item Code */}
+              <div className="flex items-center gap-4">
+                <label className="w-28 shrink-0 text-right text-sm font-semibold text-slate-700">
+                  Item Code<span className="ml-0.5 text-red-500">*</span>
+                </label>
+                <input readOnly value={removingTx.codeItemPrice}
+                  className="flex-1 rounded border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-slate-800 outline-none" />
               </div>
-              <p className="mt-3 text-xs text-slate-500">
-                The transaction will be marked as <strong className="text-red-600">Cancelled</strong> and remain visible in the transaction list.
-              </p>
-              {removeError && <p className="mt-2 text-xs font-medium text-red-600">{removeError}</p>}
+              {/* Item Name */}
+              <div className="flex items-center gap-4">
+                <label className="w-28 shrink-0 text-right text-sm font-semibold text-slate-700">
+                  Item Name<span className="ml-0.5 text-red-500">*</span>
+                </label>
+                <input readOnly value={removingTx.descriptionItemPrice}
+                  className="flex-1 rounded border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-slate-800 outline-none" />
+              </div>
+              {/* Item Status */}
+              <div className="flex items-center gap-4">
+                <label className="w-28 shrink-0 text-right text-sm font-semibold text-slate-700">
+                  Item Status
+                </label>
+                <input readOnly value={removingTx.statusName}
+                  className="flex-1 rounded border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-slate-800 outline-none" />
+              </div>
+              {/* Input By */}
+              <div className="flex items-center gap-4">
+                <label className="w-28 shrink-0 text-right text-sm font-semibold text-slate-700">
+                  Input By
+                </label>
+                <input readOnly value={removingTx.inputBy}
+                  className="flex-1 rounded border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-slate-800 outline-none" />
+              </div>
+              {/* Reason */}
+              <div className="flex items-center gap-4">
+                <label className="w-28 shrink-0 text-right text-sm font-semibold text-slate-700">
+                  Reason<span className="ml-0.5 text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={removeReason}
+                  onChange={(e) => setRemoveReason(e.target.value)}
+                  placeholder="Reason"
+                  className="flex-1 rounded border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-800 placeholder:text-slate-400 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400/30"
+                />
+              </div>
+              {/* NOTE */}
+              <div className="flex items-start gap-4">
+                <label className="w-28 shrink-0 text-right text-sm font-bold text-red-600">NOTE</label>
+                <div className="flex-1 rounded border border-slate-200 bg-slate-50 px-3 py-1.5 text-sm text-red-600">
+                  Re-Billing required for any removed / deleted procedure.
+                </div>
+              </div>
+              {removeError && (
+                <p className="text-center text-xs font-medium text-red-600">{removeError}</p>
+              )}
             </div>
 
             {/* Footer */}
             <div className="flex items-center justify-between border-t border-slate-100 px-6 py-4">
               <button type="button" onClick={() => setRemovingTx(null)}
-                className="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100">
-                Cancel
+                className="rounded border border-slate-300 px-4 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50">
+                Close
               </button>
-              <button type="button" onClick={handleRemoveTx} disabled={removeSaving}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-700 disabled:opacity-50">
+              <button type="button" onClick={handleRemoveTx}
+                disabled={removeSaving || !removeReason.trim()}
+                className="inline-flex items-center gap-1.5 rounded bg-amber-500 px-5 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-amber-600 disabled:opacity-50">
                 {removeSaving ? (
                   <>
                     <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
@@ -1660,7 +1822,42 @@ export function EditQueueForm({
                     </svg>
                     Removing…
                   </>
-                ) : "Confirm Remove"}
+                ) : "Remove & Save"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Amendment Approve Confirmation Modal ── */}
+      {approveConfirmOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setApproveConfirmOpen(false)} />
+          <div className="relative w-full max-w-sm rounded-2xl bg-white shadow-2xl">
+            {/* Icon + Title */}
+            <div className="flex flex-col items-center gap-3 px-6 pt-8 pb-4 text-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100">
+                <svg className="h-6 w-6 text-emerald-600" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+              </div>
+              <h3 className="text-base font-bold text-slate-900">Approve Amendment</h3>
+              <p className="text-sm text-slate-500">
+                Approve this ante-date queue? The queue will be activated and the original cancelled queue will be voided.
+              </p>
+            </div>
+            {/* Footer */}
+            <div className="flex items-center justify-end gap-3 border-t border-slate-100 px-6 py-4">
+              <button type="button" onClick={() => setApproveConfirmOpen(false)}
+                className="rounded-lg px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100">
+                Cancel
+              </button>
+              <button type="button" onClick={confirmApproveAmendment}
+                className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-5 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700">
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                </svg>
+                Approve
               </button>
             </div>
           </div>

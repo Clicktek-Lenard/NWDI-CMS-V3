@@ -75,7 +75,9 @@ export async function POST(
       },
     });
 
-    // 3. Create the new ante-date queue (Status 202)
+    // 3. Create the new ante-date queue (Status 202).
+    // AnteDateStatus = original.Status so approval can restore the queue to its prior status (v1 behaviour).
+    // Notes = "Amendments Que" to identify this as an amendment queue (matches v1 CancelTransactionController).
     const newQueue = await tx.queue.create({
       data: {
         IdBU:             clinicCode,
@@ -92,11 +94,13 @@ export async function POST(
         AgePatient:       original.AgePatient,
         Status:           202,
         PatientType:      original.PatientType,
-        Notes:            original.Notes,
+        Notes:            "Amendments Que",
         AnteDateQueueID:  queueId,
-        AnteDate:         anteDateDate,
+        AnteDateCode:     original.Code,
+        AnteDate:         original.AnteDate ?? anteDateDate,
+        AnteDateTime:     original.AnteDateTime ?? original.DateTime,
         AnteDateReason:   anteDateReason,
-        AnteDateStatus:   202,
+        AnteDateStatus:   original.Status, // saved so approval can restore it
         InputBy:          inputBy,
       },
     });
@@ -113,6 +117,7 @@ export async function POST(
           NameCompany:          t.NameCompany,
           TransactionType:      t.TransactionType,
           IdItemPrice:          t.IdItemPrice,
+          ItemUsedItemPrice:    t.ItemUsedItemPrice,
           CodeItemPrice:        t.CodeItemPrice,
           DescriptionItemPrice: t.DescriptionItemPrice,
           PriceGroupItemPrice:  t.PriceGroupItemPrice,
@@ -121,6 +126,9 @@ export async function POST(
           ReadersFee:           t.ReadersFee,
           OrigAmount:           t.OrigAmount,
           GroupItemMaster:      t.GroupItemMaster,
+          HCardNumber:          t.HCardNumber,
+          Stat:                 t.Stat,
+          InputId:              t.InputId,
           InputBy:              inputBy,
           Status:               202,
         })),

@@ -3,6 +3,7 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { apiFetch } from "@/lib/api";
 import type { QueueEntry, PaginatedResponse } from "@/types";
 
 // ── Status color palette (cycles for unknown statuses) ────────
@@ -46,6 +47,8 @@ export function QueueClient() {
   const [filter, setFilter] = useState<string>("ALL");
   const [search, setSearch] = useState("");
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
+  const [assigning, setAssigning] = useState(false);
+  const [assignMsg, setAssignMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
 
   const fetchQueue = useCallback(async () => {
     try {
@@ -115,6 +118,40 @@ export function QueueClient() {
       .slice(0, 3);
   }, [uniqueStatuses, stats]);
 
+  // Count of queues pending specimen collection (Status 300)
+  const pendingSpecimen = useMemo(
+    () => queue.filter((q) => q.statusCode === 300).length,
+    [queue],
+  );
+
+  const handleAssignAccession = useCallback(async () => {
+    setAssigning(true);
+    setAssignMsg(null);
+    try {
+      const data = await apiFetch<{
+        message?: string;
+        queueCode?: string;
+        assigned?: Array<{ accessionNo: string; type: string }>;
+      }>("/api/accession/make", { method: "POST" });
+
+      if (data.message) {
+        setAssignMsg({ type: "ok", text: data.message });
+      } else {
+        const labCount = data.assigned?.filter((a) => a.type === "LAB").length ?? 0;
+        const imgCount = data.assigned?.filter((a) => a.type === "IMAGING").length ?? 0;
+        setAssignMsg({
+          type: "ok",
+          text: `Accession assigned for ${data.queueCode} — ${labCount} LAB, ${imgCount} IMAGING.`,
+        });
+        fetchQueue(); // refresh list
+      }
+    } catch {
+      setAssignMsg({ type: "err", text: "Failed to assign accession numbers. Try again." });
+    } finally {
+      setAssigning(false);
+    }
+  }, [fetchQueue]);
+
   if (loading) {
     return (
       <div className="flex items-center justify-center py-32">
@@ -150,6 +187,30 @@ export function QueueClient() {
             Refresh
           </button>
           <button
+            onClick={handleAssignAccession}
+            disabled={assigning}
+            title="Assign accession numbers to the next queue pending specimen collection (Status 300). Press only after physical specimen is collected."
+            className="inline-flex items-center gap-2 rounded-xl border border-amber-300 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-800 shadow-sm transition-all hover:bg-amber-100 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {assigning ? (
+              <svg className="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+              </svg>
+            ) : (
+              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 6h.008v.008H6V6Z" />
+              </svg>
+            )}
+            Assign Accession No.
+            {pendingSpecimen > 0 && (
+              <span className="ml-0.5 flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-amber-600 px-1 text-[10px] font-bold text-white">
+                {pendingSpecimen}
+              </span>
+            )}
+          </button>
+          <button
             onClick={() => router.push("/queue/create")}
             className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm shadow-blue-600/20 transition-all hover:bg-blue-700 active:scale-[0.98]"
           >
@@ -165,6 +226,20 @@ export function QueueClient() {
       {error && (
         <div className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           {error}
+        </div>
+      )}
+
+      {/* Accession assignment feedback */}
+      {assignMsg && (
+        <div
+          className={`mb-4 flex items-start justify-between gap-3 rounded-lg border px-4 py-3 text-sm ${
+            assignMsg.type === "ok"
+              ? "border-green-200 bg-green-50 text-green-800"
+              : "border-red-200 bg-red-50 text-red-700"
+          }`}
+        >
+          <span>{assignMsg.text}</span>
+          <button onClick={() => setAssignMsg(null)} className="shrink-0 opacity-60 hover:opacity-100">✕</button>
         </div>
       )}
 
