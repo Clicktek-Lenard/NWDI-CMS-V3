@@ -14,6 +14,7 @@ import {
   CalendarCheck,
   History,
   Receipt,
+  FlaskConical,
 } from "lucide-react";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
@@ -30,8 +31,9 @@ const NAV_ITEMS: NavItem[] = [
   { label: "Doctor",                href: "/clinical",       icon: <Stethoscope className="h-5 w-5" />,   module: "cms", tab: "clinical" },
   { label: "Today's Queue",         href: "/queue",          icon: <CalendarCheck className="h-5 w-5" />, module: "cms", tab: "queue" },
   { label: "Payment",               href: "/payment",        icon: <Receipt className="h-5 w-5" />,       module: "cms", tab: "payment" },
-  { label: "Past Queue",            href: "/past-queue",     icon: <History className="h-5 w-5" />,       module: "cms", tab: "queue" },
-  { label: "Card Management",       href: "/enrollment",     icon: <CreditCard className="h-5 w-5" />,    module: "cms", tab: "enrollment" },
+  { label: "Past Queue",            href: "/past-queue",     icon: <History       className="h-5 w-5" />,  module: "cms", tab: "queue" },
+  { label: "Results",               href: "/results",        icon: <FlaskConical  className="h-5 w-5" />,  module: "cms", tab: "results" },
+  { label: "Card Management",       href: "/enrollment",     icon: <CreditCard    className="h-5 w-5" />,  module: "cms", tab: "enrollment" },
   { label: "Physician Accreditation", href: "/eros/physician", icon: <UserCheck className="h-5 w-5" />, module: "erosui", tab: "physician" },
   { label: "Admin Settings",        href: "/settings",       icon: <Settings className="h-5 w-5" />,      module: "cms", tab: "settings" },
   { label: "Clinic Reports",        href: "/reports",        icon: <BarChart3 className="h-5 w-5" />,     module: "cms", tab: "reports" },
