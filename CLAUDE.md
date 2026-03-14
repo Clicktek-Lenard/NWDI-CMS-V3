@@ -204,7 +204,9 @@ const isDark = resolvedTheme === "dark";
 
 ## Status Reporting
 
-After completing any feature, fix, or module work, **always update `CMS Status Reporting.html`** in the working directory (`c:\Clicktek\Projects\NWDI\CMS - Claude\CMS-v3\CMS Status Reporting.html`).
+**Always update `CMS Status Reporting.html`** after every milestone, feature completion, fix, or module work. File location: `c:\Clicktek\Projects\NWDI\CMS - Claude\CMS-v3\CMS Status Reporting.html`
+
+A **milestone** includes: completing a priority item, finishing a module section, fixing a critical bug, or any work the user marks as done.
 
 Use these three sources as reference when updating:
 1. **CMS v3** (this codebase) — what is actually implemented
