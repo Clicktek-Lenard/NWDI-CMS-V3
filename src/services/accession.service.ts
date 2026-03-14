@@ -159,7 +159,7 @@ export async function makeAccessionNo(
   }
 
   const labRows = allRows.filter((r) => r.Type === "LAB");
-  const imgRows = allRows.filter((r) => r.Type === "IMAGING" && r.AccessionNo === null);
+  const imgRows = allRows.filter((r) => r.Type === "IMAGING" && !r.AccessionNo);
   const skipped = allRows.length - labRows.length - imgRows.length;
 
   const assignedResult: AccessionResult["assigned"] = [];
@@ -182,7 +182,7 @@ export async function makeAccessionNo(
   let labAlphaIdx = 0;
 
   for (const [key, rows] of labGroups) {
-    const nullRows = rows.filter((r) => r.AccessionNo === null);
+    const nullRows = rows.filter((r) => !r.AccessionNo);
     if (nullRows.length === 0) continue;
 
     const [idDrStr, idCoStr] = key.split("|");
@@ -265,7 +265,8 @@ export async function makeAccessionNo(
   const stamp = new Date();
 
   await prisma.$transaction(async (tx) => {
-    // LAB: update all null rows per doctor/company group
+    // LAB: update all blank rows per doctor/company group
+    // AccessionNo may be null OR "" from legacy data — match both
     for (const { idDoctor, idCompany, accNo } of labAssignments) {
       await tx.accessionno.updateMany({
         where: {
@@ -273,13 +274,13 @@ export async function makeAccessionNo(
           IdDoctor: idDoctor,
           IdCompany: idCompany,
           Type: "LAB",
-          AccessionNo: null,
+          OR: [{ AccessionNo: null }, { AccessionNo: "" }],
         },
         data: { AccessionNo: accNo, Status: 360, SystemUpdateTime: stamp },
       });
     }
 
-    // IMAGING: update by exact group key (null rows only)
+    // IMAGING: update by exact group key (blank rows only)
     for (const { idDoctor, idCompany, idTransaction, itemCode, accNo } of imgAssignments) {
       await tx.accessionno.updateMany({
         where: {
@@ -289,7 +290,7 @@ export async function makeAccessionNo(
           ...(idTransaction !== null ? { IdTransaction: idTransaction } : {}),
           ItemCode: itemCode,
           Type: "IMAGING",
-          AccessionNo: null,
+          OR: [{ AccessionNo: null }, { AccessionNo: "" }],
         },
         data: { AccessionNo: accNo, Status: 360, SystemUpdateTime: stamp },
       });
