@@ -696,9 +696,8 @@ model role {
   status    String? @db.VarChar(50)
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model accessionno {
-  Id                 BigInt
+  Id                 BigInt    @id
   IdBU               String?   @db.VarChar(10)
   Date               DateTime? @db.Date
   QueueCode          String?   @db.VarChar(30)
@@ -723,8 +722,6 @@ model accessionno {
   ExamDate           DateTime? @db.Date
   ReceivedBU         String?   @db.VarChar(10)
   RISSeverity        String?   @db.VarChar(80)
-
-  @@ignore
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.

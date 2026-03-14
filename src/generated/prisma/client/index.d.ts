@@ -139,6 +139,11 @@ export type transactiontype = $Result.DefaultSelection<Prisma.$transactiontypePa
  */
 export type role = $Result.DefaultSelection<Prisma.$rolePayload>
 /**
+ * Model accessionno
+ * 
+ */
+export type accessionno = $Result.DefaultSelection<Prisma.$accessionnoPayload>
+/**
  * Model paymenthistory
  * 
  */
@@ -510,6 +515,16 @@ export class PrismaClient<
     * ```
     */
   get role(): Prisma.roleDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.accessionno`: Exposes CRUD operations for the **accessionno** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Accessionnos
+    * const accessionnos = await prisma.accessionno.findMany()
+    * ```
+    */
+  get accessionno(): Prisma.accessionnoDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.paymenthistory`: Exposes CRUD operations for the **paymenthistory** model.
@@ -979,6 +994,7 @@ export namespace Prisma {
     msg_queue: 'msg_queue',
     transactiontype: 'transactiontype',
     role: 'role',
+    accessionno: 'accessionno',
     paymenthistory: 'paymenthistory'
   };
 
@@ -995,7 +1011,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "users_from_cdb" | "cache" | "cache_locks" | "sessions" | "password_reset_tokens" | "failed_jobs" | "job_batches" | "jobs" | "migrations" | "settings" | "businessunits" | "company" | "department" | "patient" | "physician" | "queue" | "queuestatus" | "transactions" | "vitals" | "itemmaster" | "itemprice" | "msg_queue" | "transactiontype" | "role" | "paymenthistory"
+      modelProps: "user" | "users_from_cdb" | "cache" | "cache_locks" | "sessions" | "password_reset_tokens" | "failed_jobs" | "job_batches" | "jobs" | "migrations" | "settings" | "businessunits" | "company" | "department" | "patient" | "physician" | "queue" | "queuestatus" | "transactions" | "vitals" | "itemmaster" | "itemprice" | "msg_queue" | "transactiontype" | "role" | "accessionno" | "paymenthistory"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2849,6 +2865,80 @@ export namespace Prisma {
           }
         }
       }
+      accessionno: {
+        payload: Prisma.$accessionnoPayload<ExtArgs>
+        fields: Prisma.accessionnoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.accessionnoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$accessionnoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.accessionnoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$accessionnoPayload>
+          }
+          findFirst: {
+            args: Prisma.accessionnoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$accessionnoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.accessionnoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$accessionnoPayload>
+          }
+          findMany: {
+            args: Prisma.accessionnoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$accessionnoPayload>[]
+          }
+          create: {
+            args: Prisma.accessionnoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$accessionnoPayload>
+          }
+          createMany: {
+            args: Prisma.accessionnoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.accessionnoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$accessionnoPayload>[]
+          }
+          delete: {
+            args: Prisma.accessionnoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$accessionnoPayload>
+          }
+          update: {
+            args: Prisma.accessionnoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$accessionnoPayload>
+          }
+          deleteMany: {
+            args: Prisma.accessionnoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.accessionnoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.accessionnoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$accessionnoPayload>[]
+          }
+          upsert: {
+            args: Prisma.accessionnoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$accessionnoPayload>
+          }
+          aggregate: {
+            args: Prisma.AccessionnoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAccessionno>
+          }
+          groupBy: {
+            args: Prisma.accessionnoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AccessionnoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.accessionnoCountArgs<ExtArgs>
+            result: $Utils.Optional<AccessionnoCountAggregateOutputType> | number
+          }
+        }
+      }
       paymenthistory: {
         payload: Prisma.$paymenthistoryPayload<ExtArgs>
         fields: Prisma.paymenthistoryFieldRefs
@@ -3056,6 +3146,7 @@ export namespace Prisma {
     msg_queue?: msg_queueOmit
     transactiontype?: transactiontypeOmit
     role?: roleOmit
+    accessionno?: accessionnoOmit
     paymenthistory?: paymenthistoryOmit
   }
 
@@ -35646,6 +35737,1315 @@ export namespace Prisma {
 
 
   /**
+   * Model accessionno
+   */
+
+  export type AggregateAccessionno = {
+    _count: AccessionnoCountAggregateOutputType | null
+    _avg: AccessionnoAvgAggregateOutputType | null
+    _sum: AccessionnoSumAggregateOutputType | null
+    _min: AccessionnoMinAggregateOutputType | null
+    _max: AccessionnoMaxAggregateOutputType | null
+  }
+
+  export type AccessionnoAvgAggregateOutputType = {
+    Id: number | null
+    IdTransaction: number | null
+    IdQueue: number | null
+    IdCompany: number | null
+    IdDoctor: number | null
+    Status: number | null
+  }
+
+  export type AccessionnoSumAggregateOutputType = {
+    Id: bigint | null
+    IdTransaction: bigint | null
+    IdQueue: bigint | null
+    IdCompany: number | null
+    IdDoctor: number | null
+    Status: number | null
+  }
+
+  export type AccessionnoMinAggregateOutputType = {
+    Id: bigint | null
+    IdBU: string | null
+    Date: Date | null
+    QueueCode: string | null
+    IdTransaction: bigint | null
+    AccessionNo: string | null
+    IdQueue: bigint | null
+    IdCompany: number | null
+    IdDoctor: number | null
+    LISCode: string | null
+    ItemCode: string | null
+    ItemDescription: string | null
+    ItemGroup: string | null
+    ItemSubGroup: string | null
+    Type: string | null
+    Stat: string | null
+    AccessionMap: string | null
+    Status: number | null
+    SystemTimeCreated: Date | null
+    ResultOnlineStatus: string | null
+    RISFinalized: Date | null
+    SystemUpdateTime: Date | null
+    ExamDate: Date | null
+    ReceivedBU: string | null
+    RISSeverity: string | null
+  }
+
+  export type AccessionnoMaxAggregateOutputType = {
+    Id: bigint | null
+    IdBU: string | null
+    Date: Date | null
+    QueueCode: string | null
+    IdTransaction: bigint | null
+    AccessionNo: string | null
+    IdQueue: bigint | null
+    IdCompany: number | null
+    IdDoctor: number | null
+    LISCode: string | null
+    ItemCode: string | null
+    ItemDescription: string | null
+    ItemGroup: string | null
+    ItemSubGroup: string | null
+    Type: string | null
+    Stat: string | null
+    AccessionMap: string | null
+    Status: number | null
+    SystemTimeCreated: Date | null
+    ResultOnlineStatus: string | null
+    RISFinalized: Date | null
+    SystemUpdateTime: Date | null
+    ExamDate: Date | null
+    ReceivedBU: string | null
+    RISSeverity: string | null
+  }
+
+  export type AccessionnoCountAggregateOutputType = {
+    Id: number
+    IdBU: number
+    Date: number
+    QueueCode: number
+    IdTransaction: number
+    AccessionNo: number
+    IdQueue: number
+    IdCompany: number
+    IdDoctor: number
+    LISCode: number
+    ItemCode: number
+    ItemDescription: number
+    ItemGroup: number
+    ItemSubGroup: number
+    Type: number
+    Stat: number
+    AccessionMap: number
+    Status: number
+    SystemTimeCreated: number
+    ResultOnlineStatus: number
+    RISFinalized: number
+    SystemUpdateTime: number
+    ExamDate: number
+    ReceivedBU: number
+    RISSeverity: number
+    _all: number
+  }
+
+
+  export type AccessionnoAvgAggregateInputType = {
+    Id?: true
+    IdTransaction?: true
+    IdQueue?: true
+    IdCompany?: true
+    IdDoctor?: true
+    Status?: true
+  }
+
+  export type AccessionnoSumAggregateInputType = {
+    Id?: true
+    IdTransaction?: true
+    IdQueue?: true
+    IdCompany?: true
+    IdDoctor?: true
+    Status?: true
+  }
+
+  export type AccessionnoMinAggregateInputType = {
+    Id?: true
+    IdBU?: true
+    Date?: true
+    QueueCode?: true
+    IdTransaction?: true
+    AccessionNo?: true
+    IdQueue?: true
+    IdCompany?: true
+    IdDoctor?: true
+    LISCode?: true
+    ItemCode?: true
+    ItemDescription?: true
+    ItemGroup?: true
+    ItemSubGroup?: true
+    Type?: true
+    Stat?: true
+    AccessionMap?: true
+    Status?: true
+    SystemTimeCreated?: true
+    ResultOnlineStatus?: true
+    RISFinalized?: true
+    SystemUpdateTime?: true
+    ExamDate?: true
+    ReceivedBU?: true
+    RISSeverity?: true
+  }
+
+  export type AccessionnoMaxAggregateInputType = {
+    Id?: true
+    IdBU?: true
+    Date?: true
+    QueueCode?: true
+    IdTransaction?: true
+    AccessionNo?: true
+    IdQueue?: true
+    IdCompany?: true
+    IdDoctor?: true
+    LISCode?: true
+    ItemCode?: true
+    ItemDescription?: true
+    ItemGroup?: true
+    ItemSubGroup?: true
+    Type?: true
+    Stat?: true
+    AccessionMap?: true
+    Status?: true
+    SystemTimeCreated?: true
+    ResultOnlineStatus?: true
+    RISFinalized?: true
+    SystemUpdateTime?: true
+    ExamDate?: true
+    ReceivedBU?: true
+    RISSeverity?: true
+  }
+
+  export type AccessionnoCountAggregateInputType = {
+    Id?: true
+    IdBU?: true
+    Date?: true
+    QueueCode?: true
+    IdTransaction?: true
+    AccessionNo?: true
+    IdQueue?: true
+    IdCompany?: true
+    IdDoctor?: true
+    LISCode?: true
+    ItemCode?: true
+    ItemDescription?: true
+    ItemGroup?: true
+    ItemSubGroup?: true
+    Type?: true
+    Stat?: true
+    AccessionMap?: true
+    Status?: true
+    SystemTimeCreated?: true
+    ResultOnlineStatus?: true
+    RISFinalized?: true
+    SystemUpdateTime?: true
+    ExamDate?: true
+    ReceivedBU?: true
+    RISSeverity?: true
+    _all?: true
+  }
+
+  export type AccessionnoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which accessionno to aggregate.
+     */
+    where?: accessionnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of accessionnos to fetch.
+     */
+    orderBy?: accessionnoOrderByWithRelationInput | accessionnoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: accessionnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` accessionnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` accessionnos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned accessionnos
+    **/
+    _count?: true | AccessionnoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AccessionnoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AccessionnoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AccessionnoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AccessionnoMaxAggregateInputType
+  }
+
+  export type GetAccessionnoAggregateType<T extends AccessionnoAggregateArgs> = {
+        [P in keyof T & keyof AggregateAccessionno]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAccessionno[P]>
+      : GetScalarType<T[P], AggregateAccessionno[P]>
+  }
+
+
+
+
+  export type accessionnoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: accessionnoWhereInput
+    orderBy?: accessionnoOrderByWithAggregationInput | accessionnoOrderByWithAggregationInput[]
+    by: AccessionnoScalarFieldEnum[] | AccessionnoScalarFieldEnum
+    having?: accessionnoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AccessionnoCountAggregateInputType | true
+    _avg?: AccessionnoAvgAggregateInputType
+    _sum?: AccessionnoSumAggregateInputType
+    _min?: AccessionnoMinAggregateInputType
+    _max?: AccessionnoMaxAggregateInputType
+  }
+
+  export type AccessionnoGroupByOutputType = {
+    Id: bigint
+    IdBU: string | null
+    Date: Date | null
+    QueueCode: string | null
+    IdTransaction: bigint | null
+    AccessionNo: string | null
+    IdQueue: bigint
+    IdCompany: number
+    IdDoctor: number
+    LISCode: string | null
+    ItemCode: string | null
+    ItemDescription: string | null
+    ItemGroup: string | null
+    ItemSubGroup: string | null
+    Type: string | null
+    Stat: string | null
+    AccessionMap: string | null
+    Status: number | null
+    SystemTimeCreated: Date
+    ResultOnlineStatus: string | null
+    RISFinalized: Date | null
+    SystemUpdateTime: Date
+    ExamDate: Date | null
+    ReceivedBU: string | null
+    RISSeverity: string | null
+    _count: AccessionnoCountAggregateOutputType | null
+    _avg: AccessionnoAvgAggregateOutputType | null
+    _sum: AccessionnoSumAggregateOutputType | null
+    _min: AccessionnoMinAggregateOutputType | null
+    _max: AccessionnoMaxAggregateOutputType | null
+  }
+
+  type GetAccessionnoGroupByPayload<T extends accessionnoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AccessionnoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AccessionnoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AccessionnoGroupByOutputType[P]>
+            : GetScalarType<T[P], AccessionnoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type accessionnoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    Id?: boolean
+    IdBU?: boolean
+    Date?: boolean
+    QueueCode?: boolean
+    IdTransaction?: boolean
+    AccessionNo?: boolean
+    IdQueue?: boolean
+    IdCompany?: boolean
+    IdDoctor?: boolean
+    LISCode?: boolean
+    ItemCode?: boolean
+    ItemDescription?: boolean
+    ItemGroup?: boolean
+    ItemSubGroup?: boolean
+    Type?: boolean
+    Stat?: boolean
+    AccessionMap?: boolean
+    Status?: boolean
+    SystemTimeCreated?: boolean
+    ResultOnlineStatus?: boolean
+    RISFinalized?: boolean
+    SystemUpdateTime?: boolean
+    ExamDate?: boolean
+    ReceivedBU?: boolean
+    RISSeverity?: boolean
+  }, ExtArgs["result"]["accessionno"]>
+
+  export type accessionnoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    Id?: boolean
+    IdBU?: boolean
+    Date?: boolean
+    QueueCode?: boolean
+    IdTransaction?: boolean
+    AccessionNo?: boolean
+    IdQueue?: boolean
+    IdCompany?: boolean
+    IdDoctor?: boolean
+    LISCode?: boolean
+    ItemCode?: boolean
+    ItemDescription?: boolean
+    ItemGroup?: boolean
+    ItemSubGroup?: boolean
+    Type?: boolean
+    Stat?: boolean
+    AccessionMap?: boolean
+    Status?: boolean
+    SystemTimeCreated?: boolean
+    ResultOnlineStatus?: boolean
+    RISFinalized?: boolean
+    SystemUpdateTime?: boolean
+    ExamDate?: boolean
+    ReceivedBU?: boolean
+    RISSeverity?: boolean
+  }, ExtArgs["result"]["accessionno"]>
+
+  export type accessionnoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    Id?: boolean
+    IdBU?: boolean
+    Date?: boolean
+    QueueCode?: boolean
+    IdTransaction?: boolean
+    AccessionNo?: boolean
+    IdQueue?: boolean
+    IdCompany?: boolean
+    IdDoctor?: boolean
+    LISCode?: boolean
+    ItemCode?: boolean
+    ItemDescription?: boolean
+    ItemGroup?: boolean
+    ItemSubGroup?: boolean
+    Type?: boolean
+    Stat?: boolean
+    AccessionMap?: boolean
+    Status?: boolean
+    SystemTimeCreated?: boolean
+    ResultOnlineStatus?: boolean
+    RISFinalized?: boolean
+    SystemUpdateTime?: boolean
+    ExamDate?: boolean
+    ReceivedBU?: boolean
+    RISSeverity?: boolean
+  }, ExtArgs["result"]["accessionno"]>
+
+  export type accessionnoSelectScalar = {
+    Id?: boolean
+    IdBU?: boolean
+    Date?: boolean
+    QueueCode?: boolean
+    IdTransaction?: boolean
+    AccessionNo?: boolean
+    IdQueue?: boolean
+    IdCompany?: boolean
+    IdDoctor?: boolean
+    LISCode?: boolean
+    ItemCode?: boolean
+    ItemDescription?: boolean
+    ItemGroup?: boolean
+    ItemSubGroup?: boolean
+    Type?: boolean
+    Stat?: boolean
+    AccessionMap?: boolean
+    Status?: boolean
+    SystemTimeCreated?: boolean
+    ResultOnlineStatus?: boolean
+    RISFinalized?: boolean
+    SystemUpdateTime?: boolean
+    ExamDate?: boolean
+    ReceivedBU?: boolean
+    RISSeverity?: boolean
+  }
+
+  export type accessionnoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"Id" | "IdBU" | "Date" | "QueueCode" | "IdTransaction" | "AccessionNo" | "IdQueue" | "IdCompany" | "IdDoctor" | "LISCode" | "ItemCode" | "ItemDescription" | "ItemGroup" | "ItemSubGroup" | "Type" | "Stat" | "AccessionMap" | "Status" | "SystemTimeCreated" | "ResultOnlineStatus" | "RISFinalized" | "SystemUpdateTime" | "ExamDate" | "ReceivedBU" | "RISSeverity", ExtArgs["result"]["accessionno"]>
+
+  export type $accessionnoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "accessionno"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      Id: bigint
+      IdBU: string | null
+      Date: Date | null
+      QueueCode: string | null
+      IdTransaction: bigint | null
+      AccessionNo: string | null
+      IdQueue: bigint
+      IdCompany: number
+      IdDoctor: number
+      LISCode: string | null
+      ItemCode: string | null
+      ItemDescription: string | null
+      ItemGroup: string | null
+      ItemSubGroup: string | null
+      Type: string | null
+      Stat: string | null
+      AccessionMap: string | null
+      Status: number | null
+      SystemTimeCreated: Date
+      ResultOnlineStatus: string | null
+      RISFinalized: Date | null
+      SystemUpdateTime: Date
+      ExamDate: Date | null
+      ReceivedBU: string | null
+      RISSeverity: string | null
+    }, ExtArgs["result"]["accessionno"]>
+    composites: {}
+  }
+
+  type accessionnoGetPayload<S extends boolean | null | undefined | accessionnoDefaultArgs> = $Result.GetResult<Prisma.$accessionnoPayload, S>
+
+  type accessionnoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<accessionnoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AccessionnoCountAggregateInputType | true
+    }
+
+  export interface accessionnoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['accessionno'], meta: { name: 'accessionno' } }
+    /**
+     * Find zero or one Accessionno that matches the filter.
+     * @param {accessionnoFindUniqueArgs} args - Arguments to find a Accessionno
+     * @example
+     * // Get one Accessionno
+     * const accessionno = await prisma.accessionno.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends accessionnoFindUniqueArgs>(args: SelectSubset<T, accessionnoFindUniqueArgs<ExtArgs>>): Prisma__accessionnoClient<$Result.GetResult<Prisma.$accessionnoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Accessionno that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {accessionnoFindUniqueOrThrowArgs} args - Arguments to find a Accessionno
+     * @example
+     * // Get one Accessionno
+     * const accessionno = await prisma.accessionno.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends accessionnoFindUniqueOrThrowArgs>(args: SelectSubset<T, accessionnoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__accessionnoClient<$Result.GetResult<Prisma.$accessionnoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Accessionno that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {accessionnoFindFirstArgs} args - Arguments to find a Accessionno
+     * @example
+     * // Get one Accessionno
+     * const accessionno = await prisma.accessionno.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends accessionnoFindFirstArgs>(args?: SelectSubset<T, accessionnoFindFirstArgs<ExtArgs>>): Prisma__accessionnoClient<$Result.GetResult<Prisma.$accessionnoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Accessionno that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {accessionnoFindFirstOrThrowArgs} args - Arguments to find a Accessionno
+     * @example
+     * // Get one Accessionno
+     * const accessionno = await prisma.accessionno.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends accessionnoFindFirstOrThrowArgs>(args?: SelectSubset<T, accessionnoFindFirstOrThrowArgs<ExtArgs>>): Prisma__accessionnoClient<$Result.GetResult<Prisma.$accessionnoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Accessionnos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {accessionnoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Accessionnos
+     * const accessionnos = await prisma.accessionno.findMany()
+     * 
+     * // Get first 10 Accessionnos
+     * const accessionnos = await prisma.accessionno.findMany({ take: 10 })
+     * 
+     * // Only select the `Id`
+     * const accessionnoWithIdOnly = await prisma.accessionno.findMany({ select: { Id: true } })
+     * 
+     */
+    findMany<T extends accessionnoFindManyArgs>(args?: SelectSubset<T, accessionnoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$accessionnoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Accessionno.
+     * @param {accessionnoCreateArgs} args - Arguments to create a Accessionno.
+     * @example
+     * // Create one Accessionno
+     * const Accessionno = await prisma.accessionno.create({
+     *   data: {
+     *     // ... data to create a Accessionno
+     *   }
+     * })
+     * 
+     */
+    create<T extends accessionnoCreateArgs>(args: SelectSubset<T, accessionnoCreateArgs<ExtArgs>>): Prisma__accessionnoClient<$Result.GetResult<Prisma.$accessionnoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Accessionnos.
+     * @param {accessionnoCreateManyArgs} args - Arguments to create many Accessionnos.
+     * @example
+     * // Create many Accessionnos
+     * const accessionno = await prisma.accessionno.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends accessionnoCreateManyArgs>(args?: SelectSubset<T, accessionnoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Accessionnos and returns the data saved in the database.
+     * @param {accessionnoCreateManyAndReturnArgs} args - Arguments to create many Accessionnos.
+     * @example
+     * // Create many Accessionnos
+     * const accessionno = await prisma.accessionno.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Accessionnos and only return the `Id`
+     * const accessionnoWithIdOnly = await prisma.accessionno.createManyAndReturn({
+     *   select: { Id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends accessionnoCreateManyAndReturnArgs>(args?: SelectSubset<T, accessionnoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$accessionnoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Accessionno.
+     * @param {accessionnoDeleteArgs} args - Arguments to delete one Accessionno.
+     * @example
+     * // Delete one Accessionno
+     * const Accessionno = await prisma.accessionno.delete({
+     *   where: {
+     *     // ... filter to delete one Accessionno
+     *   }
+     * })
+     * 
+     */
+    delete<T extends accessionnoDeleteArgs>(args: SelectSubset<T, accessionnoDeleteArgs<ExtArgs>>): Prisma__accessionnoClient<$Result.GetResult<Prisma.$accessionnoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Accessionno.
+     * @param {accessionnoUpdateArgs} args - Arguments to update one Accessionno.
+     * @example
+     * // Update one Accessionno
+     * const accessionno = await prisma.accessionno.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends accessionnoUpdateArgs>(args: SelectSubset<T, accessionnoUpdateArgs<ExtArgs>>): Prisma__accessionnoClient<$Result.GetResult<Prisma.$accessionnoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Accessionnos.
+     * @param {accessionnoDeleteManyArgs} args - Arguments to filter Accessionnos to delete.
+     * @example
+     * // Delete a few Accessionnos
+     * const { count } = await prisma.accessionno.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends accessionnoDeleteManyArgs>(args?: SelectSubset<T, accessionnoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Accessionnos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {accessionnoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Accessionnos
+     * const accessionno = await prisma.accessionno.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends accessionnoUpdateManyArgs>(args: SelectSubset<T, accessionnoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Accessionnos and returns the data updated in the database.
+     * @param {accessionnoUpdateManyAndReturnArgs} args - Arguments to update many Accessionnos.
+     * @example
+     * // Update many Accessionnos
+     * const accessionno = await prisma.accessionno.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Accessionnos and only return the `Id`
+     * const accessionnoWithIdOnly = await prisma.accessionno.updateManyAndReturn({
+     *   select: { Id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends accessionnoUpdateManyAndReturnArgs>(args: SelectSubset<T, accessionnoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$accessionnoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Accessionno.
+     * @param {accessionnoUpsertArgs} args - Arguments to update or create a Accessionno.
+     * @example
+     * // Update or create a Accessionno
+     * const accessionno = await prisma.accessionno.upsert({
+     *   create: {
+     *     // ... data to create a Accessionno
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Accessionno we want to update
+     *   }
+     * })
+     */
+    upsert<T extends accessionnoUpsertArgs>(args: SelectSubset<T, accessionnoUpsertArgs<ExtArgs>>): Prisma__accessionnoClient<$Result.GetResult<Prisma.$accessionnoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Accessionnos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {accessionnoCountArgs} args - Arguments to filter Accessionnos to count.
+     * @example
+     * // Count the number of Accessionnos
+     * const count = await prisma.accessionno.count({
+     *   where: {
+     *     // ... the filter for the Accessionnos we want to count
+     *   }
+     * })
+    **/
+    count<T extends accessionnoCountArgs>(
+      args?: Subset<T, accessionnoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AccessionnoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Accessionno.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AccessionnoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AccessionnoAggregateArgs>(args: Subset<T, AccessionnoAggregateArgs>): Prisma.PrismaPromise<GetAccessionnoAggregateType<T>>
+
+    /**
+     * Group by Accessionno.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {accessionnoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends accessionnoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: accessionnoGroupByArgs['orderBy'] }
+        : { orderBy?: accessionnoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, accessionnoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAccessionnoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the accessionno model
+   */
+  readonly fields: accessionnoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for accessionno.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__accessionnoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the accessionno model
+   */
+  interface accessionnoFieldRefs {
+    readonly Id: FieldRef<"accessionno", 'BigInt'>
+    readonly IdBU: FieldRef<"accessionno", 'String'>
+    readonly Date: FieldRef<"accessionno", 'DateTime'>
+    readonly QueueCode: FieldRef<"accessionno", 'String'>
+    readonly IdTransaction: FieldRef<"accessionno", 'BigInt'>
+    readonly AccessionNo: FieldRef<"accessionno", 'String'>
+    readonly IdQueue: FieldRef<"accessionno", 'BigInt'>
+    readonly IdCompany: FieldRef<"accessionno", 'Int'>
+    readonly IdDoctor: FieldRef<"accessionno", 'Int'>
+    readonly LISCode: FieldRef<"accessionno", 'String'>
+    readonly ItemCode: FieldRef<"accessionno", 'String'>
+    readonly ItemDescription: FieldRef<"accessionno", 'String'>
+    readonly ItemGroup: FieldRef<"accessionno", 'String'>
+    readonly ItemSubGroup: FieldRef<"accessionno", 'String'>
+    readonly Type: FieldRef<"accessionno", 'String'>
+    readonly Stat: FieldRef<"accessionno", 'String'>
+    readonly AccessionMap: FieldRef<"accessionno", 'String'>
+    readonly Status: FieldRef<"accessionno", 'Int'>
+    readonly SystemTimeCreated: FieldRef<"accessionno", 'DateTime'>
+    readonly ResultOnlineStatus: FieldRef<"accessionno", 'String'>
+    readonly RISFinalized: FieldRef<"accessionno", 'DateTime'>
+    readonly SystemUpdateTime: FieldRef<"accessionno", 'DateTime'>
+    readonly ExamDate: FieldRef<"accessionno", 'DateTime'>
+    readonly ReceivedBU: FieldRef<"accessionno", 'String'>
+    readonly RISSeverity: FieldRef<"accessionno", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * accessionno findUnique
+   */
+  export type accessionnoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the accessionno
+     */
+    select?: accessionnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the accessionno
+     */
+    omit?: accessionnoOmit<ExtArgs> | null
+    /**
+     * Filter, which accessionno to fetch.
+     */
+    where: accessionnoWhereUniqueInput
+  }
+
+  /**
+   * accessionno findUniqueOrThrow
+   */
+  export type accessionnoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the accessionno
+     */
+    select?: accessionnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the accessionno
+     */
+    omit?: accessionnoOmit<ExtArgs> | null
+    /**
+     * Filter, which accessionno to fetch.
+     */
+    where: accessionnoWhereUniqueInput
+  }
+
+  /**
+   * accessionno findFirst
+   */
+  export type accessionnoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the accessionno
+     */
+    select?: accessionnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the accessionno
+     */
+    omit?: accessionnoOmit<ExtArgs> | null
+    /**
+     * Filter, which accessionno to fetch.
+     */
+    where?: accessionnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of accessionnos to fetch.
+     */
+    orderBy?: accessionnoOrderByWithRelationInput | accessionnoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for accessionnos.
+     */
+    cursor?: accessionnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` accessionnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` accessionnos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of accessionnos.
+     */
+    distinct?: AccessionnoScalarFieldEnum | AccessionnoScalarFieldEnum[]
+  }
+
+  /**
+   * accessionno findFirstOrThrow
+   */
+  export type accessionnoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the accessionno
+     */
+    select?: accessionnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the accessionno
+     */
+    omit?: accessionnoOmit<ExtArgs> | null
+    /**
+     * Filter, which accessionno to fetch.
+     */
+    where?: accessionnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of accessionnos to fetch.
+     */
+    orderBy?: accessionnoOrderByWithRelationInput | accessionnoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for accessionnos.
+     */
+    cursor?: accessionnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` accessionnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` accessionnos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of accessionnos.
+     */
+    distinct?: AccessionnoScalarFieldEnum | AccessionnoScalarFieldEnum[]
+  }
+
+  /**
+   * accessionno findMany
+   */
+  export type accessionnoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the accessionno
+     */
+    select?: accessionnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the accessionno
+     */
+    omit?: accessionnoOmit<ExtArgs> | null
+    /**
+     * Filter, which accessionnos to fetch.
+     */
+    where?: accessionnoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of accessionnos to fetch.
+     */
+    orderBy?: accessionnoOrderByWithRelationInput | accessionnoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing accessionnos.
+     */
+    cursor?: accessionnoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` accessionnos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` accessionnos.
+     */
+    skip?: number
+    distinct?: AccessionnoScalarFieldEnum | AccessionnoScalarFieldEnum[]
+  }
+
+  /**
+   * accessionno create
+   */
+  export type accessionnoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the accessionno
+     */
+    select?: accessionnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the accessionno
+     */
+    omit?: accessionnoOmit<ExtArgs> | null
+    /**
+     * The data needed to create a accessionno.
+     */
+    data: XOR<accessionnoCreateInput, accessionnoUncheckedCreateInput>
+  }
+
+  /**
+   * accessionno createMany
+   */
+  export type accessionnoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many accessionnos.
+     */
+    data: accessionnoCreateManyInput | accessionnoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * accessionno createManyAndReturn
+   */
+  export type accessionnoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the accessionno
+     */
+    select?: accessionnoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the accessionno
+     */
+    omit?: accessionnoOmit<ExtArgs> | null
+    /**
+     * The data used to create many accessionnos.
+     */
+    data: accessionnoCreateManyInput | accessionnoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * accessionno update
+   */
+  export type accessionnoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the accessionno
+     */
+    select?: accessionnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the accessionno
+     */
+    omit?: accessionnoOmit<ExtArgs> | null
+    /**
+     * The data needed to update a accessionno.
+     */
+    data: XOR<accessionnoUpdateInput, accessionnoUncheckedUpdateInput>
+    /**
+     * Choose, which accessionno to update.
+     */
+    where: accessionnoWhereUniqueInput
+  }
+
+  /**
+   * accessionno updateMany
+   */
+  export type accessionnoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update accessionnos.
+     */
+    data: XOR<accessionnoUpdateManyMutationInput, accessionnoUncheckedUpdateManyInput>
+    /**
+     * Filter which accessionnos to update
+     */
+    where?: accessionnoWhereInput
+    /**
+     * Limit how many accessionnos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * accessionno updateManyAndReturn
+   */
+  export type accessionnoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the accessionno
+     */
+    select?: accessionnoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the accessionno
+     */
+    omit?: accessionnoOmit<ExtArgs> | null
+    /**
+     * The data used to update accessionnos.
+     */
+    data: XOR<accessionnoUpdateManyMutationInput, accessionnoUncheckedUpdateManyInput>
+    /**
+     * Filter which accessionnos to update
+     */
+    where?: accessionnoWhereInput
+    /**
+     * Limit how many accessionnos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * accessionno upsert
+   */
+  export type accessionnoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the accessionno
+     */
+    select?: accessionnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the accessionno
+     */
+    omit?: accessionnoOmit<ExtArgs> | null
+    /**
+     * The filter to search for the accessionno to update in case it exists.
+     */
+    where: accessionnoWhereUniqueInput
+    /**
+     * In case the accessionno found by the `where` argument doesn't exist, create a new accessionno with this data.
+     */
+    create: XOR<accessionnoCreateInput, accessionnoUncheckedCreateInput>
+    /**
+     * In case the accessionno was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<accessionnoUpdateInput, accessionnoUncheckedUpdateInput>
+  }
+
+  /**
+   * accessionno delete
+   */
+  export type accessionnoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the accessionno
+     */
+    select?: accessionnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the accessionno
+     */
+    omit?: accessionnoOmit<ExtArgs> | null
+    /**
+     * Filter which accessionno to delete.
+     */
+    where: accessionnoWhereUniqueInput
+  }
+
+  /**
+   * accessionno deleteMany
+   */
+  export type accessionnoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which accessionnos to delete
+     */
+    where?: accessionnoWhereInput
+    /**
+     * Limit how many accessionnos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * accessionno without action
+   */
+  export type accessionnoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the accessionno
+     */
+    select?: accessionnoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the accessionno
+     */
+    omit?: accessionnoOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model paymenthistory
    */
 
@@ -37867,6 +39267,37 @@ export namespace Prisma {
   };
 
   export type RoleScalarFieldEnum = (typeof RoleScalarFieldEnum)[keyof typeof RoleScalarFieldEnum]
+
+
+  export const AccessionnoScalarFieldEnum: {
+    Id: 'Id',
+    IdBU: 'IdBU',
+    Date: 'Date',
+    QueueCode: 'QueueCode',
+    IdTransaction: 'IdTransaction',
+    AccessionNo: 'AccessionNo',
+    IdQueue: 'IdQueue',
+    IdCompany: 'IdCompany',
+    IdDoctor: 'IdDoctor',
+    LISCode: 'LISCode',
+    ItemCode: 'ItemCode',
+    ItemDescription: 'ItemDescription',
+    ItemGroup: 'ItemGroup',
+    ItemSubGroup: 'ItemSubGroup',
+    Type: 'Type',
+    Stat: 'Stat',
+    AccessionMap: 'AccessionMap',
+    Status: 'Status',
+    SystemTimeCreated: 'SystemTimeCreated',
+    ResultOnlineStatus: 'ResultOnlineStatus',
+    RISFinalized: 'RISFinalized',
+    SystemUpdateTime: 'SystemUpdateTime',
+    ExamDate: 'ExamDate',
+    ReceivedBU: 'ReceivedBU',
+    RISSeverity: 'RISSeverity'
+  };
+
+  export type AccessionnoScalarFieldEnum = (typeof AccessionnoScalarFieldEnum)[keyof typeof AccessionnoScalarFieldEnum]
 
 
   export const PaymenthistoryScalarFieldEnum: {
@@ -41804,6 +43235,160 @@ export namespace Prisma {
     tab?: StringNullableWithAggregatesFilter<"role"> | string | null
     ldap_role?: StringNullableWithAggregatesFilter<"role"> | string | null
     status?: StringNullableWithAggregatesFilter<"role"> | string | null
+  }
+
+  export type accessionnoWhereInput = {
+    AND?: accessionnoWhereInput | accessionnoWhereInput[]
+    OR?: accessionnoWhereInput[]
+    NOT?: accessionnoWhereInput | accessionnoWhereInput[]
+    Id?: BigIntFilter<"accessionno"> | bigint | number
+    IdBU?: StringNullableFilter<"accessionno"> | string | null
+    Date?: DateTimeNullableFilter<"accessionno"> | Date | string | null
+    QueueCode?: StringNullableFilter<"accessionno"> | string | null
+    IdTransaction?: BigIntNullableFilter<"accessionno"> | bigint | number | null
+    AccessionNo?: StringNullableFilter<"accessionno"> | string | null
+    IdQueue?: BigIntFilter<"accessionno"> | bigint | number
+    IdCompany?: IntFilter<"accessionno"> | number
+    IdDoctor?: IntFilter<"accessionno"> | number
+    LISCode?: StringNullableFilter<"accessionno"> | string | null
+    ItemCode?: StringNullableFilter<"accessionno"> | string | null
+    ItemDescription?: StringNullableFilter<"accessionno"> | string | null
+    ItemGroup?: StringNullableFilter<"accessionno"> | string | null
+    ItemSubGroup?: StringNullableFilter<"accessionno"> | string | null
+    Type?: StringNullableFilter<"accessionno"> | string | null
+    Stat?: StringNullableFilter<"accessionno"> | string | null
+    AccessionMap?: StringNullableFilter<"accessionno"> | string | null
+    Status?: IntNullableFilter<"accessionno"> | number | null
+    SystemTimeCreated?: DateTimeFilter<"accessionno"> | Date | string
+    ResultOnlineStatus?: StringNullableFilter<"accessionno"> | string | null
+    RISFinalized?: DateTimeNullableFilter<"accessionno"> | Date | string | null
+    SystemUpdateTime?: DateTimeFilter<"accessionno"> | Date | string
+    ExamDate?: DateTimeNullableFilter<"accessionno"> | Date | string | null
+    ReceivedBU?: StringNullableFilter<"accessionno"> | string | null
+    RISSeverity?: StringNullableFilter<"accessionno"> | string | null
+  }
+
+  export type accessionnoOrderByWithRelationInput = {
+    Id?: SortOrder
+    IdBU?: SortOrderInput | SortOrder
+    Date?: SortOrderInput | SortOrder
+    QueueCode?: SortOrderInput | SortOrder
+    IdTransaction?: SortOrderInput | SortOrder
+    AccessionNo?: SortOrderInput | SortOrder
+    IdQueue?: SortOrder
+    IdCompany?: SortOrder
+    IdDoctor?: SortOrder
+    LISCode?: SortOrderInput | SortOrder
+    ItemCode?: SortOrderInput | SortOrder
+    ItemDescription?: SortOrderInput | SortOrder
+    ItemGroup?: SortOrderInput | SortOrder
+    ItemSubGroup?: SortOrderInput | SortOrder
+    Type?: SortOrderInput | SortOrder
+    Stat?: SortOrderInput | SortOrder
+    AccessionMap?: SortOrderInput | SortOrder
+    Status?: SortOrderInput | SortOrder
+    SystemTimeCreated?: SortOrder
+    ResultOnlineStatus?: SortOrderInput | SortOrder
+    RISFinalized?: SortOrderInput | SortOrder
+    SystemUpdateTime?: SortOrder
+    ExamDate?: SortOrderInput | SortOrder
+    ReceivedBU?: SortOrderInput | SortOrder
+    RISSeverity?: SortOrderInput | SortOrder
+  }
+
+  export type accessionnoWhereUniqueInput = Prisma.AtLeast<{
+    Id?: bigint | number
+    AND?: accessionnoWhereInput | accessionnoWhereInput[]
+    OR?: accessionnoWhereInput[]
+    NOT?: accessionnoWhereInput | accessionnoWhereInput[]
+    IdBU?: StringNullableFilter<"accessionno"> | string | null
+    Date?: DateTimeNullableFilter<"accessionno"> | Date | string | null
+    QueueCode?: StringNullableFilter<"accessionno"> | string | null
+    IdTransaction?: BigIntNullableFilter<"accessionno"> | bigint | number | null
+    AccessionNo?: StringNullableFilter<"accessionno"> | string | null
+    IdQueue?: BigIntFilter<"accessionno"> | bigint | number
+    IdCompany?: IntFilter<"accessionno"> | number
+    IdDoctor?: IntFilter<"accessionno"> | number
+    LISCode?: StringNullableFilter<"accessionno"> | string | null
+    ItemCode?: StringNullableFilter<"accessionno"> | string | null
+    ItemDescription?: StringNullableFilter<"accessionno"> | string | null
+    ItemGroup?: StringNullableFilter<"accessionno"> | string | null
+    ItemSubGroup?: StringNullableFilter<"accessionno"> | string | null
+    Type?: StringNullableFilter<"accessionno"> | string | null
+    Stat?: StringNullableFilter<"accessionno"> | string | null
+    AccessionMap?: StringNullableFilter<"accessionno"> | string | null
+    Status?: IntNullableFilter<"accessionno"> | number | null
+    SystemTimeCreated?: DateTimeFilter<"accessionno"> | Date | string
+    ResultOnlineStatus?: StringNullableFilter<"accessionno"> | string | null
+    RISFinalized?: DateTimeNullableFilter<"accessionno"> | Date | string | null
+    SystemUpdateTime?: DateTimeFilter<"accessionno"> | Date | string
+    ExamDate?: DateTimeNullableFilter<"accessionno"> | Date | string | null
+    ReceivedBU?: StringNullableFilter<"accessionno"> | string | null
+    RISSeverity?: StringNullableFilter<"accessionno"> | string | null
+  }, "Id">
+
+  export type accessionnoOrderByWithAggregationInput = {
+    Id?: SortOrder
+    IdBU?: SortOrderInput | SortOrder
+    Date?: SortOrderInput | SortOrder
+    QueueCode?: SortOrderInput | SortOrder
+    IdTransaction?: SortOrderInput | SortOrder
+    AccessionNo?: SortOrderInput | SortOrder
+    IdQueue?: SortOrder
+    IdCompany?: SortOrder
+    IdDoctor?: SortOrder
+    LISCode?: SortOrderInput | SortOrder
+    ItemCode?: SortOrderInput | SortOrder
+    ItemDescription?: SortOrderInput | SortOrder
+    ItemGroup?: SortOrderInput | SortOrder
+    ItemSubGroup?: SortOrderInput | SortOrder
+    Type?: SortOrderInput | SortOrder
+    Stat?: SortOrderInput | SortOrder
+    AccessionMap?: SortOrderInput | SortOrder
+    Status?: SortOrderInput | SortOrder
+    SystemTimeCreated?: SortOrder
+    ResultOnlineStatus?: SortOrderInput | SortOrder
+    RISFinalized?: SortOrderInput | SortOrder
+    SystemUpdateTime?: SortOrder
+    ExamDate?: SortOrderInput | SortOrder
+    ReceivedBU?: SortOrderInput | SortOrder
+    RISSeverity?: SortOrderInput | SortOrder
+    _count?: accessionnoCountOrderByAggregateInput
+    _avg?: accessionnoAvgOrderByAggregateInput
+    _max?: accessionnoMaxOrderByAggregateInput
+    _min?: accessionnoMinOrderByAggregateInput
+    _sum?: accessionnoSumOrderByAggregateInput
+  }
+
+  export type accessionnoScalarWhereWithAggregatesInput = {
+    AND?: accessionnoScalarWhereWithAggregatesInput | accessionnoScalarWhereWithAggregatesInput[]
+    OR?: accessionnoScalarWhereWithAggregatesInput[]
+    NOT?: accessionnoScalarWhereWithAggregatesInput | accessionnoScalarWhereWithAggregatesInput[]
+    Id?: BigIntWithAggregatesFilter<"accessionno"> | bigint | number
+    IdBU?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
+    Date?: DateTimeNullableWithAggregatesFilter<"accessionno"> | Date | string | null
+    QueueCode?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
+    IdTransaction?: BigIntNullableWithAggregatesFilter<"accessionno"> | bigint | number | null
+    AccessionNo?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
+    IdQueue?: BigIntWithAggregatesFilter<"accessionno"> | bigint | number
+    IdCompany?: IntWithAggregatesFilter<"accessionno"> | number
+    IdDoctor?: IntWithAggregatesFilter<"accessionno"> | number
+    LISCode?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
+    ItemCode?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
+    ItemDescription?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
+    ItemGroup?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
+    ItemSubGroup?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
+    Type?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
+    Stat?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
+    AccessionMap?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
+    Status?: IntNullableWithAggregatesFilter<"accessionno"> | number | null
+    SystemTimeCreated?: DateTimeWithAggregatesFilter<"accessionno"> | Date | string
+    ResultOnlineStatus?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
+    RISFinalized?: DateTimeNullableWithAggregatesFilter<"accessionno"> | Date | string | null
+    SystemUpdateTime?: DateTimeWithAggregatesFilter<"accessionno"> | Date | string
+    ExamDate?: DateTimeNullableWithAggregatesFilter<"accessionno"> | Date | string | null
+    ReceivedBU?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
+    RISSeverity?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
   }
 
   export type paymenthistoryWhereInput = {
@@ -46797,6 +48382,202 @@ export namespace Prisma {
     status?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type accessionnoCreateInput = {
+    Id: bigint | number
+    IdBU?: string | null
+    Date?: Date | string | null
+    QueueCode?: string | null
+    IdTransaction?: bigint | number | null
+    AccessionNo?: string | null
+    IdQueue: bigint | number
+    IdCompany: number
+    IdDoctor: number
+    LISCode?: string | null
+    ItemCode?: string | null
+    ItemDescription?: string | null
+    ItemGroup?: string | null
+    ItemSubGroup?: string | null
+    Type?: string | null
+    Stat?: string | null
+    AccessionMap?: string | null
+    Status?: number | null
+    SystemTimeCreated: Date | string
+    ResultOnlineStatus?: string | null
+    RISFinalized?: Date | string | null
+    SystemUpdateTime: Date | string
+    ExamDate?: Date | string | null
+    ReceivedBU?: string | null
+    RISSeverity?: string | null
+  }
+
+  export type accessionnoUncheckedCreateInput = {
+    Id: bigint | number
+    IdBU?: string | null
+    Date?: Date | string | null
+    QueueCode?: string | null
+    IdTransaction?: bigint | number | null
+    AccessionNo?: string | null
+    IdQueue: bigint | number
+    IdCompany: number
+    IdDoctor: number
+    LISCode?: string | null
+    ItemCode?: string | null
+    ItemDescription?: string | null
+    ItemGroup?: string | null
+    ItemSubGroup?: string | null
+    Type?: string | null
+    Stat?: string | null
+    AccessionMap?: string | null
+    Status?: number | null
+    SystemTimeCreated: Date | string
+    ResultOnlineStatus?: string | null
+    RISFinalized?: Date | string | null
+    SystemUpdateTime: Date | string
+    ExamDate?: Date | string | null
+    ReceivedBU?: string | null
+    RISSeverity?: string | null
+  }
+
+  export type accessionnoUpdateInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdBU?: NullableStringFieldUpdateOperationsInput | string | null
+    Date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    QueueCode?: NullableStringFieldUpdateOperationsInput | string | null
+    IdTransaction?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    AccessionNo?: NullableStringFieldUpdateOperationsInput | string | null
+    IdQueue?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdCompany?: IntFieldUpdateOperationsInput | number
+    IdDoctor?: IntFieldUpdateOperationsInput | number
+    LISCode?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemCode?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemSubGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    Type?: NullableStringFieldUpdateOperationsInput | string | null
+    Stat?: NullableStringFieldUpdateOperationsInput | string | null
+    AccessionMap?: NullableStringFieldUpdateOperationsInput | string | null
+    Status?: NullableIntFieldUpdateOperationsInput | number | null
+    SystemTimeCreated?: DateTimeFieldUpdateOperationsInput | Date | string
+    ResultOnlineStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    RISFinalized?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    SystemUpdateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    ExamDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ReceivedBU?: NullableStringFieldUpdateOperationsInput | string | null
+    RISSeverity?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type accessionnoUncheckedUpdateInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdBU?: NullableStringFieldUpdateOperationsInput | string | null
+    Date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    QueueCode?: NullableStringFieldUpdateOperationsInput | string | null
+    IdTransaction?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    AccessionNo?: NullableStringFieldUpdateOperationsInput | string | null
+    IdQueue?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdCompany?: IntFieldUpdateOperationsInput | number
+    IdDoctor?: IntFieldUpdateOperationsInput | number
+    LISCode?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemCode?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemSubGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    Type?: NullableStringFieldUpdateOperationsInput | string | null
+    Stat?: NullableStringFieldUpdateOperationsInput | string | null
+    AccessionMap?: NullableStringFieldUpdateOperationsInput | string | null
+    Status?: NullableIntFieldUpdateOperationsInput | number | null
+    SystemTimeCreated?: DateTimeFieldUpdateOperationsInput | Date | string
+    ResultOnlineStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    RISFinalized?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    SystemUpdateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    ExamDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ReceivedBU?: NullableStringFieldUpdateOperationsInput | string | null
+    RISSeverity?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type accessionnoCreateManyInput = {
+    Id: bigint | number
+    IdBU?: string | null
+    Date?: Date | string | null
+    QueueCode?: string | null
+    IdTransaction?: bigint | number | null
+    AccessionNo?: string | null
+    IdQueue: bigint | number
+    IdCompany: number
+    IdDoctor: number
+    LISCode?: string | null
+    ItemCode?: string | null
+    ItemDescription?: string | null
+    ItemGroup?: string | null
+    ItemSubGroup?: string | null
+    Type?: string | null
+    Stat?: string | null
+    AccessionMap?: string | null
+    Status?: number | null
+    SystemTimeCreated: Date | string
+    ResultOnlineStatus?: string | null
+    RISFinalized?: Date | string | null
+    SystemUpdateTime: Date | string
+    ExamDate?: Date | string | null
+    ReceivedBU?: string | null
+    RISSeverity?: string | null
+  }
+
+  export type accessionnoUpdateManyMutationInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdBU?: NullableStringFieldUpdateOperationsInput | string | null
+    Date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    QueueCode?: NullableStringFieldUpdateOperationsInput | string | null
+    IdTransaction?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    AccessionNo?: NullableStringFieldUpdateOperationsInput | string | null
+    IdQueue?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdCompany?: IntFieldUpdateOperationsInput | number
+    IdDoctor?: IntFieldUpdateOperationsInput | number
+    LISCode?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemCode?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemSubGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    Type?: NullableStringFieldUpdateOperationsInput | string | null
+    Stat?: NullableStringFieldUpdateOperationsInput | string | null
+    AccessionMap?: NullableStringFieldUpdateOperationsInput | string | null
+    Status?: NullableIntFieldUpdateOperationsInput | number | null
+    SystemTimeCreated?: DateTimeFieldUpdateOperationsInput | Date | string
+    ResultOnlineStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    RISFinalized?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    SystemUpdateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    ExamDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ReceivedBU?: NullableStringFieldUpdateOperationsInput | string | null
+    RISSeverity?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type accessionnoUncheckedUpdateManyInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdBU?: NullableStringFieldUpdateOperationsInput | string | null
+    Date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    QueueCode?: NullableStringFieldUpdateOperationsInput | string | null
+    IdTransaction?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    AccessionNo?: NullableStringFieldUpdateOperationsInput | string | null
+    IdQueue?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdCompany?: IntFieldUpdateOperationsInput | number
+    IdDoctor?: IntFieldUpdateOperationsInput | number
+    LISCode?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemCode?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemDescription?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    ItemSubGroup?: NullableStringFieldUpdateOperationsInput | string | null
+    Type?: NullableStringFieldUpdateOperationsInput | string | null
+    Stat?: NullableStringFieldUpdateOperationsInput | string | null
+    AccessionMap?: NullableStringFieldUpdateOperationsInput | string | null
+    Status?: NullableIntFieldUpdateOperationsInput | number | null
+    SystemTimeCreated?: DateTimeFieldUpdateOperationsInput | Date | string
+    ResultOnlineStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    RISFinalized?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    SystemUpdateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    ExamDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    ReceivedBU?: NullableStringFieldUpdateOperationsInput | string | null
+    RISSeverity?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type paymenthistoryCreateInput = {
     Id?: bigint | number
     IdQueue: bigint | number
@@ -49871,6 +51652,108 @@ export namespace Prisma {
 
   export type roleSumOrderByAggregateInput = {
     id?: SortOrder
+  }
+
+  export type accessionnoCountOrderByAggregateInput = {
+    Id?: SortOrder
+    IdBU?: SortOrder
+    Date?: SortOrder
+    QueueCode?: SortOrder
+    IdTransaction?: SortOrder
+    AccessionNo?: SortOrder
+    IdQueue?: SortOrder
+    IdCompany?: SortOrder
+    IdDoctor?: SortOrder
+    LISCode?: SortOrder
+    ItemCode?: SortOrder
+    ItemDescription?: SortOrder
+    ItemGroup?: SortOrder
+    ItemSubGroup?: SortOrder
+    Type?: SortOrder
+    Stat?: SortOrder
+    AccessionMap?: SortOrder
+    Status?: SortOrder
+    SystemTimeCreated?: SortOrder
+    ResultOnlineStatus?: SortOrder
+    RISFinalized?: SortOrder
+    SystemUpdateTime?: SortOrder
+    ExamDate?: SortOrder
+    ReceivedBU?: SortOrder
+    RISSeverity?: SortOrder
+  }
+
+  export type accessionnoAvgOrderByAggregateInput = {
+    Id?: SortOrder
+    IdTransaction?: SortOrder
+    IdQueue?: SortOrder
+    IdCompany?: SortOrder
+    IdDoctor?: SortOrder
+    Status?: SortOrder
+  }
+
+  export type accessionnoMaxOrderByAggregateInput = {
+    Id?: SortOrder
+    IdBU?: SortOrder
+    Date?: SortOrder
+    QueueCode?: SortOrder
+    IdTransaction?: SortOrder
+    AccessionNo?: SortOrder
+    IdQueue?: SortOrder
+    IdCompany?: SortOrder
+    IdDoctor?: SortOrder
+    LISCode?: SortOrder
+    ItemCode?: SortOrder
+    ItemDescription?: SortOrder
+    ItemGroup?: SortOrder
+    ItemSubGroup?: SortOrder
+    Type?: SortOrder
+    Stat?: SortOrder
+    AccessionMap?: SortOrder
+    Status?: SortOrder
+    SystemTimeCreated?: SortOrder
+    ResultOnlineStatus?: SortOrder
+    RISFinalized?: SortOrder
+    SystemUpdateTime?: SortOrder
+    ExamDate?: SortOrder
+    ReceivedBU?: SortOrder
+    RISSeverity?: SortOrder
+  }
+
+  export type accessionnoMinOrderByAggregateInput = {
+    Id?: SortOrder
+    IdBU?: SortOrder
+    Date?: SortOrder
+    QueueCode?: SortOrder
+    IdTransaction?: SortOrder
+    AccessionNo?: SortOrder
+    IdQueue?: SortOrder
+    IdCompany?: SortOrder
+    IdDoctor?: SortOrder
+    LISCode?: SortOrder
+    ItemCode?: SortOrder
+    ItemDescription?: SortOrder
+    ItemGroup?: SortOrder
+    ItemSubGroup?: SortOrder
+    Type?: SortOrder
+    Stat?: SortOrder
+    AccessionMap?: SortOrder
+    Status?: SortOrder
+    SystemTimeCreated?: SortOrder
+    ResultOnlineStatus?: SortOrder
+    RISFinalized?: SortOrder
+    SystemUpdateTime?: SortOrder
+    ExamDate?: SortOrder
+    ReceivedBU?: SortOrder
+    RISSeverity?: SortOrder
+  }
+
+  export type accessionnoSumOrderByAggregateInput = {
+    Id?: SortOrder
+    IdTransaction?: SortOrder
+    IdQueue?: SortOrder
+    IdCompany?: SortOrder
+    IdDoctor?: SortOrder
+    Status?: SortOrder
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {

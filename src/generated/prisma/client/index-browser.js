@@ -805,6 +805,34 @@ exports.Prisma.RoleScalarFieldEnum = {
   status: 'status'
 };
 
+exports.Prisma.AccessionnoScalarFieldEnum = {
+  Id: 'Id',
+  IdBU: 'IdBU',
+  Date: 'Date',
+  QueueCode: 'QueueCode',
+  IdTransaction: 'IdTransaction',
+  AccessionNo: 'AccessionNo',
+  IdQueue: 'IdQueue',
+  IdCompany: 'IdCompany',
+  IdDoctor: 'IdDoctor',
+  LISCode: 'LISCode',
+  ItemCode: 'ItemCode',
+  ItemDescription: 'ItemDescription',
+  ItemGroup: 'ItemGroup',
+  ItemSubGroup: 'ItemSubGroup',
+  Type: 'Type',
+  Stat: 'Stat',
+  AccessionMap: 'AccessionMap',
+  Status: 'Status',
+  SystemTimeCreated: 'SystemTimeCreated',
+  ResultOnlineStatus: 'ResultOnlineStatus',
+  RISFinalized: 'RISFinalized',
+  SystemUpdateTime: 'SystemUpdateTime',
+  ExamDate: 'ExamDate',
+  ReceivedBU: 'ReceivedBU',
+  RISSeverity: 'RISSeverity'
+};
+
 exports.Prisma.PaymenthistoryScalarFieldEnum = {
   Id: 'Id',
   IdQueue: 'IdQueue',
@@ -884,6 +912,7 @@ exports.Prisma.ModelName = {
   msg_queue: 'msg_queue',
   transactiontype: 'transactiontype',
   role: 'role',
+  accessionno: 'accessionno',
   paymenthistory: 'paymenthistory'
 };
 
