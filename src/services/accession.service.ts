@@ -83,8 +83,29 @@ export async function makeAccessionNo(
     ).map((r) => r.Id.toString()),
   );
 
-  for (const t of txs) {
-    if (existingIds.has(t.Id.toString())) continue;
+  // Batch-resolve LAB vs IMAGING type from itemmaster for any new transactions.
+  // GroupItemMaster can be "PACK" for packages — itemmaster.Type is authoritative.
+  const newTxs = txs.filter((t) => !existingIds.has(t.Id.toString()));
+
+  const itemCodes = [...new Set(newTxs.map((t) => t.CodeItemPrice).filter(Boolean))] as string[];
+  const itemTypeMap = new Map<string, string>();
+  if (itemCodes.length > 0) {
+    const items = await prisma.itemmaster.findMany({
+      where: { Code: { in: itemCodes } },
+      select: { Code: true, Type: true },
+    });
+    for (const item of items) {
+      if (item.Code) itemTypeMap.set(item.Code, item.Type ?? "LAB");
+    }
+  }
+
+  for (const t of newTxs) {
+    // Resolve type: itemmaster.Type preferred; fall back to GroupItemMaster if it's
+    // already LAB/IMAGING; otherwise default to LAB (packages are almost always lab).
+    const rawGroup = (t.GroupItemMaster ?? "").toUpperCase();
+    const resolvedType =
+      itemTypeMap.get(t.CodeItemPrice ?? "") ??
+      (rawGroup === "LAB" || rawGroup === "IMAGING" ? rawGroup : "LAB");
 
     await prisma.accessionno.create({
       data: {
@@ -100,7 +121,8 @@ export async function makeAccessionNo(
         ItemCode: t.CodeItemPrice,
         ItemDescription: t.DescriptionItemPrice,
         ItemGroup: t.GroupItemMaster,
-        Type: t.GroupItemMaster,
+        ItemSubGroup: t.GroupItemMaster,
+        Type: resolvedType,
         SystemTimeCreated: now,
         SystemUpdateTime: now,
       },
@@ -111,6 +133,30 @@ export async function makeAccessionNo(
   const allRows = await prisma.accessionno.findMany({
     where: { IdQueue: queueId },
   });
+
+  // Repair any pre-existing rows that have Type = "PACK" or other non-LAB/IMAGING
+  // values (e.g. rows seeded before this fix, or rows seeded by legacy processes).
+  const staleRows = allRows.filter((r) => r.Type !== "LAB" && r.Type !== "IMAGING");
+  if (staleRows.length > 0) {
+    const staleCodes = [...new Set(staleRows.map((r) => r.ItemCode).filter(Boolean))] as string[];
+    const staleItems = staleCodes.length > 0
+      ? await prisma.itemmaster.findMany({ where: { Code: { in: staleCodes } }, select: { Code: true, Type: true } })
+      : [];
+    const staleTypeMap = new Map(staleItems.map((i) => [i.Code!, i.Type ?? "LAB"]));
+
+    for (const row of staleRows) {
+      const rawGroup = (row.Type ?? "").toUpperCase();
+      const corrected = staleTypeMap.get(row.ItemCode ?? "") ??
+        (rawGroup === "LAB" || rawGroup === "IMAGING" ? rawGroup : "LAB");
+      if (corrected !== row.Type) {
+        await prisma.accessionno.updateMany({
+          where: { Id: row.Id },
+          data: { Type: corrected, SystemUpdateTime: now },
+        });
+        row.Type = corrected; // update in-memory so labRows/imgRows picks it up
+      }
+    }
+  }
 
   const labRows = allRows.filter((r) => r.Type === "LAB");
   const imgRows = allRows.filter((r) => r.Type === "IMAGING" && r.AccessionNo === null);
