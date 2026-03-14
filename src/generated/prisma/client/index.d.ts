@@ -46798,7 +46798,7 @@ export namespace Prisma {
   }
 
   export type paymenthistoryCreateInput = {
-    Id: bigint | number
+    Id?: bigint | number
     IdQueue: bigint | number
     IdTransaction: bigint | number
     CurrentItemAmount: number
@@ -46835,7 +46835,7 @@ export namespace Prisma {
   }
 
   export type paymenthistoryUncheckedCreateInput = {
-    Id: bigint | number
+    Id?: bigint | number
     IdQueue: bigint | number
     IdTransaction: bigint | number
     CurrentItemAmount: number
@@ -46946,7 +46946,7 @@ export namespace Prisma {
   }
 
   export type paymenthistoryCreateManyInput = {
-    Id: bigint | number
+    Id?: bigint | number
     IdQueue: bigint | number
     IdTransaction: bigint | number
     CurrentItemAmount: number

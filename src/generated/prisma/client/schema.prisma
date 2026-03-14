@@ -739,7 +739,7 @@ model updatequeue {
 }
 
 model paymenthistory {
-  Id                BigInt    @id @map("Id")
+  Id                BigInt    @id @default(autoincrement()) @map("Id")
   IdQueue           BigInt    @map("IdQueue")
   IdTransaction     BigInt    @map("IdTransaction")
   CurrentItemAmount Float     @map("CurrentItemAmount")
