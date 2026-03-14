@@ -124,7 +124,7 @@
 
 <!-- HEADER -->
 <div class="hdr">
-  <div class="eyebrow">Feature Comparison · March 13, 2026</div>
+  <div class="eyebrow">Feature Comparison · March 14, 2026</div>
   <h1>CMS v1 (PHP Laravel) &nbsp;vs&nbsp; CMS v3 (Next.js) &nbsp;vs&nbsp; FRD Requirements</h1>
   <div class="meta">
     <span>&#128196; FRD: CMS_FRD.pdf — 15 sections, 40+ requirements</span>
@@ -164,9 +164,9 @@
       <div class="sc-label">CMS v3 · Next.js</div>
       <div class="sc-title">Rewrite In Progress</div>
       <div class="sc-sub">Multi-tenant · API-first</div>
-      <div class="sc-pct">42%</div>
-      <div class="sc-bar"><span style="width:42%"></span></div>
-      <div class="sc-chips">51 API handlers · 20 components · Queue + Clinical + Payment core done</div>
+      <div class="sc-pct">46%</div>
+      <div class="sc-bar"><span style="width:46%"></span></div>
+      <div class="sc-chips">53 API handlers · 21 components · Queue + Clinical + Payment core done · paymenthistory + OR auto-numbering + date filter fixed (2026-03-14)</div>
     </div>
   </div>
 
@@ -452,14 +452,14 @@
         <tr>
           <td><div class="td-req">Generate official receipts</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">EditOrController.php</span> · Auto OR number · OR editing · reprint</td>
-          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>O.R. PDF via <code>/api/queue/[id]/pdf?type=or</code>. OR number manually entered (no auto-gen).</td>
-          <td class="td-gap"><span class="gap-par">Partial</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>O.R. PDF via <code>/api/queue/[id]/pdf?type=or</code>. Auto OR number: <code>{clinicCode}{YYYYMMDD}{seq}</code> generated per clinic per day. Fixed 2026-03-14.</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Store payment records</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">PaymentHistory.php</span> model · Full payment history per queue · <span class="tag">PastPaymentController.php</span></td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br><code>paymentHistory</code> table absent from schema. <code>PaymentService</code> throws on every call.</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>paymenthistory</code> model fixed (removed <code>@@ignore</code>, added sequence). One record saved per paid transaction. Fixed 2026-03-14.</td>
+          <td class="td-gap"><span class="gap-ok">OK</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Cashier summary reports</div></td>
@@ -619,10 +619,11 @@
     <div class="excl-card">
       <h4>&#128178; Payment History &amp; Reports</h4>
       <ul>
-        <li><code>PaymentHistory.php</code> model (missing in v3)</li>
-        <li><code>PastPaymentController.php</code> — full history</li>
-        <li>Daily sales with Excel export (<code>DailySalesExport.php</code>)</li>
-        <li>Auto OR number generation + OR edit</li>
+        <li>✅ <code>paymenthistory</code> model fixed + sequence added (2026-03-14)</li>
+        <li>✅ Auto OR number <code>{clinic}{YYYYMMDD}{seq}</code> (2026-03-14)</li>
+        <li><code>PastPaymentController.php</code> — full history view (pending)</li>
+        <li>Daily sales with Excel export (<code>DailySalesExport.php</code>) (pending)</li>
+        <li>OR edit / reprint (pending)</li>
       </ul>
     </div>
     <div class="excl-card">
@@ -732,6 +733,6 @@
   </div>
 
 </div><!-- /wrap -->
-<footer>CMS Feature Comparison &nbsp;·&nbsp; March 13, 2026 &nbsp;·&nbsp; FRD: CMS_FRD.pdf &nbsp;·&nbsp; v1: 138 controllers, 38 models &nbsp;·&nbsp; v3: 51 API handlers, 20 components, 4 services</footer>
+<footer>CMS Feature Comparison &nbsp;·&nbsp; March 14, 2026 &nbsp;·&nbsp; FRD: CMS_FRD.pdf &nbsp;·&nbsp; v1: 138 controllers, 38 models &nbsp;·&nbsp; v3: 53 API handlers, 21 components, 4 services</footer>
 </body>
 </html>
