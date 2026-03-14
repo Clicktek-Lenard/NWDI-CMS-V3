@@ -129,7 +129,7 @@
   <div class="meta">
     <span>&#128196; FRD: CMS_FRD.pdf — 15 sections, 40+ requirements</span>
     <span>&#129419; v1: Laravel · 138 controllers · 38 models · 400+ routes</span>
-    <span>&#128640; v3: Next.js 16 · Prisma v7 · 55 API handlers · 22 components</span>
+    <span>&#128640; v3: Next.js 16 · Prisma v7 · 56 API handlers · 22 components</span>
   </div>
 </div>
 
@@ -166,7 +166,7 @@
       <div class="sc-sub">Multi-tenant · API-first</div>
       <div class="sc-pct">49%</div>
       <div class="sc-bar"><span style="width:49%"></span></div>
-      <div class="sc-chips">55 API handlers · 22 components · Queue + Clinical + Payment core done · Results monitoring + specimen receiving (Blood/Specimen/Imaging station tabs, tube selector) done · accessionno schema fixed (2026-03-14)</div>
+      <div class="sc-chips">56 API handlers · 22 components · Queue + Clinical + Payment core done · Results monitoring + specimen receiving (Blood/Specimen/Imaging station tabs, tube selector) done · "For Specimen" manual 210→300 workflow added (Mirth integration pending) (2026-03-14)</div>
     </div>
   </div>
 
@@ -392,14 +392,14 @@
         <tr>
           <td><div class="td-req">Track specimen receipt &amp; routing</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">SpecimenReceivingController.php</span> · <span class="tag">TransportController.php</span> · Rejection workflow</td>
-          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Routing Slip PDF exists. Queue status 300→360. No live receipt/routing UI.</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br><code>PATCH /api/results/[id]/receive-specimen</code> · Blood/Specimen/Imaging station tabs · tube selector · per-item status (received/waived/rejected/refused/doneOutside) · "For Specimen" manual 210→300 button in Queue (Mirth HL7 auto-trigger pending)</td>
+          <td class="td-gap"><span class="gap-min">Minor</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Encode laboratory results &amp; validate</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ResultsMonitoringController.php</span> · Multi-level validation · LIS integration</td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br><code>/results</code> is a placeholder. No result entry form or API.</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br><code>GET /api/results</code> · Monitoring UI with accession tracking · Specimen receiving workflow (Blood/Specimen/Imaging). No result VALUE entry (needs HCLAB/LIS integration).</td>
+          <td class="td-gap"><span class="gap-par">Partial</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Flag critical results</div></td>
@@ -425,7 +425,7 @@
         <tr>
           <td><div class="td-req">Radiologist encodes interpretations</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Radiology result entry + RIS integration via <span class="tag">RadiologyController.php</span></td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No imaging result form. Results module is shell.</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Imaging specimen receiving tracked in Results Imaging tab (XRAY/ECG). No result interpretation form (needs RIS integration).</td>
           <td class="td-gap"><span class="gap-new">Gap</span></td>
         </tr>
         <tr>
@@ -473,8 +473,8 @@
         <tr>
           <td><div class="td-req">Encode diagnostic results</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ResultsMonitoringController.php</span> · LIS integration · EROS upload via <span class="tag">UploadingController.php</span></td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br><code>/results</code> is a text placeholder. No form, no API, no DB model.</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Results monitoring page live · <code>GET /api/results</code> · <code>PATCH /api/results/[id]/receive-specimen</code> · Station tabs (Blood/Specimen/Imaging) · Tube tracking. Result VALUE encoding not built (pending LIS/HCLAB Oracle).</td>
+          <td class="td-gap"><span class="gap-par">Partial</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Multi-level validation workflow</div></td>
@@ -533,7 +533,7 @@
         <tr>
           <td><div class="td-req">Maintain audit logs</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">PhysicianLogs.php</span> · <span class="tag">KioskLog.php</span> · Activity logging middleware</td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No audit log model or middleware in any of 53 API routes</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No audit log model or middleware in any of 56 API routes</td>
           <td class="td-gap"><span class="gap-new">Gap</span></td>
         </tr>
 

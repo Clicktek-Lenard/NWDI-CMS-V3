@@ -146,15 +146,44 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 |------|---------|
 | `201` | Active / Waiting (queue + transactions) |
 | `202` | Ante-dated shadow queue |
+| `205` | Partially paid |
+| `210` | Fully paid |
+| `300` | For Specimen — ready for accession assignment |
+| `311` | Specimen received at lab |
+| `360` | Accession numbers assigned |
 | `500+` | In progress / completed |
 | `650` | Cancelled (soft delete) |
+| `866` | Done Outside |
+| `877` | Rejected |
+| `888` | Waived |
+| `899` | Refused |
 
 ```typescript
 // Named constants — never magic numbers
-const TX_STATUS_ACTIVE    = 201;
-const TX_STATUS_CANCELLED = 650;
-const QUEUE_STATUS_ANTEDATE = 202;
+const TX_STATUS_ACTIVE        = 201;
+const TX_STATUS_PAID          = 210;
+const TX_STATUS_FOR_SPECIMEN  = 300;
+const TX_STATUS_RECEIVED      = 311;
+const TX_STATUS_ACCESSION     = 360;
+const TX_STATUS_CANCELLED     = 650;
+const QUEUE_STATUS_ANTEDATE   = 202;
 ```
+
+## Specimen Workflow (210 → 300 → 360 → 311)
+
+```
+Payment done (210)
+  → "For Specimen" button in Queue  POST /api/queue/[id]/for-specimen
+  → Status 300 (For Specimen)
+  → "Assign Accession No." button   POST /api/accession/make
+  → Status 360 (Accession Assigned)
+  → Specimen receiving UI           PATCH /api/results/[id]/receive-specimen
+  → Status 311 / 877 / 888 / 899 / 866
+```
+
+> **Note:** The 210 → 300 transition is currently a **manual button** (temporary).
+> It will be replaced by **Mirth Connect** HL7 auto-trigger once integrated.
+> Keep the manual button as a fallback — do not remove it.
 
 ## RBAC
 
