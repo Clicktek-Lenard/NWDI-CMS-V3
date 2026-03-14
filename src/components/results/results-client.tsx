@@ -554,67 +554,64 @@ export function ResultsClient() {
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                 {allQueues.map((q) => (
-                  <>
-                    <tr
-                      key={q.id}
-                      className="cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50"
-                      onClick={() => setExpanded(p => { const n = new Set(p); n.has(q.id) ? n.delete(q.id) : n.add(q.id); return n; })}
-                    >
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-1.5 font-mono text-xs font-semibold text-slate-700 dark:text-slate-200">
-                          {expanded.has(q.id) ? <ChevronDown className="h-3.5 w-3.5 text-slate-400" /> : <ChevronRight className="h-3.5 w-3.5 text-slate-400" />}
-                          {q.code}
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-slate-700 dark:text-slate-200">{q.patientName}</td>
-                      <td className="px-4 py-3"><StatusBadge status={q.status} name={q.statusName} /></td>
-                      <td className="px-4 py-3">
-                        <div className="flex flex-wrap gap-1">
+                  <tr key={q.id}
+                    className="cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                    onClick={() => setExpanded(p => { const n = new Set(p); n.has(q.id) ? n.delete(q.id) : n.add(q.id); return n; })}
+                  >
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-1.5 font-mono text-xs font-semibold text-slate-700 dark:text-slate-200">
+                        {expanded.has(q.id) ? <ChevronDown className="h-3.5 w-3.5 text-slate-400" /> : <ChevronRight className="h-3.5 w-3.5 text-slate-400" />}
+                        {q.code}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-slate-700 dark:text-slate-200">{q.patientName}</td>
+                    <td className="px-4 py-3"><StatusBadge status={q.status} name={q.statusName} /></td>
+                    <td className="px-4 py-3">
+                      <div className="flex flex-wrap gap-1">
+                        {q.accessions.map(a => (
+                          <span key={a.id} className={cn(
+                            "inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-xs",
+                            a.type === "LAB" ? "bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300" : "bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300"
+                          )}>
+                            {a.type === "LAB" ? <FlaskConical className="h-3 w-3" /> : <ScanLine className="h-3 w-3" />}
+                            {a.accessionNo || "—"}
+                          </span>
+                        ))}
+                        {q.accessions.length === 0 && <span className="text-xs text-slate-400">No accession</span>}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 text-xs text-slate-500">
+                      {new Date(q.dateTime).toLocaleTimeString("en-PH", { hour: "2-digit", minute: "2-digit" })}
+                    </td>
+                  </tr>
+                ))}
+                {allQueues.filter(q => expanded.has(q.id) && q.accessions.length > 0).map(q => (
+                  <tr key={`${q.id}-detail`}>
+                    <td colSpan={5} className="bg-slate-50 px-8 pb-3 dark:bg-slate-900/40">
+                      <table className="w-full text-xs">
+                        <thead>
+                          <tr className="text-slate-500 dark:text-slate-400">
+                            <th className="py-1 text-left font-medium">Accession No</th>
+                            <th className="py-1 text-left font-medium">Item</th>
+                            <th className="py-1 text-left font-medium">Sub-group</th>
+                            <th className="py-1 text-left font-medium">Status</th>
+                            <th className="py-1 text-left font-medium">Received</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
                           {q.accessions.map(a => (
-                            <span key={a.id} className={cn(
-                              "inline-flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-xs",
-                              a.type === "LAB" ? "bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300" : "bg-sky-100 text-sky-700 dark:bg-sky-900/40 dark:text-sky-300"
-                            )}>
-                              {a.type === "LAB" ? <FlaskConical className="h-3 w-3" /> : <ScanLine className="h-3 w-3" />}
-                              {a.accessionNo || "—"}
-                            </span>
+                            <tr key={a.id}>
+                              <td className="py-1 font-mono">{a.accessionNo || "—"}</td>
+                              <td className="py-1">{a.itemDescription}</td>
+                              <td className="py-1">{a.itemSubGroup || a.itemGroup}</td>
+                              <td className="py-1"><StatusBadge status={a.status} name={a.statusName} /></td>
+                              <td className="py-1 text-slate-500">{a.examDate ? new Date(a.examDate).toLocaleDateString("en-PH") : "—"}</td>
+                            </tr>
                           ))}
-                          {q.accessions.length === 0 && <span className="text-xs text-slate-400">No accession</span>}
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 text-xs text-slate-500">
-                        {new Date(q.dateTime).toLocaleTimeString("en-PH", { hour: "2-digit", minute: "2-digit" })}
-                      </td>
-                    </tr>
-                    {expanded.has(q.id) && q.accessions.length > 0 && (
-                      <tr key={`${q.id}-detail`}>
-                        <td colSpan={5} className="bg-slate-50 px-8 pb-3 dark:bg-slate-900/40">
-                          <table className="w-full text-xs">
-                            <thead>
-                              <tr className="text-slate-500 dark:text-slate-400">
-                                <th className="py-1 text-left font-medium">Accession No</th>
-                                <th className="py-1 text-left font-medium">Item</th>
-                                <th className="py-1 text-left font-medium">Sub-group</th>
-                                <th className="py-1 text-left font-medium">Status</th>
-                                <th className="py-1 text-left font-medium">Received</th>
-                              </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-200 dark:divide-slate-700">
-                              {q.accessions.map(a => (
-                                <tr key={a.id}>
-                                  <td className="py-1 font-mono">{a.accessionNo || "—"}</td>
-                                  <td className="py-1">{a.itemDescription}</td>
-                                  <td className="py-1">{a.itemSubGroup || a.itemGroup}</td>
-                                  <td className="py-1"><StatusBadge status={a.status} name={a.statusName} /></td>
-                                  <td className="py-1 text-slate-500">{a.examDate ? new Date(a.examDate).toLocaleDateString("en-PH") : "—"}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </table>
-                        </td>
-                      </tr>
-                    )}
-                  </>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
                 ))}
               </tbody>
             </table>

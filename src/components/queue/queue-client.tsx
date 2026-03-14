@@ -49,6 +49,7 @@ export function QueueClient() {
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
   const [assigning, setAssigning] = useState(false);
   const [assignMsg, setAssignMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+  const [forSpecimenLoading, setForSpecimenLoading] = useState<number | null>(null);
 
   const fetchQueue = useCallback(async () => {
     try {
@@ -123,6 +124,18 @@ export function QueueClient() {
     () => queue.filter((q) => q.statusCode === 300).length,
     [queue],
   );
+
+  const handleForSpecimen = useCallback(async (queueId: number) => {
+    setForSpecimenLoading(queueId);
+    try {
+      await apiFetch(`/api/queue/${queueId}/for-specimen`, { method: "POST" });
+      fetchQueue();
+    } catch {
+      setAssignMsg({ type: "err", text: "Failed to mark queue for specimen. Try again." });
+    } finally {
+      setForSpecimenLoading(null);
+    }
+  }, [fetchQueue]);
 
   const handleAssignAccession = useCallback(async () => {
     setAssigning(true);
@@ -331,12 +344,13 @@ export function QueueClient() {
                 <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600">Status</th>
                 <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600">Time In</th>
                 <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600">Added By</th>
+                <th className="whitespace-nowrap px-4 py-3 font-semibold text-slate-600"></th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="px-4 py-16 text-center text-sm text-slate-400">
+                  <td colSpan={9} className="px-4 py-16 text-center text-sm text-slate-400">
                     {queue.length === 0
                       ? "No queue entries for today."
                       : "No entries match your filter."}
@@ -385,6 +399,28 @@ export function QueueClient() {
                       </td>
                       <td className="whitespace-nowrap px-4 py-3 text-xs text-slate-500">
                         {q.inputBy}
+                      </td>
+                      <td className="whitespace-nowrap px-4 py-3">
+                        {q.statusCode === 210 && (
+                          <button
+                            onClick={(e) => { e.stopPropagation(); handleForSpecimen(q.id); }}
+                            disabled={forSpecimenLoading === q.id}
+                            title="Mark as For Specimen (Status 300)"
+                            className="inline-flex items-center gap-1 rounded-lg border border-teal-300 bg-teal-50 px-2.5 py-1 text-xs font-semibold text-teal-700 transition-all hover:bg-teal-100 disabled:opacity-50"
+                          >
+                            {forSpecimenLoading === q.id ? (
+                              <svg className="h-3.5 w-3.5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z" />
+                              </svg>
+                            ) : (
+                              <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15M14.25 3.104c.251.023.501.05.75.082M19.8 15l-1.189 3.568a2.25 2.25 0 0 1-2.133 1.529H7.522a2.25 2.25 0 0 1-2.133-1.529L4.2 15m15.6 0H4.2" />
+                              </svg>
+                            )}
+                            For Specimen
+                          </button>
+                        )}
                       </td>
                     </tr>
                   );
