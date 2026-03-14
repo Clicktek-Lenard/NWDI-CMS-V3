@@ -75,6 +75,8 @@ export async function POST(
 
   const allPaid = allActiveTxs.every((tx) => transactionIds.includes(Number(tx.Id)));
 
+  let finalOrNumber = orNumber;
+
   await prisma.$transaction(async (tx) => {
     // Mark selected transactions as fully paid (Status 210)
     await tx.transactions.updateMany({
@@ -101,6 +103,56 @@ export async function POST(
         UpdateDate: new Date(),
       },
     });
+
+    // Auto-generate OR number if not provided
+    const todayStr = new Date().toLocaleDateString("en-CA"); // Manila date YYYY-MM-DD
+    const clinicCode = queue.IdBU ?? "CEN";
+    const datePart = todayStr.replace(/-/g, "");
+
+    if (!finalOrNumber) {
+      const orCount = await tx.paymenthistory.count({
+        where: {
+          InputDate: {
+            gte: new Date(`${todayStr}T00:00:00+08:00`),
+            lt:  new Date(`${todayStr}T23:59:59+08:00`),
+          },
+          ORNum: { startsWith: `${clinicCode}${datePart}` },
+        },
+      });
+      const seq = String(orCount + 1).padStart(3, "0");
+      finalOrNumber = `${clinicCode}${datePart}${seq}`;
+    }
+
+    // Save a paymenthistory record per paid transaction
+    const now = new Date();
+    for (const paidTx of activeTxs) {
+      const primaryMethod = paymentMethods[0];
+      await tx.paymenthistory.create({
+        data: {
+          IdQueue:           queueId,
+          IdTransaction:     paidTx.Id,
+          CurrentItemAmount: paidTx.AmountItemPrice ? Number(paidTx.AmountItemPrice) : 0,
+          ItemAmount:        paidTx.AmountItemPrice ? Number(paidTx.AmountItemPrice) : 0,
+          BalanceAmount:     0,
+          RemainingAmount:   0,
+          ProviderType:      providerType,
+          BillTo:            null,
+          ORNum:             finalOrNumber,
+          CoverageType:      coverageType,
+          CoverageAmount:    coverageAmount,
+          PaymentType:       paymentMethod,
+          RefNo:             primaryMethod?.refNo ?? "",
+          PayAmount:         paidTx.AmountItemPrice ? Number(paidTx.AmountItemPrice) : 0,
+          BankName:          primaryMethod?.bankName ?? "",
+          DiscType:          discountType,
+          DiscId:            discountId,
+          DiscAmount:        discountAmount,
+          Status:            "1",
+          InputBy:           inputBy,
+          InputDate:         now,
+        },
+      });
+    }
   });
 
   return NextResponse.json({
@@ -112,7 +164,7 @@ export async function POST(
     coverageAmount,
     paymentMethod,
     paymentMethods,
-    orNumber,
+    orNumber: finalOrNumber,
     discountType,
     discountId,
     discountAmount,

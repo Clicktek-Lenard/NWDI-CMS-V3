@@ -696,172 +696,6 @@ model role {
   status    String? @db.VarChar(50)
 }
 
-model CardEnrollment {
-  id           Int       @id @default(autoincrement())
-  cardnumber   String?   @unique @db.VarChar(20)
-  dateenrolled DateTime?
-  receivedby   String?   @db.VarChar(255)
-  receiveddate DateTime?
-  releaseto    String?   @db.VarChar(255)
-  oldreleaseto String?   @db.VarChar(255)
-  releaseby    String?   @db.VarChar(255)
-  daterelease  DateTime?
-  transferto   String?   @db.VarChar(255)
-  datetransfer DateTime?
-  transferby   String?   @db.VarChar(255)
-  status       Int?
-
-  @@map("cardenrollment")
-}
-
-model CardNumber {
-  id                  Int     @id @default(autoincrement())
-  year                Int?
-  batch               Int?
-  month               Int?
-  seriesnum           Int?
-  maskedseries        String? @db.VarChar(255)
-  generatedcardnumber String  @unique @db.VarChar(50)
-  codecompany         String? @db.VarChar(50)
-  generatedby         String? @db.VarChar(50)
-
-  @@map("cardkey")
-}
-
-model CardVerified {
-  id                  Int       @id @default(autoincrement())
-  verifiedcardnumbers String    @unique @db.VarChar(20)
-  ictreceived         String?   @db.VarChar(50)
-  datereceived        DateTime?
-
-  @@map("cardverified")
-}
-
-model CmsCompany {
-  id          Int     @id @default(autoincrement())
-  server      String? @db.VarChar(50)
-  idcompany   BigInt?
-  code        String? @db.VarChar(30)
-  name        String? @db.VarChar(500)
-  status      String? @db.VarChar(10)
-  billingtype String? @db.VarChar(50)
-
-  @@map("companies")
-}
-
-model VitalSign {
-  id               Int      @id @default(autoincrement())
-  queue_id         Int      @unique
-  patient_id       String?  @db.VarChar(30)
-  bp_systolic      Int?
-  bp_diastolic     Int?
-  bp_systolic2     Int?
-  bp_diastolic2    Int?
-  bp_systolic3     Int?
-  bp_diastolic3    Int?
-  heart_rate       Int?
-  temperature      Float?
-  respiratory_rate Int?
-  o2_saturation    Float?
-  weight_kg        Float?
-  height_cm        Float?
-  bmi              Float?
-  vision_right_od  String?  @db.VarChar(20)
-  vision_left_os   String?  @db.VarChar(20)
-  vision_corrected String?  @db.VarChar(50)
-  color_vision     String?  @db.VarChar(50)
-  chief_complaint  String?
-  pcp_doctor       String?  @db.VarChar(100)
-  recorded_by      Int?
-  created_at       DateTime @default(now())
-  updated_at       DateTime @updatedAt
-
-  @@map("vitalsign")
-}
-
-model PhysicalExamination {
-  id                  Int       @id @default(autoincrement())
-  queue_id            Int       @unique
-  patient_id          String?   @db.VarChar(30)
-  hypertension        Boolean   @default(false)
-  diabetes            Boolean   @default(false)
-  asthma              Boolean   @default(false)
-  heart_disease       Boolean   @default(false)
-  thyroid_disease     Boolean   @default(false)
-  kidney_disease      Boolean   @default(false)
-  allergies           Boolean   @default(false)
-  allergies_specify   String?   @db.VarChar(255)
-  surgery_history     Boolean   @default(false)
-  surgery_specify     String?   @db.VarChar(255)
-  smoker              Boolean   @default(false)
-  pack_years          Float?
-  alcoholic           Boolean   @default(false)
-  lmp                 DateTime? @db.Date
-  gravida             Int?
-  para                Int?
-  family_hypertension Boolean   @default(false)
-  family_diabetes     Boolean   @default(false)
-  family_cancer       Boolean   @default(false)
-  skin                String?
-  heent               String?
-  neck                String?
-  chest_lungs         String?
-  heart               String?
-  abdomen             String?
-  extremities         String?
-  neurological        String?
-  fitness_class       String?   @db.VarChar(20)
-  recorded_by         Int?
-  created_at          DateTime  @default(now())
-  updated_at          DateTime  @updatedAt
-
-  @@map("physical_examinations")
-}
-
-model ConsultationNote {
-  id              Int       @id @default(autoincrement())
-  queue_id        Int       @unique
-  patient_id      String    @db.VarChar(30)
-  status          String    @default("PENDING") @db.VarChar(20)
-  is_draft        Int       @default(1)
-  chief_complaint String?
-  history_illness String?
-  past_history    String?
-  family_history  String?
-  pe_findings     String?
-  diagnosis       String?
-  icd_code        String?   @db.VarChar(50)
-  treatment_plan  String?
-  orders          String?
-  pcp_doctor      String?   @db.VarChar(100)
-  doctor_id       Int?
-  doctor_name     String?   @db.VarChar(100)
-  recorded_by     Int?
-  completed_at    DateTime?
-  created_at      DateTime  @default(now())
-  updated_at      DateTime  @updatedAt
-
-  @@map("consultation_notes")
-}
-
-model MedicalEvaluation {
-  id             Int      @id @default(autoincrement())
-  queue_id       Int
-  patient_id     String   @db.VarChar(30)
-  item_code      String   @db.VarChar(50)
-  item_name      String?  @db.VarChar(255)
-  findings       String?
-  assessment     String?
-  recommendation String?
-  class_value    String?  @db.VarChar(20)
-  recorded_by    Int?
-  created_at     DateTime @default(now())
-  updated_at     DateTime @updatedAt
-
-  @@unique([queue_id, item_code])
-  @@map("medical_evaluations")
-}
-
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model accessionno {
   Id                 BigInt
@@ -895,9 +729,48 @@ model accessionno {
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model updatequeue {
-  Id        BigInt  @id @default(autoincrement())
+  Id        BigInt  @default(autoincrement())
   Module    String? @db.VarChar(50)
   ModuleId  BigInt
   QueueCode String? @db.VarChar(30)
   Status    Int     @db.SmallInt
+
+  @@ignore
+}
+
+model paymenthistory {
+  Id                BigInt    @id @map("Id")
+  IdQueue           BigInt    @map("IdQueue")
+  IdTransaction     BigInt    @map("IdTransaction")
+  CurrentItemAmount Float     @map("CurrentItemAmount")
+  ItemAmount        Float     @map("ItemAmount")
+  BalanceAmount     Float?    @map("BalanceAmount")
+  RemainingAmount   Float?    @map("RemainingAmount")
+  ProviderType      String?   @map("ProviderType") @db.VarChar(50)
+  BillTo            BigInt?   @map("BillTo")
+  ORNum             String?   @map("ORNum") @db.VarChar(50)
+  CoverageType      String?   @map("CoverageType") @db.VarChar(20)
+  CoverageAmount    Float?    @map("CoverageAmount")
+  PaymentType       String?   @map("PaymentType") @db.VarChar(50)
+  RefNo             String?   @map("RefNo") @db.VarChar(100)
+  PayAmount         Float?    @map("PayAmount")
+  BankName          String?   @map("BankName") @db.VarChar(100)
+  doWhileInsert     String?   @map("doWhileInsert") @db.VarChar(10)
+  DiscType          String?   @map("DiscType") @db.VarChar(50)
+  DiscId            String?   @map("DiscId") @db.VarChar(50)
+  DiscAmount        Float?    @map("DiscAmount")
+  LoyaltyId         String?   @map("LoyaltyId") @db.VarChar(50)
+  LoyaltyPoint      Float?    @map("LoyaltyPoint")
+  AgentCode         String?   @map("AgentCode") @db.VarChar(50)
+  AgentName         String?   @map("AgentName") @db.VarChar(100)
+  Status            String?   @map("Status") @db.VarChar(20)
+  InputBy           String?   @map("InputBy") @db.VarChar(50)
+  InputDate         DateTime  @map("InputDate")
+  UpdateBy          String?   @map("UpdateBy") @db.VarChar(50)
+  UpdateDate        DateTime? @map("UpdateDate")
+  DeletedReason     String?   @map("DeletedReason") @db.VarChar(200)
+  PrevOR            String?   @map("PrevOR") @db.VarChar(50)
+  OReditReason      String?   @map("OReditReason") @db.VarChar(200)
+  HMOId             String?   @map("HMOId") @db.VarChar(50)
+  HMOPName          String?   @map("HMOPName") @db.VarChar(80)
 }

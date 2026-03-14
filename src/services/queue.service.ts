@@ -65,7 +65,7 @@ export class QueueService {
 
     // Build Manila-calendar date anchors (same pattern as getTodaysQueue)
     const todayStr = new Date().toLocaleDateString("en-CA"); // "YYYY-MM-DD"
-    const today    = new Date(`${todayStr}T00:00:00Z`);
+    const today    = new Date(`${todayStr}T00:00:00+08:00`);
     const tomorrow = new Date(today);
     tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
 
@@ -190,7 +190,7 @@ export class QueueService {
     clinicCode: string
   ): Promise<{ code: string; today: Date }> {
     const todayStr = new Date().toLocaleDateString("en-CA");
-    const today    = new Date(`${todayStr}T00:00:00Z`);
+    const today    = new Date(`${todayStr}T00:00:00+08:00`);
     const tomorrow = new Date(today);
     tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
     const datePart = todayStr.replace(/-/g, "");
@@ -212,7 +212,7 @@ export class QueueService {
     // Prisma serializes Date objects using the UTC date portion, so we
     // anchor both boundaries to UTC midnight of the Manila calendar date.
     const todayStr = new Date().toLocaleDateString("en-CA"); // "YYYY-MM-DD" (TZ=Asia/Manila)
-    const today    = new Date(`${todayStr}T00:00:00Z`);
+    const today    = new Date(`${todayStr}T00:00:00+08:00`);
     const tomorrow = new Date(today);
     tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
 

@@ -805,161 +805,41 @@ exports.Prisma.RoleScalarFieldEnum = {
   status: 'status'
 };
 
-exports.Prisma.CardEnrollmentScalarFieldEnum = {
-  id: 'id',
-  cardnumber: 'cardnumber',
-  dateenrolled: 'dateenrolled',
-  receivedby: 'receivedby',
-  receiveddate: 'receiveddate',
-  releaseto: 'releaseto',
-  oldreleaseto: 'oldreleaseto',
-  releaseby: 'releaseby',
-  daterelease: 'daterelease',
-  transferto: 'transferto',
-  datetransfer: 'datetransfer',
-  transferby: 'transferby',
-  status: 'status'
-};
-
-exports.Prisma.CardNumberScalarFieldEnum = {
-  id: 'id',
-  year: 'year',
-  batch: 'batch',
-  month: 'month',
-  seriesnum: 'seriesnum',
-  maskedseries: 'maskedseries',
-  generatedcardnumber: 'generatedcardnumber',
-  codecompany: 'codecompany',
-  generatedby: 'generatedby'
-};
-
-exports.Prisma.CardVerifiedScalarFieldEnum = {
-  id: 'id',
-  verifiedcardnumbers: 'verifiedcardnumbers',
-  ictreceived: 'ictreceived',
-  datereceived: 'datereceived'
-};
-
-exports.Prisma.CmsCompanyScalarFieldEnum = {
-  id: 'id',
-  server: 'server',
-  idcompany: 'idcompany',
-  code: 'code',
-  name: 'name',
-  status: 'status',
-  billingtype: 'billingtype'
-};
-
-exports.Prisma.VitalSignScalarFieldEnum = {
-  id: 'id',
-  queue_id: 'queue_id',
-  patient_id: 'patient_id',
-  bp_systolic: 'bp_systolic',
-  bp_diastolic: 'bp_diastolic',
-  bp_systolic2: 'bp_systolic2',
-  bp_diastolic2: 'bp_diastolic2',
-  bp_systolic3: 'bp_systolic3',
-  bp_diastolic3: 'bp_diastolic3',
-  heart_rate: 'heart_rate',
-  temperature: 'temperature',
-  respiratory_rate: 'respiratory_rate',
-  o2_saturation: 'o2_saturation',
-  weight_kg: 'weight_kg',
-  height_cm: 'height_cm',
-  bmi: 'bmi',
-  vision_right_od: 'vision_right_od',
-  vision_left_os: 'vision_left_os',
-  vision_corrected: 'vision_corrected',
-  color_vision: 'color_vision',
-  chief_complaint: 'chief_complaint',
-  pcp_doctor: 'pcp_doctor',
-  recorded_by: 'recorded_by',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.PhysicalExaminationScalarFieldEnum = {
-  id: 'id',
-  queue_id: 'queue_id',
-  patient_id: 'patient_id',
-  hypertension: 'hypertension',
-  diabetes: 'diabetes',
-  asthma: 'asthma',
-  heart_disease: 'heart_disease',
-  thyroid_disease: 'thyroid_disease',
-  kidney_disease: 'kidney_disease',
-  allergies: 'allergies',
-  allergies_specify: 'allergies_specify',
-  surgery_history: 'surgery_history',
-  surgery_specify: 'surgery_specify',
-  smoker: 'smoker',
-  pack_years: 'pack_years',
-  alcoholic: 'alcoholic',
-  lmp: 'lmp',
-  gravida: 'gravida',
-  para: 'para',
-  family_hypertension: 'family_hypertension',
-  family_diabetes: 'family_diabetes',
-  family_cancer: 'family_cancer',
-  skin: 'skin',
-  heent: 'heent',
-  neck: 'neck',
-  chest_lungs: 'chest_lungs',
-  heart: 'heart',
-  abdomen: 'abdomen',
-  extremities: 'extremities',
-  neurological: 'neurological',
-  fitness_class: 'fitness_class',
-  recorded_by: 'recorded_by',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.ConsultationNoteScalarFieldEnum = {
-  id: 'id',
-  queue_id: 'queue_id',
-  patient_id: 'patient_id',
-  status: 'status',
-  is_draft: 'is_draft',
-  chief_complaint: 'chief_complaint',
-  history_illness: 'history_illness',
-  past_history: 'past_history',
-  family_history: 'family_history',
-  pe_findings: 'pe_findings',
-  diagnosis: 'diagnosis',
-  icd_code: 'icd_code',
-  treatment_plan: 'treatment_plan',
-  orders: 'orders',
-  pcp_doctor: 'pcp_doctor',
-  doctor_id: 'doctor_id',
-  doctor_name: 'doctor_name',
-  recorded_by: 'recorded_by',
-  completed_at: 'completed_at',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.MedicalEvaluationScalarFieldEnum = {
-  id: 'id',
-  queue_id: 'queue_id',
-  patient_id: 'patient_id',
-  item_code: 'item_code',
-  item_name: 'item_name',
-  findings: 'findings',
-  assessment: 'assessment',
-  recommendation: 'recommendation',
-  class_value: 'class_value',
-  recorded_by: 'recorded_by',
-  created_at: 'created_at',
-  updated_at: 'updated_at'
-};
-
-exports.Prisma.UpdatequeueScalarFieldEnum = {
+exports.Prisma.PaymenthistoryScalarFieldEnum = {
   Id: 'Id',
-  Module: 'Module',
-  ModuleId: 'ModuleId',
-  QueueCode: 'QueueCode',
-  Status: 'Status'
+  IdQueue: 'IdQueue',
+  IdTransaction: 'IdTransaction',
+  CurrentItemAmount: 'CurrentItemAmount',
+  ItemAmount: 'ItemAmount',
+  BalanceAmount: 'BalanceAmount',
+  RemainingAmount: 'RemainingAmount',
+  ProviderType: 'ProviderType',
+  BillTo: 'BillTo',
+  ORNum: 'ORNum',
+  CoverageType: 'CoverageType',
+  CoverageAmount: 'CoverageAmount',
+  PaymentType: 'PaymentType',
+  RefNo: 'RefNo',
+  PayAmount: 'PayAmount',
+  BankName: 'BankName',
+  doWhileInsert: 'doWhileInsert',
+  DiscType: 'DiscType',
+  DiscId: 'DiscId',
+  DiscAmount: 'DiscAmount',
+  LoyaltyId: 'LoyaltyId',
+  LoyaltyPoint: 'LoyaltyPoint',
+  AgentCode: 'AgentCode',
+  AgentName: 'AgentName',
+  Status: 'Status',
+  InputBy: 'InputBy',
+  InputDate: 'InputDate',
+  UpdateBy: 'UpdateBy',
+  UpdateDate: 'UpdateDate',
+  DeletedReason: 'DeletedReason',
+  PrevOR: 'PrevOR',
+  OReditReason: 'OReditReason',
+  HMOId: 'HMOId',
+  HMOPName: 'HMOPName'
 };
 
 exports.Prisma.SortOrder = {
@@ -1004,15 +884,7 @@ exports.Prisma.ModelName = {
   msg_queue: 'msg_queue',
   transactiontype: 'transactiontype',
   role: 'role',
-  CardEnrollment: 'CardEnrollment',
-  CardNumber: 'CardNumber',
-  CardVerified: 'CardVerified',
-  CmsCompany: 'CmsCompany',
-  VitalSign: 'VitalSign',
-  PhysicalExamination: 'PhysicalExamination',
-  ConsultationNote: 'ConsultationNote',
-  MedicalEvaluation: 'MedicalEvaluation',
-  updatequeue: 'updatequeue'
+  paymenthistory: 'paymenthistory'
 };
 
 /**
