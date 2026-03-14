@@ -196,6 +196,12 @@ const { resolvedTheme, setTheme } = useTheme();  // NOT theme
 const isDark = resolvedTheme === "dark";
 ```
 
+## Git Policy
+
+- **Never push to `feature/my-branch` or any branch** unless the user explicitly says to push.
+- **Never push to `main`** unless the user explicitly says to push to main.
+- Commit locally only — let the user decide when to push.
+
 ## Status Reporting
 
 After completing any feature, fix, or module work, **always update `CMS Status Reporting.html`** in the working directory (`c:\Clicktek\Projects\NWDI\CMS - Claude\CMS-v3\CMS Status Reporting.html`).

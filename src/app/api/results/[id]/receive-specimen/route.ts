@@ -3,18 +3,34 @@ import { requireApiAuth } from "@/lib/auth/rbac";
 import prisma from "@/lib/db/prisma";
 import { z } from "zod";
 
-const schema = z.object({
-  // accessionno.Id values (= IdTransaction) to receive
-  accessionIds: z.array(z.number().int()).min(1, "Select at least one item"),
-  reject:       z.boolean().optional().default(false),
-  rejectReason: z.string().optional().default(""),
+const itemSchema = z.object({
+  id:     z.number().int(),
+  status: z.enum(["received", "waived", "rejected", "refused", "doneOutside"]).default("received"),
+  notes:  z.string().optional().default(""),
+  // Tube counts for HEMATOLOGY — stored for reference, UI-only for now
+  tubes:  z.object({
+    purple: z.number().int().min(0).default(0),
+    yellow: z.number().int().min(0).default(0),
+    blue:   z.number().int().min(0).default(0),
+    red:    z.number().int().min(0).default(0),
+    gray:   z.number().int().min(0).default(0),
+  }).optional(),
 });
 
-const STATUS_RECEIVED = 311;
-const STATUS_REJECTED = 877;
+const schema = z.object({
+  items: z.array(itemSchema).min(1, "Select at least one item"),
+});
+
+// Status code mapping (mirrors v1 SpecimenReceivingController)
+const STATUS_CODE: Record<string, number> = {
+  received:    311,
+  waived:      888,
+  rejected:    877,
+  refused:     899,
+  doneOutside: 866,
+};
 
 // PATCH /api/results/[id]/receive-specimen
-// Marks selected accessionno rows as received (311) or rejected (877)
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -34,33 +50,35 @@ export async function PATCH(
     return NextResponse.json({ error: "Validation failed", issues: parsed.error.issues }, { status: 422 });
   }
 
-  const { accessionIds, reject, rejectReason } = parsed.data;
-  const accBigIds = accessionIds.map(BigInt);
-  const newStatus = reject ? STATUS_REJECTED : STATUS_RECEIVED;
-  const now       = new Date();
+  const { items } = parsed.data;
+  const now = new Date();
 
   const queue = await prisma.queue.findUnique({ where: { Id: queueId } });
   if (!queue) return NextResponse.json({ error: "Queue not found" }, { status: 404 });
 
   await prisma.$transaction(async (tx) => {
-    // Update the selected accessionno rows
-    await tx.accessionno.updateMany({
-      where: { IdQueue: queueId, Id: { in: accBigIds } },
-      data: {
-        Status:          newStatus,
-        ReceivedBU:      reject ? null : clinicCode,
-        ExamDate:        reject ? null : now,
-        SystemUpdateTime: now,
-      },
-    });
+    for (const item of items) {
+      const newStatus = STATUS_CODE[item.status] ?? 311;
+      const accId = BigInt(item.id);
+      const isReceived = item.status === "received";
 
-    // Mirror status on matching transactions
-    await tx.transactions.updateMany({
-      where: { IdQueue: queueId, Id: { in: accBigIds }, Status: { lt: 650 } },
-      data: { Status: newStatus, SystemUpdateTime: now },
-    });
+      await tx.accessionno.updateMany({
+        where: { IdQueue: queueId, Id: accId },
+        data: {
+          Status:           newStatus,
+          ReceivedBU:       isReceived ? clinicCode : null,
+          ExamDate:         isReceived ? now : null,
+          SystemUpdateTime: now,
+        },
+      });
 
-    // Re-check: if ALL non-clinic accessionno rows are now ≥ 311 → advance queue to 311
+      await tx.transactions.updateMany({
+        where: { IdQueue: queueId, Id: accId, Status: { lt: 650 } },
+        data: { Status: newStatus, SystemUpdateTime: now },
+      });
+    }
+
+    // If ALL non-CLINIC accessionno rows are now ≥ 311 → advance queue to 311
     const stillPending = await tx.accessionno.count({
       where: {
         IdQueue:   queueId,
@@ -72,10 +90,15 @@ export async function PATCH(
     if (stillPending === 0) {
       await tx.queue.update({
         where: { Id: queueId },
-        data:  { Status: STATUS_RECEIVED, UpdateBy: session.user.username ?? "system", UpdateDate: now, SystemUpdateTime: now },
+        data:  {
+          Status:          311,
+          UpdateBy:        session.user.username ?? "system",
+          UpdateDate:      now,
+          SystemUpdateTime: now,
+        },
       });
     }
   });
 
-  return NextResponse.json({ success: true, newStatus, rejectReason: reject ? rejectReason : null });
+  return NextResponse.json({ success: true });
 }

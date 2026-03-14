@@ -62,6 +62,7 @@ export async function GET(request: NextRequest) {
         itemCode:        a.ItemCode ?? "",
         itemDescription: a.ItemDescription ?? "",
         itemGroup:       a.ItemGroup ?? "",
+        itemSubGroup:    a.ItemSubGroup ?? "",
         type:            a.Type ?? "",
         status:          a.Status ?? 0,
         statusName:      statusMap.get(a.Status ?? 0) ?? String(a.Status ?? 0),
