@@ -1,133 +1,354 @@
 {
-  "project": "Mobile Banking App",
+  "project": "CMS v3 — Next.js Rewrite",
+  "_rules": {
+    "_comment": "This file is managed by PM Command Center. Developers may update task status, progress, and notes. Do NOT rename tasks or milestones — matching is fuzzy but names must stay close to the original.",
+    "allowedStatuses": [
+      "not-started",
+      "in-progress",
+      "in-review",
+      "qa",
+      "uat",
+      "blocked",
+      "done"
+    ],
+    "statusDescriptions": {
+      "not-started": "Work has not begun",
+      "in-progress": "Actively being worked on",
+      "in-review": "Code review / PR open",
+      "qa": "In QA testing",
+      "uat": "In user acceptance testing",
+      "blocked": "Cannot proceed — add a note explaining why",
+      "done": "Completed and verified"
+    },
+    "progressRange": "0-100 (integer). Update to reflect completion %.",
+    "notes": "Optional free-text. Use to explain blockers, decisions, or context for the PM."
+  },
   "milestones": [
     {
-      "name": "Authentication & Security",
+      "name": "§4 Patient Management",
       "tasks": [
         {
-          "name": "Biometric login (Face ID / Touch ID)",
+          "name": "Create patient records & unique IDs",
           "status": "done",
           "progress": 100
         },
         {
-          "name": "OAuth2 token refresh flow",
+          "name": "Maintain demographics & contact details",
           "status": "done",
           "progress": 100
         },
         {
-          "name": "PIN-based fallback auth",
-          "status": "done",
-          "progress": 100
-        },
-        {
-          "name": "Session timeout & auto-lock",
-          "status": "in-review",
-          "progress": 90
-        },
-        {
-          "name": "Device binding & registration",
+          "name": "Medical history, consultations, diagnostic results",
           "status": "in-progress",
-          "progress": 50
+          "progress": 50,
+          "notes": "SOAP/history captured in clinical module. Diagnostic results not linked — LIS external dependency."
+        },
+        {
+          "name": "Update patient info & record search",
+          "status": "done",
+          "progress": 100
         }
       ]
     },
     {
-      "name": "Account Management",
+      "name": "§5 Appointment and Scheduling",
       "tasks": [
         {
-          "name": "Account overview dashboard",
-          "status": "done",
-          "progress": 100
-        },
-        {
-          "name": "Transaction history with search",
-          "status": "done",
-          "progress": 100
-        },
-        {
-          "name": "Statement download (PDF)",
+          "name": "Schedule physician consultations",
           "status": "in-progress",
-          "progress": 45
+          "progress": 55,
+          "notes": "Daily schedule view exists at /appointments. No pre-booking form — needs appointment table."
         },
         {
-          "name": "Multi-currency display",
+          "name": "Teleconsultation & ECU/home services",
           "status": "not-started",
-          "progress": 0
+          "progress": 0,
+          "notes": "Not in v1 either. Low priority."
+        },
+        {
+          "name": "Appointment dashboards & daily schedules",
+          "status": "done",
+          "progress": 100
         }
       ]
     },
     {
-      "name": "Transfers & Payments",
+      "name": "§6 Registration Module",
       "tasks": [
         {
-          "name": "Internal transfer between accounts",
+          "name": "Patient check-in & queue number generation",
           "status": "done",
           "progress": 100
         },
         {
-          "name": "External bank transfer (ACH)",
-          "status": "in-progress",
-          "progress": 30
+          "name": "Verify patient details",
+          "status": "done",
+          "progress": 100
         },
         {
-          "name": "Bill pay scheduling",
-          "status": "blocked",
-          "progress": 10
+          "name": "Register consultation & diagnostic services",
+          "status": "done",
+          "progress": 100
         },
         {
-          "name": "International wire transfers",
-          "status": "not-started",
-          "progress": 0
-        },
-        {
-          "name": "Transfer limits & velocity checks",
-          "status": "not-started",
-          "progress": 0
+          "name": "Link physicians & generate request forms (DRF)",
+          "status": "done",
+          "progress": 100
         }
       ]
     },
     {
-      "name": "Push Notifications",
+      "name": "§7 Clinical Documentation",
       "tasks": [
         {
-          "name": "Push notification service setup",
-          "status": "not-started",
-          "progress": 0
+          "name": "Encode consultation details",
+          "status": "done",
+          "progress": 100
         },
         {
-          "name": "Transaction alerts",
-          "status": "not-started",
-          "progress": 0
+          "name": "Complaints, medical history, physician notes",
+          "status": "done",
+          "progress": 100
         },
         {
-          "name": "Low balance warnings",
-          "status": "not-started",
-          "progress": 0
+          "name": "Physical examination (PE & vitals)",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Generate prescriptions",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Generate consultation summaries",
+          "status": "done",
+          "progress": 100
         }
       ]
     },
     {
-      "name": "Compliance & Audit",
+      "name": "§8 Laboratory Management",
       "tasks": [
         {
-          "name": "KYC verification flow",
+          "name": "Generate specimen barcodes & labels",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Track specimen receipt & routing",
           "status": "in-progress",
-          "progress": 25
+          "progress": 70,
+          "notes": "Blood/Specimen/Imaging receiving done. Mirth HL7 auto-trigger (210→300) pending."
         },
         {
-          "name": "AML transaction monitoring",
-          "status": "not-started",
-          "progress": 0
+          "name": "Encode laboratory results & validate",
+          "status": "in-progress",
+          "progress": 60,
+          "notes": "EncodingModal done. Full LIS auto-encode not built — needs HCLAB integration."
         },
         {
-          "name": "Audit trail logging",
-          "status": "not-started",
-          "progress": 0
+          "name": "Flag critical results",
+          "status": "done",
+          "progress": 100
         },
         {
-          "name": "GDPR data export/deletion",
+          "name": "Maintain QC records",
           "status": "not-started",
-          "progress": 0
+          "progress": 0,
+          "notes": "Blocked — requires LIS/TAT timestamps from HCLAB."
+        }
+      ]
+    },
+    {
+      "name": "§9 Imaging Management",
+      "tasks": [
+        {
+          "name": "Register imaging procedures",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Radiologist encodes interpretations",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Store imaging reports & attach images",
+          "status": "not-started",
+          "progress": 0,
+          "notes": "No file storage model or upload endpoint. Needs RIS/INFRA decision."
+        },
+        {
+          "name": "Validate imaging results prior to release",
+          "status": "done",
+          "progress": 100
+        }
+      ]
+    },
+    {
+      "name": "§10 Billing and Payment",
+      "tasks": [
+        {
+          "name": "Record payment method (cash, HMO, corporate)",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Generate official receipts",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Store payment records",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Cashier summary reports",
+          "status": "done",
+          "progress": 100
+        }
+      ]
+    },
+    {
+      "name": "§11 Result Management",
+      "tasks": [
+        {
+          "name": "Encode diagnostic results",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Multi-level validation workflow",
+          "status": "in-progress",
+          "progress": 40,
+          "notes": "Single-step release done. Med Tech → Pathologist multi-level approval needs LIS integration."
+        },
+        {
+          "name": "Print or email results",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Online result access (patient portal)",
+          "status": "not-started",
+          "progress": 0,
+          "notes": "No patient portal or public result URL. Blocked — requires Oracle EROS."
+        }
+      ]
+    },
+    {
+      "name": "§12 Referral and Endorsement",
+      "tasks": [
+        {
+          "name": "Branch-to-branch referrals",
+          "status": "in-progress",
+          "progress": 40,
+          "notes": "Sendout tab + Referral Slip PDF done. Full EROS/CRUD referral tracking not built."
+        },
+        {
+          "name": "Refer patients for lab/imaging procedures",
+          "status": "in-progress",
+          "progress": 60,
+          "notes": "Card enrollment module done. E-card issuance & release workflow built."
+        },
+        {
+          "name": "Track referral completion",
+          "status": "not-started",
+          "progress": 0,
+          "notes": "Receiving/transfer workflow not implemented."
+        }
+      ]
+    },
+    {
+      "name": "§12b EROS Administration",
+      "tasks": [
+        {
+          "name": "Manage HMO/Corporate companies",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Manage items & packages per company",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Manage item master list",
+          "status": "done",
+          "progress": 100
+        }
+      ]
+    },
+    {
+      "name": "§13 Monitoring and Reporting",
+      "tasks": [
+        {
+          "name": "Monitor queue and operational status",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Generate operational & workload reports",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Maintain audit logs",
+          "status": "done",
+          "progress": 100
+        }
+      ]
+    },
+    {
+      "name": "§14 Security Requirements",
+      "tasks": [
+        {
+          "name": "User authentication",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Role-based access control",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Patient confidentiality protection",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Activity logging",
+          "status": "done",
+          "progress": 100
+        }
+      ]
+    },
+    {
+      "name": "§15 Non-Functional Requirements",
+      "tasks": [
+        {
+          "name": "Performance — concurrent users",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Reliability & backups",
+          "status": "in-progress",
+          "progress": 50,
+          "notes": "Application stable. No DB backup strategy in codebase."
+        },
+        {
+          "name": "Usability",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Scalability — multiple branches",
+          "status": "done",
+          "progress": 100
         }
       ]
     }
