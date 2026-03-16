@@ -160,7 +160,7 @@ function CheckRow({ label, checked, onChange, disabled }: { label: string; check
 
 // ── Drawer ────────────────────────────────────────────────────
 interface Props { patient: ClinicalQueueEntry | null; onClose: () => void; onCompleted: () => void; }
-type Tab = "vitals" | "soap" | "pe" | "medeval";
+type Tab = "vitals" | "soap" | "pe" | "medeval" | "prescription";
 
 export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
   const [tab, setTab] = useState<Tab>("vitals");
@@ -170,6 +170,7 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
   const [savedTabs, setSavedTabs] = useState<Set<Tab>>(new Set());
   const [pcpSearch, setPcpSearch] = useState("");
   const [pcpResults, setPcpResults] = useState<{ id: number; code: string; name: string; specialty: string | null }[]>([]);
+  const [physicians, setPhysicians] = useState<{ id: number; name: string }[]>([]);
   const [overallClass, setOverallClass] = useState<string | null>(null);
 
   const vitalsForm = useForm<VitalsData>({
@@ -212,6 +213,20 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
   const medEvalForm = useForm<MedEvalData>({ defaultValues: { items: [] } });
   const { fields, append, remove } = useFieldArray({ control: medEvalForm.control, name: "items" });
 
+  // Prescription state
+  const [rxDoctorName, setRxDoctorName] = useState("");
+  const [rxNotes, setRxNotes] = useState("");
+  const [rxItems, setRxItems] = useState<{ medication: string; dosage: string; frequency: string; duration: string; quantity: string; instructions: string }[]>([]);
+  function addRxItem() {
+    setRxItems((prev) => [...prev, { medication: "", dosage: "", frequency: "", duration: "", quantity: "", instructions: "" }]);
+  }
+  function removeRxItem(idx: number) {
+    setRxItems((prev) => prev.filter((_, i) => i !== idx));
+  }
+  function updateRxItem(idx: number, field: string, value: string) {
+    setRxItems((prev) => prev.map((item, i) => i === idx ? { ...item, [field]: value } : item));
+  }
+
   // Auto-calc BMI
   const weight = vitalsForm.watch("weight");
   const height = vitalsForm.watch("height");
@@ -237,15 +252,24 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
     return () => clearTimeout(t);
   }, [pcpSearch]);
 
+  // Load physician list once on mount
+  useEffect(() => {
+    fetch("/api/clinical/physicians")
+      .then(r => r.json())
+      .then(j => { if (j.success) setPhysicians(j.data); })
+      .catch(() => { /* ignore */ });
+  }, []);
+
   const loadData = useCallback(async (qid: number) => {
-    const [vRes, eRes, peRes, meRes] = await Promise.all([
+    const [vRes, eRes, peRes, meRes, rxRes] = await Promise.all([
       fetch(`/api/clinical/${qid}/vitals`),
       fetch(`/api/clinical/${qid}/evaluation`),
       fetch(`/api/clinical/${qid}/pe`),
       fetch(`/api/clinical/${qid}/medical-eval`),
+      fetch(`/api/clinical/${qid}/prescription`),
     ]);
-    const [vJson, eJson, peJson, meJson] = await Promise.all([
-      vRes.json(), eRes.json(), peRes.json(), meRes.json(),
+    const [vJson, eJson, peJson, meJson, rxJson] = await Promise.all([
+      vRes.json(), eRes.json(), peRes.json(), meRes.json(), rxRes.json(),
     ]);
 
     if (vJson.success && vJson.data) {
@@ -317,6 +341,15 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
           recommendation: i.recommendation ?? "", class_value: i.class_value ?? "Pending",
         })),
       });
+    }
+    if (rxJson.success && rxJson.data) {
+      const rx = rxJson.data;
+      setRxDoctorName(rx.doctorName ?? "");
+      setRxNotes(rx.notes ?? "");
+      setRxItems((rx.items ?? []).map((i: { medication: string; dosage: string | null; frequency: string | null; duration: string | null; quantity: number | null; instructions: string | null }) => ({
+        medication: i.medication, dosage: i.dosage ?? "", frequency: i.frequency ?? "",
+        duration: i.duration ?? "", quantity: i.quantity != null ? String(i.quantity) : "", instructions: i.instructions ?? "",
+      })));
     }
   }, [vitalsForm, soapForm, peForm, medEvalForm]);
 
@@ -401,6 +434,35 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
     finally { setSaving(false); }
   }
 
+  async function savePrescription() {
+    if (!patient) return;
+    const validItems = rxItems.filter((i) => i.medication.trim());
+    if (validItems.length === 0) { setSaveError("Add at least one medication."); return; }
+    setSaving(true); setSaveError("");
+    try {
+      const res = await fetch(`/api/clinical/${patient.id}/prescription`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          doctor_name: rxDoctorName || null,
+          notes:       rxNotes || null,
+          items: validItems.map((i) => ({
+            medication:   i.medication,
+            dosage:       i.dosage || null,
+            frequency:    i.frequency || null,
+            duration:     i.duration || null,
+            quantity:     i.quantity ? parseInt(i.quantity) : null,
+            instructions: i.instructions || null,
+          })),
+        }),
+      });
+      const json = await res.json();
+      if (!json.success) throw new Error(json.error);
+      setSavedTabs((s) => new Set([...s, "prescription"]));
+    } catch (e) { setSaveError(e instanceof Error ? e.message : "Failed to save prescription"); }
+    finally { setSaving(false); }
+  }
+
   async function handleComplete() {
     if (!patient) return;
     setCompleting(true); setSaveError("");
@@ -422,10 +484,11 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
   const isCompleted = patient.status === "COMPLETED";
 
   const TABS: { id: Tab; label: string; icon: React.ReactNode }[] = [
-    { id: "vitals", label: "Vitals", icon: <Activity className="h-3.5 w-3.5" /> },
-    { id: "soap", label: "SOAP Notes", icon: <ClipboardList className="h-3.5 w-3.5" /> },
-    { id: "pe", label: "Physical Exam", icon: <Stethoscope className="h-3.5 w-3.5" /> },
-    { id: "medeval", label: "Med Eval", icon: <FlaskConical className="h-3.5 w-3.5" /> },
+    { id: "vitals",       label: "Vitals",       icon: <Activity     className="h-3.5 w-3.5" /> },
+    { id: "soap",         label: "SOAP Notes",   icon: <ClipboardList className="h-3.5 w-3.5" /> },
+    { id: "pe",           label: "Physical Exam",icon: <Stethoscope  className="h-3.5 w-3.5" /> },
+    { id: "medeval",      label: "Med Eval",     icon: <FlaskConical className="h-3.5 w-3.5" /> },
+    { id: "prescription", label: "Prescription", icon: <FileText     className="h-3.5 w-3.5" /> },
   ];
 
   const classColor = (c: string | null) => {
@@ -446,8 +509,8 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
         {/* Header */}
         <div className="flex items-start justify-between border-b border-slate-100 px-6 py-4 shrink-0 dark:border-slate-700">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600 font-bold text-sm dark:bg-blue-900/40 dark:text-blue-400">
-              #{patient.queueNumber.toString().padStart(3, "0")}
+            <div className="flex h-10 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600 font-bold text-sm px-2 dark:bg-blue-900/40 dark:text-blue-400">
+              #{patient.queueNumber.toString()}
             </div>
             <div>
               <h3 className="font-semibold text-slate-800 dark:text-slate-100">{patient.patientName}</h3>
@@ -847,10 +910,18 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
                     ))}
                   </div>
                 </div>
-                <div className="w-40">
+                <div className="w-52">
                   <p className={LBL}>Checked By</p>
-                  <input {...peForm.register("checked_by")} type="text"
-                    placeholder="Doctor name" className={INP} disabled={isCompleted} />
+                  <select
+                    {...peForm.register("checked_by")}
+                    className={INP}
+                    disabled={isCompleted}
+                  >
+                    <option value="">— Select physician —</option>
+                    {physicians.map((p) => (
+                      <option key={p.id} value={p.name}>{p.name}</option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
@@ -1083,6 +1154,102 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
               )}
             </div>
           )}
+
+          {tab === "prescription" && (
+            <div className="space-y-4">
+              {/* Doctor name */}
+              <div>
+                <p className={LBL}>Prescribing Physician</p>
+                <input
+                  type="text"
+                  value={rxDoctorName}
+                  onChange={(e) => setRxDoctorName(e.target.value)}
+                  placeholder="Doctor name"
+                  className={INP}
+                  disabled={isCompleted}
+                />
+              </div>
+
+              {/* Drug list */}
+              {rxItems.length === 0 && (
+                <div className="rounded-xl border border-dashed border-slate-300 p-6 text-center dark:border-slate-600">
+                  <FileText className="mx-auto mb-2 h-8 w-8 text-slate-200 dark:text-slate-600" />
+                  <p className="text-sm text-slate-400">No medications added yet.</p>
+                </div>
+              )}
+
+              {rxItems.map((item, idx) => (
+                <div key={idx} className="rounded-xl border border-slate-200 p-4 space-y-2 dark:border-slate-700">
+                  <div className="flex items-start gap-2">
+                    <div className="flex-1 grid grid-cols-2 gap-2">
+                      <div className="col-span-2">
+                        <p className={LBL}>Medication *</p>
+                        <input type="text" value={item.medication}
+                          onChange={(e) => updateRxItem(idx, "medication", e.target.value)}
+                          placeholder="e.g. Amoxicillin 500mg" className={INP} disabled={isCompleted} />
+                      </div>
+                      <div>
+                        <p className={LBL}>Dosage</p>
+                        <input type="text" value={item.dosage}
+                          onChange={(e) => updateRxItem(idx, "dosage", e.target.value)}
+                          placeholder="500mg" className={INP} disabled={isCompleted} />
+                      </div>
+                      <div>
+                        <p className={LBL}>Frequency</p>
+                        <input type="text" value={item.frequency}
+                          onChange={(e) => updateRxItem(idx, "frequency", e.target.value)}
+                          placeholder="3x daily" className={INP} disabled={isCompleted} />
+                      </div>
+                      <div>
+                        <p className={LBL}>Duration</p>
+                        <input type="text" value={item.duration}
+                          onChange={(e) => updateRxItem(idx, "duration", e.target.value)}
+                          placeholder="7 days" className={INP} disabled={isCompleted} />
+                      </div>
+                      <div>
+                        <p className={LBL}>Qty</p>
+                        <input type="number" value={item.quantity}
+                          onChange={(e) => updateRxItem(idx, "quantity", e.target.value)}
+                          placeholder="21" className={INP} disabled={isCompleted} />
+                      </div>
+                      <div className="col-span-2">
+                        <p className={LBL}>Instructions (Sig)</p>
+                        <input type="text" value={item.instructions}
+                          onChange={(e) => updateRxItem(idx, "instructions", e.target.value)}
+                          placeholder="Take after meals" className={INP} disabled={isCompleted} />
+                      </div>
+                    </div>
+                    {!isCompleted && (
+                      <button type="button" onClick={() => removeRxItem(idx)}
+                        className="mt-5 rounded-lg p-2 text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20">
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+
+              {!isCompleted && (
+                <button type="button" onClick={addRxItem}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-blue-300 px-4 py-2.5 text-sm font-medium text-blue-600 hover:bg-blue-50 dark:border-blue-700 dark:text-blue-400 dark:hover:bg-blue-900/20">
+                  <Plus className="h-4 w-4" /> Add Medication
+                </button>
+              )}
+
+              {/* Notes */}
+              <div>
+                <p className={LBL}>Notes</p>
+                <textarea
+                  value={rxNotes}
+                  onChange={(e) => setRxNotes(e.target.value)}
+                  rows={2}
+                  placeholder="Additional instructions..."
+                  className={TEXTAREA}
+                  disabled={isCompleted}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Footer */}
@@ -1126,6 +1293,12 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
                     {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Save Eval
                   </button>
                 )}
+                {tab === "prescription" && (
+                  <button onClick={savePrescription} disabled={saving}
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600">
+                    {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />} Save Rx
+                  </button>
+                )}
 
                 {/* Complete */}
                 <button onClick={handleComplete} disabled={completing || saving}
@@ -1138,6 +1311,33 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
               <span className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-50 px-4 py-2.5 text-sm font-medium text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400">
                 <CheckCircle className="h-4 w-4" /> Consultation Completed
               </span>
+            )}
+
+            {/* Print Rx — show on prescription tab */}
+            {patient && tab === "prescription" && (
+              <a
+                href={`/api/queue/${patient.id}/pdf?type=prescription`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 px-4 py-2.5 text-sm font-medium text-blue-700 shadow-sm hover:bg-blue-100 dark:border-blue-700 dark:bg-blue-900/20 dark:text-blue-300"
+              >
+                <FileText className="h-4 w-4" />
+                Print Rx
+              </a>
+            )}
+            {/* Print Summary — available once clinical data is saved */}
+            {patient && tab !== "prescription" && (
+              <a
+                href={`/api/queue/${patient.id}/pdf?type=summary`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a42.415 42.415 0 0 1 10.56 0m-10.56 0L6.34 18m10.94-4.171c.24.03.48.062.72.096m-.72-.096L17.66 18m0 0 .229 2.523a1.125 1.125 0 0 1-1.12 1.227H7.231c-.662 0-1.18-.568-1.12-1.227L6.34 18m11.318 0h1.091A2.25 2.25 0 0 0 21 15.75V9.456c0-1.081-.768-2.015-1.837-2.175a48.055 48.055 0 0 0-1.913-.247M6.34 18H5.25A2.25 2.25 0 0 1 3 15.75V9.456c0-1.081.768-2.015 1.837-2.175a48.056 48.056 0 0 1 1.913-.247m10.5 0a48.536 48.536 0 0 0-10.5 0m10.5 0V3.375c0-.621-.504-1.125-1.125-1.125h-8.25c-.621 0-1.125.504-1.125 1.125v3.659M18 10.5h.008v.008H18V10.5Zm-3 0h.008v.008H15V10.5Z" />
+                </svg>
+                Print Summary
+              </a>
             )}
           </div>
         </div>

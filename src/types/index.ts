@@ -45,6 +45,8 @@ export interface QueueEntry {
   age: number | null;  // queue.AgePatient
   gender: string;      // queue.QGender
   queueDateTime: string; // queue.DateTime (ISO string)
+  anteDateReason?: string | null;
+  anteDateCode?: string | null;
 }
 
 // Keep for backwards-compat in any remaining usage

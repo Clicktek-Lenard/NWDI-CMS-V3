@@ -870,6 +870,204 @@ exports.Prisma.PaymenthistoryScalarFieldEnum = {
   HMOPName: 'HMOPName'
 };
 
+exports.Prisma.CardEnrollmentScalarFieldEnum = {
+  id: 'id',
+  cardnumber: 'cardnumber',
+  dateenrolled: 'dateenrolled',
+  daterelease: 'daterelease',
+  releaseto: 'releaseto',
+  oldreleaseto: 'oldreleaseto',
+  releaseby: 'releaseby',
+  receivedby: 'receivedby',
+  receiveddate: 'receiveddate',
+  status: 'status',
+  transferto: 'transferto',
+  datetransfer: 'datetransfer',
+  transferby: 'transferby'
+};
+
+exports.Prisma.VitalSignScalarFieldEnum = {
+  id: 'id',
+  queue_id: 'queue_id',
+  patient_id: 'patient_id',
+  chief_complaint: 'chief_complaint',
+  pcp_doctor: 'pcp_doctor',
+  bp_systolic: 'bp_systolic',
+  bp_diastolic: 'bp_diastolic',
+  bp_systolic2: 'bp_systolic2',
+  bp_diastolic2: 'bp_diastolic2',
+  bp_systolic3: 'bp_systolic3',
+  bp_diastolic3: 'bp_diastolic3',
+  heart_rate: 'heart_rate',
+  temperature: 'temperature',
+  respiratory_rate: 'respiratory_rate',
+  weight_kg: 'weight_kg',
+  height_cm: 'height_cm',
+  bmi: 'bmi',
+  vision_right_od: 'vision_right_od',
+  vision_left_os: 'vision_left_os',
+  vision_corrected: 'vision_corrected',
+  color_vision: 'color_vision',
+  recorded_by: 'recorded_by',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.ConsultationNoteScalarFieldEnum = {
+  id: 'id',
+  queue_id: 'queue_id',
+  patient_id: 'patient_id',
+  chief_complaint: 'chief_complaint',
+  history_illness: 'history_illness',
+  past_history: 'past_history',
+  family_history: 'family_history',
+  pe_findings: 'pe_findings',
+  diagnosis: 'diagnosis',
+  icd_code: 'icd_code',
+  treatment_plan: 'treatment_plan',
+  orders: 'orders',
+  pcp_doctor: 'pcp_doctor',
+  doctor_id: 'doctor_id',
+  doctor_name: 'doctor_name',
+  is_draft: 'is_draft',
+  status: 'status',
+  recorded_by: 'recorded_by',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.PhysicalExaminationScalarFieldEnum = {
+  id: 'id',
+  queue_id: 'queue_id',
+  patient_id: 'patient_id',
+  hypertension: 'hypertension',
+  diabetes: 'diabetes',
+  asthma: 'asthma',
+  heart_disease: 'heart_disease',
+  thyroid_disease: 'thyroid_disease',
+  kidney_disease: 'kidney_disease',
+  allergies: 'allergies',
+  allergies_specify: 'allergies_specify',
+  surgery_history: 'surgery_history',
+  surgery_specify: 'surgery_specify',
+  smoker: 'smoker',
+  pack_years: 'pack_years',
+  alcoholic: 'alcoholic',
+  lmp: 'lmp',
+  gravida: 'gravida',
+  para: 'para',
+  family_hypertension: 'family_hypertension',
+  family_diabetes: 'family_diabetes',
+  family_cancer: 'family_cancer',
+  skin: 'skin',
+  heent: 'heent',
+  neck: 'neck',
+  chest_lungs: 'chest_lungs',
+  heart: 'heart',
+  abdomen: 'abdomen',
+  extremities: 'extremities',
+  neurological: 'neurological',
+  fitness_class: 'fitness_class',
+  recorded_by: 'recorded_by',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.MedicalEvaluationScalarFieldEnum = {
+  id: 'id',
+  queue_id: 'queue_id',
+  patient_id: 'patient_id',
+  item_code: 'item_code',
+  item_name: 'item_name',
+  findings: 'findings',
+  assessment: 'assessment',
+  recommendation: 'recommendation',
+  class_value: 'class_value',
+  recorded_by: 'recorded_by',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.PrescriptionScalarFieldEnum = {
+  id: 'id',
+  queue_id: 'queue_id',
+  patient_id: 'patient_id',
+  doctor_name: 'doctor_name',
+  notes: 'notes',
+  printed_at: 'printed_at',
+  input_by: 'input_by',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.PrescriptionItemScalarFieldEnum = {
+  id: 'id',
+  prescription_id: 'prescription_id',
+  medication: 'medication',
+  dosage: 'dosage',
+  frequency: 'frequency',
+  duration: 'duration',
+  quantity: 'quantity',
+  instructions: 'instructions'
+};
+
+exports.Prisma.ResultValueScalarFieldEnum = {
+  id: 'id',
+  accession_id: 'accession_id',
+  queue_id: 'queue_id',
+  item_code: 'item_code',
+  item_description: 'item_description',
+  result_value: 'result_value',
+  result_unit: 'result_unit',
+  normal_range: 'normal_range',
+  flag: 'flag',
+  remarks: 'remarks',
+  encoded_by: 'encoded_by',
+  encoded_at: 'encoded_at',
+  validated_by: 'validated_by',
+  validated_at: 'validated_at',
+  status: 'status',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.ImagingResultScalarFieldEnum = {
+  id: 'id',
+  accession_id: 'accession_id',
+  queue_id: 'queue_id',
+  item_code: 'item_code',
+  item_description: 'item_description',
+  interpretation: 'interpretation',
+  impression: 'impression',
+  radiologist_name: 'radiologist_name',
+  encoded_by: 'encoded_by',
+  encoded_at: 'encoded_at',
+  validated_by: 'validated_by',
+  validated_at: 'validated_at',
+  status: 'status',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.CardNumberScalarFieldEnum = {
+  id: 'id',
+  year: 'year',
+  batch: 'batch',
+  month: 'month',
+  seriesNum: 'seriesNum',
+  maskedSeries: 'maskedSeries',
+  generatedcardnumber: 'generatedcardnumber',
+  codeCompany: 'codeCompany',
+  generatedBy: 'generatedBy'
+};
+
+exports.Prisma.CardVerifiedScalarFieldEnum = {
+  id: 'id',
+  verifiedcardnumbers: 'verifiedcardnumbers',
+  ictreceived: 'ictreceived',
+  datereceived: 'datereceived'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -913,7 +1111,18 @@ exports.Prisma.ModelName = {
   transactiontype: 'transactiontype',
   role: 'role',
   accessionno: 'accessionno',
-  paymenthistory: 'paymenthistory'
+  paymenthistory: 'paymenthistory',
+  cardEnrollment: 'cardEnrollment',
+  VitalSign: 'VitalSign',
+  ConsultationNote: 'ConsultationNote',
+  PhysicalExamination: 'PhysicalExamination',
+  MedicalEvaluation: 'MedicalEvaluation',
+  Prescription: 'Prescription',
+  PrescriptionItem: 'PrescriptionItem',
+  ResultValue: 'ResultValue',
+  ImagingResult: 'ImagingResult',
+  cardNumber: 'cardNumber',
+  cardVerified: 'cardVerified'
 };
 
 /**

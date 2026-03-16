@@ -3,11 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  CreditCard,
   Stethoscope,
   BarChart3,
   Settings,
-  UserCheck,
   LogOut,
   Menu,
   X,
@@ -15,6 +13,9 @@ import {
   History,
   Receipt,
   FlaskConical,
+  LayoutDashboard,
+  CalendarDays,
+  MonitorPlay,
 } from "lucide-react";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
@@ -28,15 +29,19 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Doctor",                href: "/clinical",       icon: <Stethoscope className="h-5 w-5" />,   module: "cms", tab: "clinical" },
-  { label: "Today's Queue",         href: "/queue",          icon: <CalendarCheck className="h-5 w-5" />, module: "cms", tab: "queue" },
-  { label: "Payment",               href: "/payment",        icon: <Receipt className="h-5 w-5" />,       module: "cms", tab: "payment" },
-  { label: "Past Queue",            href: "/past-queue",     icon: <History       className="h-5 w-5" />,  module: "cms", tab: "queue" },
-  { label: "Results",               href: "/results",        icon: <FlaskConical  className="h-5 w-5" />,  module: "cms", tab: "results" },
-  { label: "Card Management",       href: "/enrollment",     icon: <CreditCard    className="h-5 w-5" />,  module: "cms", tab: "enrollment" },
-  { label: "Physician Accreditation", href: "/eros/physician", icon: <UserCheck className="h-5 w-5" />, module: "erosui", tab: "physician" },
-  { label: "Admin Settings",        href: "/settings",       icon: <Settings className="h-5 w-5" />,      module: "cms", tab: "settings" },
-  { label: "Clinic Reports",        href: "/reports",        icon: <BarChart3 className="h-5 w-5" />,     module: "cms", tab: "reports" },
+  // ── CMS Core ──────────────────────────────────────────────
+  { label: "Dashboard",               href: "/dashboard",       icon: <LayoutDashboard className="h-5 w-5" />, module: "cms",   tab: "dashboard"       },
+  { label: "Today's Queue",           href: "/queue",           icon: <CalendarCheck  className="h-5 w-5" />, module: "cms",    tab: "queue"           },
+  { label: "Past Queue",              href: "/past-queue",      icon: <History        className="h-5 w-5" />, module: "cms",    tab: "queue"           },
+  { label: "Appointments",            href: "/appointments",    icon: <CalendarDays   className="h-5 w-5" />, module: "cms",    tab: "appointments"    },
+  { label: "Payment",                 href: "/payment",         icon: <Receipt        className="h-5 w-5" />, module: "cms",    tab: "payment"         },
+  { label: "Doctor (Clinical)",       href: "/clinical",        icon: <Stethoscope    className="h-5 w-5" />, module: "cms",    tab: "clinical"        },
+  { label: "Results",                 href: "/results",         icon: <FlaskConical   className="h-5 w-5" />, module: "cms",    tab: "results"         },
+  { label: "Clinic Reports",          href: "/reports",         icon: <BarChart3      className="h-5 w-5" />, module: "cms",    tab: "reports"         },
+  // ── Kiosk ─────────────────────────────────────────────────
+  { label: "Kiosk Display",           href: "/kiosk",           icon: <MonitorPlay    className="h-5 w-5" />, module: "cms",    tab: "queue"           },
+  // ── Admin ─────────────────────────────────────────────────
+  { label: "Admin Settings",          href: "/settings",        icon: <Settings       className="h-5 w-5" />, module: "cms",    tab: "settings"        },
 ];
 
 interface SidebarProps {
@@ -64,8 +69,9 @@ export function Sidebar({ userRoles: _userRoles = [] }: SidebarProps) {
         }`}
       >
         {/* Logo */}
-        <div className="flex h-16 items-center justify-center border-b border-slate-700 dark:border-slate-800">
-          <h1 className="text-xl font-bold tracking-tight">CMS</h1>
+        <div className="flex h-16 items-center gap-3 border-b border-slate-700 px-4 dark:border-slate-800">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="NWDI CMS" style={{ maxHeight: "38px", width: "auto" }} />
         </div>
 
         {/* Navigation */}

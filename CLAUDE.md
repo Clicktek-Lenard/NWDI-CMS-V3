@@ -84,6 +84,7 @@ src/
 - Use `session.user.clinicCode || "CEN"` — never assume clinicCode is set
 - Soft-delete only — `Status → 650`, never hard delete queue/transactions
 - Define Zod schemas at **module level**, not inside handlers
+- When adding a new page under `src/app/(dashboard)/`, **always add a matching entry to `NAV_ITEMS`** in `src/components/layouts/sidebar.tsx` — choose the correct `module` and `tab` from `CMS_MODULES` in `rbac.ts`
 
 ### Never
 - **Use raw SQL** (`$queryRaw`, `$executeRaw`) — always use Prisma Client methods instead
@@ -258,3 +259,4 @@ Update rules:
 | Dark mode icon doesn't change | Use `resolvedTheme` not `theme` |
 | BigInt JSON serialization error | Convert with `Number(bigIntValue)` before returning |
 | `params` type error in Next.js 16 | `const { id } = await params` — params is a Promise |
+| `Unknown property datasources/datasourceUrl` in PrismaClient | Prisma v7 client engine: use `new PrismaPg({ connectionString })` adapter, pass as `new PrismaClient({ adapter })` |

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireApiAuth } from "@/lib/auth/rbac";
 import prisma from "@/lib/db/prisma";
 import { z } from "zod";
+import { logActivity, AUDIT_ACTIONS, getClientIp } from "@/lib/audit";
 
 const payModeDetailSchema = z.object({
   mode:     z.string(),
@@ -154,6 +155,19 @@ export async function POST(
       });
     }
   });
+
+  logActivity(session, AUDIT_ACTIONS.RECORD_PAYMENT, "queue", id, {
+    code:           queue.Code,
+    patientName:    queue.QFullName,
+    providerType,
+    orNumber:       finalOrNumber,
+    paymentMethod,
+    totalAmount:    activeTxs.reduce((sum, t) => sum + (t.AmountItemPrice ? Number(t.AmountItemPrice) : 0), 0),
+    txCount:        activeTxs.length,
+    allPaid,
+    discountType,
+    discountAmount,
+  }, getClientIp(request));
 
   return NextResponse.json({
     success: true,

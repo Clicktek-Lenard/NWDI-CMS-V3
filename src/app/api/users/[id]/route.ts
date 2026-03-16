@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db/prisma";
 import { requireApiAuth } from "@/lib/auth/rbac";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import { logActivity, AUDIT_ACTIONS, getClientIp } from "@/lib/audit";
 
 const updateSchema = z.object({
   email: z.string().email("Invalid email").or(z.literal("")).optional(),
@@ -58,7 +59,7 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await requireApiAuth(request, "cms", "settings");
+    const session = await requireApiAuth(request, "cms", "settings");
     const { id } = await params;
 
     const body = await request.json();
@@ -125,6 +126,18 @@ export async function PUT(
       },
     });
 
+    const action = data.activated === false && existing.activated === true
+      ? AUDIT_ACTIONS.DEACTIVATE_USER
+      : AUDIT_ACTIONS.UPDATE_USER;
+
+    logActivity(session, action, "user", id, {
+      username:   existing.username,
+      activated:  data.activated,
+      department: data.department,
+      roleChanged: data.role !== undefined && data.role !== existing.role,
+      passwordChanged: !!(data.password && data.password.length > 0),
+    }, getClientIp(request));
+
     return NextResponse.json({ success: true, data: updated });
   } catch (error) {
     if (error instanceof Response) throw error;
@@ -163,6 +176,10 @@ export async function DELETE(
       where: { id: userId },
       data: { deleted_at: new Date(), activated: false },
     });
+
+    logActivity(session, AUDIT_ACTIONS.DEACTIVATE_USER, "user", userId, {
+      username: existing.username,
+    }, getClientIp(request));
 
     return NextResponse.json({ success: true, message: "User deleted successfully" });
   } catch (error) {

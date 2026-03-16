@@ -21,6 +21,7 @@ const REPORT_TYPES = [
   { key: "sendout",         label: "Sendout Report" },
   { key: "summary",         label: "Summary Report" },
   { key: "amendment",       label: "Amendment Transaction" },
+  { key: "discount",        label: "Discount Report" },
 ] as const;
 
 type ReportKey = (typeof REPORT_TYPES)[number]["key"];
@@ -120,6 +121,19 @@ const COLUMNS: Record<ReportKey, ColDef[]> = {
     { key: "company",         label: "Company" },
     { key: "modifiedBy",      label: "Modified By" },
   ],
+  discount: [
+    { key: "inputDate",   label: "Date",          fmt: "date" },
+    { key: "queueCode",   label: "Queue No." },
+    { key: "patientName", label: "Patient" },
+    { key: "discType",    label: "Discount Type" },
+    { key: "discId",      label: "Disc. ID / Senior / PWD" },
+    { key: "discAmount",  label: "Disc. Amount",  align: "right", fmt: "amount" },
+    { key: "itemAmount",  label: "Item Amount",   align: "right", fmt: "amount" },
+    { key: "payAmount",   label: "Paid Amount",   align: "right", fmt: "amount" },
+    { key: "orNum",       label: "OR No." },
+    { key: "paymentType", label: "Payment Type" },
+    { key: "inputBy",     label: "Cashier" },
+  ],
 };
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -130,7 +144,9 @@ function formatAmount(n: number) {
 
 function formatDate(d: string) {
   if (!d) return "—";
-  return new Date(d + "T00:00:00").toLocaleDateString("en-PH", {
+  // If already an ISO datetime string, parse directly; otherwise treat as date-only
+  const dt = d.includes("T") ? new Date(d) : new Date(d + "T00:00:00");
+  return dt.toLocaleDateString("en-PH", {
     year: "numeric", month: "short", day: "numeric",
   });
 }

@@ -33,10 +33,21 @@ export async function GET(request: NextRequest) {
   const queueIds = queues.map((q) => q.Id);
   const statusMap = new Map(statuses.map((s) => [s.Id, s.Name]));
 
-  const accessions = await prisma.accessionno.findMany({
-    where: { IdQueue: { in: queueIds } },
-    orderBy: { Id: "asc" },
-  });
+  const [accessions, resultValues] = await Promise.all([
+    prisma.accessionno.findMany({
+      where: { IdQueue: { in: queueIds } },
+      orderBy: { Id: "asc" },
+    }),
+    prisma.resultValue.findMany({
+      where: { queue_id: { in: queueIds } },
+      select: { accession_id: true, flag: true },
+    }),
+  ]);
+
+  const flagByAccession = new Map<string, string | null>();
+  for (const rv of resultValues) {
+    flagByAccession.set(rv.accession_id.toString(), rv.flag);
+  }
 
   const accByQueue = new Map<string, typeof accessions>();
   for (const a of accessions) {
@@ -68,6 +79,7 @@ export async function GET(request: NextRequest) {
         statusName:      statusMap.get(a.Status ?? 0) ?? String(a.Status ?? 0),
         receivedBU:      a.ReceivedBU ?? "",
         examDate:        a.ExamDate?.toISOString() ?? null,
+        resultFlag:      flagByAccession.get(a.Id.toString()) ?? null,
       })),
     })),
   });

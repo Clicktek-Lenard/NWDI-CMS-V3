@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>CMS v3 — Gap Analysis &amp; Blockers</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#f0f4f8;color:#1e293b;line-height:1.6;font-size:13.5px}
+    code{font-size:11px;background:#f1f5f9;padding:1px 5px;border-radius:4px;font-family:monospace;color:#475569}
+
+    /* ── HEADER ── */
+    .hdr{background:linear-gradient(135deg,#1e1b4b 0%,#3730a3 55%,#4f46e5 100%);color:#fff;padding:40px 52px 36px}
+    .hdr .eyebrow{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;opacity:.6;margin-bottom:8px}
+    .hdr h1{font-size:28px;font-weight:800;line-height:1.2;letter-spacing:-.3px}
+    .hdr .sub{font-size:14px;opacity:.75;margin-top:6px}
+    .hdr .meta{margin-top:14px;font-size:12px;opacity:.6;display:flex;gap:28px;flex-wrap:wrap}
+
+    .wrap{max-width:1300px;margin:0 auto;padding:40px 32px}
+
+    /* ── LEGEND CHIPS ── */
+    .legend{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap}
+    .lchip{display:flex;align-items:center;gap:8px;background:#fff;border-radius:10px;padding:9px 16px;box-shadow:0 1px 3px rgba(0,0,0,.07);font-size:12px;font-weight:600;color:#334155}
+    .lchip .dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+    .lc-done{background:#22c55e}.lc-ui{background:#f59e0b}.lc-miss{background:#ef4444}.lc-block{background:#7c3aed}
+
+    /* ── SUMMARY CARDS ── */
+    .sum-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:36px}
+    .scard{background:#fff;border-radius:14px;padding:20px 22px;box-shadow:0 1px 3px rgba(0,0,0,.07);border-top:4px solid}
+    .scard.s-done{border-color:#22c55e}
+    .scard.s-ui{border-color:#f59e0b}
+    .scard.s-miss{border-color:#ef4444}
+    .scard.s-block{border-color:#7c3aed}
+    .scard-label{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;margin-bottom:2px}
+    .scard.s-done .scard-label{color:#16a34a}
+    .scard.s-ui .scard-label{color:#d97706}
+    .scard.s-miss .scard-label{color:#dc2626}
+    .scard.s-block .scard-label{color:#7c3aed}
+    .scard-num{font-size:42px;font-weight:900;line-height:1.1}
+    .scard.s-done .scard-num{color:#22c55e}
+    .scard.s-ui .scard-num{color:#f59e0b}
+    .scard.s-miss .scard-num{color:#ef4444}
+    .scard.s-block .scard-num{color:#7c3aed}
+    .scard-desc{font-size:11.5px;color:#94a3b8;margin-top:4px}
+    .scard-bar{height:7px;background:#f1f5f9;border-radius:99px;overflow:hidden;margin-top:10px}
+    .scard-bar span{display:block;height:100%;border-radius:99px}
+    .scard.s-done .scard-bar span{background:#22c55e}
+    .scard.s-ui .scard-bar span{background:#f59e0b}
+    .scard.s-miss .scard-bar span{background:#ef4444}
+    .scard.s-block .scard-bar span{background:#7c3aed}
+
+    /* ── SECTION TITLE ── */
+    .stitle{font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;color:#64748b;display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid #e2e8f0}
+    .sicon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+
+    /* ── MODULE TABLE ── */
+    .tbl-wrap{overflow-x:auto;background:#fff;border-radius:16px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:32px}
+    table{width:100%;border-collapse:collapse;min-width:700px}
+    thead th{position:sticky;top:0;z-index:2}
+    th{padding:11px 16px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;text-align:left;border-bottom:2px solid #e2e8f0}
+    th.h-proc{background:#f8fafc;color:#475569;width:34%}
+    th.h-status{background:#f8fafc;color:#475569;width:12%;text-align:center}
+    th.h-block{background:#faf5ff;color:#6d28d9;width:14%;text-align:center}
+    th.h-notes{background:#f8fafc;color:#475569;width:40%}
+
+    tr.grp-row td{background:#f8fafc;padding:9px 16px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.09em;color:#64748b;border-top:2px solid #e2e8f0;border-bottom:1px solid #e2e8f0}
+    td{padding:11px 16px;border-bottom:1px solid #f1f5f9;vertical-align:top}
+    tr:last-child td{border-bottom:none}
+    tr:hover td{background:#fafafe}
+    .td-proc{font-weight:600;color:#1e293b;font-size:13px}
+    .td-sub{font-size:11px;color:#94a3b8;margin-top:2px;font-weight:400}
+    .td-status{text-align:center}
+    .td-block{text-align:center}
+    .td-notes{font-size:12px;color:#475569}
+
+    /* ── STATUS PILLS ── */
+    .pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:99px;font-size:10.5px;font-weight:700;white-space:nowrap}
+    .p-done{background:#dcfce7;color:#166534}
+    .p-ui{background:#fef3c7;color:#92400e}
+    .p-miss{background:#fee2e2;color:#991b1b}
+    .p-block{background:#ede9fe;color:#5b21b6}
+    .dot-sm{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+    .dg{background:#22c55e}.dy{background:#f59e0b}.dr{background:#ef4444}.dp{background:#7c3aed}
+
+    /* ── BLOCKER TAGS ── */
+    .btag{display:inline-block;border-radius:5px;padding:2px 7px;font-size:10px;font-weight:800;font-family:monospace;letter-spacing:.04em;white-space:nowrap;margin:1px}
+    .bt-mirth{background:#fef3c7;color:#92400e}
+    .bt-lis{background:#fee2e2;color:#991b1b}
+    .bt-ris{background:#fce7f3;color:#9d174d}
+    .bt-oracle{background:#ede9fe;color:#5b21b6}
+    .bt-ldap{background:#e0f2fe;color:#0369a1}
+    .bt-smtp{background:#ecfdf5;color:#065f46}
+    .bt-extapi{background:#fff7ed;color:#9a3412}
+    .bt-infra{background:#f1f5f9;color:#475569}
+    .bt-none{background:#f1f5f9;color:#64748b}
+
+    /* ── BLOCKER SUMMARY CARDS ── */
+    .bsum-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:32px}
+    .bcard{background:#fff;border-radius:14px;padding:18px 20px;box-shadow:0 1px 4px rgba(0,0,0,.08);border-left:4px solid}
+    .bcard.bc-mirth{border-color:#f59e0b}
+    .bcard.bc-lis{border-color:#ef4444}
+    .bcard.bc-ris{border-color:#ec4899}
+    .bcard.bc-oracle{border-color:#7c3aed}
+    .bcard.bc-ldap{border-color:#0ea5e9}
+    .bcard.bc-smtp{border-color:#10b981}
+    .bcard.bc-extapi{border-color:#f97316}
+    .bcard.bc-infra{border-color:#94a3b8}
+    .bcard-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+    .bcard-icon{font-size:20px}
+    .bcard-title{font-size:13px;font-weight:800;color:#1e293b}
+    .bcard-sub{font-size:11px;color:#94a3b8}
+    .bcard ul{padding-left:14px;margin-top:4px}
+    .bcard ul li{font-size:12px;color:#475569;margin-bottom:4px;line-height:1.5}
+    .bcard ul li strong{color:#1e293b;font-weight:600}
+    .bcard-need{margin-top:10px;padding:8px 10px;background:#f8fafc;border-radius:8px;font-size:11.5px;color:#475569}
+    .bcard-need b{color:#334155}
+
+    /* ── BUILDABLE GAPS ── */
+    .bgap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-bottom:32px}
+    .bgap-card{background:#fff;border-radius:12px;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,.07);border-left:3px solid #f59e0b}
+    .bgap-card h4{font-size:13px;font-weight:700;color:#92400e;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+    .bgap-card .mod-tag{display:inline-block;background:#fef3c7;color:#92400e;border-radius:4px;padding:1px 7px;font-size:10px;font-weight:800}
+    .bgap-card p{font-size:12px;color:#475569;line-height:1.5}
+    .effort{display:inline-block;border-radius:99px;padding:1px 8px;font-size:10px;font-weight:700;margin-top:6px}
+    .e-low{background:#dcfce7;color:#166534}
+    .e-med{background:#fef3c7;color:#92400e}
+    .e-high{background:#fee2e2;color:#991b1b}
+
+    /* ── NOT STARTED CARDS ── */
+    .ns-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:32px}
+    .ns-card{background:#fff;border-radius:12px;padding:16px 18px;box-shadow:0 1px 3px rgba(0,0,0,.07);border-left:3px solid #ef4444}
+    .ns-card h4{font-size:13px;font-weight:700;color:#991b1b;margin-bottom:4px}
+    .ns-card p{font-size:12px;color:#475569;line-height:1.5}
+    .ns-card .mod-tag{display:inline-block;background:#fee2e2;color:#991b1b;border-radius:4px;padding:1px 7px;font-size:10px;font-weight:800;margin-bottom:6px}
+
+    /* ── PROGRESS MATRIX ── */
+    .matrix{background:#fff;border-radius:16px;box-shadow:0 1px 4px rgba(0,0,0,.08);overflow:hidden;margin-bottom:32px}
+    .matrix table{min-width:600px}
+    .mx-head th{background:#f8fafc;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:#94a3b8;padding:11px 18px;border-bottom:1px solid #e2e8f0}
+    .mx-mod{font-size:13px;font-weight:700;padding:12px 18px;border-bottom:1px solid #f1f5f9;vertical-align:middle;color:#334155}
+    .mx-mod small{display:block;font-size:11px;font-weight:400;color:#94a3b8;margin-top:2px}
+    .mx-cell{padding:12px 14px;border-bottom:1px solid #f1f5f9;text-align:center;vertical-align:middle}
+    .prog-wrap{display:flex;align-items:center;gap:8px}
+    .prog-bar{flex:1;height:7px;background:#f1f5f9;border-radius:99px;overflow:hidden}
+    .prog-bar span{display:block;height:100%;border-radius:99px}
+    .prog-val{font-size:12px;font-weight:800;min-width:36px;text-align:right}
+
+    footer{text-align:center;font-size:11.5px;color:#94a3b8;padding:28px;border-top:1px solid #e2e8f0;margin-top:8px}
+    @media(max-width:640px){.hdr{padding:24px 18px}.wrap{padding:20px 12px}.sum-grid{grid-template-columns:repeat(2,1fr)}}
+  </style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<div class="hdr">
+  <div class="eyebrow">NWD Central Management System v3</div>
+  <h1>Gap Analysis &amp; Blocker Report</h1>
+  <div class="sub">Cross-referenced against FRD, CMS v1 (Laravel), and actual v3 codebase</div>
+  <div class="meta">
+    <span>📅 Generated: March 16, 2026</span>
+    <span>📁 Project: CMS-v3 (Next.js 16 · Prisma 7 · PostgreSQL)</span>
+    <span>📋 Modules reviewed: 13</span>
+    <span>📌 Total processes analysed: 87</span>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ── LEGEND ── -->
+  <div class="legend">
+    <div class="lchip"><div class="dot lc-done"></div> ✅ Fully Implemented (API + UI)</div>
+    <div class="lchip"><div class="dot lc-ui"></div> 🟡 API exists, UI missing / incomplete</div>
+    <div class="lchip"><div class="dot lc-miss"></div> 🔴 Not implemented (no API, no UI)</div>
+    <div class="lchip"><div class="dot lc-block"></div> 🚫 Blocked by external system</div>
+  </div>
+
+  <!-- ── SUMMARY CARDS ── -->
+  <div class="sum-grid">
+    <div class="scard s-done">
+      <div class="scard-label">Fully Implemented</div>
+      <div class="scard-num">52</div>
+      <div class="scard-desc">Processes with complete API + UI</div>
+      <div class="scard-bar"><span style="width:60%"></span></div>
+    </div>
+    <div class="scard s-ui">
+      <div class="scard-label">UI Gap (API Ready)</div>
+      <div class="scard-num">13</div>
+      <div class="scard-desc">Backend done, frontend missing</div>
+      <div class="scard-bar"><span style="width:15%"></span></div>
+    </div>
+    <div class="scard s-miss">
+      <div class="scard-label">Not Started</div>
+      <div class="scard-num">13</div>
+      <div class="scard-desc">No API, no UI — design decision needed</div>
+      <div class="scard-bar"><span style="width:15%"></span></div>
+    </div>
+    <div class="scard s-block">
+      <div class="scard-label">External Blockers</div>
+      <div class="scard-num">22</div>
+      <div class="scard-desc">Require LIS / RIS / Oracle / LDAP / Mirth</div>
+      <div class="scard-bar"><span style="width:25%"></span></div>
+    </div>
+  </div>
+
+  <!-- ── MODULE PROGRESS MATRIX ── -->
+  <div class="stitle"><div class="sicon" style="background:#e0e7ff">📊</div> Module Completion Overview</div>
+  <div class="matrix">
+    <table>
+      <thead class="mx-head">
+        <tr>
+          <th style="width:26%">Module</th>
+          <th style="width:18%">Completion</th>
+          <th style="width:12%;text-align:center">Done</th>
+          <th style="width:12%;text-align:center">UI Gap</th>
+          <th style="width:12%;text-align:center">Missing</th>
+          <th style="width:12%;text-align:center">Blocked</th>
+          <th style="width:8%;text-align:center">FRD §</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mx-mod">Queue / Registration<small>Add, edit, cancel, payment, accession</small></td>
+          <td class="mx-cell"><div class="prog-wrap"><div class="prog-bar"><span style="width:88%;background:#22c55e"></span></div><span class="prog-val" style="color:#16a34a">88%</span></div></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot-sm dg"></span>14</span></td>
+          <td class="mx-cell"><span class="pill p-ui"><span class="dot-sm dy"></span>1</span></td>
+          <td class="mx-cell"><span class="pill p-miss"><span class="dot-sm dr"></span>1</span></td>
+          <td class="mx-cell"><span class="pill p-block"><span class="dot-sm dp"></span>1</span></td>
+          <td class="mx-cell" style="font-size:11px;color:#94a3b8">§6</td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Clinical Documentation<small>Vitals, SOAP, PE, prescription</small></td>
+          <td class="mx-cell"><div class="prog-wrap"><div class="prog-bar"><span style="width:80%;background:#22c55e"></span></div><span class="prog-val" style="color:#16a34a">80%</span></div></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot-sm dg"></span>10</span></td>
+          <td class="mx-cell"><span class="pill p-ui"><span class="dot-sm dy"></span>0</span></td>
+          <td class="mx-cell"><span class="pill p-miss"><span class="dot-sm dr"></span>2</span></td>
+          <td class="mx-cell"><span class="pill p-block"><span class="dot-sm dp"></span>0</span></td>
+          <td class="mx-cell" style="font-size:11px;color:#94a3b8">§7</td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Results — Laboratory<small>Receiving, encoding, validation, release</small></td>
+          <td class="mx-cell"><div class="prog-wrap"><div class="prog-bar"><span style="width:55%;background:#f59e0b"></span></div><span class="prog-val" style="color:#d97706">55%</span></div></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot-sm dg"></span>7</span></td>
+          <td class="mx-cell"><span class="pill p-ui"><span class="dot-sm dy"></span>4</span></td>
+          <td class="mx-cell"><span class="pill p-miss"><span class="dot-sm dr"></span>1</span></td>
+          <td class="mx-cell"><span class="pill p-block"><span class="dot-sm dp"></span>4</span></td>
+          <td class="mx-cell" style="font-size:11px;color:#94a3b8">§8 §11</td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Results — Imaging<small>Accession, receiving, interpretation</small></td>
+          <td class="mx-cell"><div class="prog-wrap"><div class="prog-bar"><span style="width:30%;background:#ef4444"></span></div><span class="prog-val" style="color:#dc2626">30%</span></div></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot-sm dg"></span>2</span></td>
+          <td class="mx-cell"><span class="pill p-ui"><span class="dot-sm dy"></span>1</span></td>
+          <td class="mx-cell"><span class="pill p-miss"><span class="dot-sm dr"></span>0</span></td>
+          <td class="mx-cell"><span class="pill p-block"><span class="dot-sm dp"></span>3</span></td>
+          <td class="mx-cell" style="font-size:11px;color:#94a3b8">§9</td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Payment / Billing<small>OR, cash/HMO/corporate, history</small></td>
+          <td class="mx-cell"><div class="prog-wrap"><div class="prog-bar"><span style="width:75%;background:#22c55e"></span></div><span class="prog-val" style="color:#16a34a">75%</span></div></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot-sm dg"></span>5</span></td>
+          <td class="mx-cell"><span class="pill p-ui"><span class="dot-sm dy"></span>0</span></td>
+          <td class="mx-cell"><span class="pill p-miss"><span class="dot-sm dr"></span>1</span></td>
+          <td class="mx-cell"><span class="pill p-block"><span class="dot-sm dp"></span>2</span></td>
+          <td class="mx-cell" style="font-size:11px;color:#94a3b8">§10</td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Reports<small>Financial, audit, PDF exports</small></td>
+          <td class="mx-cell"><div class="prog-wrap"><div class="prog-bar"><span style="width:65%;background:#f59e0b"></span></div><span class="prog-val" style="color:#d97706">65%</span></div></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot-sm dg"></span>10</span></td>
+          <td class="mx-cell"><span class="pill p-ui"><span class="dot-sm dy"></span>0</span></td>
+          <td class="mx-cell"><span class="pill p-miss"><span class="dot-sm dr"></span>2</span></td>
+          <td class="mx-cell"><span class="pill p-block"><span class="dot-sm dp"></span>4</span></td>
+          <td class="mx-cell" style="font-size:11px;color:#94a3b8">§13</td>
+        </tr>
+        <tr>
+          <td class="mx-mod">EROS / Referral<small>Companies, physician accreditation, referrals</small></td>
+          <td class="mx-cell"><div class="prog-wrap"><div class="prog-bar"><span style="width:50%;background:#f59e0b"></span></div><span class="prog-val" style="color:#d97706">50%</span></div></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot-sm dg"></span>4</span></td>
+          <td class="mx-cell"><span class="pill p-ui"><span class="dot-sm dy"></span>0</span></td>
+          <td class="mx-cell"><span class="pill p-miss"><span class="dot-sm dr"></span>0</span></td>
+          <td class="mx-cell"><span class="pill p-block"><span class="dot-sm dp"></span>3</span></td>
+          <td class="mx-cell" style="font-size:11px;color:#94a3b8">§12</td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Patient Management<small>Demographics, history, search</small></td>
+          <td class="mx-cell"><div class="prog-wrap"><div class="prog-bar"><span style="width:70%;background:#22c55e"></span></div><span class="prog-val" style="color:#16a34a">70%</span></div></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot-sm dg"></span>4</span></td>
+          <td class="mx-cell"><span class="pill p-ui"><span class="dot-sm dy"></span>0</span></td>
+          <td class="mx-cell"><span class="pill p-miss"><span class="dot-sm dr"></span>2</span></td>
+          <td class="mx-cell"><span class="pill p-block"><span class="dot-sm dp"></span>0</span></td>
+          <td class="mx-cell" style="font-size:11px;color:#94a3b8">§4</td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Appointments / Scheduling<small>Schedule view, booking, reminders</small></td>
+          <td class="mx-cell"><div class="prog-wrap"><div class="prog-bar"><span style="width:25%;background:#ef4444"></span></div><span class="prog-val" style="color:#dc2626">25%</span></div></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot-sm dg"></span>1</span></td>
+          <td class="mx-cell"><span class="pill p-ui"><span class="dot-sm dy"></span>0</span></td>
+          <td class="mx-cell"><span class="pill p-miss"><span class="dot-sm dr"></span>2</span></td>
+          <td class="mx-cell"><span class="pill p-block"><span class="dot-sm dp"></span>1</span></td>
+          <td class="mx-cell" style="font-size:11px;color:#94a3b8">§5</td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Auth / Security<small>Login, RBAC, audit log</small></td>
+          <td class="mx-cell"><div class="prog-wrap"><div class="prog-bar"><span style="width:70%;background:#22c55e"></span></div><span class="prog-val" style="color:#16a34a">70%</span></div></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot-sm dg"></span>6</span></td>
+          <td class="mx-cell"><span class="pill p-ui"><span class="dot-sm dy"></span>0</span></td>
+          <td class="mx-cell"><span class="pill p-miss"><span class="dot-sm dr"></span>2</span></td>
+          <td class="mx-cell"><span class="pill p-block"><span class="dot-sm dp"></span>1</span></td>
+          <td class="mx-cell" style="font-size:11px;color:#94a3b8">§14</td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Dashboard<small>Stats, pipeline, revenue</small></td>
+          <td class="mx-cell"><div class="prog-wrap"><div class="prog-bar"><span style="width:45%;background:#f59e0b"></span></div><span class="prog-val" style="color:#d97706">45%</span></div></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot-sm dg"></span>5</span></td>
+          <td class="mx-cell"><span class="pill p-ui"><span class="dot-sm dy"></span>0</span></td>
+          <td class="mx-cell"><span class="pill p-miss"><span class="dot-sm dr"></span>4</span></td>
+          <td class="mx-cell"><span class="pill p-block"><span class="dot-sm dp"></span>0</span></td>
+          <td class="mx-cell" style="font-size:11px;color:#94a3b8">—</td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Kiosk<small>Self check-in, display board</small></td>
+          <td class="mx-cell"><div class="prog-wrap"><div class="prog-bar"><span style="width:50%;background:#f59e0b"></span></div><span class="prog-val" style="color:#d97706">50%</span></div></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot-sm dg"></span>2</span></td>
+          <td class="mx-cell"><span class="pill p-ui"><span class="dot-sm dy"></span>0</span></td>
+          <td class="mx-cell"><span class="pill p-miss"><span class="dot-sm dr"></span>1</span></td>
+          <td class="mx-cell"><span class="pill p-block"><span class="dot-sm dp"></span>2</span></td>
+          <td class="mx-cell" style="font-size:11px;color:#94a3b8">—</td>
+        </tr>
+        <tr>
+          <td class="mx-mod">Enrollment<small>Card registration, verification, transfer</small></td>
+          <td class="mx-cell"><div class="prog-wrap"><div class="prog-bar"><span style="width:100%;background:#22c55e"></span></div><span class="prog-val" style="color:#16a34a">100%</span></div></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot-sm dg"></span>5</span></td>
+          <td class="mx-cell"><span class="pill p-ui"><span class="dot-sm dy"></span>0</span></td>
+          <td class="mx-cell"><span class="pill p-miss"><span class="dot-sm dr"></span>0</span></td>
+          <td class="mx-cell"><span class="pill p-block"><span class="dot-sm dp"></span>0</span></td>
+          <td class="mx-cell" style="font-size:11px;color:#94a3b8">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── FULL PROCESS TABLE ── -->
+  <div class="stitle"><div class="sicon" style="background:#f0fdf4">📋</div> Full Process Gap Table</div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="h-proc">Process / Feature</th>
+          <th class="h-status">Status</th>
+          <th class="h-block">Blocker</th>
+          <th class="h-notes">Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- QUEUE -->
+        <tr class="grp-row"><td colspan="4">§6 — Queue / Registration Module</td></tr>
+        <tr><td class="td-proc">Queue list (today, 15s auto-refresh, status filters)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Full implementation</td></tr>
+        <tr><td class="td-proc">Add to Queue (patient search + transactions)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Modal with search + quick register</td></tr>
+        <tr><td class="td-proc">Create / Edit queue + transactions</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Edit individual transactions, vitals, doctor</td></tr>
+        <tr><td class="td-proc">Cancel queue + ante-date shadow (Status 202)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Soft-cancel → creates 202 shadow</td></tr>
+        <tr><td class="td-proc">Approve / Reject amendment</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">202 → 201 with void of original</td></tr>
+        <tr><td class="td-proc">Payment recording (all methods)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Cash / Check / Card / HMO / Corporate</td></tr>
+        <tr><td class="td-proc">OR PDF + DRF PDF generation</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">ReactPDF, auto OR number per clinic/day</td></tr>
+        <tr><td class="td-proc">Charge slip PDF</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"><code>/api/reports/charge-slip</code></td></tr>
+        <tr><td class="td-proc">To-Comeback slip PDF</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"><code>/api/reports/to-comeback</code> with QR code</td></tr>
+        <tr><td class="td-proc">For Specimen button (210 → 300)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Manual button only — Mirth auto-trigger pending</td></tr>
+        <tr><td class="td-proc">Assign Accession No. (300 → 360)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">LAB A–L / IMAGING M–X sequences</td></tr>
+        <tr><td class="td-proc">Queue code generation (CEN20260309001)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Daily reset per clinic</td></tr>
+        <tr><td class="td-proc">Past queue history + search</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Date range + name + status filters, paginated</td></tr>
+        <tr><td class="td-proc">HL7 resend button (per transaction)</td><td class="td-status"><span class="pill p-ui"><span class="dot-sm dy"></span>UI Gap</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">API <code>/api/transactions/[id]/hl7-resend</code> exists; no button in edit-queue UI</td></tr>
+        <tr><td class="td-proc">Multi-branch cross-queue visibility</td><td class="td-status"><span class="pill p-miss"><span class="dot-sm dr"></span>Missing</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Session is single-clinic scoped; no multi-clinic API yet</td></tr>
+        <tr><td class="td-proc">Mirth Connect HL7 auto-trigger (210 → 300)</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-mirth">MIRTH</span></td><td class="td-notes">HL7 builder ready; Mirth server not wired</td></tr>
+
+        <!-- CLINICAL -->
+        <tr class="grp-row"><td colspan="4">§7 — Clinical Documentation</td></tr>
+        <tr><td class="td-proc">Clinical queue list (Waiting / In Progress / Completed)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">Vital signs (15 fields: BP×3, HR, Temp, RR, Weight, Height, BMI, Vision)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">SOAP notes</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">Physical examination form (full PE)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">Medical history (past / social / OB-GYN / family)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">Item-based medical evaluation</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">Overall fitness classification (A/B/C/D/Pending)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">Prescription (create, save, print)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">API + UI both implemented</td></tr>
+        <tr><td class="td-proc">Consultation summary PDF</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Vitals + SOAP + PE + procedures ordered</td></tr>
+        <tr><td class="td-proc">Mark clinical complete</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">ICD-10 code search / autocomplete</td><td class="td-status"><span class="pill p-miss"><span class="dot-sm dr"></span>Missing</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">ICD field exists in SOAP form; no lookup/autocomplete</td></tr>
+        <tr><td class="td-proc">Drug / medication formulary lookup</td><td class="td-status"><span class="pill p-miss"><span class="dot-sm dr"></span>Missing</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Prescription free-text only; no drug database</td></tr>
+
+        <!-- RESULTS LAB -->
+        <tr class="grp-row"><td colspan="4">§8 §11 — Results Module (Laboratory)</td></tr>
+        <tr><td class="td-proc">Results monitoring list (paid queues + accession expand)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Inline expand fixed (Fragment pattern)</td></tr>
+        <tr><td class="td-proc">Blood Extraction receiving (Hematology / Chemistry / Immunology)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Tube selector per item</td></tr>
+        <tr><td class="td-proc">Specimen receiving (Microscopy / Microbiology)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">Per-item status (received / waived / rejected / refused / doneOutside)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">Specimen receive → Status 311</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">877/888/899/866 also supported</td></tr>
+        <tr><td class="td-proc">Barcode label PDF printing</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">1 label per accessionno row, 2-col A4</td></tr>
+        <tr><td class="td-proc">Results releasing (311 → 600)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Full release with audit log</td></tr>
+        <tr><td class="td-proc">Manual lab result value encoding UI (CBC, Chem, etc.)</td><td class="td-status"><span class="pill p-ui"><span class="dot-sm dy"></span>UI Gap</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">API <code>POST /api/results/[id]/encode</code> exists; no form to enter values in UI</td></tr>
+        <tr><td class="td-proc">Result validation button (ENCODED → VALIDATED)</td><td class="td-status"><span class="pill p-ui"><span class="dot-sm dy"></span>UI Gap</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">API <code>PATCH /api/results/[id]/validate</code> exists; no validate button in releasing tab</td></tr>
+        <tr><td class="td-proc">Send results by email</td><td class="td-status"><span class="pill p-ui"><span class="dot-sm dy"></span>UI Gap</span></td><td class="td-block"><span class="btag bt-smtp">SMTP</span></td><td class="td-notes">API exists with PDF attachment; no email button in UI. Needs <code>SMTP_HOST / SMTP_USER / SMTP_PASS</code> env vars</td></tr>
+        <tr><td class="td-proc">Branch Sendout tab</td><td class="td-status"><span class="pill p-ui"><span class="dot-sm dy"></span>UI Gap</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Tab exists in sidebar; <code>SendoutPanel</code> component is a stub</td></tr>
+        <tr><td class="td-proc">Auto-encode lab values from HCLAB / LIS</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-lis">LIS</span> <span class="btag bt-mirth">MIRTH</span></td><td class="td-notes">Requires HL7 ORU feed from HCLAB via Mirth Connect</td></tr>
+        <tr><td class="td-proc">Critical value flagging + pathologist approval workflow</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-lis">LIS</span></td><td class="td-notes">Requires LIS to push critical flags via HL7</td></tr>
+        <tr><td class="td-proc">QC records / TAT tracking</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-lis">LIS</span></td><td class="td-notes">Turn-around-time requires LIS timestamps</td></tr>
+        <tr><td class="td-proc">Multi-level validation (pathologist sign-off chain)</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-lis">LIS</span></td><td class="td-notes">Requires LIS chain-of-custody</td></tr>
+
+        <!-- RESULTS IMAGING -->
+        <tr class="grp-row"><td colspan="4">§9 — Results Module (Imaging / Radiology)</td></tr>
+        <tr><td class="td-proc">Imaging accession assignment</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Same flow as LAB (Type = IMAGING)</td></tr>
+        <tr><td class="td-proc">Imaging station receiving (XRAY / ECG)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">Radiologist interpretation / findings UI</td><td class="td-status"><span class="pill p-ui"><span class="dot-sm dy"></span>UI Gap</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">API <code>/api/results/[id]/imaging-encode</code> exists; no UI form for radiologist findings</td></tr>
+        <tr><td class="td-proc">Imaging file / DICOM upload</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-ris">RIS</span> <span class="btag bt-infra">INFRA</span></td><td class="td-notes">Requires PACS/RIS + S3 or local file storage</td></tr>
+        <tr><td class="td-proc">RIS integration (auto-push radiology results)</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-ris">RIS</span> <span class="btag bt-mirth">MIRTH</span></td><td class="td-notes">Requires RIS HL7 ORM/ORU via Mirth</td></tr>
+
+        <!-- PAYMENT -->
+        <tr class="grp-row"><td colspan="4">§10 — Payment / Billing</td></tr>
+        <tr><td class="td-proc">Payment recording (Cash / Check / Card / HMO / Corporate)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">OR auto-generation per clinic/day</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">Payment history list (date / method / cashier)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Summary cards: OR count, total, discount</td></tr>
+        <tr><td class="td-proc">Cashier standalone payment page</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Payment Queue + Payment History tabs</td></tr>
+        <tr><td class="td-proc">Corporate billing statement (SOA) PDF</td><td class="td-status"><span class="pill p-miss"><span class="dot-sm dr"></span>Missing</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">No statement-of-account PDF for companies</td></tr>
+        <tr><td class="td-proc">HMO eligibility check integration</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-extapi">EXT API</span></td><td class="td-notes">HMO company recorded manually; no coverage verification API</td></tr>
+        <tr><td class="td-proc">PhilHealth e-claims submission</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-extapi">EXT API</span></td><td class="td-notes">Requires PhilHealth eClaims API credentials</td></tr>
+
+        <!-- REPORTS -->
+        <tr class="grp-row"><td colspan="4">§13 — Reports</td></tr>
+        <tr><td class="td-proc">8 financial report types (bookkeeper, cash, cashier-summary, HMO, per-item, sendout, summary, amendment)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">JSON / CSV / XLSX export</td></tr>
+        <tr><td class="td-proc">Charge slip PDF</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">To-comeback slip PDF</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">With QR code</td></tr>
+        <tr><td class="td-proc">Daily census / demographic report</td><td class="td-status"><span class="pill p-miss"><span class="dot-sm dr"></span>Missing</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">No patient demographic breakdown report</td></tr>
+        <tr><td class="td-proc">Doctor productivity report</td><td class="td-status"><span class="pill p-miss"><span class="dot-sm dr"></span>Missing</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">No per-physician patient count / revenue report</td></tr>
+        <tr><td class="td-proc">TAT (Turnaround Time) report</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-lis">LIS</span></td><td class="td-notes">Requires LIS receipt + result timestamps</td></tr>
+        <tr><td class="td-proc">Lab QC / rejected report</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-lis">LIS</span></td><td class="td-notes">Requires LIS QC data</td></tr>
+        <tr><td class="td-proc">Compliance report</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-lis">LIS</span></td><td class="td-notes">Regulatory compliance tied to LIS result completion data</td></tr>
+        <tr><td class="td-proc">Card management report</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-oracle">ORACLE</span></td><td class="td-notes">Requires Oracle EROS enrollment database</td></tr>
+
+        <!-- EROS -->
+        <tr class="grp-row"><td colspan="4">§12 — EROS / Referral</td></tr>
+        <tr><td class="td-proc">Company CRUD (code, name, billing type, status)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">Item prices + Item master CRUD</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Search + pagination</td></tr>
+        <tr><td class="td-proc">Physician accreditation (For Approval / Accredited)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Approve / decline with reason, 56-field form</td></tr>
+        <tr><td class="td-proc">Branch-to-branch referral CRUD</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-oracle">ORACLE</span></td><td class="td-notes">Requires live Oracle EROS DB + <code>oracledb</code> npm package</td></tr>
+        <tr><td class="td-proc">Online patient results portal</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-oracle">ORACLE</span></td><td class="td-notes">Patient self-service reads from EROS Oracle</td></tr>
+        <tr><td class="td-proc">EROS sync (CMS → Oracle write-back)</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-oracle">ORACLE</span></td><td class="td-notes">Any CMS data propagation to EROS</td></tr>
+
+        <!-- PATIENT -->
+        <tr class="grp-row"><td colspan="4">§4 — Patient Management</td></tr>
+        <tr><td class="td-proc">Patient search</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">Create / update patient demographics</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Full form modal, all demographic fields</td></tr>
+        <tr><td class="td-proc">Patient history (past queues)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"><code>/api/patients/[id]/history</code></td></tr>
+        <tr><td class="td-proc">Patient photo upload</td><td class="td-status"><span class="pill p-miss"><span class="dot-sm dr"></span>Missing</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">No API or UI; needs file storage decision</td></tr>
+        <tr><td class="td-proc">Patient duplicate detection / merge</td><td class="td-status"><span class="pill p-miss"><span class="dot-sm dr"></span>Missing</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">No deduplication workflow</td></tr>
+
+        <!-- APPOINTMENTS -->
+        <tr class="grp-row"><td colspan="4">§5 — Appointments / Scheduling</td></tr>
+        <tr><td class="td-proc">Daily schedule view by physician</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Reads queue data grouped by doctor; date picker</td></tr>
+        <tr><td class="td-proc">Appointment booking (create / cancel / reschedule)</td><td class="td-status"><span class="pill p-miss"><span class="dot-sm dr"></span>Missing</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">No appointment table; schedule is queue-derived only</td></tr>
+        <tr><td class="td-proc">Recurring schedule templates</td><td class="td-status"><span class="pill p-miss"><span class="dot-sm dr"></span>Missing</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">No recurring appointment support</td></tr>
+        <tr><td class="td-proc">Appointment reminder (SMS / email)</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-smtp">SMTP</span> <span class="btag bt-extapi">EXT API</span></td><td class="td-notes">Requires SMTP or SMS gateway</td></tr>
+
+        <!-- AUTH -->
+        <tr class="grp-row"><td colspan="4">§14 — Auth / Security</td></tr>
+        <tr><td class="td-proc">Login (clinic selector + credentials)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">JWT sessions (2hr expiry)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
+        <tr><td class="td-proc">RBAC guards on all routes</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">All pages + all API routes guarded</td></tr>
+        <tr><td class="td-proc">Audit logging (21 action types + viewer)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Separate <code>cms_audit</code> DB; silent failure</td></tr>
+        <tr><td class="td-proc">User management (CRUD + role assignment)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Soft-delete via <code>deleted_at</code></td></tr>
+        <tr><td class="td-proc">Session timeout warning / auto-refresh prompt</td><td class="td-status"><span class="pill p-miss"><span class="dot-sm dr"></span>Missing</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">2hr JWT expires silently; no countdown UI</td></tr>
+        <tr><td class="td-proc">Password reset flow</td><td class="td-status"><span class="pill p-miss"><span class="dot-sm dr"></span>Missing</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">No forgot-password / reset email</td></tr>
+        <tr><td class="td-proc">LDAP authentication (auto-sync roles)</td><td class="td-status"><span class="pill p-block"><span class="dot-sm dp"></span>Blocked</span></td><td class="td-block"><span class="btag bt-ldap">LDAP</span></td><td class="td-notes">Stub returns null; falls back to local DB bcrypt</td></tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── BLOCKER DETAIL CARDS ── -->
+  <div class="stitle"><div class="sicon" style="background:#faf5ff">🚫</div> External Blockers — Detail</div>
+  <div class="bsum-grid">
+    <div class="bcard bc-mirth">
+      <div class="bcard-head"><div class="bcard-icon">⚡</div><div><div class="bcard-title">MIRTH Connect</div><div class="bcard-sub">HL7 v2 Integration Engine</div></div></div>
+      <ul>
+        <li><strong>Queue auto-trigger</strong> — 210 → 300 when payment recorded (currently manual)</li>
+        <li><strong>HL7 resend</strong> — per-transaction resend button (API ready, UI missing)</li>
+        <li><strong>LIS auto-encode</strong> — ORU messages from HCLAB</li>
+        <li><strong>RIS push</strong> — ORM/ORU messages to/from RIS</li>
+      </ul>
+      <div class="bcard-need"><b>What's needed:</b> Mirth Connect server URL, service credentials, channel configuration</div>
+    </div>
+    <div class="bcard bc-lis">
+      <div class="bcard-head"><div class="bcard-icon">🧪</div><div><div class="bcard-title">LIS — HCLAB / Oracle</div><div class="bcard-sub">Laboratory Information System</div></div></div>
+      <ul>
+        <li><strong>Auto-encode</strong> lab result values (CBC, chemistry panels)</li>
+        <li><strong>Critical value flagging</strong> + pathologist approval workflow</li>
+        <li><strong>QC records</strong> and quality control data</li>
+        <li><strong>TAT tracking</strong> — turnaround time reports</li>
+        <li><strong>Multi-level validation</strong> chain of custody</li>
+      </ul>
+      <div class="bcard-need"><b>What's needed:</b> HCLAB HL7 ORU feed configured via Mirth + LIS API credentials</div>
+    </div>
+    <div class="bcard bc-ris">
+      <div class="bcard-head"><div class="bcard-icon">📡</div><div><div class="bcard-title">RIS — Radiology IS</div><div class="bcard-sub">Radiology Information System</div></div></div>
+      <ul>
+        <li><strong>Auto-push radiology results</strong> via HL7 ORM/ORU</li>
+        <li><strong>DICOM / imaging file storage</strong></li>
+        <li><strong>PACS integration</strong> for viewing images</li>
+      </ul>
+      <div class="bcard-need"><b>What's needed:</b> RIS endpoint URL + Mirth channel for HL7 ORM/ORU + PACS/file storage</div>
+    </div>
+    <div class="bcard bc-oracle">
+      <div class="bcard-head"><div class="bcard-icon">🗄️</div><div><div class="bcard-title">Oracle EROS DB</div><div class="bcard-sub">EROS Referral / Patient Portal</div></div></div>
+      <ul>
+        <li><strong>Branch-to-branch referrals</strong> CRUD</li>
+        <li><strong>Online patient results portal</strong> (self-service)</li>
+        <li><strong>CMS → EROS write-back</strong> sync</li>
+        <li><strong>Card management report</strong></li>
+      </ul>
+      <div class="bcard-need"><b>What's needed:</b> Oracle Instant Client installed + <code>oracledb</code> npm package + Oracle DB credentials</div>
+    </div>
+    <div class="bcard bc-ldap">
+      <div class="bcard-head"><div class="bcard-icon">🔐</div><div><div class="bcard-title">LDAP Server</div><div class="bcard-sub">Active Directory / LDAP</div></div></div>
+      <ul>
+        <li><strong>LDAP authentication</strong> — auto-login with AD credentials</li>
+        <li><strong>Role sync</strong> — auto-assign roles from AD groups on login</li>
+        <li><strong>LDAP user import</strong> — bulk user creation from AD</li>
+      </ul>
+      <div class="bcard-need"><b>What's needed:</b> LDAP server hostname, base DN, service account credentials</div>
+    </div>
+    <div class="bcard bc-smtp">
+      <div class="bcard-head"><div class="bcard-icon">📧</div><div><div class="bcard-title">SMTP Email Server</div><div class="bcard-sub">Lowest barrier — just env vars</div></div></div>
+      <ul>
+        <li><strong>Send results by email</strong> (PDF attachment) — API fully built</li>
+        <li><strong>Appointment reminders</strong> — email notifications</li>
+        <li><strong>Password reset emails</strong></li>
+      </ul>
+      <div class="bcard-need"><b>What's needed:</b> Set <code>SMTP_HOST</code>, <code>SMTP_USER</code>, <code>SMTP_PASS</code>, <code>SMTP_PORT</code> in <code>.env</code> — no code changes</div>
+    </div>
+    <div class="bcard bc-extapi">
+      <div class="bcard-head"><div class="bcard-icon">🌐</div><div><div class="bcard-title">External APIs</div><div class="bcard-sub">PhilHealth · HMO · SMS</div></div></div>
+      <ul>
+        <li><strong>PhilHealth e-claims</strong> submission</li>
+        <li><strong>HMO eligibility check</strong> — real-time coverage verification</li>
+        <li><strong>SMS reminders</strong> — appointment and result notifications</li>
+      </ul>
+      <div class="bcard-need"><b>What's needed:</b> PhilHealth eClaims API, HMO system API credentials, SMS gateway (Globe/Smart)</div>
+    </div>
+    <div class="bcard bc-infra">
+      <div class="bcard-head"><div class="bcard-icon">💾</div><div><div class="bcard-title">File Storage Infrastructure</div><div class="bcard-sub">DICOM · Images · Uploads</div></div></div>
+      <ul>
+        <li><strong>DICOM imaging files</strong> from PACS</li>
+        <li><strong>Patient photo uploads</strong></li>
+        <li><strong>Imaging reports</strong> file storage</li>
+      </ul>
+      <div class="bcard-need"><b>What's needed:</b> Decision on storage: S3 bucket (AWS/MinIO) or local NAS mount path</div>
+    </div>
+  </div>
+
+  <!-- ── BUILDABLE GAPS ── -->
+  <div class="stitle"><div class="sicon" style="background:#fffbeb">🟡</div> Buildable Gaps — API Ready, UI Missing (No External Dependency)</div>
+  <div class="bgap-grid">
+    <div class="bgap-card">
+      <h4><span class="mod-tag">Results</span> Lab Result Value Encoding Form</h4>
+      <p>API <code>POST /api/results/[id]/encode</code> is complete and tested. Need a form UI to enter CBC, chemistry panels, urinalysis values with reference ranges and flags.</p>
+      <span class="effort e-med">Medium effort</span>
+    </div>
+    <div class="bgap-card">
+      <h4><span class="mod-tag">Results</span> Imaging / Radiology Findings UI</h4>
+      <p>API <code>POST /api/results/[id]/imaging-encode</code> exists. Need a form for radiologists to enter impression and findings for XRAY / ECG items.</p>
+      <span class="effort e-med">Medium effort</span>
+    </div>
+    <div class="bgap-card">
+      <h4><span class="mod-tag">Results</span> Result Validation Button</h4>
+      <p>API <code>PATCH /api/results/[id]/validate</code> transitions ENCODED → VALIDATED. Need a validate/sign-off button in the releasing tab.</p>
+      <span class="effort e-low">Low effort</span>
+    </div>
+    <div class="bgap-card">
+      <h4><span class="mod-tag">Results</span> Send Results by Email Button</h4>
+      <p>API <code>POST /api/results/[id]/send-email</code> generates PDF and sends via SMTP. Need an email button in the releasing panel. Requires SMTP env vars configured.</p>
+      <span class="effort e-low">Low effort</span>
+    </div>
+    <div class="bgap-card">
+      <h4><span class="mod-tag">Results</span> Branch Sendout Tab</h4>
+      <p>Tab and route exist in the results module. <code>SendoutPanel</code> component is a stub. Need to implement the sendout workflow for cross-branch specimen forwarding.</p>
+      <span class="effort e-med">Medium effort</span>
+    </div>
+    <div class="bgap-card">
+      <h4><span class="mod-tag">Queue</span> HL7 Resend Button</h4>
+      <p>API <code>POST /api/transactions/[id]/hl7-resend</code> upserts an <code>msg_queue</code> row to trigger resend. Need a small resend button per transaction row in the edit-queue form.</p>
+      <span class="effort e-low">Low effort</span>
+    </div>
+    <div class="bgap-card">
+      <h4><span class="mod-tag">Clinical</span> ICD-10 Code Autocomplete</h4>
+      <p>The SOAP diagnosis field exists but is free-text only. Need a searchable ICD-10 dropdown. Requires an ICD-10 data table or static JSON loaded into the DB.</p>
+      <span class="effort e-med">Medium effort</span>
+    </div>
+    <div class="bgap-card">
+      <h4><span class="mod-tag">Clinical</span> Drug / Medication Formulary</h4>
+      <p>Prescription form is free-text. Need a drug formulary table + autocomplete so nurses/doctors can select standardized medications with dosage presets.</p>
+      <span class="effort e-med">Medium effort</span>
+    </div>
+    <div class="bgap-card">
+      <h4><span class="mod-tag">Payment</span> Corporate Billing Statement (SOA)</h4>
+      <p>No statement-of-account PDF for companies. Need an SOA generator showing all transactions billed to a company within a date range with totals.</p>
+      <span class="effort e-med">Medium effort</span>
+    </div>
+    <div class="bgap-card">
+      <h4><span class="mod-tag">Reports</span> Daily Census / Demographic Report</h4>
+      <p>No report showing patient demographics breakdown (age/gender/type/company) for a given day or period.</p>
+      <span class="effort e-med">Medium effort</span>
+    </div>
+    <div class="bgap-card">
+      <h4><span class="mod-tag">Reports</span> Doctor Productivity Report</h4>
+      <p>No per-physician patient count or revenue contribution report. Useful for BM/admin dashboards.</p>
+      <span class="effort e-med">Medium effort</span>
+    </div>
+    <div class="bgap-card">
+      <h4><span class="mod-tag">Auth</span> Session Timeout Warning</h4>
+      <p>JWT expires silently after 2 hours. Need a countdown warning with option to extend before expiry. Low complexity — countdown from session issue time.</p>
+      <span class="effort e-low">Low effort</span>
+    </div>
+    <div class="bgap-card">
+      <h4><span class="mod-tag">Dashboard</span> Multi-day Trend Charts</h4>
+      <p>Dashboard shows today's snapshot only. Need 7/30-day trend charts for queue volume and revenue. Requires a charting library (recharts or chart.js).</p>
+      <span class="effort e-med">Medium effort</span>
+    </div>
+  </div>
+
+  <!-- ── NOT STARTED ── -->
+  <div class="stitle"><div class="sicon" style="background:#fef2f2">🔴</div> Not Started — Design Decision Required</div>
+  <div class="ns-grid">
+    <div class="ns-card">
+      <div class="mod-tag">Appointments</div>
+      <h4>Appointment Booking System</h4>
+      <p>No appointment table exists. Current schedule page reads queue data by physician. Need a proper <code>appointment</code> table + create/cancel/reschedule flow.</p>
+    </div>
+    <div class="ns-card">
+      <div class="mod-tag">Queue</div>
+      <h4>Multi-branch Cross-queue View</h4>
+      <p>Session is single-clinic scoped. Need a multi-clinic session mode or a supervisor view that reads across branches (CEN/SMB/TAR).</p>
+    </div>
+    <div class="ns-card">
+      <div class="mod-tag">Patient</div>
+      <h4>Patient Photo Upload</h4>
+      <p>No API or UI for photo capture or upload. Requires a file storage decision (local vs S3/MinIO) before implementation.</p>
+    </div>
+    <div class="ns-card">
+      <div class="mod-tag">Patient</div>
+      <h4>Duplicate Patient Detection / Merge</h4>
+      <p>No deduplication logic. When the same patient is registered twice under slightly different names, there's no merge tool.</p>
+    </div>
+    <div class="ns-card">
+      <div class="mod-tag">Auth</div>
+      <h4>Password Reset Flow</h4>
+      <p>No forgot-password page or reset email. Needs SMTP + a <code>password_reset_token</code> table or time-limited JWT reset link.</p>
+    </div>
+    <div class="ns-card">
+      <div class="mod-tag">Settings</div>
+      <h4>Workstation Configuration</h4>
+      <p>The <code>[WORKSTATION]</code> role is defined in RBAC but no workstation settings page exists. Relevant for assigning printers, stations, and peripheral config.</p>
+    </div>
+    <div class="ns-card">
+      <div class="mod-tag">Dashboard</div>
+      <h4>Per-physician Productivity Widget</h4>
+      <p>No doctor-level stats on the dashboard. BM users need to see patient count and revenue per physician per day.</p>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<footer>
+  CMS v3 Gap Analysis &amp; Blocker Report &nbsp;·&nbsp; Generated March 16, 2026 &nbsp;·&nbsp; NWD Central Management System
+</footer>
+
+</body>
+</html>

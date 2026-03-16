@@ -272,29 +272,35 @@ export class QueueService {
   static async getPastQueue(
     clinicCode: string,
     options: {
-      q?:         string;   // patient name search
-      dateFrom?:  string;   // "YYYY-MM-DD"
-      dateTo?:    string;   // "YYYY-MM-DD"
-      status?:    string;   // status name filter (client-side)
-      page?:      number;
-      pageSize?:  number;
+      q?:           string;   // patient name search
+      dateFrom?:    string;   // "YYYY-MM-DD"
+      dateTo?:      string;   // "YYYY-MM-DD"
+      status?:      string;   // status name filter (client-side)
+      statusCode?:  number;   // numeric status filter (DB-level, e.g. 202 for amendments)
+      page?:        number;
+      pageSize?:    number;
     } = {}
   ): Promise<PaginatedResponse<QueueEntry & { date: string }>> {
-    const { q, dateFrom, dateTo, status, page = 1, pageSize = 100 } = options;
+    const { q, dateFrom, dateTo, status, statusCode, page = 1, pageSize = 100 } = options;
 
     const todayStr = new Date().toLocaleDateString("en-CA"); // "YYYY-MM-DD" Manila
     const today    = new Date(`${todayStr}T00:00:00Z`);
 
-    const dateFilter: Record<string, Date> = { lt: today };
-    if (dateFrom) dateFilter.gte = new Date(`${dateFrom}T00:00:00Z`);
-    if (dateTo)   dateFilter.lt  = new Date(`${dateTo}T00:00:00Z`);
+    // When fetching amendments (statusCode=202) skip date filter — ante-dated queues
+    // may have been created today and their Date field may not be in the past yet.
+    const dateFilter: Record<string, Date> | undefined = statusCode
+      ? undefined
+      : { lt: today };
+    if (!statusCode && dateFrom) (dateFilter as Record<string, Date>).gte = new Date(`${dateFrom}T00:00:00Z`);
+    if (!statusCode && dateTo)   (dateFilter as Record<string, Date>).lt  = new Date(`${dateTo}T00:00:00Z`);
 
     const [queueStatuses, entries] = await Promise.all([
       prisma.queuestatus.findMany(),
       prisma.queue.findMany({
         where: {
-          Date: dateFilter,
+          ...(dateFilter ? { Date: dateFilter } : {}),
           IdBU: clinicCode,
+          ...(statusCode !== undefined ? { Status: statusCode } : {}),
           ...(q ? { QFullName: { contains: q } } : {}),
         },
         orderBy: { Date: "desc" },
@@ -308,6 +314,8 @@ export class QueueService {
     const allData = entries.map((queue, i) => ({
       ...mapQueueEntry(queue, i + 1, statusMap),
       date: queue.Date.toISOString().split("T")[0],
+      anteDateReason: (queue as { AnteDateReason?: string | null }).AnteDateReason ?? null,
+      anteDateCode:   (queue as { AnteDateCode?: string | null }).AnteDateCode ?? null,
     }));
 
     const filtered = status

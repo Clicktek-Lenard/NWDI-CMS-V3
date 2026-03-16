@@ -27,7 +27,7 @@ export default function LoginForm({ clinics }: LoginFormProps) {
 
     try {
       const formData = new FormData(e.currentTarget);
-      const callbackUrl = searchParams.get("callbackUrl") || "/queue";
+      const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
 
       const result = await signIn("credentials", {
         username: formData.get("username") as string,

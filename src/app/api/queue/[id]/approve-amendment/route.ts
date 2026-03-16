@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { requireApiAuth } from "@/lib/auth/rbac";
 import prisma from "@/lib/db/prisma";
+import { logActivity, AUDIT_ACTIONS, getClientIp } from "@/lib/audit";
 
 // POST /api/queue/[id]/approve-amendment
 // Approves an ante-date queue (Status 202 → 201).
@@ -89,6 +90,14 @@ export async function POST(
       });
     }
   });
+
+  logActivity(session, AUDIT_ACTIONS.APPROVE_AMENDMENT, "queue", id, {
+    code:            queue.Code,
+    patientName:     queue.QFullName,
+    restoredStatus:  restoreStatus,
+    anteDate:        queue.AnteDate?.toISOString().slice(0, 10),
+    originalQueueId: queue.AnteDateQueueID ? Number(queue.AnteDateQueueID) : null,
+  }, getClientIp(request));
 
   return NextResponse.json({ success: true });
 }

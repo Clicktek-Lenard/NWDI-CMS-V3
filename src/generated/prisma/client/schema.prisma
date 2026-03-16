@@ -696,6 +696,7 @@ model role {
   status    String? @db.VarChar(50)
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model accessionno {
   Id                 BigInt    @id
   IdBU               String?   @db.VarChar(10)
@@ -722,6 +723,8 @@ model accessionno {
   ExamDate           DateTime? @db.Date
   ReceivedBU         String?   @db.VarChar(10)
   RISSeverity        String?   @db.VarChar(80)
+
+  @@map("accessionno")
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
@@ -735,6 +738,7 @@ model updatequeue {
   @@ignore
 }
 
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model paymenthistory {
   Id                BigInt    @id @default(autoincrement()) @map("Id")
   IdQueue           BigInt    @map("IdQueue")
@@ -743,31 +747,463 @@ model paymenthistory {
   ItemAmount        Float     @map("ItemAmount")
   BalanceAmount     Float?    @map("BalanceAmount")
   RemainingAmount   Float?    @map("RemainingAmount")
-  ProviderType      String?   @map("ProviderType") @db.VarChar(50)
+  ProviderType      String?   @map("ProviderType") @db.VarChar(30)
   BillTo            BigInt?   @map("BillTo")
-  ORNum             String?   @map("ORNum") @db.VarChar(50)
-  CoverageType      String?   @map("CoverageType") @db.VarChar(20)
+  ORNum             String?   @map("ORNum") @db.VarChar(30)
+  CoverageType      String?   @map("CoverageType") @db.VarChar(30)
   CoverageAmount    Float?    @map("CoverageAmount")
-  PaymentType       String?   @map("PaymentType") @db.VarChar(50)
-  RefNo             String?   @map("RefNo") @db.VarChar(100)
+  PaymentType       String?   @map("PaymentType") @db.VarChar(80)
+  RefNo             String?   @map("RefNo") @db.VarChar(50)
   PayAmount         Float?    @map("PayAmount")
-  BankName          String?   @map("BankName") @db.VarChar(100)
-  doWhileInsert     String?   @map("doWhileInsert") @db.VarChar(10)
-  DiscType          String?   @map("DiscType") @db.VarChar(50)
+  BankName          String?   @map("BankName") @db.VarChar(200)
+  doWhileInsert     String?   @map("doWhileInsert") @db.VarChar(2)
+  DiscType          String?   @map("DiscType") @db.VarChar(80)
   DiscId            String?   @map("DiscId") @db.VarChar(50)
   DiscAmount        Float?    @map("DiscAmount")
   LoyaltyId         String?   @map("LoyaltyId") @db.VarChar(50)
   LoyaltyPoint      Float?    @map("LoyaltyPoint")
-  AgentCode         String?   @map("AgentCode") @db.VarChar(50)
-  AgentName         String?   @map("AgentName") @db.VarChar(100)
-  Status            String?   @map("Status") @db.VarChar(20)
-  InputBy           String?   @map("InputBy") @db.VarChar(50)
-  InputDate         DateTime  @map("InputDate")
-  UpdateBy          String?   @map("UpdateBy") @db.VarChar(50)
-  UpdateDate        DateTime? @map("UpdateDate")
-  DeletedReason     String?   @map("DeletedReason") @db.VarChar(200)
-  PrevOR            String?   @map("PrevOR") @db.VarChar(50)
-  OReditReason      String?   @map("OReditReason") @db.VarChar(200)
+  AgentCode         String?   @map("AgentCode") @db.VarChar(10)
+  AgentName         String?   @map("AgentName") @db.VarChar(80)
+  Status            String?   @map("Status") @db.VarChar(30)
+  InputBy           String?   @map("InputBy") @db.VarChar(80)
+  InputDate         DateTime  @map("InputDate") @db.Timestamp(6)
+  UpdateBy          String?   @map("UpdateBy") @db.VarChar(80)
+  UpdateDate        DateTime? @map("UpdateDate") @db.Timestamp(6)
+  DeletedReason     String?   @map("DeletedReason") @db.VarChar(500)
+  PrevOR            String?   @map("PrevOR") @db.VarChar(15)
+  OReditReason      String?   @map("OReditReason") @db.VarChar(500)
   HMOId             String?   @map("HMOId") @db.VarChar(50)
   HMOPName          String?   @map("HMOPName") @db.VarChar(80)
+}
+
+model cardEnrollment {
+  id           Int       @id @default(autoincrement()) @map("Id")
+  cardnumber   String?   @map("CardNumber") @db.VarChar(20)
+  dateenrolled DateTime? @map("DateEnrolled") @db.Timestamp(6)
+  daterelease  DateTime? @map("DateRelease") @db.Timestamp(6)
+  releaseto    String?   @map("ReleaseTo") @db.VarChar(20)
+  oldreleaseto String?   @map("OldReleaseTo") @db.VarChar(20)
+  releaseby    String?   @map("ReleaseBy") @db.VarChar(20)
+  receivedby   String?   @map("ReceivedBy") @db.VarChar(20)
+  receiveddate DateTime? @map("ReceivedDate") @db.Timestamp(6)
+  status       Int?      @map("Status")
+  transferto   String?   @map("TransferTo") @db.VarChar(20)
+  datetransfer DateTime? @map("DateTransfer") @db.Timestamp(6)
+  transferby   String?   @map("TransferBy") @db.VarChar(20)
+
+  @@map("cardenrollment")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model peassesandrec {
+  Id             Int
+  IdQueue        Int
+  QueueCode      String?   @db.VarChar(30)
+  ItemCode       String?   @db.VarChar(30)
+  Findings       String?   @db.VarChar(1000)
+  Assessment     String?   @db.VarChar(3000)
+  Recommendation String?
+  Class          String?   @db.VarChar(255)
+  FinalClass     String?   @db.VarChar(15)
+  Evaluator      String?   @db.VarChar(150)
+  InputBy        String?   @db.VarChar(150)
+  DateAndTime    DateTime? @db.Timestamp(6)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model physicalexaminationreport {
+  Id                         BigInt
+  IdQueue                    BigInt
+  QueueCode                  String?   @db.VarChar(30)
+  IdTransaction              BigInt
+  IdPatient                  BigInt
+  LiverGallbladderDisease    String?   @db.VarChar(100)
+  Heartdisease               String?   @db.VarChar(100)
+  AsthmaAllergy              String?   @db.VarChar(100)
+  Tuberculosis               String?   @db.VarChar(100)
+  EarNoseThroatDisorder      String?   @db.VarChar(100)
+  EyeDisorder                String?   @db.VarChar(100)
+  DiabetesMellitus           String?   @db.VarChar(100)
+  ChronicHeadacheMigraine    String?   @db.VarChar(100)
+  Hypertension               String?   @db.VarChar(100)
+  KidneyDisease              String?   @db.VarChar(100)
+  Cancer                     String?   @db.VarChar(100)
+  SexuallyTransmittedDisease String?   @db.VarChar(100)
+  PastMedOthers              String?   @db.VarChar(500)
+  PresentSmoker              String?   @db.VarChar(3)
+  PresentSmokerSticksPerDay  String?   @db.VarChar(20)
+  PresentSmokerYears         String?   @db.VarChar(20)
+  PreviousSmoker             String?   @db.VarChar(3)
+  PreviousSmokerSticksPerDay String?   @db.VarChar(20)
+  PreviousSmokerYears        String?   @db.VarChar(20)
+  PresentAlcoholDrinker      String?   @db.VarChar(20)
+  PrevAlcoholDrinker         String?   @db.VarChar(20)
+  PersonalSocialOther        String?   @db.VarChar(100)
+  Menarche                   String?   @db.VarChar(50)
+  MenopausalAge              String?   @db.VarChar(10)
+  FirstDayofLastMenstruation String?   @db.VarChar(50)
+  PastMenstrualPeriod        String?   @db.VarChar(50)
+  Duration                   String?   @db.VarChar(100)
+  Regular                    String?   @db.VarChar(10)
+  GP                         String?   @db.VarChar(50)
+  OBGYNEOthers               String?   @db.VarChar(100)
+  BronchialAsthma            String?   @db.VarChar(50)
+  FDiabetesMellitus          String?   @db.VarChar(50)
+  Goiter                     String?   @db.VarChar(50)
+  PTB                        String?   @db.VarChar(50)
+  FHeartDisease              String?   @db.VarChar(100)
+  FHypertension              String?   @db.VarChar(100)
+  KedneyDisease              String?   @db.VarChar(100)
+  FamilyOthers               String?   @db.VarChar(500)
+  Skin                       String?   @db.VarChar(100)
+  HeadScalp                  String?   @db.VarChar(100)
+  Eyes                       String?   @db.VarChar(100)
+  EarsHearing                String?   @db.VarChar(100)
+  NoseSinuses                String?   @db.VarChar(100)
+  MouthThroat                String?   @db.VarChar(100)
+  NeckThyroid                String?   @db.VarChar(100)
+  ChestBreastAxilla          String?   @db.VarChar(100)
+  Lungs                      String?   @db.VarChar(100)
+  Heart                      String?   @db.VarChar(100)
+  Abdomen                    String?   @db.VarChar(100)
+  BlackFlanks                String?   @db.VarChar(100)
+  Extremities                String?   @db.VarChar(100)
+  Neurological               String?   @db.VarChar(100)
+  GenitalsUrinary            String?   @db.VarChar(100)
+  AnusRectum                 String?   @db.VarChar(100)
+  PhysicalExamOther          String?   @db.VarChar(500)
+  Pregnant                   String?   @db.VarChar(3)
+  Class                      String?   @db.VarChar(25)
+  Status                     Int?
+  InputBy                    String?   @db.VarChar(100)
+  InputDate                  DateTime  @db.Timestamp(6)
+  UpdateBy                   String?   @db.VarChar(25)
+  UpdateDate                 DateTime? @db.Timestamp(6)
+  CheckedBy                  String?   @db.VarChar(100)
+  CheckedDateTime            DateTime? @db.Timestamp(6)
+  Evaluator                  String?   @db.VarChar(100)
+  EvaluatorDateTime          DateTime? @db.Timestamp(6)
+  Evaluated                  String?   @db.VarChar(10)
+  EvaluatedDateTime          DateTime? @db.Timestamp(6)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model results {
+  Id             BigInt
+  SourceId       BigInt
+  SourceCode     String?  @db.VarChar(30)
+  UploadedBy     String?  @db.VarChar(80)
+  Action         String?  @db.VarChar(30)
+  SourceAction   String?  @db.VarChar(15)
+  OrgName        String?  @db.VarChar(150)
+  SystemDateTime DateTime @db.Timestamp(6)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model resultsstatus {
+  Id                BigInt
+  TransactionNo     String?  @db.VarChar(30)
+  StatusId          Int
+  Description       String?  @db.VarChar(80)
+  UpdateBy          String?  @db.VarChar(30)
+  Action            String?  @db.VarChar(30)
+  SystemTimeCreated DateTime @db.Timestamp(6)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model soap {
+  Id             BigInt
+  QueueCode      String?   @db.VarChar(30)
+  IdPatient      BigInt
+  IdDoctor       BigInt
+  NameDoctor     String?   @db.VarChar(100)
+  Subjective     String?
+  Objective      String?
+  Assessment     String?
+  Plan           String?
+  Status         Int?
+  InputBy        String?   @db.VarChar(30)
+  InputDate      DateTime? @db.Date
+  SystemDateTime DateTime  @db.Timestamp(6)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model soaptemp {
+  Id             BigInt
+  QueueCode      String?   @db.VarChar(30)
+  IdPatient      BigInt
+  IdDoctor       BigInt
+  NameDoctor     String?   @db.VarChar(100)
+  Subjective     String?
+  Objective      String?
+  Assessment     String?
+  Plan           String?
+  Status         Int?
+  InputBy        String?   @db.VarChar(30)
+  InputDate      DateTime? @db.Date
+  SystemDateTime DateTime  @db.Timestamp(6)
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model vitalsign {
+  Id                BigInt
+  IdQueue           BigInt
+  QueueCode         String?   @db.VarChar(30)
+  PcpId             BigInt?
+  PcpName           String?   @db.VarChar(75)
+  ChiefComplaint    String?   @db.VarChar(255)
+  PulseRate         String?   @db.VarChar(20)
+  RespiratoryRate   String?   @db.VarChar(20)
+  BloodPresure      Int?
+  BloodPresureOver  Int?
+  BloodPresure2     Int?
+  BloodPresureOver2 Int?
+  BloodPresure3     Int?
+  BloodPresureOver3 Int?
+  Temperature       String?   @db.VarChar(10)
+  Height            String?   @db.VarChar(10)
+  Weight            String?   @db.VarChar(10)
+  BMI               String?   @db.VarChar(15)
+  BMICategory       String?   @db.VarChar(50)
+  UcorrectedOD      String?   @db.VarChar(15)
+  UcorrectedOS      String?   @db.VarChar(15)
+  CorrectedOD       String?   @db.VarChar(15)
+  CorrectedOS       String?   @db.VarChar(15)
+  UncorrectedNearOD String?   @db.VarChar(15)
+  UncorrectedNearOS String?   @db.VarChar(15)
+  CorrectedNearOD   String?   @db.VarChar(15)
+  CorrectedNearOS   String?   @db.VarChar(15)
+  Deficient         String?   @db.VarChar(3)
+  ColorVision       String?   @db.VarChar(50)
+  WithContactLens   String?   @db.VarChar(3)
+  WithEyeGlass      String?   @db.VarChar(3)
+  InputBy           String?   @db.VarChar(50)
+  InputDate         DateTime? @db.Timestamp(6)
+  UpdateBy          String?   @db.VarChar(50)
+  UpdatedDate       DateTime? @db.Timestamp(6)
+
+  @@ignore
+}
+
+/// Replaces v1 `vitalsign` (@@ignore). One row per queue visit.
+model VitalSign {
+  id               Int      @id @default(autoincrement())
+  queue_id         Int      @unique
+  patient_id       String?  @db.VarChar(50)
+  chief_complaint  String?
+  pcp_doctor       String?  @db.VarChar(200)
+  bp_systolic      Int?
+  bp_diastolic     Int?
+  bp_systolic2     Int?
+  bp_diastolic2    Int?
+  bp_systolic3     Int?
+  bp_diastolic3    Int?
+  heart_rate       Int?
+  temperature      Decimal? @db.Decimal(5, 2)
+  respiratory_rate Int?
+  weight_kg        Decimal? @db.Decimal(7, 2)
+  height_cm        Decimal? @db.Decimal(6, 2)
+  bmi              Decimal? @db.Decimal(5, 2)
+  vision_right_od  String?  @db.VarChar(30)
+  vision_left_os   String?  @db.VarChar(30)
+  vision_corrected String?  @db.VarChar(30)
+  color_vision     String?  @db.VarChar(50)
+  recorded_by      Int?
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  @@map("vital_signs")
+}
+
+/// Replaces v1 `soap` + `soaptemp` (both @@ignore). Single table, is_draft + status fields.
+model ConsultationNote {
+  id              Int      @id @default(autoincrement())
+  queue_id        Int      @unique
+  patient_id      String?  @db.VarChar(50)
+  chief_complaint String?
+  history_illness String?
+  past_history    String?
+  family_history  String?
+  pe_findings     String?
+  diagnosis       String?
+  icd_code        String?  @db.VarChar(20)
+  treatment_plan  String?
+  orders          String?
+  pcp_doctor      String?  @db.VarChar(200)
+  doctor_id       Int?
+  doctor_name     String?  @db.VarChar(200)
+  is_draft        Int      @default(1)
+  status          String?  @db.VarChar(30)
+  recorded_by     Int?
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  @@map("consultation_notes")
+}
+
+/// Replaces the medical-history / PE-findings portion of v1 `physicalexaminationreport` (@@ignore).
+model PhysicalExamination {
+  id                  Int       @id @default(autoincrement())
+  queue_id            Int       @unique
+  patient_id          String?   @db.VarChar(50)
+  hypertension        Boolean   @default(false)
+  diabetes            Boolean   @default(false)
+  asthma              Boolean   @default(false)
+  heart_disease       Boolean   @default(false)
+  thyroid_disease     Boolean   @default(false)
+  kidney_disease      Boolean   @default(false)
+  allergies           Boolean   @default(false)
+  allergies_specify   String?   @db.VarChar(200)
+  surgery_history     Boolean   @default(false)
+  surgery_specify     String?   @db.VarChar(200)
+  smoker              Boolean   @default(false)
+  pack_years          Float?
+  alcoholic           Boolean   @default(false)
+  lmp                 DateTime? @db.Date
+  gravida             Int?
+  para                Int?
+  family_hypertension Boolean   @default(false)
+  family_diabetes     Boolean   @default(false)
+  family_cancer       Boolean   @default(false)
+  skin                String?
+  heent               String?
+  neck                String?
+  chest_lungs         String?
+  heart               String?
+  abdomen             String?
+  extremities         String?
+  neurological        String?
+  fitness_class       String?   @db.VarChar(50)
+  recorded_by         Int?
+  created_at          DateTime  @default(now())
+  updated_at          DateTime  @updatedAt
+
+  @@map("physical_examinations")
+}
+
+/// Replaces v1 `peassesandrec` (@@ignore). Composite key (queue_id, item_code) — one row per exam item.
+model MedicalEvaluation {
+  id             Int      @id @default(autoincrement())
+  queue_id       Int
+  patient_id     String?  @db.VarChar(50)
+  item_code      String   @db.VarChar(30)
+  item_name      String?  @db.VarChar(300)
+  findings       String?
+  assessment     String?
+  recommendation String?
+  class_value    String?  @db.VarChar(10)
+  recorded_by    Int?
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  @@unique([queue_id, item_code], name: "queue_id_item_code")
+  @@map("medical_evaluations")
+}
+
+model Prescription {
+  id          Int                @id @default(autoincrement())
+  queue_id    BigInt
+  patient_id  BigInt
+  doctor_name String?            @db.VarChar(200)
+  notes       String?
+  printed_at  DateTime?
+  input_by    String?            @db.VarChar(50)
+  created_at  DateTime           @default(now())
+  updated_at  DateTime           @updatedAt
+  items       PrescriptionItem[]
+
+  @@map("prescriptions")
+}
+
+model PrescriptionItem {
+  id              Int          @id @default(autoincrement())
+  prescription_id Int
+  medication      String       @db.VarChar(300)
+  dosage          String?      @db.VarChar(100)
+  frequency       String?      @db.VarChar(100)
+  duration        String?      @db.VarChar(100)
+  quantity        Int?
+  instructions    String?
+  prescription    Prescription @relation(fields: [prescription_id], references: [id])
+
+  @@map("prescription_items")
+}
+
+/// One row per accession item. Status: PENDING → ENCODED → VALIDATED → RELEASED
+model ResultValue {
+  id               Int       @id @default(autoincrement())
+  accession_id     BigInt    @unique
+  queue_id         BigInt
+  item_code        String?   @db.VarChar(30)
+  item_description String?   @db.VarChar(500)
+  result_value     String?   @db.VarChar(500)
+  result_unit      String?   @db.VarChar(50)
+  normal_range     String?   @db.VarChar(100)
+  flag             String?   @db.VarChar(5)
+  remarks          String?
+  encoded_by       String?   @db.VarChar(50)
+  encoded_at       DateTime?
+  validated_by     String?   @db.VarChar(50)
+  validated_at     DateTime?
+  status           String    @default("PENDING") @db.VarChar(20)
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+
+  @@map("result_values")
+}
+
+model ImagingResult {
+  id               Int       @id @default(autoincrement())
+  accession_id     BigInt    @unique
+  queue_id         BigInt
+  item_code        String?   @db.VarChar(30)
+  item_description String?   @db.VarChar(500)
+  interpretation   String?
+  impression       String?
+  radiologist_name String?   @db.VarChar(200)
+  encoded_by       String?   @db.VarChar(50)
+  encoded_at       DateTime?
+  validated_by     String?   @db.VarChar(50)
+  validated_at     DateTime?
+  status           String    @default("PENDING") @db.VarChar(20)
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+
+  @@map("imaging_results")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model cardNumber {
+  id                  Int     @id @map("Id")
+  year                String? @map("Year") @db.VarChar(5)
+  batch               String? @map("Batch") @db.VarChar(5)
+  month               String? @map("Month") @db.VarChar(5)
+  seriesNum           String? @map("SeriesNum") @db.VarChar(20)
+  maskedSeries        String? @map("MaskedSeries") @db.VarChar(20)
+  generatedcardnumber String? @map("GeneratedCardNumber") @db.VarChar(50)
+  codeCompany         String? @map("CodeCompany") @db.VarChar(50)
+  generatedBy         String? @map("GeneratedBy") @db.VarChar(50)
+
+  @@map("cardkey")
+}
+
+model cardVerified {
+  id                  Int       @id @map("Id")
+  verifiedcardnumbers String?   @map("VerifiedCardNumbers") @db.VarChar(16)
+  ictreceived         String?   @map("ICTReceived") @db.VarChar(20)
+  datereceived        DateTime? @map("DateReceived") @db.Timestamp(6)
+
+  @@map("cardverified")
 }

@@ -2,6 +2,7 @@ import NextAuth, { type DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { prisma } from "@/lib/db/prisma";
 import bcrypt from "bcryptjs";
+import { logActivity, AUDIT_ACTIONS } from "@/lib/audit";
 
 
 declare module "next-auth" {
@@ -176,6 +177,29 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session.user.clinicCode = (token.clinicCode as string) ?? "";
       }
       return session;
+    },
+  },
+  events: {
+    async signIn({ user }) {
+      logActivity(
+        { user: { id: user.id ?? "", username: user.username ?? user.name ?? null, clinicCode: user.clinicCode ?? null } },
+        AUDIT_ACTIONS.USER_LOGIN,
+        "auth",
+        user.id,
+        { clinicCode: user.clinicCode ?? "" }
+      );
+    },
+    async signOut(message) {
+      const token = "token" in message ? message.token : null;
+      if (token?.id) {
+        logActivity(
+          { user: { id: String(token.id), username: String(token.username ?? ""), clinicCode: String(token.clinicCode ?? "") } },
+          AUDIT_ACTIONS.USER_LOGOUT,
+          "auth",
+          String(token.id),
+          { clinicCode: String(token.clinicCode ?? "") }
+        );
+      }
     },
   },
   pages: {

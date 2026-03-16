@@ -1,0 +1,58 @@
+// ── Audit Log Database — separate from cms_v2 ──────────────────────────────
+// Connection: AUDIT_DATABASE_URL (PostgreSQL, database: cms_audit)
+// Run:  npx prisma db push --schema=prisma/audit.schema.prisma
+//       npx prisma generate --schema=prisma/audit.schema.prisma
+
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/audit-prisma/client"
+}
+
+// ── ActivityLog ─────────────────────────────────────────────────────────────
+// Mirrors v1's KioskLog + TransactionLogs + ErosPhysicianInfo in one table.
+// PaymentHistory is already stored in cms_v2 (existing paymenthistory table).
+//
+// action constants → see src/lib/audit.ts AUDIT_ACTIONS
+// detail JSON shape per action:
+//   CREATE_QUEUE        { code, patientName, patientId, transactionCount, transactions:[{code,description,amount}] }
+//   CANCEL_QUEUE        { code, patientName, reason, previousStatus }
+//   APPROVE_AMENDMENT   { code, patientName, anteDateCode, anteDateReason, approvedBy }
+//   REJECT_AMENDMENT    { code, patientName, anteDateCode, anteDateReason, rejectedBy }
+//   RECORD_PAYMENT      { orNumber, totalAmount, paymentType, discountAmount, queueCode, patientName }
+//   CANCEL_PAYMENT      { orNumber, reason, cancelledAmount }
+//   ASSIGN_ACCESSION    { queueCode, accessionCount, accessions:[{no,itemCode}] }
+//   RECEIVE_SPECIMEN    { queueCode, accessionNo, status, tube }
+//   ENCODE_RESULT       { queueCode, accessionNo, itemCode, resultValue, flag }
+//   VALIDATE_RESULT     { queueCode, count }
+//   RELEASE_RESULT      { queueCode, patientName, count }
+//   ENCODE_IMAGING      { queueCode, accessionNo, itemCode, impression }
+//   SAVE_VITALS         { queueCode, patientName, bp, heartRate, temperature, weight, height }
+//   SAVE_CONSULTATION   { queueCode, patientName, diagnosis, icdCode, doctorName }
+//   SAVE_PRESCRIPTION   { queueCode, patientName, doctorName, itemCount }
+//   CREATE_USER         { username, role, clinicCode }
+//   UPDATE_USER         { username, changedFields:[{field, oldValue, newValue}] }
+//   DEACTIVATE_USER     { username }
+//   USER_LOGIN          { username, clinicCode }
+
+model ActivityLog {
+  id          Int      @id @default(autoincrement())
+  clinic_code String   @db.VarChar(10)
+  user_id     String   @db.VarChar(50)
+  username    String   @db.VarChar(80)
+  ip_address  String?  @db.VarChar(45)
+  action      String   @db.VarChar(60)
+  resource    String   @db.VarChar(30)
+  resource_id String?  @db.VarChar(30)
+  detail      Json?
+  created_at  DateTime @default(now())
+
+  @@index([clinic_code, created_at])
+  @@index([user_id])
+  @@index([resource, resource_id])
+  @@index([action])
+  @@map("activity_logs")
+}

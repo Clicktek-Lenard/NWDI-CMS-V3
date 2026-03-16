@@ -1,249 +1,214 @@
 # CMS v3 — Project Status
 
-_Last reviewed: 2026-03-09_
+_Last reviewed: 2026-03-15_
+
+> Source of truth for gaps: `CMS Status Reporting.html` (FRD cross-reference)
+> This file tracks buildable tasks only — items blocked by Oracle/LIS/RIS are noted separately.
 
 ---
 
 ## ✅ DONE
 
-### Queue Module
-The most complete module in the system. Full end-to-end implementation.
-
+### Queue Module (§6 Registration)
 | Task | Status |
 |------|--------|
-| Queue list page with live 15s auto-refresh | ✅ |
-| Status filters (badge counts per status) | ✅ |
-| Search by patient name / accession | ✅ |
+| Queue list with 15s auto-refresh + status filters | ✅ |
 | Add to Queue modal (patient search + quick entry) | ✅ |
-| Create Queue page (full transaction form) | ✅ |
-| Edit Queue page — queue details, vitals, transactions | ✅ |
-| Edit individual committed transaction (doctor/company/item) | ✅ |
-| Remove/cancel transaction (soft-cancel, Status → 650) | ✅ |
+| Create Queue / Edit Queue (transactions, vitals, doctor) | ✅ |
+| Edit / cancel individual transactions (soft-cancel → 650) | ✅ |
 | Cancel Queue + Ante-date (Status 202 shadow queue) | ✅ |
 | Approve amendment (202 → 201, void original) | ✅ |
 | Payment recording for selected transactions | ✅ |
-| Regenerate lab PDF (HL7 trigger) | ✅ |
+| OR PDF + DRF PDF generation | ✅ |
 | Queue code generation (`CEN20260309001` format) | ✅ |
+| "For Specimen" manual button (210 → 300) | ✅ |
+| Assign Accession No. (300 → 360, LAB A–L / IMAGING M–X) | ✅ |
 | RBAC guards on all queue pages and API routes | ✅ |
-| Role-based button visibility (BM-ROLE, RESULTS-RELEASING) | ✅ |
 
-**API routes done:** `GET/POST /api/queue`, `GET/PATCH /api/queue/[id]`, `/cancel`, `/approve-amendment`, `/payment`, `/regenerate-pdf`, `PATCH/DELETE /api/transactions/[id]`
+**API routes:** `GET/POST /api/queue`, `GET/PATCH /api/queue/[id]`, `/cancel`, `/approve-amendment`, `/payment`, `/regenerate-pdf`, `/for-specimen`, `PATCH/DELETE /api/transactions/[id]`, `POST /api/accession/make`
 
 ---
 
-### Clinical Module
-Full doctor/nurse consultation workflow implemented.
-
+### Clinical Module (§7 Clinical Documentation)
 | Task | Status |
 |------|--------|
-| Clinical queue list (filtered for clinical staff) | ✅ |
-| Status tabs: Waiting / In Progress / Completed | ✅ |
-| Stats counter (waiting, in-progress, completed) | ✅ |
-| Evaluation drawer (side panel) | ✅ |
-| Vital signs form (BP, HR, temp, O2, weight, height, BMI, vision) | ✅ |
+| Clinical queue list (Waiting / In Progress / Completed tabs) | ✅ |
+| Evaluation drawer with full SOAP notes | ✅ |
+| Vital signs (15 fields: BP×3, HR, Temp, RR, Weight, Height, BMI, Vision OD/OS) | ✅ |
 | Physical examination form | ✅ |
-| Medical history fields (liver, heart, asthma, TB, etc.) | ✅ |
-| Social history (smoking, alcohol, OB-GYN) | ✅ |
-| Consultation notes (SOAP format) | ✅ |
+| Medical history (liver, heart, asthma, TB, social, OB-GYN) | ✅ |
 | Item-based medical evaluation | ✅ |
 | Mark clinical complete | ✅ |
-| Physicians list API | ✅ |
-| RBAC guards (`cms/clinical`) | ✅ |
 
-**API routes done:** `GET /api/clinical/queue`, `GET /api/clinical/physicians`, `GET/POST /api/clinical/[queueId]/vitals`, `/pe`, `/evaluation`, `/medical-eval`, `/complete`, `/status`
+**API routes:** `GET /api/clinical/queue`, `/physicians`, `GET/POST /api/clinical/[id]/vitals`, `/pe`, `/evaluation`, `/medical-eval`, `/complete`, `/status`
+
+---
+
+### Results Module (§8 Laboratory + §11 Result Management)
+| Task | Status |
+|------|--------|
+| Results monitoring list (all paid queues + accession detail expand) | ✅ |
+| Blood Extraction station tab (HEMATOLOGY / CHEMISTRY / IMMUNOLOGY) | ✅ |
+| Specimen station tab (MICROSCOPY / MICROBIOLOGY) | ✅ |
+| Imaging station tab (XRAY / ECG) | ✅ |
+| Per-item status: received / waived / rejected / refused / doneOutside | ✅ |
+| Tube selector for HEMATOLOGY items | ✅ |
+| Results releasing tab (311 → 600) | ✅ |
+| Accession type fix: PACK → LAB/IMAGING via itemmaster.Type | ✅ |
+
+**Full workflow:** 210 → 300 (For Specimen) → 360 (Accession Assigned) → 311 (Specimen Received) → 600 (Released)
+
+**API routes:** `GET /api/results`, `PATCH /api/results/[id]/receive-specimen`, `PATCH /api/results/[id]/release`
+
+---
+
+### Payment Module (§10 Billing)
+| Task | Status |
+|------|--------|
+| Payment form (select transactions, method, submit) | ✅ |
+| Cash / Check / Card / HMO / Corporate discount logic | ✅ |
+| OR number auto-generation per clinic per day | ✅ |
+| paymenthistory record saved per payment | ✅ |
+
+**API routes:** `POST /api/queue/[id]/payment`
 
 ---
 
 ### Enrollment Module
-Card enrollment lifecycle fully implemented at API and component level.
-
 | Task | Status |
 |------|--------|
-| Card enrollment list (REGISTERED / RECEIVED / VERIFIED / TRANSFERRED tabs) | ✅ |
-| Register card modal | ✅ |
-| Receive card action | ✅ |
-| Verify card action | ✅ |
-| Transfer card action | ✅ |
-| Card number lookup | ✅ |
-| Enrollment patient list | ✅ |
-| Search by card number / company | ✅ |
-| Pagination (10 per page) | ✅ |
-| RBAC guards (`cms/enrollment`) | ✅ |
+| Card enrollment list (REGISTERED / RECEIVED / VERIFIED / TRANSFERRED) | ✅ |
+| Register / Receive / Verify / Transfer card actions | ✅ |
+| Card number lookup + enrollment patient list | ✅ |
 
-**Note:** The `EnrollmentService` throws errors (database table pending). The enrollment API (`/api/enrollment/cards`) uses **raw SQL** directly — bypasses the service layer for now.
+---
 
-**API routes done:** `GET/POST /api/enrollment/cards`, `/receive`, `/verify`, `/transfer`, `/patients`, `/card-numbers`
+### Auth / RBAC (§14 Security)
+| Task | Status |
+|------|--------|
+| Login page (clinic selector + credentials) | ✅ |
+| NextAuth JWT sessions (2hr expiry) | ✅ |
+| LDAP stub (returns null — logs warning) | ✅ |
+| Local DB fallback with bcrypt + `$2y$` → `$2b$` fix | ✅ |
+| RBAC: `requireAuth()` + `requireApiAuth()` on all routes | ✅ |
+| Clinic-level data scoping (`clinicCode` on all DB queries) | ✅ |
 
 ---
 
 ### User Management (Settings)
-Full CRUD for system users.
+| Task | Status |
+|------|--------|
+| User list, create, edit, delete (soft via `deleted_at`) | ✅ |
+| Role assignment + LDAP import flag | ✅ |
+
+---
+
+## 🔨 TODO — Buildable Now (No External Dependencies)
+
+Priority order based on FRD requirement coverage and user impact.
+
+### ~~P1 — Reports Module (§10 + §13)~~ — ✅ COMPLETE
+
+All 8 report types fully implemented with UI + API + exports.
 
 | Task | Status |
 |------|--------|
-| User list with search + status filter | ✅ |
-| Create user (with bcrypt password hashing) | ✅ |
-| Edit user (role, active status) | ✅ |
-| View user details | ✅ |
-| Delete user (soft delete via `deleted_at`) | ✅ |
-| LDAP import flag support | ✅ |
-| Pagination (10 per page) | ✅ |
-| RBAC guard (`cms/settings`) | ✅ |
+| bookkeeper, cash, cashier-summary, hmo, per-item, sendout, summary, amendment reports | ✅ |
+| `GET /api/reports/[type]` with JSON / CSV / XLSX export | ✅ |
+| Reports UI — sortable table, pagination, summary cards, date range + branch filters | ✅ |
+| ExcelJS XLSX + CSV + print export | ✅ |
+
+**API:** `src/app/api/reports/[type]/route.ts` · **UI:** `src/components/reports/reports-client.tsx`
 
 ---
 
-### Auth & RBAC
-| Task | Status |
-|------|--------|
-| Login page (clinic selector + credentials) | ✅ |
-| NextAuth JWT session (2hr expiry) | ✅ |
-| LDAP auth stub (returns null — logs warning) | ✅ |
-| Local DB fallback with bcrypt | ✅ |
-| Legacy PHP `$2y$` → `$2b$` hash conversion | ✅ |
-| RBAC with raw bracket-string roles `[QUEUE][NURSE]` | ✅ |
-| `requireAuth()` server component guard | ✅ |
-| `requireApiAuth()` API route guard | ✅ |
-| `hasAccess()` / `hasBranchAccess()` helpers | ✅ |
-| Demo users (admin / nurse / cashier) for dev | ✅ |
-
----
-
-### Infrastructure
-| Task | Status |
-|------|--------|
-| PostgreSQL via Prisma v7 + `@prisma/adapter-pg` | ✅ |
-| Dark mode toggle (`@variant dark` + `next-themes`) | ✅ |
-| Generated Prisma client committed to git | ✅ |
-| `postinstall: prisma generate` in package.json | ✅ |
-| Root `/` redirect to `/queue` | ✅ |
-| In-UI 404 page (inside dashboard layout) | ✅ |
-| React Query (30s stale, 60s refetch) | ✅ |
-| Zustand store for queue filters | ✅ |
-| `apiFetch` safe client helper | ✅ |
-| `cn()`, `formatDate()`, `formatCurrency()` utils | ✅ |
-
----
-
-## 🔄 ONGOING / PARTIAL
-
-### Payment Module
-The payment form component is fully implemented, but the standalone payment tracking page is incomplete.
-
-| Task | Status | Blocker |
-|------|--------|---------|
-| Payment form (select transactions, method, submit) | ✅ | — |
-| `POST /api/queue/[id]/payment` — record payment | ✅ | — |
-| `/payment` standalone page with payment list | ❌ | `paymentHistory` table not in schema |
-| `PaymentService.getPayments()` | ❌ | Throws — table not available |
-| `PaymentService.createPayment()` | ❌ | Throws — table not available |
-| `GET/POST /api/payment` routes | ❌ | Blocked by service stubs |
-| Payment history / OR tracking | ❌ | — |
-
----
-
-### Settings Module
-User management is done. System configuration section is empty.
+### ~~P2 — Audit Logging (§13 + §14)~~ — ✅ COMPLETE
 
 | Task | Status |
 |------|--------|
-| User management (CRUD) | ✅ |
-| LDAP configuration UI | ❌ |
-| Facility / branch management | ❌ |
-| System settings (business unit setup) | ❌ |
-| Workstation management | ❌ |
-| Role management (`[BM-ROLE]` / `[BM-MODULE]`) | ❌ |
-| HL7 configuration (`[HL7BTN]`) | ❌ |
+| Separate `cms_audit` DB with `activitylog` Prisma model | ✅ `src/lib/db/audit-prisma.ts` |
+| `logActivity()` helper (21 action constants, silent failure) | ✅ `src/lib/audit.ts` |
+| Logging wired into queue, payment, release, prescription, user routes | ✅ |
+| Audit log viewer page at `/settings/audit-log` | ✅ `src/components/settings/audit-log-client.tsx` |
+| `GET /api/audit-logs` — filter by user / module / date | ✅ |
 
 ---
 
-### EROS Module
-Page shell exists with navigation tabs; no actual implementation.
+### ~~P3 — Patient Create Form (§4)~~ — ✅ COMPLETE
 
 | Task | Status |
 |------|--------|
-| Company list page shell | ⚠️ placeholder |
-| Company CRUD (create, edit, view) | ❌ |
-| Item Master List | ❌ |
-| Physician management | ❌ |
-| `GET /api/companies` | ✅ |
-| `GET /api/physicians`, `GET /api/physicians/[id]` | ✅ |
-| Sync from EROS button | ❌ |
+| `POST /api/patients` — create new patient | ✅ |
+| `PATCH /api/patients/[id]` — update patient | ✅ |
+| `PatientFormModal` — create/edit modal with all demographics fields | ✅ |
+| "New Patient" button in Add-to-Queue modal (search miss → quick register) | ✅ |
+| Schema: `patient.Id @default(autoincrement())` added — run `npx prisma generate` | ✅ |
 
 ---
 
-## ❌ TODO
-
-### Results Module
-Page shell with placeholder text only. No component, no API.
+### ~~P4 — Cashier Standalone Payment Page (§10)~~ — ✅ COMPLETE
 
 | Task | Status |
 |------|--------|
-| Results monitoring list | ❌ |
-| Results releasing workflow | ❌ |
-| Result uploading | ❌ |
-| Company results portal | ❌ |
-| Lab results (`[LABORATORY]`, `[RADIOLOGY]`, `[XRAY]` roles) | ❌ |
-| API routes for results | ❌ |
+| `GET /api/payment?history=true` — paymenthistory records with queue join | ✅ |
+| Filter by date / payment method / cashier / search | ✅ |
+| Payment page — "Payment Queue" tab (queue statuses) + "Payment History" tab (OR records) | ✅ |
+| Summary cards: OR count, total paid, total discount | ✅ |
 
 ---
 
-### Reports Module
-6 hardcoded report cards exist on the page but none are functional.
+### ~~P5 — Clinical PDF Outputs (§7)~~ — ✅ COMPLETE
 
 | Task | Status |
 |------|--------|
-| Daily Sales report | ❌ |
-| Card Management report | ❌ |
-| Transaction report | ❌ |
-| Queue Summary report | ❌ |
-| Payment Summary report | ❌ |
-| Facility Comparison report | ❌ |
-| Export to Excel (ExcelJS installed, unused) | ❌ |
-| TAT (Turnaround Time) report | ❌ |
-| Daily Census report | ❌ |
-| Lab Rejected report | ❌ |
-| Compliance report | ❌ |
+| `ConsultationSummaryDocument` PDF — vitals + SOAP + PE + procedures ordered | ✅ |
+| `GET /api/queue/[id]/pdf?type=summary` — fetches vitals + consultationNote, renders PDF | ✅ |
+| "Print Summary" button in evaluation drawer footer | ✅ |
 
 ---
 
-### LDAP Authentication
-Stub exists in `auth.ts` but always returns `null`.
+### ~~P6 — Specimen Barcode Label PDF (§8)~~ — ✅ COMPLETE
 
 | Task | Status |
 |------|--------|
-| Install & configure `ldapjs` | ❌ |
-| LDAP bind + user search | ❌ |
-| Auto-sync LDAP roles to `user.role` on login | ❌ |
-| LDAP group → bracket role mapping | ❌ |
+| `GET /api/results/[id]/barcode-labels` — 1 label per accessionno row | ✅ |
+| `BarcodeLabelsDocument` — 2-column A4, prominent accession no., patient name, item description, type badge | ✅ |
+| "Labels" print button in Releasing Panel (alongside Release button) | ✅ |
 
 ---
 
-### Missing Database Tables
+## 🚫 TODO — Blocked by External Systems
 
-The following tables are referenced in code but not yet in `prisma/schema.prisma`:
+These gaps require Oracle / LIS / RIS integration that is out of scope until Mirth Connect is wired up.
 
-| Table | Blocks |
-|-------|--------|
-| `paymentHistory` | Payment history tracking, OR numbers |
-| `CardEnrollment` (PostgreSQL migration) | EnrollmentService methods |
-| `consultation_notes` | Clinical client handles gracefully (no hard block) |
+| Gap | Blocker |
+|-----|---------|
+| Lab result VALUE encoding (CBC, chemistry panels, etc.) | HCLAB / Oracle LIS |
+| Critical result flagging + pathologist approval | LIS integration |
+| QC records / TAT tracking | LIS |
+| Radiologist interpretation form | RIS integration |
+| Imaging file / PDF storage + upload | RIS + file storage (S3 or local) |
+| Online patient results portal | EROS Oracle DB |
+| EROS branch-to-branch referral CRUD | EROS Oracle DB |
+| LDAP authentication (auto-sync roles on login) | LDAP server access |
+| Mirth Connect HL7 auto-trigger (210 → 300) | Mirth server |
 
 ---
 
-## Summary
+## 📊 Module Completion Summary
 
-| Module | Done | Partial | Todo |
-|--------|------|---------|------|
-| Queue | ✅ | | |
-| Clinical | ✅ | | |
-| Enrollment (API/UI) | ✅ | | |
-| Auth / RBAC | ✅ | | |
-| User Management | ✅ | | |
-| Infrastructure | ✅ | | |
-| Payment | | 🔄 | |
-| Settings (System Config) | | 🔄 | |
-| EROS | | 🔄 | |
-| Results | | | ❌ |
-| Reports | | | ❌ |
-| LDAP Auth | | | ❌ |
-| Enrollment Service | | | ❌ |
+| Module | Done | Gap (Buildable) | Blocked |
+|--------|------|-----------------|---------|
+| Queue (§6) | ✅ | — | — |
+| Clinical (§7) | ✅ | — | — |
+| Results / Lab (§8+§11) | 75% | — | LIS result encoding |
+| Imaging (§9) | 20% | — | RIS interpretation, file storage |
+| Payment / Billing (§10) | ✅ | — | — |
+| Result Management (§11) | 60% | — | Multi-level validation |
+| Referral / EROS (§12) | 5% | — | Oracle EROS DB |
+| Reports (§13) | ✅ | — | — |
+| Security / Audit (§14) | 75% | **Audit log table + middleware** | LDAP |
+| Patient Management (§4) | ✅ | — | — |
+| Auth | ✅ | — | LDAP |
+| User Management | ✅ | — | — |
+| Enrollment | ✅ | — | — |

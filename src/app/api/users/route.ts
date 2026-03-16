@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db/prisma";
 import { requireApiAuth } from "@/lib/auth/rbac";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import { logActivity, AUDIT_ACTIONS, getClientIp } from "@/lib/audit";
 
 const createSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),
@@ -85,7 +86,7 @@ export async function GET(request: NextRequest) {
 // POST /api/users — create a new user
 export async function POST(request: NextRequest) {
   try {
-    await requireApiAuth(request, "cms", "settings");
+    const session = await requireApiAuth(request, "cms", "settings");
 
     const body = await request.json();
     const parsed = createSchema.safeParse(body);
@@ -154,6 +155,12 @@ export async function POST(request: NextRequest) {
         updated_at: true,
       },
     });
+
+    logActivity(session, AUDIT_ACTIONS.CREATE_USER, "user", user.id, {
+      username:   user.username,
+      department: user.department,
+      activated:  user.activated,
+    }, getClientIp(request));
 
     return NextResponse.json({ success: true, data: user }, { status: 201 });
   } catch (error) {

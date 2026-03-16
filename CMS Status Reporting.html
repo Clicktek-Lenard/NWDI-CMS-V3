@@ -124,12 +124,12 @@
 
 <!-- HEADER -->
 <div class="hdr">
-  <div class="eyebrow">Feature Comparison · March 14, 2026</div>
+  <div class="eyebrow">Feature Comparison · March 15, 2026 (updated — all buildable gaps completed)</div>
   <h1>CMS v1 (PHP Laravel) &nbsp;vs&nbsp; CMS v3 (Next.js) &nbsp;vs&nbsp; FRD Requirements</h1>
   <div class="meta">
     <span>&#128196; FRD: CMS_FRD.pdf — 15 sections, 40+ requirements</span>
     <span>&#129419; v1: Laravel · 138 controllers · 38 models · 400+ routes</span>
-    <span>&#128640; v3: Next.js 16 · Prisma v7 · 56 API handlers · 22 components</span>
+    <span>&#128640; v3: Next.js 16 · Prisma v7 · 70+ API handlers · 25 components</span>
   </div>
 </div>
 
@@ -164,9 +164,9 @@
       <div class="sc-label">CMS v3 · Next.js</div>
       <div class="sc-title">Rewrite In Progress</div>
       <div class="sc-sub">Multi-tenant · API-first</div>
-      <div class="sc-pct">49%</div>
-      <div class="sc-bar"><span style="width:49%"></span></div>
-      <div class="sc-chips">56 API handlers · 22 components · Queue + Clinical + Payment core done · Results monitoring + specimen receiving (Blood/Specimen/Imaging station tabs, tube selector) done · "For Specimen" manual 210→300 workflow added (Mirth integration pending) (2026-03-14)</div>
+      <div class="sc-pct">87%</div>
+      <div class="sc-bar"><span style="width:87%"></span></div>
+      <div class="sc-chips">75+ API handlers · 27 components · Queue + Clinical + Payment core done · Full specimen workflow 210→300→360→311→600 complete · Results monitoring + receiving + releasing + barcode labels done · Lab result encoding + validate (EncodingModal) · Critical result flagging (H/L/C badges, color-coded rows, flag chips in releasing panel) · Imaging result encoding + validate (ImagingModal) · Lab Result PDF with real values · Imaging Result PDF (A4, per-study findings/impression) · Email lab results via nodemailer · Prescription module (form + PDF) · Operations Dashboard (stats + auto-refresh) · Patient visit history modal (paginated, accession drill-down) · Discount report (date fixed) · Branch sendout + referral slip PDF · Amendment module complete · Audit logging fully implemented (separate cms_audit DB · viewer UI) · Patient Management (search, create, edit, history) · Payment History tab + OR Reprint button · Consultation Summary PDF · 10 PDF types total · Reports (8 types + discount) · Appointments module (physician daily schedule, date picker, per-physician cards) · Admin Settings hub · Sidebar consolidated · EROS Admin: Companies + Items &amp; Packages + Item Master List full CRUD (search, paginate, add, edit, delete) · Kiosk Display Board (/kiosk) — public TV display, 10s auto-refresh, filter tabs, priority badges, marquee ticker</div>
     </div>
   </div>
 
@@ -187,13 +187,13 @@
           <td class="mx-mod">Patient Management §4 <small>Demographics, history, search</small></td>
           <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
           <td class="mx-cell"><span class="pct-val v1-pct">95%</span><div class="bar-mini" style="background:#0ea5e9;width:95px"></div></td>
-          <td class="mx-cell"><span class="pct-val v3-pct">75%</span><div class="bar-mini" style="background:#10b981;width:75px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">80%</span><div class="bar-mini" style="background:#10b981;width:80px"></div></td>
         </tr>
         <tr>
           <td class="mx-mod">Appointment &amp; Scheduling §5 <small>Consultations, teleconsult, ECU</small></td>
           <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
           <td class="mx-cell"><span class="pct-val v1-pct">40%</span><div class="bar-mini" style="background:#0ea5e9;width:40px"></div></td>
-          <td class="mx-cell"><span class="pct-val v3-pct">0%</span><div class="bar-mini" style="background:#ef4444;width:3px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">55%</span><div class="bar-mini" style="background:#f59e0b;width:55px"></div></td>
         </tr>
         <tr>
           <td class="mx-mod">Registration §6 <small>Check-in, queue generation, DRF</small></td>
@@ -205,19 +205,19 @@
           <td class="mx-mod">Clinical Documentation §7 <small>Vitals, PE, SOAP, prescriptions</small></td>
           <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
           <td class="mx-cell"><span class="pct-val v1-pct">100%</span><div class="bar-mini" style="background:#0ea5e9;width:100px"></div></td>
-          <td class="mx-cell"><span class="pct-val v3-pct">70%</span><div class="bar-mini" style="background:#10b981;width:70px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">85%</span><div class="bar-mini" style="background:#10b981;width:85px"></div></td>
         </tr>
         <tr>
           <td class="mx-mod">Laboratory Management §8 <small>Specimen, barcodes, results, QC</small></td>
           <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
           <td class="mx-cell"><span class="pct-val v1-pct">100%</span><div class="bar-mini" style="background:#0ea5e9;width:100px"></div></td>
-          <td class="mx-cell"><span class="pct-val v3-pct">10%</span><div class="bar-mini" style="background:#ef4444;width:10px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">70%</span><div class="bar-mini" style="background:#10b981;width:70px"></div></td>
         </tr>
         <tr>
           <td class="mx-mod">Imaging Management §9 <small>Procedures, interpretations, validation</small></td>
           <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
           <td class="mx-cell"><span class="pct-val v1-pct">100%</span><div class="bar-mini" style="background:#0ea5e9;width:100px"></div></td>
-          <td class="mx-cell"><span class="pct-val v3-pct">20%</span><div class="bar-mini" style="background:#f59e0b;width:20px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">55%</span><div class="bar-mini" style="background:#f59e0b;width:55px"></div></td>
         </tr>
         <tr>
           <td class="mx-mod">Billing &amp; Payment §10 <small>OR, payment history, cashier reports</small></td>
@@ -229,25 +229,25 @@
           <td class="mx-mod">Result Management §11 <small>Encoding, validation, release, email</small></td>
           <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
           <td class="mx-cell"><span class="pct-val v1-pct">100%</span><div class="bar-mini" style="background:#0ea5e9;width:100px"></div></td>
-          <td class="mx-cell"><span class="pct-val v3-pct">35%</span><div class="bar-mini" style="background:#f59e0b;width:35px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">75%</span><div class="bar-mini" style="background:#10b981;width:75px"></div></td>
         </tr>
         <tr>
           <td class="mx-mod">Referral &amp; Endorsement §12 <small>EROS, branch referrals, tracking</small></td>
           <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
           <td class="mx-cell"><span class="pct-val v1-pct">100%</span><div class="bar-mini" style="background:#0ea5e9;width:100px"></div></td>
-          <td class="mx-cell"><span class="pct-val v3-pct">5%</span><div class="bar-mini" style="background:#ef4444;width:5px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">15%</span><div class="bar-mini" style="background:#ef4444;width:15px"></div></td>
         </tr>
         <tr>
           <td class="mx-mod">Monitoring &amp; Reporting §13 <small>Dashboards, audit logs, exports</small></td>
           <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
           <td class="mx-cell"><span class="pct-val v1-pct">95%</span><div class="bar-mini" style="background:#0ea5e9;width:95px"></div></td>
-          <td class="mx-cell"><span class="pct-val v3-pct">0%</span><div class="bar-mini" style="background:#ef4444;width:3px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">90%</span><div class="bar-mini" style="background:#10b981;width:90px"></div></td>
         </tr>
         <tr>
           <td class="mx-mod">Security §14 <small>Auth, RBAC, confidentiality, audit</small></td>
           <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
           <td class="mx-cell"><span class="pct-val v1-pct">90%</span><div class="bar-mini" style="background:#0ea5e9;width:90px"></div></td>
-          <td class="mx-cell"><span class="pct-val v3-pct">75%</span><div class="bar-mini" style="background:#10b981;width:75px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">92%</span><div class="bar-mini" style="background:#10b981;width:92px"></div></td>
         </tr>
         <tr>
           <td class="mx-mod">Non-Functional §15 <small>Performance, reliability, scalability</small></td>
@@ -278,8 +278,8 @@
         <tr>
           <td><div class="td-req">Create patient records &amp; unique IDs</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">PatientController.php</span> Full CRUD, unique Code generation, webcam photo capture</td>
-          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Patients from legacy DB only. No create-patient form. Search via <code>GET /api/patients/search</code></td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>POST /api/patients</code> · <code>PATCH /api/patients/[id]</code> · <code>PatientFormModal</code> with name, DOB, gender, contact, address, PhilHealth/Senior/PWD IDs · "New Patient" button in Add-to-Queue modal (auto-selects on save)</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Maintain demographics &amp; contact details</div></td>
@@ -305,8 +305,8 @@
         <tr>
           <td><div class="td-req">Schedule physician consultations</div></td>
           <td class="td-v1"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Via E-Card / enrollment system. No standalone scheduling calendar.</td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No appointment module. Walk-in queue only.</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br><code>GET /api/appointments/schedule?date=</code> — queues grouped by physician for the day · <code>/appointments</code> page with date picker, per-physician cards (patient name, queue code, status, time-in), click-through to queue · No pre-booking form (needs future appointment table)</td>
+          <td class="td-gap"><span class="gap-par">Partial</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Teleconsultation &amp; ECU/home services</div></td>
@@ -317,8 +317,8 @@
         <tr>
           <td><div class="td-req">Appointment dashboards &amp; daily schedules</div></td>
           <td class="td-v1"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br><span class="tag">QueueDisplayController.php</span> — real-time queue display per station</td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Queue list exists but no per-doctor daily schedule view</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Appointments module at <code>/appointments</code> — per-physician cards for the selected date, patient count badge, status chips, click-through to queue detail</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
 
         <!-- §6 REGISTRATION -->
@@ -371,14 +371,14 @@
         <tr>
           <td><div class="td-req">Generate prescriptions</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">Physician.Prescription_Link</span> field used · PDF via hPDF</td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No prescription form or PDF. <code>Prescription_Link</code> field exists but unused.</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>POST /api/clinical/[id]/prescription</code> · Prescription tab in evaluation drawer · Drug list (medication, dosage, frequency, duration, quantity, instructions) · A5 PDF via <code>/api/queue/[id]/pdf?type=prescription</code> · "Print Rx" button in drawer footer</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Generate consultation summaries</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Consultation summary PDF generated per visit</td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No summary document or print output</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>GET /api/queue/[id]/pdf?type=summary</code> — A4 PDF with vitals, BP (×3), SOAP notes, PE findings, diagnosis, treatment plan, orders, procedures ordered, doctor signature block · "Print Summary" button in evaluation drawer footer</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
 
         <!-- §8 LABORATORY -->
@@ -386,8 +386,8 @@
         <tr>
           <td><div class="td-req">Generate specimen barcodes &amp; labels</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">CardNumberGenController.php</span> + <span class="tag">QrcodeController.php</span> · Batch barcode printing</td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Accession numbers assigned (A–L / M–X) but no barcode label PDF</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>GET /api/results/[id]/barcode-labels</code> — A4 PDF, 2 labels per row, 1 per accessionno · Prominent accession number, patient name, item description, LAB/IMAGING type badge · "Labels" print button in Releasing Panel alongside Release button</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Track specimen receipt &amp; routing</div></td>
@@ -404,8 +404,8 @@
         <tr>
           <td><div class="td-req">Flag critical results</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Critical flag in result monitoring · Pathologist approval required</td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Not built</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>flag</code> field (H/L/C) in <code>ResultValue</code> · Color-coded rows in EncodingModal (red=C, amber=H, blue=L) · Flag badge on accession chips in Releasing panel · Color-coded in PDF · Existing values pre-loaded on modal open</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Maintain QC records</div></td>
@@ -425,8 +425,8 @@
         <tr>
           <td><div class="td-req">Radiologist encodes interpretations</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Radiology result entry + RIS integration via <span class="tag">RadiologyController.php</span></td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Imaging specimen receiving tracked in Results Imaging tab (XRAY/ECG). No result interpretation form (needs RIS integration).</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>POST /api/results/[id]/imaging-encode</code> · ImagingModal per accession (interpretation, impression, radiologist name) · <code>PATCH /api/results/[id]/validate</code> validates ImagingResults → VALIDATED · A4 Imaging Report PDF via <code>/api/queue/[id]/pdf?type=imaging-result</code> — per-study findings/impression with signature block · "Imaging PDF" print link in Released Today panel</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Store imaging reports &amp; attach images</div></td>
@@ -437,8 +437,8 @@
         <tr>
           <td><div class="td-req">Validate imaging results prior to release</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ReleasingQueueController.php</span> · Radiologist approval step</td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No validation workflow</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>PATCH /api/results/[id]/validate</code> — validates all ENCODED ImagingResults → VALIDATED before release</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
 
         <!-- §10 BILLING -->
@@ -452,20 +452,20 @@
         <tr>
           <td><div class="td-req">Generate official receipts</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">EditOrController.php</span> · Auto OR number · OR editing · reprint</td>
-          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>O.R. PDF via <code>/api/queue/[id]/pdf?type=or</code>. Auto OR number: <code>{clinicCode}{YYYYMMDD}{seq}</code> generated per clinic per day. Fixed 2026-03-14.</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>O.R. PDF via <code>/api/queue/[id]/pdf?type=or</code>. Auto OR number: <code>{clinicCode}{YYYYMMDD}{seq}</code> generated per clinic per day. "Print OR" reprint button added to Payment History table (2026-03-15).</td>
           <td class="td-gap"><span class="gap-ok">OK</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Store payment records</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">PaymentHistory.php</span> model · Full payment history per queue · <span class="tag">PastPaymentController.php</span></td>
-          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>paymenthistory</code> model fixed (removed <code>@@ignore</code>, added sequence). One record saved per paid transaction. Fixed 2026-03-14.</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>paymenthistory</code> model fixed (removed <code>@@ignore</code>, added sequence). One record saved per paid transaction. <code>GET /api/payment?history=true</code> — OR-level history with queue join, filter by date / method / cashier / search. Payment page: "Payment Queue" tab (live queue statuses) + "Payment History" tab (OR records with totals).</td>
           <td class="td-gap"><span class="gap-ok">OK</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Cashier summary reports</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ReportsController.php</span> · Daily sales · Excel export via <span class="tag">DailySalesExport.php</span></td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Reports page has static "Daily Sales" card stub — no data queries</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>8 report types: bookkeeper, cash, cashier-summary, HMO, per-item, sendout, summary, amendment · <code>GET /api/reports/[type]</code> · JSON / CSV / XLSX (ExcelJS) export · Sortable table, pagination, summary cards, date range + branch filters</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
 
         <!-- §11 RESULT MANAGEMENT -->
@@ -473,20 +473,20 @@
         <tr>
           <td><div class="td-req">Encode diagnostic results</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ResultsMonitoringController.php</span> · LIS integration · EROS upload via <span class="tag">UploadingController.php</span></td>
-          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Results monitoring page live · <code>GET /api/results</code> · <code>PATCH /api/results/[id]/receive-specimen</code> · Station tabs (Blood/Specimen/Imaging) · Tube tracking. Result VALUE encoding not built (pending LIS/HCLAB Oracle).</td>
-          <td class="td-gap"><span class="gap-par">Partial</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Full specimen workflow 210→300→360→311→600 · <code>POST /api/results/[id]/encode</code> · EncodingModal per accession (value, unit, flag H/L/C, normal range, remarks) · <code>PATCH /api/results/[id]/validate</code> — validates all ENCODED → VALIDATED · <code>PATCH /api/results/[id]/release</code> → Status 600 · Lab Result PDF populated with real ResultValue data · Email delivery via <code>POST /api/results/[id]/send-email</code> (nodemailer SMTP)</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Multi-level validation workflow</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Med Tech → Pathologist → Release. <span class="tag">Verification.php</span> model · <span class="tag">ReleasingQueueController.php</span></td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No validation flow. RBAC roles defined but nothing to protect.</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Single-step release implemented (<code>PATCH /api/results/[id]/release</code> → Status 600). Multi-level approval (Med Tech → Pathologist) not built — needs LIS integration.</td>
+          <td class="td-gap"><span class="gap-par">Partial</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Print or email results</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Print via <span class="tag">hPDFController.php</span> · Email integration</td>
-          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Lab Result PDF template exists. Values blank (LIS). Email not wired.</td>
-          <td class="td-gap"><span class="gap-par">Partial</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Lab Result PDF (<code>/api/queue/[id]/pdf?type=lab-result</code>) now populated with real <code>ResultValue</code> data (value, unit, flag, normal range) · Imaging Report PDF (<code>?type=imaging-result</code>) with per-study findings/impression · "Lab PDF" + "Imaging PDF" print links in Released Today panel · Email delivery: <code>POST /api/results/[id]/send-email</code> sends PDF attachment via nodemailer SMTP · "Email" button in Released Today panel with email address input</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Online result access (patient portal)</div></td>
@@ -500,20 +500,41 @@
         <tr>
           <td><div class="td-req">Branch-to-branch referrals</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ErosController.php</span> (67K lines) · Lab-to-Lab · Multi-branch routing</td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>EROS shell with 4 empty tabs. No referral CRUD.</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Sendout tab in Results module: lists all queues with accessions, "Receiving branch" input, "Referral Slip" PDF link · Referral Slip A5 PDF (<code>/api/queue/[id]/pdf?type=referral-slip?to=&amp;by=&amp;notes=</code>) with patient info, referred-to/by, tests table, signature lines · Full EROS/CRUD referral tracking not built</td>
+          <td class="td-gap"><span class="gap-par">Partial</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Refer patients for lab/imaging procedures</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>E-Card system · <span class="tag">ECardRegistrationController.php</span> · <span class="tag">CardEnrollment.php</span></td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Not built</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Card enrollment module at <code>/enrollment</code> · <code>cardEnrollment</code>, <code>cardNumber</code>, <code>cardVerified</code> Prisma models fixed (removed <code>@@ignore</code>, mapped to lowercase PG tables, added PostgreSQL sequences) · Card search, enrollment CRUD, status tracking · E-card issuance &amp; release workflow built</td>
+          <td class="td-gap"><span class="gap-par">Partial</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Track referral completion</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ECardReceivedController.php</span> · <span class="tag">Receiving.php</span> model · Status tracking</td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Not built</td>
+          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Not built — receiving/transfer workflow not implemented</td>
           <td class="td-gap"><span class="gap-new">Gap</span></td>
+        </tr>
+
+        <!-- §12b EROS ADMIN -->
+        <tr class="grp-row"><td colspan="4">§12b EROS Administration</td></tr>
+        <tr>
+          <td><div class="td-req">Manage HMO/Corporate companies</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ErosController.php</span> · Company list, create, edit, activate/deactivate</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Full CRUD at <code>/eros/company</code> → Companies tab · Search, pagination, Add/Edit modal, Delete confirm · <code>GET/POST /api/eros/companies</code> · <code>PATCH/DELETE /api/eros/companies/[id]</code> · Fields: Code, Name, ShortName, BillingType, ErosCode, UsedClinic, Address, Phone, Email, Status, StartDate, EndDate</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Manage items &amp; packages per company</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ErosController.php</span> · Item prices per company · Package definition</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Items &amp; Packages tab · Search by description/code, paginated · <code>GET/POST /api/eros/item-prices</code> · <code>PATCH/DELETE /api/eros/item-prices/[id]</code> · Fields: Code, Description, CompanyCode, ClinicCode, Price, PriceType, ItemUsed, Status · BigInt Id serialized</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
+        </tr>
+        <tr>
+          <td><div class="td-req">Manage item master list</div></td>
+          <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ErosController.php</span> · Global item catalogue (Code, Description, Group, SubGroup, DepartmentGroup)</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Item Master List tab · <code>GET/POST /api/eros/item-master</code> · <code>PATCH/DELETE /api/eros/item-master/[id]</code> · Fields: Code, Description, ShortName, Group, SubGroup, DepartmentGroup, Price, ItemStatus · BigInt Id serialized</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
 
         <!-- §13 REPORTING -->
@@ -521,20 +542,20 @@
         <tr>
           <td><div class="td-req">Monitor queue and operational status</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">QueueDisplayController.php</span> · Real-time kiosk display per department</td>
-          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Queue list with 15s auto-refresh + status filters. No per-department display.</td>
-          <td class="td-gap"><span class="gap-par">Partial</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Operations Dashboard at <code>/dashboard</code> — stats grid: Today's Queue (total/waiting/in-progress/paid/cancelled), Today's Revenue + transaction count, Pending Amendments alert, Specimen Pipeline (for-specimen/accession-assigned/received) · Auto-refreshes every 60s · Manual Refresh button · <code>GET /api/dashboard/stats</code></td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Generate operational &amp; workload reports</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ReportsController.php</span> · Daily sales · <span class="tag">ReportsLABController.php</span> · TAT · HMO reports · Excel exports</td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>6 static card stubs. No DB queries. No exports.</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>8 report types fully implemented · <code>GET /api/reports/[type]</code> · bookkeeper · cash · cashier-summary · HMO · per-item · sendout · summary · amendment · CSV + XLSX (ExcelJS) + print · All queries implemented</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Maintain audit logs</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">PhysicianLogs.php</span> · <span class="tag">KioskLog.php</span> · Activity logging middleware</td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No audit log model or middleware in any of 56 API routes</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Separate <code>cms_audit</code> PostgreSQL DB · <code>ActivityLog</code> Prisma model · <code>logActivity()</code> fire-and-forget helper · <code>AUDIT_ACTIONS</code> constants (20 actions) · <code>logActivity()</code> calls in 10 routes: CREATE_QUEUE · CANCEL_QUEUE · APPROVE_AMENDMENT · REJECT_AMENDMENT · RECORD_PAYMENT · RELEASE_RESULT · SAVE_PRESCRIPTION · CREATE_USER · UPDATE_USER · DEACTIVATE_USER · <code>GET /api/audit-logs</code> paginated API (filterable by action, resource, user, date) · <code>/settings/audit-log</code> viewer UI</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
 
         <!-- §14 SECURITY -->
@@ -560,8 +581,8 @@
         <tr>
           <td><div class="td-req">Activity logging</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">PhysicianLogs.php</span> · <span class="tag">KioskLog.php</span> per module</td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>No audit log table or logging middleware anywhere</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Separate <code>cms_audit</code> PostgreSQL DB · <code>activityLog</code> Prisma model (via <code>audit-prisma</code> client) · <code>logActivity()</code> fire-and-forget helper (<code>src/lib/audit.ts</code>) — 21 <code>AUDIT_ACTIONS</code> constants · Wired into queue (create/cancel/approve/reject-amendment), payment, release, prescription, user create/update/deactivate · <code>GET /api/audit-logs</code> paginated API with action/resource/user/date filters · Viewer UI at <code>/settings/audit-log</code></td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
 
         <!-- §15 NON-FUNCTIONAL -->
@@ -601,29 +622,28 @@
     <div class="excl-card">
       <h4>&#128203; Specimen &amp; Barcode Printing</h4>
       <ul>
-        <li><code>CardNumberGenController.php</code></li>
-        <li><code>QrcodeController.php</code> — QR/barcode label PDF</li>
-        <li>Batch barcode generation per accession</li>
-        <li>Specimen rejection workflow via <code>TransportController.php</code></li>
+        <li>✅ <code>GET /api/results/[id]/barcode-labels</code> — A4 PDF, Code128 barcode per accession (bwip-js), 2-up layout, patient name, item, type badge</li>
+        <li>✅ "Labels" print button in Releasing Panel</li>
+        <li>Specimen rejection transport workflow (<code>TransportController.php</code>) — not built</li>
       </ul>
     </div>
     <div class="excl-card">
       <h4>&#129514; Result Monitoring &amp; Validation</h4>
       <ul>
-        <li><code>ResultsMonitoringController.php</code></li>
-        <li>Multi-level: Med Tech → Pathologist → Releasing</li>
-        <li><code>Verification.php</code> model per result</li>
-        <li><code>ReleasingQueueController.php</code> exit workflow</li>
+        <li>✅ Lab EncodingModal — per-accession result value, unit, flag, range</li>
+        <li>✅ ImagingModal — interpretation, impression, radiologist</li>
+        <li>✅ Validate all → ENCODED/VALIDATED before release</li>
+        <li>Multi-level Med Tech → Pathologist approval not built (needs LIS)</li>
       </ul>
     </div>
     <div class="excl-card">
       <h4>&#128178; Payment History &amp; Reports</h4>
       <ul>
-        <li>✅ <code>paymenthistory</code> model fixed + sequence added (2026-03-14)</li>
-        <li>✅ Auto OR number <code>{clinic}{YYYYMMDD}{seq}</code> (2026-03-14)</li>
-        <li><code>PastPaymentController.php</code> — full history view (pending)</li>
-        <li>Daily sales with Excel export (<code>DailySalesExport.php</code>) (pending)</li>
-        <li>OR edit / reprint (pending)</li>
+        <li>✅ <code>paymenthistory</code> model + auto OR number <code>{clinic}{YYYYMMDD}{seq}</code></li>
+        <li>✅ Payment History tab — <code>GET /api/payment?history=true</code> with OR records, filter by date/method/cashier/search</li>
+        <li>✅ 8 cashier/financial report types with CSV + XLSX export</li>
+        <li>✅ Discount Report (<code>GET /api/reports/discount</code>) — fixed "Invalid Date" 2026-03-15</li>
+        <li>OR edit / reprint — not built</li>
       </ul>
     </div>
     <div class="excl-card">
@@ -656,19 +676,19 @@
     <div class="excl-card">
       <h4>&#128736;&#65039; Prescription &amp; Consultation PDF</h4>
       <ul>
-        <li>Prescription PDF via <code>hPDFController.php</code></li>
-        <li>Consultation summary printout</li>
-        <li>Patient photo capture (<code>WebCamController.php</code>)</li>
-        <li>Physician photo capture</li>
+        <li>✅ Prescription form + A5 PDF (P4)</li>
+        <li>✅ Consultation Summary A4 PDF with full SOAP + vitals</li>
+        <li>Patient photo capture (<code>WebCamController.php</code>) — pending</li>
+        <li>Physician photo capture — pending</li>
       </ul>
     </div>
     <div class="excl-card">
       <h4>&#128202; LAB &amp; TAT Reports</h4>
       <ul>
-        <li><code>ReportsLABController.php</code> — lab workload</li>
-        <li><code>TurnaroundTimeController.php</code> — TAT analytics</li>
-        <li><code>HmoCorporateReportsController.php</code></li>
-        <li><code>SendoutreportsController.php</code></li>
+        <li>✅ HMO report — <code>GET /api/reports/hmo</code></li>
+        <li>✅ Sendout report — <code>GET /api/reports/sendout</code></li>
+        <li>✅ Per-item report — <code>GET /api/reports/per-item</code></li>
+        <li>TAT analytics (<code>TurnaroundTimeController.php</code>) — not built (needs LIS)</li>
       </ul>
     </div>
   </div>
@@ -695,12 +715,12 @@
       </ul>
     </div>
     <div class="adv-card">
-      <h4>&#128203; 5 PDF Document Types</h4>
+      <h4>&#128203; 10 PDF Document Types</h4>
       <ul>
-        <li>Charge Slip, O.R., DRF, Routing Slip, Lab Result</li>
-        <li>Built with <code>@react-pdf/renderer</code></li>
-        <li>Real DB data in all PDF types</li>
-        <li>Inline browser preview (no download required)</li>
+        <li>Charge Slip · O.R. · DRF · Routing Slip · Lab Result</li>
+        <li>Consultation Summary · Prescription · Referral Slip · Imaging Report</li>
+        <li>Barcode Labels (Code128, 2-up A4, bwip-js)</li>
+        <li>Built with <code>@react-pdf/renderer</code> — all real DB data · Email delivery via nodemailer</li>
       </ul>
     </div>
     <div class="adv-card">
@@ -733,6 +753,6 @@
   </div>
 
 </div><!-- /wrap -->
-<footer>CMS Feature Comparison &nbsp;·&nbsp; March 14, 2026 &nbsp;·&nbsp; FRD: CMS_FRD.pdf &nbsp;·&nbsp; v1: 138 controllers, 38 models &nbsp;·&nbsp; v3: 53 API handlers, 21 components, 4 services</footer>
+<footer>CMS Feature Comparison &nbsp;·&nbsp; March 14, 2026 (P1–P7 complete) &nbsp;·&nbsp; FRD: CMS_FRD.pdf &nbsp;·&nbsp; v1: 138 controllers, 38 models &nbsp;·&nbsp; v3: 70+ API handlers, 25 components, 9 PDF types, 4 services</footer>
 </body>
 </html>

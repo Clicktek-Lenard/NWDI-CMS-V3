@@ -3,6 +3,7 @@ import { requireApiAuth } from "@/lib/auth/rbac";
 import prisma from "@/lib/db/prisma";
 import { z } from "zod";
 import { QueueService } from "@/services/queue.service";
+import { logActivity, AUDIT_ACTIONS, getClientIp } from "@/lib/audit";
 
 const cancelSchema = z.object({
   anteDateReason: z.string().min(1, "Reason is required"),
@@ -137,6 +138,14 @@ export async function POST(
 
     return { newQueueId: Number(newQueue.Id), newQueueCode: newCode };
   });
+
+  logActivity(session, AUDIT_ACTIONS.CANCEL_QUEUE, "queue", id, {
+    code:         original.Code,
+    patientName:  original.QFullName,
+    reason:       anteDateReason,
+    anteDate,
+    newQueueCode: result.newQueueCode,
+  }, getClientIp(request));
 
   return NextResponse.json(result, { status: 201 });
 }

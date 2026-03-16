@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { QueueService } from "@/services/queue.service";
 import { requireApiAuth } from "@/lib/auth/rbac";
 import { z } from "zod";
+import { logActivity, AUDIT_ACTIONS, getClientIp } from "@/lib/audit";
 
 /**
  * GET /api/queue — List today's queue (mirrors CMS todaysQueue() logic)
@@ -89,6 +90,12 @@ export async function POST(request: NextRequest) {
       inputBy,
       ...parsed.data,
     });
+    logActivity(session, AUDIT_ACTIONS.CREATE_QUEUE, "queue", entry.id, {
+      code:        entry.code,
+      patientName: parsed.data.fullName,
+      patientType: parsed.data.patientType,
+      txCount:     parsed.data.transactions?.length ?? 0,
+    }, getClientIp(request));
     return NextResponse.json(entry, { status: 201 });
   } catch (error) {
     console.error("Failed to create queue entry:", error);

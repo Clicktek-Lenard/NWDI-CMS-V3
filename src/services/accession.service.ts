@@ -103,8 +103,9 @@ export async function makeAccessionNo(
     // Resolve type: itemmaster.Type preferred; fall back to GroupItemMaster if it's
     // already LAB/IMAGING; otherwise default to LAB (packages are almost always lab).
     const rawGroup = (t.GroupItemMaster ?? "").toUpperCase();
+    const itemType = itemTypeMap.get(t.CodeItemPrice ?? "");
     const resolvedType =
-      itemTypeMap.get(t.CodeItemPrice ?? "") ??
+      (itemType === "LAB" || itemType === "IMAGING" ? itemType : null) ??
       (rawGroup === "LAB" || rawGroup === "IMAGING" ? rawGroup : "LAB");
 
     await prisma.accessionno.create({
@@ -142,11 +143,13 @@ export async function makeAccessionNo(
     const staleItems = staleCodes.length > 0
       ? await prisma.itemmaster.findMany({ where: { Code: { in: staleCodes } }, select: { Code: true, Type: true } })
       : [];
-    const staleTypeMap = new Map(staleItems.map((i) => [i.Code!, i.Type ?? "LAB"]));
+    const staleTypeMap = new Map(staleItems.map((i) => [i.Code!, i.Type ?? null]));
 
     for (const row of staleRows) {
-      const rawGroup = (row.Type ?? "").toUpperCase();
-      const corrected = staleTypeMap.get(row.ItemCode ?? "") ??
+      const rawGroup = (row.ItemGroup ?? "").toUpperCase();
+      const itemType = staleTypeMap.get(row.ItemCode ?? "");
+      const corrected =
+        (itemType === "LAB" || itemType === "IMAGING" ? itemType : null) ??
         (rawGroup === "LAB" || rawGroup === "IMAGING" ? rawGroup : "LAB");
       if (corrected !== row.Type) {
         await prisma.accessionno.updateMany({

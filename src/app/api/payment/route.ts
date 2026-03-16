@@ -2,12 +2,116 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireApiAuth } from "@/lib/auth/rbac";
 import prisma from "@/lib/db/prisma";
 
-// GET /api/payment — paginated list of queues with payment info
+// GET /api/payment?history=true — paymenthistory records (OR-level)
+// GET /api/payment              — queue list with payment status
 export async function GET(request: NextRequest) {
   try {
     await requireApiAuth(request, "cms", "payment");
 
     const { searchParams } = new URL(request.url);
+
+    // ── Payment History view ─────────────────────────────────────
+    if (searchParams.get("history") === "true") {
+      const date       = searchParams.get("date") || new Date().toISOString().split("T")[0];
+      const method     = searchParams.get("method")   || "";
+      const cashier    = searchParams.get("cashier")  || "";
+      const search     = searchParams.get("search")   || "";
+      const page       = parseInt(searchParams.get("page")     || "1",  10);
+      const pageSize   = parseInt(searchParams.get("pageSize") || "50", 10);
+
+      const dayStart = new Date(`${date}T00:00:00`);
+      const dayEnd   = new Date(`${date}T23:59:59`);
+
+      const where: Record<string, unknown> = {
+        InputDate: { gte: dayStart, lte: dayEnd },
+      };
+      if (method)  where.PaymentType = { equals: method, mode: "insensitive" };
+      if (cashier) where.InputBy     = { contains: cashier, mode: "insensitive" };
+
+      const [total, records] = await Promise.all([
+        prisma.paymenthistory.count({ where }),
+        prisma.paymenthistory.findMany({
+          where,
+          orderBy: { InputDate: "desc" },
+          skip:  (page - 1) * pageSize,
+          take:  pageSize,
+          select: {
+            Id:            true,
+            IdQueue:       true,
+            ORNum:         true,
+            PaymentType:   true,
+            PayAmount:     true,
+            CoverageType:  true,
+            CoverageAmount:true,
+            DiscType:      true,
+            DiscAmount:    true,
+            InputBy:       true,
+            InputDate:     true,
+            RefNo:         true,
+            BankName:      true,
+          },
+        }),
+      ]);
+
+      // Fetch queue codes for display
+      const queueIds = [...new Set(records.map((r) => r.IdQueue))];
+      const queues = queueIds.length > 0
+        ? await prisma.queue.findMany({
+            where: { Id: { in: queueIds } },
+            select: { Id: true, Code: true, QFullName: true },
+          })
+        : [];
+      const queueMap = new Map(queues.map((q) => [String(q.Id), q]));
+
+      // Aggregate totals
+      const totalPaid = records.reduce((s, r) => s + (r.PayAmount ?? 0), 0);
+      const totalDisc = records.reduce((s, r) => s + (r.DiscAmount ?? 0), 0);
+
+      // Filter by search client-side (OR number or patient name)
+      const filtered = search
+        ? records.filter((r) => {
+            const q = queueMap.get(String(r.IdQueue));
+            const s = search.toLowerCase();
+            return (
+              (r.ORNum ?? "").toLowerCase().includes(s) ||
+              (q?.QFullName ?? "").toLowerCase().includes(s) ||
+              (q?.Code ?? "").toLowerCase().includes(s)
+            );
+          })
+        : records;
+
+      return NextResponse.json({
+        success: true,
+        data: filtered.map((r) => {
+          const q = queueMap.get(String(r.IdQueue));
+          return {
+            id:             Number(r.Id),
+            idQueue:        Number(r.IdQueue),
+            queueCode:      q?.Code ?? "",
+            patientName:    q?.QFullName ?? "",
+            orNum:          r.ORNum ?? "",
+            paymentType:    r.PaymentType ?? "",
+            payAmount:      r.PayAmount ?? 0,
+            coverageType:   r.CoverageType ?? "",
+            coverageAmount: r.CoverageAmount ?? 0,
+            discType:       r.DiscType ?? "",
+            discAmount:     r.DiscAmount ?? 0,
+            cashier:        r.InputBy ?? "",
+            inputDate:      r.InputDate.toISOString(),
+            refNo:          r.RefNo ?? "",
+            bankName:       r.BankName ?? "",
+          };
+        }),
+        total,
+        page,
+        pageSize,
+        totalPages:  Math.ceil(total / pageSize),
+        totalPaid,
+        totalDisc,
+      });
+    }
+
+
     const search   = searchParams.get("search")   || "";
     const status   = searchParams.get("status")   || ""; // "unpaid"|"partial"|"paid"|"cancelled"|""
     const dateFilter = searchParams.get("date")   || ""; // "today"|"week"|"month"|""

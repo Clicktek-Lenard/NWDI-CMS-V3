@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { PatientFormModal } from "./patient-form-modal";
 
 // ── Types ─────────────────────────────────────────────────────
 interface PatientResult {
@@ -47,6 +48,9 @@ export function AddToQueueModal({ open, onClose, onSuccess }: AddToQueueModalPro
   // Form fields
   const [patientType, setPatientType] = useState("OUT-PATIENT");
   const [notes, setNotes] = useState("");
+
+  // New patient modal
+  const [showNewPatient, setShowNewPatient] = useState(false);
 
   // Submission state
   const [submitting, setSubmitting] = useState(false);
@@ -150,11 +154,17 @@ export function AddToQueueModal({ open, onClose, onSuccess }: AddToQueueModalPro
     }
   }
 
+  function handlePatientSaved(p: PatientResult) {
+    selectPatient(p);
+    setShowNewPatient(false);
+  }
+
   if (!open) return null;
 
   const age = calcAge(selectedPatient?.dob ?? null);
 
   return (
+    <>
     <div
       ref={backdropRef}
       onClick={(e) => { if (e.target === backdropRef.current) onClose(); }}
@@ -200,9 +210,21 @@ export function AddToQueueModal({ open, onClose, onSuccess }: AddToQueueModalPro
 
           {/* ── Patient search ── */}
           <div>
-            <label className="mb-1.5 block text-sm font-medium text-slate-700">
-              Patient <span className="text-red-500">*</span>
-            </label>
+            <div className="mb-1.5 flex items-center justify-between">
+              <label className="text-sm font-medium text-slate-700">
+                Patient <span className="text-red-500">*</span>
+              </label>
+              <button
+                type="button"
+                onClick={() => setShowNewPatient(true)}
+                className="flex items-center gap-1 rounded-lg bg-emerald-50 px-2.5 py-1 text-xs font-semibold text-emerald-700 transition-colors hover:bg-emerald-100"
+              >
+                <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                New Patient
+              </button>
+            </div>
             <div className="relative">
               <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
                 {searching ? (
@@ -252,8 +274,17 @@ export function AddToQueueModal({ open, onClose, onSuccess }: AddToQueueModalPro
               )}
 
               {showDropdown && !searching && searchResults.length === 0 && searchTerm.length >= 2 && (
-                <div className="absolute z-10 mt-1 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-400 shadow-lg">
-                  No patients found for &ldquo;{searchTerm}&rdquo;
+                <div className="absolute z-10 mt-1 w-full rounded-xl border border-slate-200 bg-white shadow-lg">
+                  <div className="flex items-center justify-between px-4 py-3">
+                    <span className="text-sm text-slate-400">No patients found for &ldquo;{searchTerm}&rdquo;</span>
+                    <button
+                      type="button"
+                      onMouseDown={() => { setShowDropdown(false); setShowNewPatient(true); }}
+                      className="ml-3 shrink-0 rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700"
+                    >
+                      + New Patient
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -347,5 +378,13 @@ export function AddToQueueModal({ open, onClose, onSuccess }: AddToQueueModalPro
         </form>
       </div>
     </div>
+
+    {/* New patient sub-modal */}
+    <PatientFormModal
+      open={showNewPatient}
+      onClose={() => setShowNewPatient(false)}
+      onSaved={handlePatientSaved}
+    />
+  </>
   );
 }

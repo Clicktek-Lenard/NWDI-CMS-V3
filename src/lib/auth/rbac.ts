@@ -22,15 +22,17 @@ const ROLE_ACCESS_MAP: Record<string, Array<{ module: string; tab: string }>> = 
   "[VERIFIED-TEST]":          [{ module: "cms", tab: "enrollment" }],
 
   // ── Queue & Reception ───────────────────────────────────────────
-  "[QUEUE]":                  [{ module: "cms", tab: "queue" }],
-  "[PASTQUEUE]":              [{ module: "cms", tab: "queue" }],
-  "[KIOSK-RECEPTION]":        [{ module: "cms", tab: "queue" }],
-  "[RECEPTION-OIC]":          [{ module: "cms", tab: "queue" }],
+  "[QUEUE]":                  [{ module: "cms", tab: "queue" }, { module: "cms", tab: "dashboard" }, { module: "cms", tab: "appointments" }],
+  "[PASTQUEUE]":              [{ module: "cms", tab: "queue" }, { module: "cms", tab: "dashboard" }, { module: "cms", tab: "appointments" }],
+  "[KIOSK-RECEPTION]":        [{ module: "cms", tab: "queue" }, { module: "cms", tab: "dashboard" }, { module: "cms", tab: "appointments" }],
+  "[RECEPTION-OIC]":          [{ module: "cms", tab: "queue" }, { module: "cms", tab: "dashboard" }, { module: "cms", tab: "appointments" }],
   "[PAGES]":                  [{ module: "cms", tab: "queue" }],
+  "[DEVTEAM]":                [{ module: "cms", tab: "dashboard" }, { module: "cms", tab: "appointments" }],
+  "[BM-ROLE]":                [{ module: "cms", tab: "dashboard" }, { module: "cms", tab: "appointments" }],
 
   // ── Clinical ────────────────────────────────────────────────────
-  "[NURSE]":                  [{ module: "cms", tab: "clinical" }],
-  "[DOCTOR]":                 [{ module: "cms", tab: "clinical" }],
+  "[NURSE]":                  [{ module: "cms", tab: "clinical" }, { module: "cms", tab: "appointments" }],
+  "[DOCTOR]":                 [{ module: "cms", tab: "clinical" }, { module: "cms", tab: "appointments" }],
   "[DOCTORS-SOAP]":           [{ module: "cms", tab: "clinical" }],
   "[DOCTORS-HISTORY]":        [{ module: "cms", tab: "clinical" }],
   "[DOCTORS-EVAL]":           [{ module: "cms", tab: "clinical" }],
@@ -207,14 +209,17 @@ export async function requireApiAuth(
 
 // CMS module definitions (used as constants for requireAuth calls)
 export const CMS_MODULES = {
-  ENROLLMENT: { module: "cms", tab: "enrollment" },
-  QUEUE:      { module: "cms", tab: "queue" },
-  PAYMENT:    { module: "cms", tab: "payment" },
-  RESULTS:    { module: "cms", tab: "results" },
-  CLINICAL:   { module: "cms", tab: "clinical" },
-  SETTINGS:   { module: "cms", tab: "settings" },
-  REPORTS:    { module: "cms", tab: "reports" },
+  DASHBOARD:    { module: "cms", tab: "dashboard" },
+  ENROLLMENT:   { module: "cms", tab: "enrollment" },
+  QUEUE:        { module: "cms", tab: "queue" },
+  PAYMENT:      { module: "cms", tab: "payment" },
+  RESULTS:      { module: "cms", tab: "results" },
+  CLINICAL:     { module: "cms", tab: "clinical" },
+  SETTINGS:     { module: "cms", tab: "settings" },
+  REPORTS:      { module: "cms", tab: "reports" },
+  APPOINTMENTS: { module: "cms", tab: "appointments" },
   EROS:            { module: "erosui", tab: "company" },
   EROS_PHYSICIAN:  { module: "erosui", tab: "physician" },
   EROS_ITEMS:      { module: "erosui", tab: "itemmasterlist" },
+  KIOSK:           { module: "cms", tab: "queue" },
 } as const;

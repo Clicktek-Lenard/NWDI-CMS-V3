@@ -25,6 +25,10 @@ export async function apiFetch<T = unknown>(
 
   const json = await res.json() as T & { success?: boolean; error?: string };
 
+  if (!res.ok) {
+    throw new Error((json as { error?: string }).error || `Request failed (${res.status}).`);
+  }
+
   if (typeof json === "object" && json !== null && "success" in json && !json.success) {
     throw new Error((json as { error?: string }).error || "Request failed.");
   }

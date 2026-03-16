@@ -14,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CMS - Central Management System",
-  description: "Healthcare Central Management System",
+  title: "NWDI CMS",
+  description: "NWD Central Medical Specialists Center — Management System",
+  icons: { icon: "/favicon.ico" },
 };
 
 export default function RootLayout({

@@ -16,92 +16,69 @@ const registerSchema = z.object({
  *   3 = Transfer received — new clinic has it
  */
 
-type CardRow = {
-  id:                  number;
-  cardnumber:          string | null;
-  status:              number | null;
-  dateenrolled:        Date   | null;
-  receivedby:          string | null;
-  receiveddate:        Date   | null;
-  releaseto:           string | null;
-  releaseby:           string | null;
-  daterelease:         Date   | null;
-  transferto:          string | null;
-  transferby:          string | null;
-  datetransfer:        Date   | null;
-  clinicname:          string | null;
-  transferclinicname:  string | null;
-};
-type CountRow = { total: bigint };
-
 // GET /api/enrollment/cards?status=REGISTRATION|RECEIVING|TRANSFER&search=&page=1&pageSize=10
 export async function GET(request: NextRequest) {
   try {
     await requireApiAuth(request, "cms", "enrollment");
 
     const { searchParams } = new URL(request.url);
-    const tabStatus  = searchParams.get("status")   || "REGISTRATION";
-    const search     = searchParams.get("search")   || "";
-    const page       = Math.max(1, parseInt(searchParams.get("page")     || "1",  10));
-    const pageSize   = Math.min(50, parseInt(searchParams.get("pageSize") || "10", 10));
-    const offset     = (page - 1) * pageSize;
-    const searchPat  = `%${search}%`;
+    const tabStatus = searchParams.get("status")   || "REGISTRATION";
+    const search    = searchParams.get("search")   || "";
+    const page      = Math.max(1, parseInt(searchParams.get("page")     || "1",  10));
+    const pageSize  = Math.min(50, parseInt(searchParams.get("pageSize") || "10", 10));
 
-    // Map tab key → SQL status filter
-    const statusFilter =
-      tabStatus === "REGISTRATION" ? "AND e.status = 0" :
-      tabStatus === "RECEIVING"    ? "AND e.status = 1" :
-      tabStatus === "TRANSFER"     ? "AND e.status IN (2, 3)" :
-      "";
+    const statusWhere =
+      tabStatus === "REGISTRATION" ? { status: 0 } :
+      tabStatus === "RECEIVING"    ? { status: 1 } :
+      tabStatus === "TRANSFER"     ? { status: { in: [2, 3] } } :
+      {};
 
-    const baseFrom = `
-      FROM cardenrollment e
-      LEFT JOIN businessunits bu ON bu.code = e.releaseto
-      LEFT JOIN businessunits bt ON bt.code = e.transferto
-      WHERE (e.cardnumber ILIKE $1)
-      ${statusFilter}
-    `;
+    const where = {
+      ...statusWhere,
+      ...(search ? { cardnumber: { contains: search, mode: "insensitive" as const } } : {}),
+    };
 
-    const [countRows, cards] = await Promise.all([
-      prisma.$queryRawUnsafe<CountRow[]>(
-        `SELECT COUNT(*) AS total ${baseFrom}`,
-        searchPat
-      ),
-      prisma.$queryRawUnsafe<CardRow[]>(
-        `SELECT
-           e.id, e.cardnumber, e.status,
-           e.dateenrolled,
-           e.receivedby, e.receiveddate,
-           e.releaseto, e.releaseby, e.daterelease,
-           e.transferto, e.transferby, e.datetransfer,
-           bu.description AS clinicname,
-           bt.description AS transferclinicname
-         ${baseFrom}
-         ORDER BY e.dateenrolled DESC
-         LIMIT $2 OFFSET $3`,
-        searchPat, pageSize, offset
-      ),
+    const [total, enrollments] = await Promise.all([
+      prisma.cardEnrollment.count({ where }),
+      prisma.cardEnrollment.findMany({
+        where,
+        orderBy: { dateenrolled: "desc" },
+        skip: (page - 1) * pageSize,
+        take: pageSize,
+      }),
     ]);
 
-    const total = Number(countRows[0]?.total ?? 0);
+    // Resolve clinic names from businessunits
+    const codes = [...new Set([
+      ...enrollments.map(e => e.releaseto),
+      ...enrollments.map(e => e.transferto),
+    ].filter(Boolean))] as string[];
+
+    const clinics = codes.length > 0
+      ? await prisma.businessunits.findMany({
+          where: { Code: { in: codes } },
+          select: { Code: true, Description: true },
+        })
+      : [];
+    const clinicMap = new Map(clinics.map(c => [c.Code, c.Description]));
 
     return NextResponse.json({
       success: true,
-      data: cards.map((c) => ({
+      data: enrollments.map((c) => ({
         id:                  c.id,
         cardNumber:          c.cardnumber      ?? "",
         status:              c.status          ?? 0,
-        enrollmentDate:      c.dateenrolled?.toISOString()   ?? null,
+        enrollmentDate:      c.dateenrolled?.toISOString()  ?? null,
         receivedBy:          c.receivedby      ?? null,
-        receivedDate:        c.receiveddate?.toISOString()   ?? null,
+        receivedDate:        c.receiveddate?.toISOString()  ?? null,
         releaseTo:           c.releaseto       ?? null,
         releaseBy:           c.releaseby       ?? null,
-        dateRelease:         c.daterelease?.toISOString()    ?? null,
+        dateRelease:         c.daterelease?.toISOString()   ?? null,
         transferTo:          c.transferto      ?? null,
         transferBy:          c.transferby      ?? null,
-        dateTransfer:        c.datetransfer?.toISOString()   ?? null,
-        clinicName:          c.clinicname      ?? c.releaseto ?? null,
-        transferClinicName:  c.transferclinicname ?? c.transferto ?? null,
+        dateTransfer:        c.datetransfer?.toISOString()  ?? null,
+        clinicName:          (c.releaseto  ? clinicMap.get(c.releaseto)  : null) ?? c.releaseto  ?? null,
+        transferClinicName:  (c.transferto ? clinicMap.get(c.transferto) : null) ?? c.transferto ?? null,
       })),
       total,
       page,
@@ -133,7 +110,7 @@ export async function POST(request: NextRequest) {
     const { card_number, release_to } = parsed.data;
 
     // Guard 1: Card must be in cardverified (ICT verified it)
-    const verified = await prisma.cardVerified.findUnique({
+    const verified = await prisma.cardVerified.findFirst({
       where: { verifiedcardnumbers: card_number },
     });
     if (!verified) {

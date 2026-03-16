@@ -140,14 +140,69 @@ export type transactiontype = $Result.DefaultSelection<Prisma.$transactiontypePa
 export type role = $Result.DefaultSelection<Prisma.$rolePayload>
 /**
  * Model accessionno
- * 
+ * The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
  */
 export type accessionno = $Result.DefaultSelection<Prisma.$accessionnoPayload>
 /**
  * Model paymenthistory
- * 
+ * The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
  */
 export type paymenthistory = $Result.DefaultSelection<Prisma.$paymenthistoryPayload>
+/**
+ * Model cardEnrollment
+ * 
+ */
+export type cardEnrollment = $Result.DefaultSelection<Prisma.$cardEnrollmentPayload>
+/**
+ * Model VitalSign
+ * Replaces v1 `vitalsign` (@@ignore). One row per queue visit.
+ */
+export type VitalSign = $Result.DefaultSelection<Prisma.$VitalSignPayload>
+/**
+ * Model ConsultationNote
+ * Replaces v1 `soap` + `soaptemp` (both @@ignore). Single table, is_draft + status fields.
+ */
+export type ConsultationNote = $Result.DefaultSelection<Prisma.$ConsultationNotePayload>
+/**
+ * Model PhysicalExamination
+ * Replaces the medical-history / PE-findings portion of v1 `physicalexaminationreport` (@@ignore).
+ */
+export type PhysicalExamination = $Result.DefaultSelection<Prisma.$PhysicalExaminationPayload>
+/**
+ * Model MedicalEvaluation
+ * Replaces v1 `peassesandrec` (@@ignore). Composite key (queue_id, item_code) — one row per exam item.
+ */
+export type MedicalEvaluation = $Result.DefaultSelection<Prisma.$MedicalEvaluationPayload>
+/**
+ * Model Prescription
+ * 
+ */
+export type Prescription = $Result.DefaultSelection<Prisma.$PrescriptionPayload>
+/**
+ * Model PrescriptionItem
+ * 
+ */
+export type PrescriptionItem = $Result.DefaultSelection<Prisma.$PrescriptionItemPayload>
+/**
+ * Model ResultValue
+ * One row per accession item. Status: PENDING → ENCODED → VALIDATED → RELEASED
+ */
+export type ResultValue = $Result.DefaultSelection<Prisma.$ResultValuePayload>
+/**
+ * Model ImagingResult
+ * 
+ */
+export type ImagingResult = $Result.DefaultSelection<Prisma.$ImagingResultPayload>
+/**
+ * Model cardNumber
+ * The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+ */
+export type cardNumber = $Result.DefaultSelection<Prisma.$cardNumberPayload>
+/**
+ * Model cardVerified
+ * 
+ */
+export type cardVerified = $Result.DefaultSelection<Prisma.$cardVerifiedPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -535,6 +590,116 @@ export class PrismaClient<
     * ```
     */
   get paymenthistory(): Prisma.paymenthistoryDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.cardEnrollment`: Exposes CRUD operations for the **cardEnrollment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CardEnrollments
+    * const cardEnrollments = await prisma.cardEnrollment.findMany()
+    * ```
+    */
+  get cardEnrollment(): Prisma.cardEnrollmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.vitalSign`: Exposes CRUD operations for the **VitalSign** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VitalSigns
+    * const vitalSigns = await prisma.vitalSign.findMany()
+    * ```
+    */
+  get vitalSign(): Prisma.VitalSignDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.consultationNote`: Exposes CRUD operations for the **ConsultationNote** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ConsultationNotes
+    * const consultationNotes = await prisma.consultationNote.findMany()
+    * ```
+    */
+  get consultationNote(): Prisma.ConsultationNoteDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.physicalExamination`: Exposes CRUD operations for the **PhysicalExamination** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PhysicalExaminations
+    * const physicalExaminations = await prisma.physicalExamination.findMany()
+    * ```
+    */
+  get physicalExamination(): Prisma.PhysicalExaminationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.medicalEvaluation`: Exposes CRUD operations for the **MedicalEvaluation** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MedicalEvaluations
+    * const medicalEvaluations = await prisma.medicalEvaluation.findMany()
+    * ```
+    */
+  get medicalEvaluation(): Prisma.MedicalEvaluationDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.prescription`: Exposes CRUD operations for the **Prescription** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Prescriptions
+    * const prescriptions = await prisma.prescription.findMany()
+    * ```
+    */
+  get prescription(): Prisma.PrescriptionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.prescriptionItem`: Exposes CRUD operations for the **PrescriptionItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PrescriptionItems
+    * const prescriptionItems = await prisma.prescriptionItem.findMany()
+    * ```
+    */
+  get prescriptionItem(): Prisma.PrescriptionItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.resultValue`: Exposes CRUD operations for the **ResultValue** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ResultValues
+    * const resultValues = await prisma.resultValue.findMany()
+    * ```
+    */
+  get resultValue(): Prisma.ResultValueDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.imagingResult`: Exposes CRUD operations for the **ImagingResult** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ImagingResults
+    * const imagingResults = await prisma.imagingResult.findMany()
+    * ```
+    */
+  get imagingResult(): Prisma.ImagingResultDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.cardNumber`: Exposes CRUD operations for the **cardNumber** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CardNumbers
+    * const cardNumbers = await prisma.cardNumber.findMany()
+    * ```
+    */
+  get cardNumber(): Prisma.cardNumberDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.cardVerified`: Exposes CRUD operations for the **cardVerified** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CardVerifieds
+    * const cardVerifieds = await prisma.cardVerified.findMany()
+    * ```
+    */
+  get cardVerified(): Prisma.cardVerifiedDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -995,7 +1160,18 @@ export namespace Prisma {
     transactiontype: 'transactiontype',
     role: 'role',
     accessionno: 'accessionno',
-    paymenthistory: 'paymenthistory'
+    paymenthistory: 'paymenthistory',
+    cardEnrollment: 'cardEnrollment',
+    VitalSign: 'VitalSign',
+    ConsultationNote: 'ConsultationNote',
+    PhysicalExamination: 'PhysicalExamination',
+    MedicalEvaluation: 'MedicalEvaluation',
+    Prescription: 'Prescription',
+    PrescriptionItem: 'PrescriptionItem',
+    ResultValue: 'ResultValue',
+    ImagingResult: 'ImagingResult',
+    cardNumber: 'cardNumber',
+    cardVerified: 'cardVerified'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1011,7 +1187,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "users_from_cdb" | "cache" | "cache_locks" | "sessions" | "password_reset_tokens" | "failed_jobs" | "job_batches" | "jobs" | "migrations" | "settings" | "businessunits" | "company" | "department" | "patient" | "physician" | "queue" | "queuestatus" | "transactions" | "vitals" | "itemmaster" | "itemprice" | "msg_queue" | "transactiontype" | "role" | "accessionno" | "paymenthistory"
+      modelProps: "user" | "users_from_cdb" | "cache" | "cache_locks" | "sessions" | "password_reset_tokens" | "failed_jobs" | "job_batches" | "jobs" | "migrations" | "settings" | "businessunits" | "company" | "department" | "patient" | "physician" | "queue" | "queuestatus" | "transactions" | "vitals" | "itemmaster" | "itemprice" | "msg_queue" | "transactiontype" | "role" | "accessionno" | "paymenthistory" | "cardEnrollment" | "vitalSign" | "consultationNote" | "physicalExamination" | "medicalEvaluation" | "prescription" | "prescriptionItem" | "resultValue" | "imagingResult" | "cardNumber" | "cardVerified"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3013,6 +3189,820 @@ export namespace Prisma {
           }
         }
       }
+      cardEnrollment: {
+        payload: Prisma.$cardEnrollmentPayload<ExtArgs>
+        fields: Prisma.cardEnrollmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.cardEnrollmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardEnrollmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.cardEnrollmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardEnrollmentPayload>
+          }
+          findFirst: {
+            args: Prisma.cardEnrollmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardEnrollmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.cardEnrollmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardEnrollmentPayload>
+          }
+          findMany: {
+            args: Prisma.cardEnrollmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardEnrollmentPayload>[]
+          }
+          create: {
+            args: Prisma.cardEnrollmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardEnrollmentPayload>
+          }
+          createMany: {
+            args: Prisma.cardEnrollmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.cardEnrollmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardEnrollmentPayload>[]
+          }
+          delete: {
+            args: Prisma.cardEnrollmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardEnrollmentPayload>
+          }
+          update: {
+            args: Prisma.cardEnrollmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardEnrollmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.cardEnrollmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.cardEnrollmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.cardEnrollmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardEnrollmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.cardEnrollmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardEnrollmentPayload>
+          }
+          aggregate: {
+            args: Prisma.CardEnrollmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCardEnrollment>
+          }
+          groupBy: {
+            args: Prisma.cardEnrollmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CardEnrollmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.cardEnrollmentCountArgs<ExtArgs>
+            result: $Utils.Optional<CardEnrollmentCountAggregateOutputType> | number
+          }
+        }
+      }
+      VitalSign: {
+        payload: Prisma.$VitalSignPayload<ExtArgs>
+        fields: Prisma.VitalSignFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.VitalSignFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalSignPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.VitalSignFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalSignPayload>
+          }
+          findFirst: {
+            args: Prisma.VitalSignFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalSignPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.VitalSignFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalSignPayload>
+          }
+          findMany: {
+            args: Prisma.VitalSignFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalSignPayload>[]
+          }
+          create: {
+            args: Prisma.VitalSignCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalSignPayload>
+          }
+          createMany: {
+            args: Prisma.VitalSignCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.VitalSignCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalSignPayload>[]
+          }
+          delete: {
+            args: Prisma.VitalSignDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalSignPayload>
+          }
+          update: {
+            args: Prisma.VitalSignUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalSignPayload>
+          }
+          deleteMany: {
+            args: Prisma.VitalSignDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.VitalSignUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.VitalSignUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalSignPayload>[]
+          }
+          upsert: {
+            args: Prisma.VitalSignUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VitalSignPayload>
+          }
+          aggregate: {
+            args: Prisma.VitalSignAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVitalSign>
+          }
+          groupBy: {
+            args: Prisma.VitalSignGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VitalSignGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.VitalSignCountArgs<ExtArgs>
+            result: $Utils.Optional<VitalSignCountAggregateOutputType> | number
+          }
+        }
+      }
+      ConsultationNote: {
+        payload: Prisma.$ConsultationNotePayload<ExtArgs>
+        fields: Prisma.ConsultationNoteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ConsultationNoteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultationNotePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ConsultationNoteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultationNotePayload>
+          }
+          findFirst: {
+            args: Prisma.ConsultationNoteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultationNotePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ConsultationNoteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultationNotePayload>
+          }
+          findMany: {
+            args: Prisma.ConsultationNoteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultationNotePayload>[]
+          }
+          create: {
+            args: Prisma.ConsultationNoteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultationNotePayload>
+          }
+          createMany: {
+            args: Prisma.ConsultationNoteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ConsultationNoteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultationNotePayload>[]
+          }
+          delete: {
+            args: Prisma.ConsultationNoteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultationNotePayload>
+          }
+          update: {
+            args: Prisma.ConsultationNoteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultationNotePayload>
+          }
+          deleteMany: {
+            args: Prisma.ConsultationNoteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ConsultationNoteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ConsultationNoteUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultationNotePayload>[]
+          }
+          upsert: {
+            args: Prisma.ConsultationNoteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ConsultationNotePayload>
+          }
+          aggregate: {
+            args: Prisma.ConsultationNoteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateConsultationNote>
+          }
+          groupBy: {
+            args: Prisma.ConsultationNoteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ConsultationNoteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ConsultationNoteCountArgs<ExtArgs>
+            result: $Utils.Optional<ConsultationNoteCountAggregateOutputType> | number
+          }
+        }
+      }
+      PhysicalExamination: {
+        payload: Prisma.$PhysicalExaminationPayload<ExtArgs>
+        fields: Prisma.PhysicalExaminationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PhysicalExaminationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhysicalExaminationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PhysicalExaminationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhysicalExaminationPayload>
+          }
+          findFirst: {
+            args: Prisma.PhysicalExaminationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhysicalExaminationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PhysicalExaminationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhysicalExaminationPayload>
+          }
+          findMany: {
+            args: Prisma.PhysicalExaminationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhysicalExaminationPayload>[]
+          }
+          create: {
+            args: Prisma.PhysicalExaminationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhysicalExaminationPayload>
+          }
+          createMany: {
+            args: Prisma.PhysicalExaminationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PhysicalExaminationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhysicalExaminationPayload>[]
+          }
+          delete: {
+            args: Prisma.PhysicalExaminationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhysicalExaminationPayload>
+          }
+          update: {
+            args: Prisma.PhysicalExaminationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhysicalExaminationPayload>
+          }
+          deleteMany: {
+            args: Prisma.PhysicalExaminationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PhysicalExaminationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PhysicalExaminationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhysicalExaminationPayload>[]
+          }
+          upsert: {
+            args: Prisma.PhysicalExaminationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PhysicalExaminationPayload>
+          }
+          aggregate: {
+            args: Prisma.PhysicalExaminationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePhysicalExamination>
+          }
+          groupBy: {
+            args: Prisma.PhysicalExaminationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PhysicalExaminationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PhysicalExaminationCountArgs<ExtArgs>
+            result: $Utils.Optional<PhysicalExaminationCountAggregateOutputType> | number
+          }
+        }
+      }
+      MedicalEvaluation: {
+        payload: Prisma.$MedicalEvaluationPayload<ExtArgs>
+        fields: Prisma.MedicalEvaluationFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MedicalEvaluationFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MedicalEvaluationPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MedicalEvaluationFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MedicalEvaluationPayload>
+          }
+          findFirst: {
+            args: Prisma.MedicalEvaluationFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MedicalEvaluationPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MedicalEvaluationFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MedicalEvaluationPayload>
+          }
+          findMany: {
+            args: Prisma.MedicalEvaluationFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MedicalEvaluationPayload>[]
+          }
+          create: {
+            args: Prisma.MedicalEvaluationCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MedicalEvaluationPayload>
+          }
+          createMany: {
+            args: Prisma.MedicalEvaluationCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MedicalEvaluationCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MedicalEvaluationPayload>[]
+          }
+          delete: {
+            args: Prisma.MedicalEvaluationDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MedicalEvaluationPayload>
+          }
+          update: {
+            args: Prisma.MedicalEvaluationUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MedicalEvaluationPayload>
+          }
+          deleteMany: {
+            args: Prisma.MedicalEvaluationDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MedicalEvaluationUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MedicalEvaluationUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MedicalEvaluationPayload>[]
+          }
+          upsert: {
+            args: Prisma.MedicalEvaluationUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MedicalEvaluationPayload>
+          }
+          aggregate: {
+            args: Prisma.MedicalEvaluationAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMedicalEvaluation>
+          }
+          groupBy: {
+            args: Prisma.MedicalEvaluationGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MedicalEvaluationGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MedicalEvaluationCountArgs<ExtArgs>
+            result: $Utils.Optional<MedicalEvaluationCountAggregateOutputType> | number
+          }
+        }
+      }
+      Prescription: {
+        payload: Prisma.$PrescriptionPayload<ExtArgs>
+        fields: Prisma.PrescriptionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PrescriptionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PrescriptionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionPayload>
+          }
+          findFirst: {
+            args: Prisma.PrescriptionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PrescriptionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionPayload>
+          }
+          findMany: {
+            args: Prisma.PrescriptionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionPayload>[]
+          }
+          create: {
+            args: Prisma.PrescriptionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionPayload>
+          }
+          createMany: {
+            args: Prisma.PrescriptionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PrescriptionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionPayload>[]
+          }
+          delete: {
+            args: Prisma.PrescriptionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionPayload>
+          }
+          update: {
+            args: Prisma.PrescriptionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionPayload>
+          }
+          deleteMany: {
+            args: Prisma.PrescriptionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PrescriptionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PrescriptionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionPayload>[]
+          }
+          upsert: {
+            args: Prisma.PrescriptionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionPayload>
+          }
+          aggregate: {
+            args: Prisma.PrescriptionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePrescription>
+          }
+          groupBy: {
+            args: Prisma.PrescriptionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PrescriptionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PrescriptionCountArgs<ExtArgs>
+            result: $Utils.Optional<PrescriptionCountAggregateOutputType> | number
+          }
+        }
+      }
+      PrescriptionItem: {
+        payload: Prisma.$PrescriptionItemPayload<ExtArgs>
+        fields: Prisma.PrescriptionItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PrescriptionItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PrescriptionItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionItemPayload>
+          }
+          findFirst: {
+            args: Prisma.PrescriptionItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PrescriptionItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionItemPayload>
+          }
+          findMany: {
+            args: Prisma.PrescriptionItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionItemPayload>[]
+          }
+          create: {
+            args: Prisma.PrescriptionItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionItemPayload>
+          }
+          createMany: {
+            args: Prisma.PrescriptionItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PrescriptionItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionItemPayload>[]
+          }
+          delete: {
+            args: Prisma.PrescriptionItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionItemPayload>
+          }
+          update: {
+            args: Prisma.PrescriptionItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.PrescriptionItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PrescriptionItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PrescriptionItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.PrescriptionItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PrescriptionItemPayload>
+          }
+          aggregate: {
+            args: Prisma.PrescriptionItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePrescriptionItem>
+          }
+          groupBy: {
+            args: Prisma.PrescriptionItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PrescriptionItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PrescriptionItemCountArgs<ExtArgs>
+            result: $Utils.Optional<PrescriptionItemCountAggregateOutputType> | number
+          }
+        }
+      }
+      ResultValue: {
+        payload: Prisma.$ResultValuePayload<ExtArgs>
+        fields: Prisma.ResultValueFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ResultValueFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResultValuePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ResultValueFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResultValuePayload>
+          }
+          findFirst: {
+            args: Prisma.ResultValueFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResultValuePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ResultValueFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResultValuePayload>
+          }
+          findMany: {
+            args: Prisma.ResultValueFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResultValuePayload>[]
+          }
+          create: {
+            args: Prisma.ResultValueCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResultValuePayload>
+          }
+          createMany: {
+            args: Prisma.ResultValueCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ResultValueCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResultValuePayload>[]
+          }
+          delete: {
+            args: Prisma.ResultValueDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResultValuePayload>
+          }
+          update: {
+            args: Prisma.ResultValueUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResultValuePayload>
+          }
+          deleteMany: {
+            args: Prisma.ResultValueDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ResultValueUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ResultValueUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResultValuePayload>[]
+          }
+          upsert: {
+            args: Prisma.ResultValueUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ResultValuePayload>
+          }
+          aggregate: {
+            args: Prisma.ResultValueAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateResultValue>
+          }
+          groupBy: {
+            args: Prisma.ResultValueGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ResultValueGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ResultValueCountArgs<ExtArgs>
+            result: $Utils.Optional<ResultValueCountAggregateOutputType> | number
+          }
+        }
+      }
+      ImagingResult: {
+        payload: Prisma.$ImagingResultPayload<ExtArgs>
+        fields: Prisma.ImagingResultFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ImagingResultFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagingResultPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ImagingResultFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagingResultPayload>
+          }
+          findFirst: {
+            args: Prisma.ImagingResultFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagingResultPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ImagingResultFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagingResultPayload>
+          }
+          findMany: {
+            args: Prisma.ImagingResultFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagingResultPayload>[]
+          }
+          create: {
+            args: Prisma.ImagingResultCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagingResultPayload>
+          }
+          createMany: {
+            args: Prisma.ImagingResultCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ImagingResultCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagingResultPayload>[]
+          }
+          delete: {
+            args: Prisma.ImagingResultDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagingResultPayload>
+          }
+          update: {
+            args: Prisma.ImagingResultUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagingResultPayload>
+          }
+          deleteMany: {
+            args: Prisma.ImagingResultDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ImagingResultUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ImagingResultUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagingResultPayload>[]
+          }
+          upsert: {
+            args: Prisma.ImagingResultUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ImagingResultPayload>
+          }
+          aggregate: {
+            args: Prisma.ImagingResultAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateImagingResult>
+          }
+          groupBy: {
+            args: Prisma.ImagingResultGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ImagingResultGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ImagingResultCountArgs<ExtArgs>
+            result: $Utils.Optional<ImagingResultCountAggregateOutputType> | number
+          }
+        }
+      }
+      cardNumber: {
+        payload: Prisma.$cardNumberPayload<ExtArgs>
+        fields: Prisma.cardNumberFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.cardNumberFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardNumberPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.cardNumberFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardNumberPayload>
+          }
+          findFirst: {
+            args: Prisma.cardNumberFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardNumberPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.cardNumberFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardNumberPayload>
+          }
+          findMany: {
+            args: Prisma.cardNumberFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardNumberPayload>[]
+          }
+          create: {
+            args: Prisma.cardNumberCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardNumberPayload>
+          }
+          createMany: {
+            args: Prisma.cardNumberCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.cardNumberCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardNumberPayload>[]
+          }
+          delete: {
+            args: Prisma.cardNumberDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardNumberPayload>
+          }
+          update: {
+            args: Prisma.cardNumberUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardNumberPayload>
+          }
+          deleteMany: {
+            args: Prisma.cardNumberDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.cardNumberUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.cardNumberUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardNumberPayload>[]
+          }
+          upsert: {
+            args: Prisma.cardNumberUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardNumberPayload>
+          }
+          aggregate: {
+            args: Prisma.CardNumberAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCardNumber>
+          }
+          groupBy: {
+            args: Prisma.cardNumberGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CardNumberGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.cardNumberCountArgs<ExtArgs>
+            result: $Utils.Optional<CardNumberCountAggregateOutputType> | number
+          }
+        }
+      }
+      cardVerified: {
+        payload: Prisma.$cardVerifiedPayload<ExtArgs>
+        fields: Prisma.cardVerifiedFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.cardVerifiedFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardVerifiedPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.cardVerifiedFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardVerifiedPayload>
+          }
+          findFirst: {
+            args: Prisma.cardVerifiedFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardVerifiedPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.cardVerifiedFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardVerifiedPayload>
+          }
+          findMany: {
+            args: Prisma.cardVerifiedFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardVerifiedPayload>[]
+          }
+          create: {
+            args: Prisma.cardVerifiedCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardVerifiedPayload>
+          }
+          createMany: {
+            args: Prisma.cardVerifiedCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.cardVerifiedCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardVerifiedPayload>[]
+          }
+          delete: {
+            args: Prisma.cardVerifiedDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardVerifiedPayload>
+          }
+          update: {
+            args: Prisma.cardVerifiedUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardVerifiedPayload>
+          }
+          deleteMany: {
+            args: Prisma.cardVerifiedDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.cardVerifiedUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.cardVerifiedUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardVerifiedPayload>[]
+          }
+          upsert: {
+            args: Prisma.cardVerifiedUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$cardVerifiedPayload>
+          }
+          aggregate: {
+            args: Prisma.CardVerifiedAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCardVerified>
+          }
+          groupBy: {
+            args: Prisma.cardVerifiedGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CardVerifiedGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.cardVerifiedCountArgs<ExtArgs>
+            result: $Utils.Optional<CardVerifiedCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3148,6 +4138,17 @@ export namespace Prisma {
     role?: roleOmit
     accessionno?: accessionnoOmit
     paymenthistory?: paymenthistoryOmit
+    cardEnrollment?: cardEnrollmentOmit
+    vitalSign?: VitalSignOmit
+    consultationNote?: ConsultationNoteOmit
+    physicalExamination?: PhysicalExaminationOmit
+    medicalEvaluation?: MedicalEvaluationOmit
+    prescription?: PrescriptionOmit
+    prescriptionItem?: PrescriptionItemOmit
+    resultValue?: ResultValueOmit
+    imagingResult?: ImagingResultOmit
+    cardNumber?: cardNumberOmit
+    cardVerified?: cardVerifiedOmit
   }
 
   /* Types for Logging */
@@ -3222,6 +4223,36 @@ export namespace Prisma {
    * Count Types
    */
 
+
+  /**
+   * Count Type PrescriptionCountOutputType
+   */
+
+  export type PrescriptionCountOutputType = {
+    items: number
+  }
+
+  export type PrescriptionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | PrescriptionCountOutputTypeCountItemsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PrescriptionCountOutputType without action
+   */
+  export type PrescriptionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrescriptionCountOutputType
+     */
+    select?: PrescriptionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PrescriptionCountOutputType without action
+   */
+  export type PrescriptionCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PrescriptionItemWhereInput
+  }
 
 
   /**
@@ -38496,6 +39527,13029 @@ export namespace Prisma {
 
 
   /**
+   * Model cardEnrollment
+   */
+
+  export type AggregateCardEnrollment = {
+    _count: CardEnrollmentCountAggregateOutputType | null
+    _avg: CardEnrollmentAvgAggregateOutputType | null
+    _sum: CardEnrollmentSumAggregateOutputType | null
+    _min: CardEnrollmentMinAggregateOutputType | null
+    _max: CardEnrollmentMaxAggregateOutputType | null
+  }
+
+  export type CardEnrollmentAvgAggregateOutputType = {
+    id: number | null
+    status: number | null
+  }
+
+  export type CardEnrollmentSumAggregateOutputType = {
+    id: number | null
+    status: number | null
+  }
+
+  export type CardEnrollmentMinAggregateOutputType = {
+    id: number | null
+    cardnumber: string | null
+    dateenrolled: Date | null
+    daterelease: Date | null
+    releaseto: string | null
+    oldreleaseto: string | null
+    releaseby: string | null
+    receivedby: string | null
+    receiveddate: Date | null
+    status: number | null
+    transferto: string | null
+    datetransfer: Date | null
+    transferby: string | null
+  }
+
+  export type CardEnrollmentMaxAggregateOutputType = {
+    id: number | null
+    cardnumber: string | null
+    dateenrolled: Date | null
+    daterelease: Date | null
+    releaseto: string | null
+    oldreleaseto: string | null
+    releaseby: string | null
+    receivedby: string | null
+    receiveddate: Date | null
+    status: number | null
+    transferto: string | null
+    datetransfer: Date | null
+    transferby: string | null
+  }
+
+  export type CardEnrollmentCountAggregateOutputType = {
+    id: number
+    cardnumber: number
+    dateenrolled: number
+    daterelease: number
+    releaseto: number
+    oldreleaseto: number
+    releaseby: number
+    receivedby: number
+    receiveddate: number
+    status: number
+    transferto: number
+    datetransfer: number
+    transferby: number
+    _all: number
+  }
+
+
+  export type CardEnrollmentAvgAggregateInputType = {
+    id?: true
+    status?: true
+  }
+
+  export type CardEnrollmentSumAggregateInputType = {
+    id?: true
+    status?: true
+  }
+
+  export type CardEnrollmentMinAggregateInputType = {
+    id?: true
+    cardnumber?: true
+    dateenrolled?: true
+    daterelease?: true
+    releaseto?: true
+    oldreleaseto?: true
+    releaseby?: true
+    receivedby?: true
+    receiveddate?: true
+    status?: true
+    transferto?: true
+    datetransfer?: true
+    transferby?: true
+  }
+
+  export type CardEnrollmentMaxAggregateInputType = {
+    id?: true
+    cardnumber?: true
+    dateenrolled?: true
+    daterelease?: true
+    releaseto?: true
+    oldreleaseto?: true
+    releaseby?: true
+    receivedby?: true
+    receiveddate?: true
+    status?: true
+    transferto?: true
+    datetransfer?: true
+    transferby?: true
+  }
+
+  export type CardEnrollmentCountAggregateInputType = {
+    id?: true
+    cardnumber?: true
+    dateenrolled?: true
+    daterelease?: true
+    releaseto?: true
+    oldreleaseto?: true
+    releaseby?: true
+    receivedby?: true
+    receiveddate?: true
+    status?: true
+    transferto?: true
+    datetransfer?: true
+    transferby?: true
+    _all?: true
+  }
+
+  export type CardEnrollmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which cardEnrollment to aggregate.
+     */
+    where?: cardEnrollmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cardEnrollments to fetch.
+     */
+    orderBy?: cardEnrollmentOrderByWithRelationInput | cardEnrollmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: cardEnrollmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cardEnrollments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cardEnrollments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned cardEnrollments
+    **/
+    _count?: true | CardEnrollmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CardEnrollmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CardEnrollmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CardEnrollmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CardEnrollmentMaxAggregateInputType
+  }
+
+  export type GetCardEnrollmentAggregateType<T extends CardEnrollmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateCardEnrollment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCardEnrollment[P]>
+      : GetScalarType<T[P], AggregateCardEnrollment[P]>
+  }
+
+
+
+
+  export type cardEnrollmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: cardEnrollmentWhereInput
+    orderBy?: cardEnrollmentOrderByWithAggregationInput | cardEnrollmentOrderByWithAggregationInput[]
+    by: CardEnrollmentScalarFieldEnum[] | CardEnrollmentScalarFieldEnum
+    having?: cardEnrollmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CardEnrollmentCountAggregateInputType | true
+    _avg?: CardEnrollmentAvgAggregateInputType
+    _sum?: CardEnrollmentSumAggregateInputType
+    _min?: CardEnrollmentMinAggregateInputType
+    _max?: CardEnrollmentMaxAggregateInputType
+  }
+
+  export type CardEnrollmentGroupByOutputType = {
+    id: number
+    cardnumber: string | null
+    dateenrolled: Date | null
+    daterelease: Date | null
+    releaseto: string | null
+    oldreleaseto: string | null
+    releaseby: string | null
+    receivedby: string | null
+    receiveddate: Date | null
+    status: number | null
+    transferto: string | null
+    datetransfer: Date | null
+    transferby: string | null
+    _count: CardEnrollmentCountAggregateOutputType | null
+    _avg: CardEnrollmentAvgAggregateOutputType | null
+    _sum: CardEnrollmentSumAggregateOutputType | null
+    _min: CardEnrollmentMinAggregateOutputType | null
+    _max: CardEnrollmentMaxAggregateOutputType | null
+  }
+
+  type GetCardEnrollmentGroupByPayload<T extends cardEnrollmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CardEnrollmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CardEnrollmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CardEnrollmentGroupByOutputType[P]>
+            : GetScalarType<T[P], CardEnrollmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type cardEnrollmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    cardnumber?: boolean
+    dateenrolled?: boolean
+    daterelease?: boolean
+    releaseto?: boolean
+    oldreleaseto?: boolean
+    releaseby?: boolean
+    receivedby?: boolean
+    receiveddate?: boolean
+    status?: boolean
+    transferto?: boolean
+    datetransfer?: boolean
+    transferby?: boolean
+  }, ExtArgs["result"]["cardEnrollment"]>
+
+  export type cardEnrollmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    cardnumber?: boolean
+    dateenrolled?: boolean
+    daterelease?: boolean
+    releaseto?: boolean
+    oldreleaseto?: boolean
+    releaseby?: boolean
+    receivedby?: boolean
+    receiveddate?: boolean
+    status?: boolean
+    transferto?: boolean
+    datetransfer?: boolean
+    transferby?: boolean
+  }, ExtArgs["result"]["cardEnrollment"]>
+
+  export type cardEnrollmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    cardnumber?: boolean
+    dateenrolled?: boolean
+    daterelease?: boolean
+    releaseto?: boolean
+    oldreleaseto?: boolean
+    releaseby?: boolean
+    receivedby?: boolean
+    receiveddate?: boolean
+    status?: boolean
+    transferto?: boolean
+    datetransfer?: boolean
+    transferby?: boolean
+  }, ExtArgs["result"]["cardEnrollment"]>
+
+  export type cardEnrollmentSelectScalar = {
+    id?: boolean
+    cardnumber?: boolean
+    dateenrolled?: boolean
+    daterelease?: boolean
+    releaseto?: boolean
+    oldreleaseto?: boolean
+    releaseby?: boolean
+    receivedby?: boolean
+    receiveddate?: boolean
+    status?: boolean
+    transferto?: boolean
+    datetransfer?: boolean
+    transferby?: boolean
+  }
+
+  export type cardEnrollmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "cardnumber" | "dateenrolled" | "daterelease" | "releaseto" | "oldreleaseto" | "releaseby" | "receivedby" | "receiveddate" | "status" | "transferto" | "datetransfer" | "transferby", ExtArgs["result"]["cardEnrollment"]>
+
+  export type $cardEnrollmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "cardEnrollment"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      cardnumber: string | null
+      dateenrolled: Date | null
+      daterelease: Date | null
+      releaseto: string | null
+      oldreleaseto: string | null
+      releaseby: string | null
+      receivedby: string | null
+      receiveddate: Date | null
+      status: number | null
+      transferto: string | null
+      datetransfer: Date | null
+      transferby: string | null
+    }, ExtArgs["result"]["cardEnrollment"]>
+    composites: {}
+  }
+
+  type cardEnrollmentGetPayload<S extends boolean | null | undefined | cardEnrollmentDefaultArgs> = $Result.GetResult<Prisma.$cardEnrollmentPayload, S>
+
+  type cardEnrollmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<cardEnrollmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CardEnrollmentCountAggregateInputType | true
+    }
+
+  export interface cardEnrollmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['cardEnrollment'], meta: { name: 'cardEnrollment' } }
+    /**
+     * Find zero or one CardEnrollment that matches the filter.
+     * @param {cardEnrollmentFindUniqueArgs} args - Arguments to find a CardEnrollment
+     * @example
+     * // Get one CardEnrollment
+     * const cardEnrollment = await prisma.cardEnrollment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends cardEnrollmentFindUniqueArgs>(args: SelectSubset<T, cardEnrollmentFindUniqueArgs<ExtArgs>>): Prisma__cardEnrollmentClient<$Result.GetResult<Prisma.$cardEnrollmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CardEnrollment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {cardEnrollmentFindUniqueOrThrowArgs} args - Arguments to find a CardEnrollment
+     * @example
+     * // Get one CardEnrollment
+     * const cardEnrollment = await prisma.cardEnrollment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends cardEnrollmentFindUniqueOrThrowArgs>(args: SelectSubset<T, cardEnrollmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__cardEnrollmentClient<$Result.GetResult<Prisma.$cardEnrollmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CardEnrollment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardEnrollmentFindFirstArgs} args - Arguments to find a CardEnrollment
+     * @example
+     * // Get one CardEnrollment
+     * const cardEnrollment = await prisma.cardEnrollment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends cardEnrollmentFindFirstArgs>(args?: SelectSubset<T, cardEnrollmentFindFirstArgs<ExtArgs>>): Prisma__cardEnrollmentClient<$Result.GetResult<Prisma.$cardEnrollmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CardEnrollment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardEnrollmentFindFirstOrThrowArgs} args - Arguments to find a CardEnrollment
+     * @example
+     * // Get one CardEnrollment
+     * const cardEnrollment = await prisma.cardEnrollment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends cardEnrollmentFindFirstOrThrowArgs>(args?: SelectSubset<T, cardEnrollmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__cardEnrollmentClient<$Result.GetResult<Prisma.$cardEnrollmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CardEnrollments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardEnrollmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CardEnrollments
+     * const cardEnrollments = await prisma.cardEnrollment.findMany()
+     * 
+     * // Get first 10 CardEnrollments
+     * const cardEnrollments = await prisma.cardEnrollment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const cardEnrollmentWithIdOnly = await prisma.cardEnrollment.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends cardEnrollmentFindManyArgs>(args?: SelectSubset<T, cardEnrollmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$cardEnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CardEnrollment.
+     * @param {cardEnrollmentCreateArgs} args - Arguments to create a CardEnrollment.
+     * @example
+     * // Create one CardEnrollment
+     * const CardEnrollment = await prisma.cardEnrollment.create({
+     *   data: {
+     *     // ... data to create a CardEnrollment
+     *   }
+     * })
+     * 
+     */
+    create<T extends cardEnrollmentCreateArgs>(args: SelectSubset<T, cardEnrollmentCreateArgs<ExtArgs>>): Prisma__cardEnrollmentClient<$Result.GetResult<Prisma.$cardEnrollmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CardEnrollments.
+     * @param {cardEnrollmentCreateManyArgs} args - Arguments to create many CardEnrollments.
+     * @example
+     * // Create many CardEnrollments
+     * const cardEnrollment = await prisma.cardEnrollment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends cardEnrollmentCreateManyArgs>(args?: SelectSubset<T, cardEnrollmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CardEnrollments and returns the data saved in the database.
+     * @param {cardEnrollmentCreateManyAndReturnArgs} args - Arguments to create many CardEnrollments.
+     * @example
+     * // Create many CardEnrollments
+     * const cardEnrollment = await prisma.cardEnrollment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CardEnrollments and only return the `id`
+     * const cardEnrollmentWithIdOnly = await prisma.cardEnrollment.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends cardEnrollmentCreateManyAndReturnArgs>(args?: SelectSubset<T, cardEnrollmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$cardEnrollmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CardEnrollment.
+     * @param {cardEnrollmentDeleteArgs} args - Arguments to delete one CardEnrollment.
+     * @example
+     * // Delete one CardEnrollment
+     * const CardEnrollment = await prisma.cardEnrollment.delete({
+     *   where: {
+     *     // ... filter to delete one CardEnrollment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends cardEnrollmentDeleteArgs>(args: SelectSubset<T, cardEnrollmentDeleteArgs<ExtArgs>>): Prisma__cardEnrollmentClient<$Result.GetResult<Prisma.$cardEnrollmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CardEnrollment.
+     * @param {cardEnrollmentUpdateArgs} args - Arguments to update one CardEnrollment.
+     * @example
+     * // Update one CardEnrollment
+     * const cardEnrollment = await prisma.cardEnrollment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends cardEnrollmentUpdateArgs>(args: SelectSubset<T, cardEnrollmentUpdateArgs<ExtArgs>>): Prisma__cardEnrollmentClient<$Result.GetResult<Prisma.$cardEnrollmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CardEnrollments.
+     * @param {cardEnrollmentDeleteManyArgs} args - Arguments to filter CardEnrollments to delete.
+     * @example
+     * // Delete a few CardEnrollments
+     * const { count } = await prisma.cardEnrollment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends cardEnrollmentDeleteManyArgs>(args?: SelectSubset<T, cardEnrollmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CardEnrollments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardEnrollmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CardEnrollments
+     * const cardEnrollment = await prisma.cardEnrollment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends cardEnrollmentUpdateManyArgs>(args: SelectSubset<T, cardEnrollmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CardEnrollments and returns the data updated in the database.
+     * @param {cardEnrollmentUpdateManyAndReturnArgs} args - Arguments to update many CardEnrollments.
+     * @example
+     * // Update many CardEnrollments
+     * const cardEnrollment = await prisma.cardEnrollment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CardEnrollments and only return the `id`
+     * const cardEnrollmentWithIdOnly = await prisma.cardEnrollment.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends cardEnrollmentUpdateManyAndReturnArgs>(args: SelectSubset<T, cardEnrollmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$cardEnrollmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CardEnrollment.
+     * @param {cardEnrollmentUpsertArgs} args - Arguments to update or create a CardEnrollment.
+     * @example
+     * // Update or create a CardEnrollment
+     * const cardEnrollment = await prisma.cardEnrollment.upsert({
+     *   create: {
+     *     // ... data to create a CardEnrollment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CardEnrollment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends cardEnrollmentUpsertArgs>(args: SelectSubset<T, cardEnrollmentUpsertArgs<ExtArgs>>): Prisma__cardEnrollmentClient<$Result.GetResult<Prisma.$cardEnrollmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CardEnrollments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardEnrollmentCountArgs} args - Arguments to filter CardEnrollments to count.
+     * @example
+     * // Count the number of CardEnrollments
+     * const count = await prisma.cardEnrollment.count({
+     *   where: {
+     *     // ... the filter for the CardEnrollments we want to count
+     *   }
+     * })
+    **/
+    count<T extends cardEnrollmentCountArgs>(
+      args?: Subset<T, cardEnrollmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CardEnrollmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CardEnrollment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CardEnrollmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CardEnrollmentAggregateArgs>(args: Subset<T, CardEnrollmentAggregateArgs>): Prisma.PrismaPromise<GetCardEnrollmentAggregateType<T>>
+
+    /**
+     * Group by CardEnrollment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardEnrollmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends cardEnrollmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: cardEnrollmentGroupByArgs['orderBy'] }
+        : { orderBy?: cardEnrollmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, cardEnrollmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCardEnrollmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the cardEnrollment model
+   */
+  readonly fields: cardEnrollmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for cardEnrollment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__cardEnrollmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the cardEnrollment model
+   */
+  interface cardEnrollmentFieldRefs {
+    readonly id: FieldRef<"cardEnrollment", 'Int'>
+    readonly cardnumber: FieldRef<"cardEnrollment", 'String'>
+    readonly dateenrolled: FieldRef<"cardEnrollment", 'DateTime'>
+    readonly daterelease: FieldRef<"cardEnrollment", 'DateTime'>
+    readonly releaseto: FieldRef<"cardEnrollment", 'String'>
+    readonly oldreleaseto: FieldRef<"cardEnrollment", 'String'>
+    readonly releaseby: FieldRef<"cardEnrollment", 'String'>
+    readonly receivedby: FieldRef<"cardEnrollment", 'String'>
+    readonly receiveddate: FieldRef<"cardEnrollment", 'DateTime'>
+    readonly status: FieldRef<"cardEnrollment", 'Int'>
+    readonly transferto: FieldRef<"cardEnrollment", 'String'>
+    readonly datetransfer: FieldRef<"cardEnrollment", 'DateTime'>
+    readonly transferby: FieldRef<"cardEnrollment", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * cardEnrollment findUnique
+   */
+  export type cardEnrollmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardEnrollment
+     */
+    select?: cardEnrollmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardEnrollment
+     */
+    omit?: cardEnrollmentOmit<ExtArgs> | null
+    /**
+     * Filter, which cardEnrollment to fetch.
+     */
+    where: cardEnrollmentWhereUniqueInput
+  }
+
+  /**
+   * cardEnrollment findUniqueOrThrow
+   */
+  export type cardEnrollmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardEnrollment
+     */
+    select?: cardEnrollmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardEnrollment
+     */
+    omit?: cardEnrollmentOmit<ExtArgs> | null
+    /**
+     * Filter, which cardEnrollment to fetch.
+     */
+    where: cardEnrollmentWhereUniqueInput
+  }
+
+  /**
+   * cardEnrollment findFirst
+   */
+  export type cardEnrollmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardEnrollment
+     */
+    select?: cardEnrollmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardEnrollment
+     */
+    omit?: cardEnrollmentOmit<ExtArgs> | null
+    /**
+     * Filter, which cardEnrollment to fetch.
+     */
+    where?: cardEnrollmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cardEnrollments to fetch.
+     */
+    orderBy?: cardEnrollmentOrderByWithRelationInput | cardEnrollmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for cardEnrollments.
+     */
+    cursor?: cardEnrollmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cardEnrollments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cardEnrollments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of cardEnrollments.
+     */
+    distinct?: CardEnrollmentScalarFieldEnum | CardEnrollmentScalarFieldEnum[]
+  }
+
+  /**
+   * cardEnrollment findFirstOrThrow
+   */
+  export type cardEnrollmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardEnrollment
+     */
+    select?: cardEnrollmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardEnrollment
+     */
+    omit?: cardEnrollmentOmit<ExtArgs> | null
+    /**
+     * Filter, which cardEnrollment to fetch.
+     */
+    where?: cardEnrollmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cardEnrollments to fetch.
+     */
+    orderBy?: cardEnrollmentOrderByWithRelationInput | cardEnrollmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for cardEnrollments.
+     */
+    cursor?: cardEnrollmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cardEnrollments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cardEnrollments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of cardEnrollments.
+     */
+    distinct?: CardEnrollmentScalarFieldEnum | CardEnrollmentScalarFieldEnum[]
+  }
+
+  /**
+   * cardEnrollment findMany
+   */
+  export type cardEnrollmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardEnrollment
+     */
+    select?: cardEnrollmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardEnrollment
+     */
+    omit?: cardEnrollmentOmit<ExtArgs> | null
+    /**
+     * Filter, which cardEnrollments to fetch.
+     */
+    where?: cardEnrollmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cardEnrollments to fetch.
+     */
+    orderBy?: cardEnrollmentOrderByWithRelationInput | cardEnrollmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing cardEnrollments.
+     */
+    cursor?: cardEnrollmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cardEnrollments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cardEnrollments.
+     */
+    skip?: number
+    distinct?: CardEnrollmentScalarFieldEnum | CardEnrollmentScalarFieldEnum[]
+  }
+
+  /**
+   * cardEnrollment create
+   */
+  export type cardEnrollmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardEnrollment
+     */
+    select?: cardEnrollmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardEnrollment
+     */
+    omit?: cardEnrollmentOmit<ExtArgs> | null
+    /**
+     * The data needed to create a cardEnrollment.
+     */
+    data?: XOR<cardEnrollmentCreateInput, cardEnrollmentUncheckedCreateInput>
+  }
+
+  /**
+   * cardEnrollment createMany
+   */
+  export type cardEnrollmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many cardEnrollments.
+     */
+    data: cardEnrollmentCreateManyInput | cardEnrollmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * cardEnrollment createManyAndReturn
+   */
+  export type cardEnrollmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardEnrollment
+     */
+    select?: cardEnrollmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardEnrollment
+     */
+    omit?: cardEnrollmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many cardEnrollments.
+     */
+    data: cardEnrollmentCreateManyInput | cardEnrollmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * cardEnrollment update
+   */
+  export type cardEnrollmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardEnrollment
+     */
+    select?: cardEnrollmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardEnrollment
+     */
+    omit?: cardEnrollmentOmit<ExtArgs> | null
+    /**
+     * The data needed to update a cardEnrollment.
+     */
+    data: XOR<cardEnrollmentUpdateInput, cardEnrollmentUncheckedUpdateInput>
+    /**
+     * Choose, which cardEnrollment to update.
+     */
+    where: cardEnrollmentWhereUniqueInput
+  }
+
+  /**
+   * cardEnrollment updateMany
+   */
+  export type cardEnrollmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update cardEnrollments.
+     */
+    data: XOR<cardEnrollmentUpdateManyMutationInput, cardEnrollmentUncheckedUpdateManyInput>
+    /**
+     * Filter which cardEnrollments to update
+     */
+    where?: cardEnrollmentWhereInput
+    /**
+     * Limit how many cardEnrollments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * cardEnrollment updateManyAndReturn
+   */
+  export type cardEnrollmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardEnrollment
+     */
+    select?: cardEnrollmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardEnrollment
+     */
+    omit?: cardEnrollmentOmit<ExtArgs> | null
+    /**
+     * The data used to update cardEnrollments.
+     */
+    data: XOR<cardEnrollmentUpdateManyMutationInput, cardEnrollmentUncheckedUpdateManyInput>
+    /**
+     * Filter which cardEnrollments to update
+     */
+    where?: cardEnrollmentWhereInput
+    /**
+     * Limit how many cardEnrollments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * cardEnrollment upsert
+   */
+  export type cardEnrollmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardEnrollment
+     */
+    select?: cardEnrollmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardEnrollment
+     */
+    omit?: cardEnrollmentOmit<ExtArgs> | null
+    /**
+     * The filter to search for the cardEnrollment to update in case it exists.
+     */
+    where: cardEnrollmentWhereUniqueInput
+    /**
+     * In case the cardEnrollment found by the `where` argument doesn't exist, create a new cardEnrollment with this data.
+     */
+    create: XOR<cardEnrollmentCreateInput, cardEnrollmentUncheckedCreateInput>
+    /**
+     * In case the cardEnrollment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<cardEnrollmentUpdateInput, cardEnrollmentUncheckedUpdateInput>
+  }
+
+  /**
+   * cardEnrollment delete
+   */
+  export type cardEnrollmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardEnrollment
+     */
+    select?: cardEnrollmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardEnrollment
+     */
+    omit?: cardEnrollmentOmit<ExtArgs> | null
+    /**
+     * Filter which cardEnrollment to delete.
+     */
+    where: cardEnrollmentWhereUniqueInput
+  }
+
+  /**
+   * cardEnrollment deleteMany
+   */
+  export type cardEnrollmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which cardEnrollments to delete
+     */
+    where?: cardEnrollmentWhereInput
+    /**
+     * Limit how many cardEnrollments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * cardEnrollment without action
+   */
+  export type cardEnrollmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardEnrollment
+     */
+    select?: cardEnrollmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardEnrollment
+     */
+    omit?: cardEnrollmentOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model VitalSign
+   */
+
+  export type AggregateVitalSign = {
+    _count: VitalSignCountAggregateOutputType | null
+    _avg: VitalSignAvgAggregateOutputType | null
+    _sum: VitalSignSumAggregateOutputType | null
+    _min: VitalSignMinAggregateOutputType | null
+    _max: VitalSignMaxAggregateOutputType | null
+  }
+
+  export type VitalSignAvgAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    bp_systolic: number | null
+    bp_diastolic: number | null
+    bp_systolic2: number | null
+    bp_diastolic2: number | null
+    bp_systolic3: number | null
+    bp_diastolic3: number | null
+    heart_rate: number | null
+    temperature: Decimal | null
+    respiratory_rate: number | null
+    weight_kg: Decimal | null
+    height_cm: Decimal | null
+    bmi: Decimal | null
+    recorded_by: number | null
+  }
+
+  export type VitalSignSumAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    bp_systolic: number | null
+    bp_diastolic: number | null
+    bp_systolic2: number | null
+    bp_diastolic2: number | null
+    bp_systolic3: number | null
+    bp_diastolic3: number | null
+    heart_rate: number | null
+    temperature: Decimal | null
+    respiratory_rate: number | null
+    weight_kg: Decimal | null
+    height_cm: Decimal | null
+    bmi: Decimal | null
+    recorded_by: number | null
+  }
+
+  export type VitalSignMinAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    patient_id: string | null
+    chief_complaint: string | null
+    pcp_doctor: string | null
+    bp_systolic: number | null
+    bp_diastolic: number | null
+    bp_systolic2: number | null
+    bp_diastolic2: number | null
+    bp_systolic3: number | null
+    bp_diastolic3: number | null
+    heart_rate: number | null
+    temperature: Decimal | null
+    respiratory_rate: number | null
+    weight_kg: Decimal | null
+    height_cm: Decimal | null
+    bmi: Decimal | null
+    vision_right_od: string | null
+    vision_left_os: string | null
+    vision_corrected: string | null
+    color_vision: string | null
+    recorded_by: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type VitalSignMaxAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    patient_id: string | null
+    chief_complaint: string | null
+    pcp_doctor: string | null
+    bp_systolic: number | null
+    bp_diastolic: number | null
+    bp_systolic2: number | null
+    bp_diastolic2: number | null
+    bp_systolic3: number | null
+    bp_diastolic3: number | null
+    heart_rate: number | null
+    temperature: Decimal | null
+    respiratory_rate: number | null
+    weight_kg: Decimal | null
+    height_cm: Decimal | null
+    bmi: Decimal | null
+    vision_right_od: string | null
+    vision_left_os: string | null
+    vision_corrected: string | null
+    color_vision: string | null
+    recorded_by: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type VitalSignCountAggregateOutputType = {
+    id: number
+    queue_id: number
+    patient_id: number
+    chief_complaint: number
+    pcp_doctor: number
+    bp_systolic: number
+    bp_diastolic: number
+    bp_systolic2: number
+    bp_diastolic2: number
+    bp_systolic3: number
+    bp_diastolic3: number
+    heart_rate: number
+    temperature: number
+    respiratory_rate: number
+    weight_kg: number
+    height_cm: number
+    bmi: number
+    vision_right_od: number
+    vision_left_os: number
+    vision_corrected: number
+    color_vision: number
+    recorded_by: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type VitalSignAvgAggregateInputType = {
+    id?: true
+    queue_id?: true
+    bp_systolic?: true
+    bp_diastolic?: true
+    bp_systolic2?: true
+    bp_diastolic2?: true
+    bp_systolic3?: true
+    bp_diastolic3?: true
+    heart_rate?: true
+    temperature?: true
+    respiratory_rate?: true
+    weight_kg?: true
+    height_cm?: true
+    bmi?: true
+    recorded_by?: true
+  }
+
+  export type VitalSignSumAggregateInputType = {
+    id?: true
+    queue_id?: true
+    bp_systolic?: true
+    bp_diastolic?: true
+    bp_systolic2?: true
+    bp_diastolic2?: true
+    bp_systolic3?: true
+    bp_diastolic3?: true
+    heart_rate?: true
+    temperature?: true
+    respiratory_rate?: true
+    weight_kg?: true
+    height_cm?: true
+    bmi?: true
+    recorded_by?: true
+  }
+
+  export type VitalSignMinAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+    chief_complaint?: true
+    pcp_doctor?: true
+    bp_systolic?: true
+    bp_diastolic?: true
+    bp_systolic2?: true
+    bp_diastolic2?: true
+    bp_systolic3?: true
+    bp_diastolic3?: true
+    heart_rate?: true
+    temperature?: true
+    respiratory_rate?: true
+    weight_kg?: true
+    height_cm?: true
+    bmi?: true
+    vision_right_od?: true
+    vision_left_os?: true
+    vision_corrected?: true
+    color_vision?: true
+    recorded_by?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type VitalSignMaxAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+    chief_complaint?: true
+    pcp_doctor?: true
+    bp_systolic?: true
+    bp_diastolic?: true
+    bp_systolic2?: true
+    bp_diastolic2?: true
+    bp_systolic3?: true
+    bp_diastolic3?: true
+    heart_rate?: true
+    temperature?: true
+    respiratory_rate?: true
+    weight_kg?: true
+    height_cm?: true
+    bmi?: true
+    vision_right_od?: true
+    vision_left_os?: true
+    vision_corrected?: true
+    color_vision?: true
+    recorded_by?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type VitalSignCountAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+    chief_complaint?: true
+    pcp_doctor?: true
+    bp_systolic?: true
+    bp_diastolic?: true
+    bp_systolic2?: true
+    bp_diastolic2?: true
+    bp_systolic3?: true
+    bp_diastolic3?: true
+    heart_rate?: true
+    temperature?: true
+    respiratory_rate?: true
+    weight_kg?: true
+    height_cm?: true
+    bmi?: true
+    vision_right_od?: true
+    vision_left_os?: true
+    vision_corrected?: true
+    color_vision?: true
+    recorded_by?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type VitalSignAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VitalSign to aggregate.
+     */
+    where?: VitalSignWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VitalSigns to fetch.
+     */
+    orderBy?: VitalSignOrderByWithRelationInput | VitalSignOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: VitalSignWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VitalSigns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VitalSigns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned VitalSigns
+    **/
+    _count?: true | VitalSignCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: VitalSignAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VitalSignSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VitalSignMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VitalSignMaxAggregateInputType
+  }
+
+  export type GetVitalSignAggregateType<T extends VitalSignAggregateArgs> = {
+        [P in keyof T & keyof AggregateVitalSign]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVitalSign[P]>
+      : GetScalarType<T[P], AggregateVitalSign[P]>
+  }
+
+
+
+
+  export type VitalSignGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VitalSignWhereInput
+    orderBy?: VitalSignOrderByWithAggregationInput | VitalSignOrderByWithAggregationInput[]
+    by: VitalSignScalarFieldEnum[] | VitalSignScalarFieldEnum
+    having?: VitalSignScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VitalSignCountAggregateInputType | true
+    _avg?: VitalSignAvgAggregateInputType
+    _sum?: VitalSignSumAggregateInputType
+    _min?: VitalSignMinAggregateInputType
+    _max?: VitalSignMaxAggregateInputType
+  }
+
+  export type VitalSignGroupByOutputType = {
+    id: number
+    queue_id: number
+    patient_id: string | null
+    chief_complaint: string | null
+    pcp_doctor: string | null
+    bp_systolic: number | null
+    bp_diastolic: number | null
+    bp_systolic2: number | null
+    bp_diastolic2: number | null
+    bp_systolic3: number | null
+    bp_diastolic3: number | null
+    heart_rate: number | null
+    temperature: Decimal | null
+    respiratory_rate: number | null
+    weight_kg: Decimal | null
+    height_cm: Decimal | null
+    bmi: Decimal | null
+    vision_right_od: string | null
+    vision_left_os: string | null
+    vision_corrected: string | null
+    color_vision: string | null
+    recorded_by: number | null
+    created_at: Date
+    updated_at: Date
+    _count: VitalSignCountAggregateOutputType | null
+    _avg: VitalSignAvgAggregateOutputType | null
+    _sum: VitalSignSumAggregateOutputType | null
+    _min: VitalSignMinAggregateOutputType | null
+    _max: VitalSignMaxAggregateOutputType | null
+  }
+
+  type GetVitalSignGroupByPayload<T extends VitalSignGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VitalSignGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VitalSignGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VitalSignGroupByOutputType[P]>
+            : GetScalarType<T[P], VitalSignGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type VitalSignSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    chief_complaint?: boolean
+    pcp_doctor?: boolean
+    bp_systolic?: boolean
+    bp_diastolic?: boolean
+    bp_systolic2?: boolean
+    bp_diastolic2?: boolean
+    bp_systolic3?: boolean
+    bp_diastolic3?: boolean
+    heart_rate?: boolean
+    temperature?: boolean
+    respiratory_rate?: boolean
+    weight_kg?: boolean
+    height_cm?: boolean
+    bmi?: boolean
+    vision_right_od?: boolean
+    vision_left_os?: boolean
+    vision_corrected?: boolean
+    color_vision?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["vitalSign"]>
+
+  export type VitalSignSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    chief_complaint?: boolean
+    pcp_doctor?: boolean
+    bp_systolic?: boolean
+    bp_diastolic?: boolean
+    bp_systolic2?: boolean
+    bp_diastolic2?: boolean
+    bp_systolic3?: boolean
+    bp_diastolic3?: boolean
+    heart_rate?: boolean
+    temperature?: boolean
+    respiratory_rate?: boolean
+    weight_kg?: boolean
+    height_cm?: boolean
+    bmi?: boolean
+    vision_right_od?: boolean
+    vision_left_os?: boolean
+    vision_corrected?: boolean
+    color_vision?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["vitalSign"]>
+
+  export type VitalSignSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    chief_complaint?: boolean
+    pcp_doctor?: boolean
+    bp_systolic?: boolean
+    bp_diastolic?: boolean
+    bp_systolic2?: boolean
+    bp_diastolic2?: boolean
+    bp_systolic3?: boolean
+    bp_diastolic3?: boolean
+    heart_rate?: boolean
+    temperature?: boolean
+    respiratory_rate?: boolean
+    weight_kg?: boolean
+    height_cm?: boolean
+    bmi?: boolean
+    vision_right_od?: boolean
+    vision_left_os?: boolean
+    vision_corrected?: boolean
+    color_vision?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["vitalSign"]>
+
+  export type VitalSignSelectScalar = {
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    chief_complaint?: boolean
+    pcp_doctor?: boolean
+    bp_systolic?: boolean
+    bp_diastolic?: boolean
+    bp_systolic2?: boolean
+    bp_diastolic2?: boolean
+    bp_systolic3?: boolean
+    bp_diastolic3?: boolean
+    heart_rate?: boolean
+    temperature?: boolean
+    respiratory_rate?: boolean
+    weight_kg?: boolean
+    height_cm?: boolean
+    bmi?: boolean
+    vision_right_od?: boolean
+    vision_left_os?: boolean
+    vision_corrected?: boolean
+    color_vision?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type VitalSignOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "queue_id" | "patient_id" | "chief_complaint" | "pcp_doctor" | "bp_systolic" | "bp_diastolic" | "bp_systolic2" | "bp_diastolic2" | "bp_systolic3" | "bp_diastolic3" | "heart_rate" | "temperature" | "respiratory_rate" | "weight_kg" | "height_cm" | "bmi" | "vision_right_od" | "vision_left_os" | "vision_corrected" | "color_vision" | "recorded_by" | "created_at" | "updated_at", ExtArgs["result"]["vitalSign"]>
+
+  export type $VitalSignPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "VitalSign"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      queue_id: number
+      patient_id: string | null
+      chief_complaint: string | null
+      pcp_doctor: string | null
+      bp_systolic: number | null
+      bp_diastolic: number | null
+      bp_systolic2: number | null
+      bp_diastolic2: number | null
+      bp_systolic3: number | null
+      bp_diastolic3: number | null
+      heart_rate: number | null
+      temperature: Prisma.Decimal | null
+      respiratory_rate: number | null
+      weight_kg: Prisma.Decimal | null
+      height_cm: Prisma.Decimal | null
+      bmi: Prisma.Decimal | null
+      vision_right_od: string | null
+      vision_left_os: string | null
+      vision_corrected: string | null
+      color_vision: string | null
+      recorded_by: number | null
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["vitalSign"]>
+    composites: {}
+  }
+
+  type VitalSignGetPayload<S extends boolean | null | undefined | VitalSignDefaultArgs> = $Result.GetResult<Prisma.$VitalSignPayload, S>
+
+  type VitalSignCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VitalSignFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VitalSignCountAggregateInputType | true
+    }
+
+  export interface VitalSignDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['VitalSign'], meta: { name: 'VitalSign' } }
+    /**
+     * Find zero or one VitalSign that matches the filter.
+     * @param {VitalSignFindUniqueArgs} args - Arguments to find a VitalSign
+     * @example
+     * // Get one VitalSign
+     * const vitalSign = await prisma.vitalSign.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends VitalSignFindUniqueArgs>(args: SelectSubset<T, VitalSignFindUniqueArgs<ExtArgs>>): Prisma__VitalSignClient<$Result.GetResult<Prisma.$VitalSignPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one VitalSign that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {VitalSignFindUniqueOrThrowArgs} args - Arguments to find a VitalSign
+     * @example
+     * // Get one VitalSign
+     * const vitalSign = await prisma.vitalSign.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends VitalSignFindUniqueOrThrowArgs>(args: SelectSubset<T, VitalSignFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VitalSignClient<$Result.GetResult<Prisma.$VitalSignPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VitalSign that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VitalSignFindFirstArgs} args - Arguments to find a VitalSign
+     * @example
+     * // Get one VitalSign
+     * const vitalSign = await prisma.vitalSign.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends VitalSignFindFirstArgs>(args?: SelectSubset<T, VitalSignFindFirstArgs<ExtArgs>>): Prisma__VitalSignClient<$Result.GetResult<Prisma.$VitalSignPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VitalSign that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VitalSignFindFirstOrThrowArgs} args - Arguments to find a VitalSign
+     * @example
+     * // Get one VitalSign
+     * const vitalSign = await prisma.vitalSign.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends VitalSignFindFirstOrThrowArgs>(args?: SelectSubset<T, VitalSignFindFirstOrThrowArgs<ExtArgs>>): Prisma__VitalSignClient<$Result.GetResult<Prisma.$VitalSignPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VitalSigns that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VitalSignFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VitalSigns
+     * const vitalSigns = await prisma.vitalSign.findMany()
+     * 
+     * // Get first 10 VitalSigns
+     * const vitalSigns = await prisma.vitalSign.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const vitalSignWithIdOnly = await prisma.vitalSign.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends VitalSignFindManyArgs>(args?: SelectSubset<T, VitalSignFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VitalSignPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a VitalSign.
+     * @param {VitalSignCreateArgs} args - Arguments to create a VitalSign.
+     * @example
+     * // Create one VitalSign
+     * const VitalSign = await prisma.vitalSign.create({
+     *   data: {
+     *     // ... data to create a VitalSign
+     *   }
+     * })
+     * 
+     */
+    create<T extends VitalSignCreateArgs>(args: SelectSubset<T, VitalSignCreateArgs<ExtArgs>>): Prisma__VitalSignClient<$Result.GetResult<Prisma.$VitalSignPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many VitalSigns.
+     * @param {VitalSignCreateManyArgs} args - Arguments to create many VitalSigns.
+     * @example
+     * // Create many VitalSigns
+     * const vitalSign = await prisma.vitalSign.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends VitalSignCreateManyArgs>(args?: SelectSubset<T, VitalSignCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VitalSigns and returns the data saved in the database.
+     * @param {VitalSignCreateManyAndReturnArgs} args - Arguments to create many VitalSigns.
+     * @example
+     * // Create many VitalSigns
+     * const vitalSign = await prisma.vitalSign.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VitalSigns and only return the `id`
+     * const vitalSignWithIdOnly = await prisma.vitalSign.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends VitalSignCreateManyAndReturnArgs>(args?: SelectSubset<T, VitalSignCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VitalSignPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a VitalSign.
+     * @param {VitalSignDeleteArgs} args - Arguments to delete one VitalSign.
+     * @example
+     * // Delete one VitalSign
+     * const VitalSign = await prisma.vitalSign.delete({
+     *   where: {
+     *     // ... filter to delete one VitalSign
+     *   }
+     * })
+     * 
+     */
+    delete<T extends VitalSignDeleteArgs>(args: SelectSubset<T, VitalSignDeleteArgs<ExtArgs>>): Prisma__VitalSignClient<$Result.GetResult<Prisma.$VitalSignPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one VitalSign.
+     * @param {VitalSignUpdateArgs} args - Arguments to update one VitalSign.
+     * @example
+     * // Update one VitalSign
+     * const vitalSign = await prisma.vitalSign.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends VitalSignUpdateArgs>(args: SelectSubset<T, VitalSignUpdateArgs<ExtArgs>>): Prisma__VitalSignClient<$Result.GetResult<Prisma.$VitalSignPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more VitalSigns.
+     * @param {VitalSignDeleteManyArgs} args - Arguments to filter VitalSigns to delete.
+     * @example
+     * // Delete a few VitalSigns
+     * const { count } = await prisma.vitalSign.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends VitalSignDeleteManyArgs>(args?: SelectSubset<T, VitalSignDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VitalSigns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VitalSignUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VitalSigns
+     * const vitalSign = await prisma.vitalSign.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends VitalSignUpdateManyArgs>(args: SelectSubset<T, VitalSignUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VitalSigns and returns the data updated in the database.
+     * @param {VitalSignUpdateManyAndReturnArgs} args - Arguments to update many VitalSigns.
+     * @example
+     * // Update many VitalSigns
+     * const vitalSign = await prisma.vitalSign.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VitalSigns and only return the `id`
+     * const vitalSignWithIdOnly = await prisma.vitalSign.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends VitalSignUpdateManyAndReturnArgs>(args: SelectSubset<T, VitalSignUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VitalSignPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one VitalSign.
+     * @param {VitalSignUpsertArgs} args - Arguments to update or create a VitalSign.
+     * @example
+     * // Update or create a VitalSign
+     * const vitalSign = await prisma.vitalSign.upsert({
+     *   create: {
+     *     // ... data to create a VitalSign
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VitalSign we want to update
+     *   }
+     * })
+     */
+    upsert<T extends VitalSignUpsertArgs>(args: SelectSubset<T, VitalSignUpsertArgs<ExtArgs>>): Prisma__VitalSignClient<$Result.GetResult<Prisma.$VitalSignPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of VitalSigns.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VitalSignCountArgs} args - Arguments to filter VitalSigns to count.
+     * @example
+     * // Count the number of VitalSigns
+     * const count = await prisma.vitalSign.count({
+     *   where: {
+     *     // ... the filter for the VitalSigns we want to count
+     *   }
+     * })
+    **/
+    count<T extends VitalSignCountArgs>(
+      args?: Subset<T, VitalSignCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VitalSignCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VitalSign.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VitalSignAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VitalSignAggregateArgs>(args: Subset<T, VitalSignAggregateArgs>): Prisma.PrismaPromise<GetVitalSignAggregateType<T>>
+
+    /**
+     * Group by VitalSign.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VitalSignGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends VitalSignGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: VitalSignGroupByArgs['orderBy'] }
+        : { orderBy?: VitalSignGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, VitalSignGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVitalSignGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the VitalSign model
+   */
+  readonly fields: VitalSignFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for VitalSign.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__VitalSignClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the VitalSign model
+   */
+  interface VitalSignFieldRefs {
+    readonly id: FieldRef<"VitalSign", 'Int'>
+    readonly queue_id: FieldRef<"VitalSign", 'Int'>
+    readonly patient_id: FieldRef<"VitalSign", 'String'>
+    readonly chief_complaint: FieldRef<"VitalSign", 'String'>
+    readonly pcp_doctor: FieldRef<"VitalSign", 'String'>
+    readonly bp_systolic: FieldRef<"VitalSign", 'Int'>
+    readonly bp_diastolic: FieldRef<"VitalSign", 'Int'>
+    readonly bp_systolic2: FieldRef<"VitalSign", 'Int'>
+    readonly bp_diastolic2: FieldRef<"VitalSign", 'Int'>
+    readonly bp_systolic3: FieldRef<"VitalSign", 'Int'>
+    readonly bp_diastolic3: FieldRef<"VitalSign", 'Int'>
+    readonly heart_rate: FieldRef<"VitalSign", 'Int'>
+    readonly temperature: FieldRef<"VitalSign", 'Decimal'>
+    readonly respiratory_rate: FieldRef<"VitalSign", 'Int'>
+    readonly weight_kg: FieldRef<"VitalSign", 'Decimal'>
+    readonly height_cm: FieldRef<"VitalSign", 'Decimal'>
+    readonly bmi: FieldRef<"VitalSign", 'Decimal'>
+    readonly vision_right_od: FieldRef<"VitalSign", 'String'>
+    readonly vision_left_os: FieldRef<"VitalSign", 'String'>
+    readonly vision_corrected: FieldRef<"VitalSign", 'String'>
+    readonly color_vision: FieldRef<"VitalSign", 'String'>
+    readonly recorded_by: FieldRef<"VitalSign", 'Int'>
+    readonly created_at: FieldRef<"VitalSign", 'DateTime'>
+    readonly updated_at: FieldRef<"VitalSign", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * VitalSign findUnique
+   */
+  export type VitalSignFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VitalSign
+     */
+    select?: VitalSignSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VitalSign
+     */
+    omit?: VitalSignOmit<ExtArgs> | null
+    /**
+     * Filter, which VitalSign to fetch.
+     */
+    where: VitalSignWhereUniqueInput
+  }
+
+  /**
+   * VitalSign findUniqueOrThrow
+   */
+  export type VitalSignFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VitalSign
+     */
+    select?: VitalSignSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VitalSign
+     */
+    omit?: VitalSignOmit<ExtArgs> | null
+    /**
+     * Filter, which VitalSign to fetch.
+     */
+    where: VitalSignWhereUniqueInput
+  }
+
+  /**
+   * VitalSign findFirst
+   */
+  export type VitalSignFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VitalSign
+     */
+    select?: VitalSignSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VitalSign
+     */
+    omit?: VitalSignOmit<ExtArgs> | null
+    /**
+     * Filter, which VitalSign to fetch.
+     */
+    where?: VitalSignWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VitalSigns to fetch.
+     */
+    orderBy?: VitalSignOrderByWithRelationInput | VitalSignOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VitalSigns.
+     */
+    cursor?: VitalSignWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VitalSigns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VitalSigns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VitalSigns.
+     */
+    distinct?: VitalSignScalarFieldEnum | VitalSignScalarFieldEnum[]
+  }
+
+  /**
+   * VitalSign findFirstOrThrow
+   */
+  export type VitalSignFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VitalSign
+     */
+    select?: VitalSignSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VitalSign
+     */
+    omit?: VitalSignOmit<ExtArgs> | null
+    /**
+     * Filter, which VitalSign to fetch.
+     */
+    where?: VitalSignWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VitalSigns to fetch.
+     */
+    orderBy?: VitalSignOrderByWithRelationInput | VitalSignOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for VitalSigns.
+     */
+    cursor?: VitalSignWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VitalSigns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VitalSigns.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of VitalSigns.
+     */
+    distinct?: VitalSignScalarFieldEnum | VitalSignScalarFieldEnum[]
+  }
+
+  /**
+   * VitalSign findMany
+   */
+  export type VitalSignFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VitalSign
+     */
+    select?: VitalSignSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VitalSign
+     */
+    omit?: VitalSignOmit<ExtArgs> | null
+    /**
+     * Filter, which VitalSigns to fetch.
+     */
+    where?: VitalSignWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of VitalSigns to fetch.
+     */
+    orderBy?: VitalSignOrderByWithRelationInput | VitalSignOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing VitalSigns.
+     */
+    cursor?: VitalSignWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` VitalSigns from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` VitalSigns.
+     */
+    skip?: number
+    distinct?: VitalSignScalarFieldEnum | VitalSignScalarFieldEnum[]
+  }
+
+  /**
+   * VitalSign create
+   */
+  export type VitalSignCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VitalSign
+     */
+    select?: VitalSignSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VitalSign
+     */
+    omit?: VitalSignOmit<ExtArgs> | null
+    /**
+     * The data needed to create a VitalSign.
+     */
+    data: XOR<VitalSignCreateInput, VitalSignUncheckedCreateInput>
+  }
+
+  /**
+   * VitalSign createMany
+   */
+  export type VitalSignCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many VitalSigns.
+     */
+    data: VitalSignCreateManyInput | VitalSignCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VitalSign createManyAndReturn
+   */
+  export type VitalSignCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VitalSign
+     */
+    select?: VitalSignSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VitalSign
+     */
+    omit?: VitalSignOmit<ExtArgs> | null
+    /**
+     * The data used to create many VitalSigns.
+     */
+    data: VitalSignCreateManyInput | VitalSignCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * VitalSign update
+   */
+  export type VitalSignUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VitalSign
+     */
+    select?: VitalSignSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VitalSign
+     */
+    omit?: VitalSignOmit<ExtArgs> | null
+    /**
+     * The data needed to update a VitalSign.
+     */
+    data: XOR<VitalSignUpdateInput, VitalSignUncheckedUpdateInput>
+    /**
+     * Choose, which VitalSign to update.
+     */
+    where: VitalSignWhereUniqueInput
+  }
+
+  /**
+   * VitalSign updateMany
+   */
+  export type VitalSignUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update VitalSigns.
+     */
+    data: XOR<VitalSignUpdateManyMutationInput, VitalSignUncheckedUpdateManyInput>
+    /**
+     * Filter which VitalSigns to update
+     */
+    where?: VitalSignWhereInput
+    /**
+     * Limit how many VitalSigns to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VitalSign updateManyAndReturn
+   */
+  export type VitalSignUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VitalSign
+     */
+    select?: VitalSignSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the VitalSign
+     */
+    omit?: VitalSignOmit<ExtArgs> | null
+    /**
+     * The data used to update VitalSigns.
+     */
+    data: XOR<VitalSignUpdateManyMutationInput, VitalSignUncheckedUpdateManyInput>
+    /**
+     * Filter which VitalSigns to update
+     */
+    where?: VitalSignWhereInput
+    /**
+     * Limit how many VitalSigns to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * VitalSign upsert
+   */
+  export type VitalSignUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VitalSign
+     */
+    select?: VitalSignSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VitalSign
+     */
+    omit?: VitalSignOmit<ExtArgs> | null
+    /**
+     * The filter to search for the VitalSign to update in case it exists.
+     */
+    where: VitalSignWhereUniqueInput
+    /**
+     * In case the VitalSign found by the `where` argument doesn't exist, create a new VitalSign with this data.
+     */
+    create: XOR<VitalSignCreateInput, VitalSignUncheckedCreateInput>
+    /**
+     * In case the VitalSign was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VitalSignUpdateInput, VitalSignUncheckedUpdateInput>
+  }
+
+  /**
+   * VitalSign delete
+   */
+  export type VitalSignDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VitalSign
+     */
+    select?: VitalSignSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VitalSign
+     */
+    omit?: VitalSignOmit<ExtArgs> | null
+    /**
+     * Filter which VitalSign to delete.
+     */
+    where: VitalSignWhereUniqueInput
+  }
+
+  /**
+   * VitalSign deleteMany
+   */
+  export type VitalSignDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which VitalSigns to delete
+     */
+    where?: VitalSignWhereInput
+    /**
+     * Limit how many VitalSigns to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * VitalSign without action
+   */
+  export type VitalSignDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VitalSign
+     */
+    select?: VitalSignSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VitalSign
+     */
+    omit?: VitalSignOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ConsultationNote
+   */
+
+  export type AggregateConsultationNote = {
+    _count: ConsultationNoteCountAggregateOutputType | null
+    _avg: ConsultationNoteAvgAggregateOutputType | null
+    _sum: ConsultationNoteSumAggregateOutputType | null
+    _min: ConsultationNoteMinAggregateOutputType | null
+    _max: ConsultationNoteMaxAggregateOutputType | null
+  }
+
+  export type ConsultationNoteAvgAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    doctor_id: number | null
+    is_draft: number | null
+    recorded_by: number | null
+  }
+
+  export type ConsultationNoteSumAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    doctor_id: number | null
+    is_draft: number | null
+    recorded_by: number | null
+  }
+
+  export type ConsultationNoteMinAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    patient_id: string | null
+    chief_complaint: string | null
+    history_illness: string | null
+    past_history: string | null
+    family_history: string | null
+    pe_findings: string | null
+    diagnosis: string | null
+    icd_code: string | null
+    treatment_plan: string | null
+    orders: string | null
+    pcp_doctor: string | null
+    doctor_id: number | null
+    doctor_name: string | null
+    is_draft: number | null
+    status: string | null
+    recorded_by: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ConsultationNoteMaxAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    patient_id: string | null
+    chief_complaint: string | null
+    history_illness: string | null
+    past_history: string | null
+    family_history: string | null
+    pe_findings: string | null
+    diagnosis: string | null
+    icd_code: string | null
+    treatment_plan: string | null
+    orders: string | null
+    pcp_doctor: string | null
+    doctor_id: number | null
+    doctor_name: string | null
+    is_draft: number | null
+    status: string | null
+    recorded_by: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ConsultationNoteCountAggregateOutputType = {
+    id: number
+    queue_id: number
+    patient_id: number
+    chief_complaint: number
+    history_illness: number
+    past_history: number
+    family_history: number
+    pe_findings: number
+    diagnosis: number
+    icd_code: number
+    treatment_plan: number
+    orders: number
+    pcp_doctor: number
+    doctor_id: number
+    doctor_name: number
+    is_draft: number
+    status: number
+    recorded_by: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type ConsultationNoteAvgAggregateInputType = {
+    id?: true
+    queue_id?: true
+    doctor_id?: true
+    is_draft?: true
+    recorded_by?: true
+  }
+
+  export type ConsultationNoteSumAggregateInputType = {
+    id?: true
+    queue_id?: true
+    doctor_id?: true
+    is_draft?: true
+    recorded_by?: true
+  }
+
+  export type ConsultationNoteMinAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+    chief_complaint?: true
+    history_illness?: true
+    past_history?: true
+    family_history?: true
+    pe_findings?: true
+    diagnosis?: true
+    icd_code?: true
+    treatment_plan?: true
+    orders?: true
+    pcp_doctor?: true
+    doctor_id?: true
+    doctor_name?: true
+    is_draft?: true
+    status?: true
+    recorded_by?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ConsultationNoteMaxAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+    chief_complaint?: true
+    history_illness?: true
+    past_history?: true
+    family_history?: true
+    pe_findings?: true
+    diagnosis?: true
+    icd_code?: true
+    treatment_plan?: true
+    orders?: true
+    pcp_doctor?: true
+    doctor_id?: true
+    doctor_name?: true
+    is_draft?: true
+    status?: true
+    recorded_by?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ConsultationNoteCountAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+    chief_complaint?: true
+    history_illness?: true
+    past_history?: true
+    family_history?: true
+    pe_findings?: true
+    diagnosis?: true
+    icd_code?: true
+    treatment_plan?: true
+    orders?: true
+    pcp_doctor?: true
+    doctor_id?: true
+    doctor_name?: true
+    is_draft?: true
+    status?: true
+    recorded_by?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type ConsultationNoteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ConsultationNote to aggregate.
+     */
+    where?: ConsultationNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConsultationNotes to fetch.
+     */
+    orderBy?: ConsultationNoteOrderByWithRelationInput | ConsultationNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ConsultationNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConsultationNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConsultationNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ConsultationNotes
+    **/
+    _count?: true | ConsultationNoteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ConsultationNoteAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ConsultationNoteSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ConsultationNoteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ConsultationNoteMaxAggregateInputType
+  }
+
+  export type GetConsultationNoteAggregateType<T extends ConsultationNoteAggregateArgs> = {
+        [P in keyof T & keyof AggregateConsultationNote]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateConsultationNote[P]>
+      : GetScalarType<T[P], AggregateConsultationNote[P]>
+  }
+
+
+
+
+  export type ConsultationNoteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ConsultationNoteWhereInput
+    orderBy?: ConsultationNoteOrderByWithAggregationInput | ConsultationNoteOrderByWithAggregationInput[]
+    by: ConsultationNoteScalarFieldEnum[] | ConsultationNoteScalarFieldEnum
+    having?: ConsultationNoteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ConsultationNoteCountAggregateInputType | true
+    _avg?: ConsultationNoteAvgAggregateInputType
+    _sum?: ConsultationNoteSumAggregateInputType
+    _min?: ConsultationNoteMinAggregateInputType
+    _max?: ConsultationNoteMaxAggregateInputType
+  }
+
+  export type ConsultationNoteGroupByOutputType = {
+    id: number
+    queue_id: number
+    patient_id: string | null
+    chief_complaint: string | null
+    history_illness: string | null
+    past_history: string | null
+    family_history: string | null
+    pe_findings: string | null
+    diagnosis: string | null
+    icd_code: string | null
+    treatment_plan: string | null
+    orders: string | null
+    pcp_doctor: string | null
+    doctor_id: number | null
+    doctor_name: string | null
+    is_draft: number
+    status: string | null
+    recorded_by: number | null
+    created_at: Date
+    updated_at: Date
+    _count: ConsultationNoteCountAggregateOutputType | null
+    _avg: ConsultationNoteAvgAggregateOutputType | null
+    _sum: ConsultationNoteSumAggregateOutputType | null
+    _min: ConsultationNoteMinAggregateOutputType | null
+    _max: ConsultationNoteMaxAggregateOutputType | null
+  }
+
+  type GetConsultationNoteGroupByPayload<T extends ConsultationNoteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ConsultationNoteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ConsultationNoteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ConsultationNoteGroupByOutputType[P]>
+            : GetScalarType<T[P], ConsultationNoteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ConsultationNoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    chief_complaint?: boolean
+    history_illness?: boolean
+    past_history?: boolean
+    family_history?: boolean
+    pe_findings?: boolean
+    diagnosis?: boolean
+    icd_code?: boolean
+    treatment_plan?: boolean
+    orders?: boolean
+    pcp_doctor?: boolean
+    doctor_id?: boolean
+    doctor_name?: boolean
+    is_draft?: boolean
+    status?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["consultationNote"]>
+
+  export type ConsultationNoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    chief_complaint?: boolean
+    history_illness?: boolean
+    past_history?: boolean
+    family_history?: boolean
+    pe_findings?: boolean
+    diagnosis?: boolean
+    icd_code?: boolean
+    treatment_plan?: boolean
+    orders?: boolean
+    pcp_doctor?: boolean
+    doctor_id?: boolean
+    doctor_name?: boolean
+    is_draft?: boolean
+    status?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["consultationNote"]>
+
+  export type ConsultationNoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    chief_complaint?: boolean
+    history_illness?: boolean
+    past_history?: boolean
+    family_history?: boolean
+    pe_findings?: boolean
+    diagnosis?: boolean
+    icd_code?: boolean
+    treatment_plan?: boolean
+    orders?: boolean
+    pcp_doctor?: boolean
+    doctor_id?: boolean
+    doctor_name?: boolean
+    is_draft?: boolean
+    status?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["consultationNote"]>
+
+  export type ConsultationNoteSelectScalar = {
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    chief_complaint?: boolean
+    history_illness?: boolean
+    past_history?: boolean
+    family_history?: boolean
+    pe_findings?: boolean
+    diagnosis?: boolean
+    icd_code?: boolean
+    treatment_plan?: boolean
+    orders?: boolean
+    pcp_doctor?: boolean
+    doctor_id?: boolean
+    doctor_name?: boolean
+    is_draft?: boolean
+    status?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type ConsultationNoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "queue_id" | "patient_id" | "chief_complaint" | "history_illness" | "past_history" | "family_history" | "pe_findings" | "diagnosis" | "icd_code" | "treatment_plan" | "orders" | "pcp_doctor" | "doctor_id" | "doctor_name" | "is_draft" | "status" | "recorded_by" | "created_at" | "updated_at", ExtArgs["result"]["consultationNote"]>
+
+  export type $ConsultationNotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ConsultationNote"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      queue_id: number
+      patient_id: string | null
+      chief_complaint: string | null
+      history_illness: string | null
+      past_history: string | null
+      family_history: string | null
+      pe_findings: string | null
+      diagnosis: string | null
+      icd_code: string | null
+      treatment_plan: string | null
+      orders: string | null
+      pcp_doctor: string | null
+      doctor_id: number | null
+      doctor_name: string | null
+      is_draft: number
+      status: string | null
+      recorded_by: number | null
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["consultationNote"]>
+    composites: {}
+  }
+
+  type ConsultationNoteGetPayload<S extends boolean | null | undefined | ConsultationNoteDefaultArgs> = $Result.GetResult<Prisma.$ConsultationNotePayload, S>
+
+  type ConsultationNoteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ConsultationNoteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ConsultationNoteCountAggregateInputType | true
+    }
+
+  export interface ConsultationNoteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ConsultationNote'], meta: { name: 'ConsultationNote' } }
+    /**
+     * Find zero or one ConsultationNote that matches the filter.
+     * @param {ConsultationNoteFindUniqueArgs} args - Arguments to find a ConsultationNote
+     * @example
+     * // Get one ConsultationNote
+     * const consultationNote = await prisma.consultationNote.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ConsultationNoteFindUniqueArgs>(args: SelectSubset<T, ConsultationNoteFindUniqueArgs<ExtArgs>>): Prisma__ConsultationNoteClient<$Result.GetResult<Prisma.$ConsultationNotePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ConsultationNote that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ConsultationNoteFindUniqueOrThrowArgs} args - Arguments to find a ConsultationNote
+     * @example
+     * // Get one ConsultationNote
+     * const consultationNote = await prisma.consultationNote.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ConsultationNoteFindUniqueOrThrowArgs>(args: SelectSubset<T, ConsultationNoteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ConsultationNoteClient<$Result.GetResult<Prisma.$ConsultationNotePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ConsultationNote that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsultationNoteFindFirstArgs} args - Arguments to find a ConsultationNote
+     * @example
+     * // Get one ConsultationNote
+     * const consultationNote = await prisma.consultationNote.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ConsultationNoteFindFirstArgs>(args?: SelectSubset<T, ConsultationNoteFindFirstArgs<ExtArgs>>): Prisma__ConsultationNoteClient<$Result.GetResult<Prisma.$ConsultationNotePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ConsultationNote that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsultationNoteFindFirstOrThrowArgs} args - Arguments to find a ConsultationNote
+     * @example
+     * // Get one ConsultationNote
+     * const consultationNote = await prisma.consultationNote.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ConsultationNoteFindFirstOrThrowArgs>(args?: SelectSubset<T, ConsultationNoteFindFirstOrThrowArgs<ExtArgs>>): Prisma__ConsultationNoteClient<$Result.GetResult<Prisma.$ConsultationNotePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ConsultationNotes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsultationNoteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ConsultationNotes
+     * const consultationNotes = await prisma.consultationNote.findMany()
+     * 
+     * // Get first 10 ConsultationNotes
+     * const consultationNotes = await prisma.consultationNote.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const consultationNoteWithIdOnly = await prisma.consultationNote.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ConsultationNoteFindManyArgs>(args?: SelectSubset<T, ConsultationNoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsultationNotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ConsultationNote.
+     * @param {ConsultationNoteCreateArgs} args - Arguments to create a ConsultationNote.
+     * @example
+     * // Create one ConsultationNote
+     * const ConsultationNote = await prisma.consultationNote.create({
+     *   data: {
+     *     // ... data to create a ConsultationNote
+     *   }
+     * })
+     * 
+     */
+    create<T extends ConsultationNoteCreateArgs>(args: SelectSubset<T, ConsultationNoteCreateArgs<ExtArgs>>): Prisma__ConsultationNoteClient<$Result.GetResult<Prisma.$ConsultationNotePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ConsultationNotes.
+     * @param {ConsultationNoteCreateManyArgs} args - Arguments to create many ConsultationNotes.
+     * @example
+     * // Create many ConsultationNotes
+     * const consultationNote = await prisma.consultationNote.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ConsultationNoteCreateManyArgs>(args?: SelectSubset<T, ConsultationNoteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ConsultationNotes and returns the data saved in the database.
+     * @param {ConsultationNoteCreateManyAndReturnArgs} args - Arguments to create many ConsultationNotes.
+     * @example
+     * // Create many ConsultationNotes
+     * const consultationNote = await prisma.consultationNote.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ConsultationNotes and only return the `id`
+     * const consultationNoteWithIdOnly = await prisma.consultationNote.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ConsultationNoteCreateManyAndReturnArgs>(args?: SelectSubset<T, ConsultationNoteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsultationNotePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ConsultationNote.
+     * @param {ConsultationNoteDeleteArgs} args - Arguments to delete one ConsultationNote.
+     * @example
+     * // Delete one ConsultationNote
+     * const ConsultationNote = await prisma.consultationNote.delete({
+     *   where: {
+     *     // ... filter to delete one ConsultationNote
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ConsultationNoteDeleteArgs>(args: SelectSubset<T, ConsultationNoteDeleteArgs<ExtArgs>>): Prisma__ConsultationNoteClient<$Result.GetResult<Prisma.$ConsultationNotePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ConsultationNote.
+     * @param {ConsultationNoteUpdateArgs} args - Arguments to update one ConsultationNote.
+     * @example
+     * // Update one ConsultationNote
+     * const consultationNote = await prisma.consultationNote.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ConsultationNoteUpdateArgs>(args: SelectSubset<T, ConsultationNoteUpdateArgs<ExtArgs>>): Prisma__ConsultationNoteClient<$Result.GetResult<Prisma.$ConsultationNotePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ConsultationNotes.
+     * @param {ConsultationNoteDeleteManyArgs} args - Arguments to filter ConsultationNotes to delete.
+     * @example
+     * // Delete a few ConsultationNotes
+     * const { count } = await prisma.consultationNote.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ConsultationNoteDeleteManyArgs>(args?: SelectSubset<T, ConsultationNoteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ConsultationNotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsultationNoteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ConsultationNotes
+     * const consultationNote = await prisma.consultationNote.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ConsultationNoteUpdateManyArgs>(args: SelectSubset<T, ConsultationNoteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ConsultationNotes and returns the data updated in the database.
+     * @param {ConsultationNoteUpdateManyAndReturnArgs} args - Arguments to update many ConsultationNotes.
+     * @example
+     * // Update many ConsultationNotes
+     * const consultationNote = await prisma.consultationNote.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ConsultationNotes and only return the `id`
+     * const consultationNoteWithIdOnly = await prisma.consultationNote.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ConsultationNoteUpdateManyAndReturnArgs>(args: SelectSubset<T, ConsultationNoteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ConsultationNotePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ConsultationNote.
+     * @param {ConsultationNoteUpsertArgs} args - Arguments to update or create a ConsultationNote.
+     * @example
+     * // Update or create a ConsultationNote
+     * const consultationNote = await prisma.consultationNote.upsert({
+     *   create: {
+     *     // ... data to create a ConsultationNote
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ConsultationNote we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ConsultationNoteUpsertArgs>(args: SelectSubset<T, ConsultationNoteUpsertArgs<ExtArgs>>): Prisma__ConsultationNoteClient<$Result.GetResult<Prisma.$ConsultationNotePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ConsultationNotes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsultationNoteCountArgs} args - Arguments to filter ConsultationNotes to count.
+     * @example
+     * // Count the number of ConsultationNotes
+     * const count = await prisma.consultationNote.count({
+     *   where: {
+     *     // ... the filter for the ConsultationNotes we want to count
+     *   }
+     * })
+    **/
+    count<T extends ConsultationNoteCountArgs>(
+      args?: Subset<T, ConsultationNoteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ConsultationNoteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ConsultationNote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsultationNoteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ConsultationNoteAggregateArgs>(args: Subset<T, ConsultationNoteAggregateArgs>): Prisma.PrismaPromise<GetConsultationNoteAggregateType<T>>
+
+    /**
+     * Group by ConsultationNote.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ConsultationNoteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ConsultationNoteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ConsultationNoteGroupByArgs['orderBy'] }
+        : { orderBy?: ConsultationNoteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ConsultationNoteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetConsultationNoteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ConsultationNote model
+   */
+  readonly fields: ConsultationNoteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ConsultationNote.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ConsultationNoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ConsultationNote model
+   */
+  interface ConsultationNoteFieldRefs {
+    readonly id: FieldRef<"ConsultationNote", 'Int'>
+    readonly queue_id: FieldRef<"ConsultationNote", 'Int'>
+    readonly patient_id: FieldRef<"ConsultationNote", 'String'>
+    readonly chief_complaint: FieldRef<"ConsultationNote", 'String'>
+    readonly history_illness: FieldRef<"ConsultationNote", 'String'>
+    readonly past_history: FieldRef<"ConsultationNote", 'String'>
+    readonly family_history: FieldRef<"ConsultationNote", 'String'>
+    readonly pe_findings: FieldRef<"ConsultationNote", 'String'>
+    readonly diagnosis: FieldRef<"ConsultationNote", 'String'>
+    readonly icd_code: FieldRef<"ConsultationNote", 'String'>
+    readonly treatment_plan: FieldRef<"ConsultationNote", 'String'>
+    readonly orders: FieldRef<"ConsultationNote", 'String'>
+    readonly pcp_doctor: FieldRef<"ConsultationNote", 'String'>
+    readonly doctor_id: FieldRef<"ConsultationNote", 'Int'>
+    readonly doctor_name: FieldRef<"ConsultationNote", 'String'>
+    readonly is_draft: FieldRef<"ConsultationNote", 'Int'>
+    readonly status: FieldRef<"ConsultationNote", 'String'>
+    readonly recorded_by: FieldRef<"ConsultationNote", 'Int'>
+    readonly created_at: FieldRef<"ConsultationNote", 'DateTime'>
+    readonly updated_at: FieldRef<"ConsultationNote", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ConsultationNote findUnique
+   */
+  export type ConsultationNoteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsultationNote
+     */
+    select?: ConsultationNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsultationNote
+     */
+    omit?: ConsultationNoteOmit<ExtArgs> | null
+    /**
+     * Filter, which ConsultationNote to fetch.
+     */
+    where: ConsultationNoteWhereUniqueInput
+  }
+
+  /**
+   * ConsultationNote findUniqueOrThrow
+   */
+  export type ConsultationNoteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsultationNote
+     */
+    select?: ConsultationNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsultationNote
+     */
+    omit?: ConsultationNoteOmit<ExtArgs> | null
+    /**
+     * Filter, which ConsultationNote to fetch.
+     */
+    where: ConsultationNoteWhereUniqueInput
+  }
+
+  /**
+   * ConsultationNote findFirst
+   */
+  export type ConsultationNoteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsultationNote
+     */
+    select?: ConsultationNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsultationNote
+     */
+    omit?: ConsultationNoteOmit<ExtArgs> | null
+    /**
+     * Filter, which ConsultationNote to fetch.
+     */
+    where?: ConsultationNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConsultationNotes to fetch.
+     */
+    orderBy?: ConsultationNoteOrderByWithRelationInput | ConsultationNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ConsultationNotes.
+     */
+    cursor?: ConsultationNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConsultationNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConsultationNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ConsultationNotes.
+     */
+    distinct?: ConsultationNoteScalarFieldEnum | ConsultationNoteScalarFieldEnum[]
+  }
+
+  /**
+   * ConsultationNote findFirstOrThrow
+   */
+  export type ConsultationNoteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsultationNote
+     */
+    select?: ConsultationNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsultationNote
+     */
+    omit?: ConsultationNoteOmit<ExtArgs> | null
+    /**
+     * Filter, which ConsultationNote to fetch.
+     */
+    where?: ConsultationNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConsultationNotes to fetch.
+     */
+    orderBy?: ConsultationNoteOrderByWithRelationInput | ConsultationNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ConsultationNotes.
+     */
+    cursor?: ConsultationNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConsultationNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConsultationNotes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ConsultationNotes.
+     */
+    distinct?: ConsultationNoteScalarFieldEnum | ConsultationNoteScalarFieldEnum[]
+  }
+
+  /**
+   * ConsultationNote findMany
+   */
+  export type ConsultationNoteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsultationNote
+     */
+    select?: ConsultationNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsultationNote
+     */
+    omit?: ConsultationNoteOmit<ExtArgs> | null
+    /**
+     * Filter, which ConsultationNotes to fetch.
+     */
+    where?: ConsultationNoteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ConsultationNotes to fetch.
+     */
+    orderBy?: ConsultationNoteOrderByWithRelationInput | ConsultationNoteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ConsultationNotes.
+     */
+    cursor?: ConsultationNoteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ConsultationNotes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ConsultationNotes.
+     */
+    skip?: number
+    distinct?: ConsultationNoteScalarFieldEnum | ConsultationNoteScalarFieldEnum[]
+  }
+
+  /**
+   * ConsultationNote create
+   */
+  export type ConsultationNoteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsultationNote
+     */
+    select?: ConsultationNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsultationNote
+     */
+    omit?: ConsultationNoteOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ConsultationNote.
+     */
+    data: XOR<ConsultationNoteCreateInput, ConsultationNoteUncheckedCreateInput>
+  }
+
+  /**
+   * ConsultationNote createMany
+   */
+  export type ConsultationNoteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ConsultationNotes.
+     */
+    data: ConsultationNoteCreateManyInput | ConsultationNoteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ConsultationNote createManyAndReturn
+   */
+  export type ConsultationNoteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsultationNote
+     */
+    select?: ConsultationNoteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsultationNote
+     */
+    omit?: ConsultationNoteOmit<ExtArgs> | null
+    /**
+     * The data used to create many ConsultationNotes.
+     */
+    data: ConsultationNoteCreateManyInput | ConsultationNoteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ConsultationNote update
+   */
+  export type ConsultationNoteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsultationNote
+     */
+    select?: ConsultationNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsultationNote
+     */
+    omit?: ConsultationNoteOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ConsultationNote.
+     */
+    data: XOR<ConsultationNoteUpdateInput, ConsultationNoteUncheckedUpdateInput>
+    /**
+     * Choose, which ConsultationNote to update.
+     */
+    where: ConsultationNoteWhereUniqueInput
+  }
+
+  /**
+   * ConsultationNote updateMany
+   */
+  export type ConsultationNoteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ConsultationNotes.
+     */
+    data: XOR<ConsultationNoteUpdateManyMutationInput, ConsultationNoteUncheckedUpdateManyInput>
+    /**
+     * Filter which ConsultationNotes to update
+     */
+    where?: ConsultationNoteWhereInput
+    /**
+     * Limit how many ConsultationNotes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ConsultationNote updateManyAndReturn
+   */
+  export type ConsultationNoteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsultationNote
+     */
+    select?: ConsultationNoteSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsultationNote
+     */
+    omit?: ConsultationNoteOmit<ExtArgs> | null
+    /**
+     * The data used to update ConsultationNotes.
+     */
+    data: XOR<ConsultationNoteUpdateManyMutationInput, ConsultationNoteUncheckedUpdateManyInput>
+    /**
+     * Filter which ConsultationNotes to update
+     */
+    where?: ConsultationNoteWhereInput
+    /**
+     * Limit how many ConsultationNotes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ConsultationNote upsert
+   */
+  export type ConsultationNoteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsultationNote
+     */
+    select?: ConsultationNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsultationNote
+     */
+    omit?: ConsultationNoteOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ConsultationNote to update in case it exists.
+     */
+    where: ConsultationNoteWhereUniqueInput
+    /**
+     * In case the ConsultationNote found by the `where` argument doesn't exist, create a new ConsultationNote with this data.
+     */
+    create: XOR<ConsultationNoteCreateInput, ConsultationNoteUncheckedCreateInput>
+    /**
+     * In case the ConsultationNote was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ConsultationNoteUpdateInput, ConsultationNoteUncheckedUpdateInput>
+  }
+
+  /**
+   * ConsultationNote delete
+   */
+  export type ConsultationNoteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsultationNote
+     */
+    select?: ConsultationNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsultationNote
+     */
+    omit?: ConsultationNoteOmit<ExtArgs> | null
+    /**
+     * Filter which ConsultationNote to delete.
+     */
+    where: ConsultationNoteWhereUniqueInput
+  }
+
+  /**
+   * ConsultationNote deleteMany
+   */
+  export type ConsultationNoteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ConsultationNotes to delete
+     */
+    where?: ConsultationNoteWhereInput
+    /**
+     * Limit how many ConsultationNotes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ConsultationNote without action
+   */
+  export type ConsultationNoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ConsultationNote
+     */
+    select?: ConsultationNoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ConsultationNote
+     */
+    omit?: ConsultationNoteOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PhysicalExamination
+   */
+
+  export type AggregatePhysicalExamination = {
+    _count: PhysicalExaminationCountAggregateOutputType | null
+    _avg: PhysicalExaminationAvgAggregateOutputType | null
+    _sum: PhysicalExaminationSumAggregateOutputType | null
+    _min: PhysicalExaminationMinAggregateOutputType | null
+    _max: PhysicalExaminationMaxAggregateOutputType | null
+  }
+
+  export type PhysicalExaminationAvgAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    pack_years: number | null
+    gravida: number | null
+    para: number | null
+    recorded_by: number | null
+  }
+
+  export type PhysicalExaminationSumAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    pack_years: number | null
+    gravida: number | null
+    para: number | null
+    recorded_by: number | null
+  }
+
+  export type PhysicalExaminationMinAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    patient_id: string | null
+    hypertension: boolean | null
+    diabetes: boolean | null
+    asthma: boolean | null
+    heart_disease: boolean | null
+    thyroid_disease: boolean | null
+    kidney_disease: boolean | null
+    allergies: boolean | null
+    allergies_specify: string | null
+    surgery_history: boolean | null
+    surgery_specify: string | null
+    smoker: boolean | null
+    pack_years: number | null
+    alcoholic: boolean | null
+    lmp: Date | null
+    gravida: number | null
+    para: number | null
+    family_hypertension: boolean | null
+    family_diabetes: boolean | null
+    family_cancer: boolean | null
+    skin: string | null
+    heent: string | null
+    neck: string | null
+    chest_lungs: string | null
+    heart: string | null
+    abdomen: string | null
+    extremities: string | null
+    neurological: string | null
+    fitness_class: string | null
+    recorded_by: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type PhysicalExaminationMaxAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    patient_id: string | null
+    hypertension: boolean | null
+    diabetes: boolean | null
+    asthma: boolean | null
+    heart_disease: boolean | null
+    thyroid_disease: boolean | null
+    kidney_disease: boolean | null
+    allergies: boolean | null
+    allergies_specify: string | null
+    surgery_history: boolean | null
+    surgery_specify: string | null
+    smoker: boolean | null
+    pack_years: number | null
+    alcoholic: boolean | null
+    lmp: Date | null
+    gravida: number | null
+    para: number | null
+    family_hypertension: boolean | null
+    family_diabetes: boolean | null
+    family_cancer: boolean | null
+    skin: string | null
+    heent: string | null
+    neck: string | null
+    chest_lungs: string | null
+    heart: string | null
+    abdomen: string | null
+    extremities: string | null
+    neurological: string | null
+    fitness_class: string | null
+    recorded_by: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type PhysicalExaminationCountAggregateOutputType = {
+    id: number
+    queue_id: number
+    patient_id: number
+    hypertension: number
+    diabetes: number
+    asthma: number
+    heart_disease: number
+    thyroid_disease: number
+    kidney_disease: number
+    allergies: number
+    allergies_specify: number
+    surgery_history: number
+    surgery_specify: number
+    smoker: number
+    pack_years: number
+    alcoholic: number
+    lmp: number
+    gravida: number
+    para: number
+    family_hypertension: number
+    family_diabetes: number
+    family_cancer: number
+    skin: number
+    heent: number
+    neck: number
+    chest_lungs: number
+    heart: number
+    abdomen: number
+    extremities: number
+    neurological: number
+    fitness_class: number
+    recorded_by: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type PhysicalExaminationAvgAggregateInputType = {
+    id?: true
+    queue_id?: true
+    pack_years?: true
+    gravida?: true
+    para?: true
+    recorded_by?: true
+  }
+
+  export type PhysicalExaminationSumAggregateInputType = {
+    id?: true
+    queue_id?: true
+    pack_years?: true
+    gravida?: true
+    para?: true
+    recorded_by?: true
+  }
+
+  export type PhysicalExaminationMinAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+    hypertension?: true
+    diabetes?: true
+    asthma?: true
+    heart_disease?: true
+    thyroid_disease?: true
+    kidney_disease?: true
+    allergies?: true
+    allergies_specify?: true
+    surgery_history?: true
+    surgery_specify?: true
+    smoker?: true
+    pack_years?: true
+    alcoholic?: true
+    lmp?: true
+    gravida?: true
+    para?: true
+    family_hypertension?: true
+    family_diabetes?: true
+    family_cancer?: true
+    skin?: true
+    heent?: true
+    neck?: true
+    chest_lungs?: true
+    heart?: true
+    abdomen?: true
+    extremities?: true
+    neurological?: true
+    fitness_class?: true
+    recorded_by?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type PhysicalExaminationMaxAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+    hypertension?: true
+    diabetes?: true
+    asthma?: true
+    heart_disease?: true
+    thyroid_disease?: true
+    kidney_disease?: true
+    allergies?: true
+    allergies_specify?: true
+    surgery_history?: true
+    surgery_specify?: true
+    smoker?: true
+    pack_years?: true
+    alcoholic?: true
+    lmp?: true
+    gravida?: true
+    para?: true
+    family_hypertension?: true
+    family_diabetes?: true
+    family_cancer?: true
+    skin?: true
+    heent?: true
+    neck?: true
+    chest_lungs?: true
+    heart?: true
+    abdomen?: true
+    extremities?: true
+    neurological?: true
+    fitness_class?: true
+    recorded_by?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type PhysicalExaminationCountAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+    hypertension?: true
+    diabetes?: true
+    asthma?: true
+    heart_disease?: true
+    thyroid_disease?: true
+    kidney_disease?: true
+    allergies?: true
+    allergies_specify?: true
+    surgery_history?: true
+    surgery_specify?: true
+    smoker?: true
+    pack_years?: true
+    alcoholic?: true
+    lmp?: true
+    gravida?: true
+    para?: true
+    family_hypertension?: true
+    family_diabetes?: true
+    family_cancer?: true
+    skin?: true
+    heent?: true
+    neck?: true
+    chest_lungs?: true
+    heart?: true
+    abdomen?: true
+    extremities?: true
+    neurological?: true
+    fitness_class?: true
+    recorded_by?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type PhysicalExaminationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PhysicalExamination to aggregate.
+     */
+    where?: PhysicalExaminationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PhysicalExaminations to fetch.
+     */
+    orderBy?: PhysicalExaminationOrderByWithRelationInput | PhysicalExaminationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PhysicalExaminationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PhysicalExaminations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PhysicalExaminations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PhysicalExaminations
+    **/
+    _count?: true | PhysicalExaminationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PhysicalExaminationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PhysicalExaminationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PhysicalExaminationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PhysicalExaminationMaxAggregateInputType
+  }
+
+  export type GetPhysicalExaminationAggregateType<T extends PhysicalExaminationAggregateArgs> = {
+        [P in keyof T & keyof AggregatePhysicalExamination]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePhysicalExamination[P]>
+      : GetScalarType<T[P], AggregatePhysicalExamination[P]>
+  }
+
+
+
+
+  export type PhysicalExaminationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PhysicalExaminationWhereInput
+    orderBy?: PhysicalExaminationOrderByWithAggregationInput | PhysicalExaminationOrderByWithAggregationInput[]
+    by: PhysicalExaminationScalarFieldEnum[] | PhysicalExaminationScalarFieldEnum
+    having?: PhysicalExaminationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PhysicalExaminationCountAggregateInputType | true
+    _avg?: PhysicalExaminationAvgAggregateInputType
+    _sum?: PhysicalExaminationSumAggregateInputType
+    _min?: PhysicalExaminationMinAggregateInputType
+    _max?: PhysicalExaminationMaxAggregateInputType
+  }
+
+  export type PhysicalExaminationGroupByOutputType = {
+    id: number
+    queue_id: number
+    patient_id: string | null
+    hypertension: boolean
+    diabetes: boolean
+    asthma: boolean
+    heart_disease: boolean
+    thyroid_disease: boolean
+    kidney_disease: boolean
+    allergies: boolean
+    allergies_specify: string | null
+    surgery_history: boolean
+    surgery_specify: string | null
+    smoker: boolean
+    pack_years: number | null
+    alcoholic: boolean
+    lmp: Date | null
+    gravida: number | null
+    para: number | null
+    family_hypertension: boolean
+    family_diabetes: boolean
+    family_cancer: boolean
+    skin: string | null
+    heent: string | null
+    neck: string | null
+    chest_lungs: string | null
+    heart: string | null
+    abdomen: string | null
+    extremities: string | null
+    neurological: string | null
+    fitness_class: string | null
+    recorded_by: number | null
+    created_at: Date
+    updated_at: Date
+    _count: PhysicalExaminationCountAggregateOutputType | null
+    _avg: PhysicalExaminationAvgAggregateOutputType | null
+    _sum: PhysicalExaminationSumAggregateOutputType | null
+    _min: PhysicalExaminationMinAggregateOutputType | null
+    _max: PhysicalExaminationMaxAggregateOutputType | null
+  }
+
+  type GetPhysicalExaminationGroupByPayload<T extends PhysicalExaminationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PhysicalExaminationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PhysicalExaminationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PhysicalExaminationGroupByOutputType[P]>
+            : GetScalarType<T[P], PhysicalExaminationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PhysicalExaminationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    hypertension?: boolean
+    diabetes?: boolean
+    asthma?: boolean
+    heart_disease?: boolean
+    thyroid_disease?: boolean
+    kidney_disease?: boolean
+    allergies?: boolean
+    allergies_specify?: boolean
+    surgery_history?: boolean
+    surgery_specify?: boolean
+    smoker?: boolean
+    pack_years?: boolean
+    alcoholic?: boolean
+    lmp?: boolean
+    gravida?: boolean
+    para?: boolean
+    family_hypertension?: boolean
+    family_diabetes?: boolean
+    family_cancer?: boolean
+    skin?: boolean
+    heent?: boolean
+    neck?: boolean
+    chest_lungs?: boolean
+    heart?: boolean
+    abdomen?: boolean
+    extremities?: boolean
+    neurological?: boolean
+    fitness_class?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["physicalExamination"]>
+
+  export type PhysicalExaminationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    hypertension?: boolean
+    diabetes?: boolean
+    asthma?: boolean
+    heart_disease?: boolean
+    thyroid_disease?: boolean
+    kidney_disease?: boolean
+    allergies?: boolean
+    allergies_specify?: boolean
+    surgery_history?: boolean
+    surgery_specify?: boolean
+    smoker?: boolean
+    pack_years?: boolean
+    alcoholic?: boolean
+    lmp?: boolean
+    gravida?: boolean
+    para?: boolean
+    family_hypertension?: boolean
+    family_diabetes?: boolean
+    family_cancer?: boolean
+    skin?: boolean
+    heent?: boolean
+    neck?: boolean
+    chest_lungs?: boolean
+    heart?: boolean
+    abdomen?: boolean
+    extremities?: boolean
+    neurological?: boolean
+    fitness_class?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["physicalExamination"]>
+
+  export type PhysicalExaminationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    hypertension?: boolean
+    diabetes?: boolean
+    asthma?: boolean
+    heart_disease?: boolean
+    thyroid_disease?: boolean
+    kidney_disease?: boolean
+    allergies?: boolean
+    allergies_specify?: boolean
+    surgery_history?: boolean
+    surgery_specify?: boolean
+    smoker?: boolean
+    pack_years?: boolean
+    alcoholic?: boolean
+    lmp?: boolean
+    gravida?: boolean
+    para?: boolean
+    family_hypertension?: boolean
+    family_diabetes?: boolean
+    family_cancer?: boolean
+    skin?: boolean
+    heent?: boolean
+    neck?: boolean
+    chest_lungs?: boolean
+    heart?: boolean
+    abdomen?: boolean
+    extremities?: boolean
+    neurological?: boolean
+    fitness_class?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["physicalExamination"]>
+
+  export type PhysicalExaminationSelectScalar = {
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    hypertension?: boolean
+    diabetes?: boolean
+    asthma?: boolean
+    heart_disease?: boolean
+    thyroid_disease?: boolean
+    kidney_disease?: boolean
+    allergies?: boolean
+    allergies_specify?: boolean
+    surgery_history?: boolean
+    surgery_specify?: boolean
+    smoker?: boolean
+    pack_years?: boolean
+    alcoholic?: boolean
+    lmp?: boolean
+    gravida?: boolean
+    para?: boolean
+    family_hypertension?: boolean
+    family_diabetes?: boolean
+    family_cancer?: boolean
+    skin?: boolean
+    heent?: boolean
+    neck?: boolean
+    chest_lungs?: boolean
+    heart?: boolean
+    abdomen?: boolean
+    extremities?: boolean
+    neurological?: boolean
+    fitness_class?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type PhysicalExaminationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "queue_id" | "patient_id" | "hypertension" | "diabetes" | "asthma" | "heart_disease" | "thyroid_disease" | "kidney_disease" | "allergies" | "allergies_specify" | "surgery_history" | "surgery_specify" | "smoker" | "pack_years" | "alcoholic" | "lmp" | "gravida" | "para" | "family_hypertension" | "family_diabetes" | "family_cancer" | "skin" | "heent" | "neck" | "chest_lungs" | "heart" | "abdomen" | "extremities" | "neurological" | "fitness_class" | "recorded_by" | "created_at" | "updated_at", ExtArgs["result"]["physicalExamination"]>
+
+  export type $PhysicalExaminationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PhysicalExamination"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      queue_id: number
+      patient_id: string | null
+      hypertension: boolean
+      diabetes: boolean
+      asthma: boolean
+      heart_disease: boolean
+      thyroid_disease: boolean
+      kidney_disease: boolean
+      allergies: boolean
+      allergies_specify: string | null
+      surgery_history: boolean
+      surgery_specify: string | null
+      smoker: boolean
+      pack_years: number | null
+      alcoholic: boolean
+      lmp: Date | null
+      gravida: number | null
+      para: number | null
+      family_hypertension: boolean
+      family_diabetes: boolean
+      family_cancer: boolean
+      skin: string | null
+      heent: string | null
+      neck: string | null
+      chest_lungs: string | null
+      heart: string | null
+      abdomen: string | null
+      extremities: string | null
+      neurological: string | null
+      fitness_class: string | null
+      recorded_by: number | null
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["physicalExamination"]>
+    composites: {}
+  }
+
+  type PhysicalExaminationGetPayload<S extends boolean | null | undefined | PhysicalExaminationDefaultArgs> = $Result.GetResult<Prisma.$PhysicalExaminationPayload, S>
+
+  type PhysicalExaminationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PhysicalExaminationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PhysicalExaminationCountAggregateInputType | true
+    }
+
+  export interface PhysicalExaminationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PhysicalExamination'], meta: { name: 'PhysicalExamination' } }
+    /**
+     * Find zero or one PhysicalExamination that matches the filter.
+     * @param {PhysicalExaminationFindUniqueArgs} args - Arguments to find a PhysicalExamination
+     * @example
+     * // Get one PhysicalExamination
+     * const physicalExamination = await prisma.physicalExamination.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PhysicalExaminationFindUniqueArgs>(args: SelectSubset<T, PhysicalExaminationFindUniqueArgs<ExtArgs>>): Prisma__PhysicalExaminationClient<$Result.GetResult<Prisma.$PhysicalExaminationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PhysicalExamination that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PhysicalExaminationFindUniqueOrThrowArgs} args - Arguments to find a PhysicalExamination
+     * @example
+     * // Get one PhysicalExamination
+     * const physicalExamination = await prisma.physicalExamination.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PhysicalExaminationFindUniqueOrThrowArgs>(args: SelectSubset<T, PhysicalExaminationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PhysicalExaminationClient<$Result.GetResult<Prisma.$PhysicalExaminationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PhysicalExamination that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PhysicalExaminationFindFirstArgs} args - Arguments to find a PhysicalExamination
+     * @example
+     * // Get one PhysicalExamination
+     * const physicalExamination = await prisma.physicalExamination.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PhysicalExaminationFindFirstArgs>(args?: SelectSubset<T, PhysicalExaminationFindFirstArgs<ExtArgs>>): Prisma__PhysicalExaminationClient<$Result.GetResult<Prisma.$PhysicalExaminationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PhysicalExamination that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PhysicalExaminationFindFirstOrThrowArgs} args - Arguments to find a PhysicalExamination
+     * @example
+     * // Get one PhysicalExamination
+     * const physicalExamination = await prisma.physicalExamination.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PhysicalExaminationFindFirstOrThrowArgs>(args?: SelectSubset<T, PhysicalExaminationFindFirstOrThrowArgs<ExtArgs>>): Prisma__PhysicalExaminationClient<$Result.GetResult<Prisma.$PhysicalExaminationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PhysicalExaminations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PhysicalExaminationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PhysicalExaminations
+     * const physicalExaminations = await prisma.physicalExamination.findMany()
+     * 
+     * // Get first 10 PhysicalExaminations
+     * const physicalExaminations = await prisma.physicalExamination.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const physicalExaminationWithIdOnly = await prisma.physicalExamination.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PhysicalExaminationFindManyArgs>(args?: SelectSubset<T, PhysicalExaminationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PhysicalExaminationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PhysicalExamination.
+     * @param {PhysicalExaminationCreateArgs} args - Arguments to create a PhysicalExamination.
+     * @example
+     * // Create one PhysicalExamination
+     * const PhysicalExamination = await prisma.physicalExamination.create({
+     *   data: {
+     *     // ... data to create a PhysicalExamination
+     *   }
+     * })
+     * 
+     */
+    create<T extends PhysicalExaminationCreateArgs>(args: SelectSubset<T, PhysicalExaminationCreateArgs<ExtArgs>>): Prisma__PhysicalExaminationClient<$Result.GetResult<Prisma.$PhysicalExaminationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PhysicalExaminations.
+     * @param {PhysicalExaminationCreateManyArgs} args - Arguments to create many PhysicalExaminations.
+     * @example
+     * // Create many PhysicalExaminations
+     * const physicalExamination = await prisma.physicalExamination.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PhysicalExaminationCreateManyArgs>(args?: SelectSubset<T, PhysicalExaminationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PhysicalExaminations and returns the data saved in the database.
+     * @param {PhysicalExaminationCreateManyAndReturnArgs} args - Arguments to create many PhysicalExaminations.
+     * @example
+     * // Create many PhysicalExaminations
+     * const physicalExamination = await prisma.physicalExamination.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PhysicalExaminations and only return the `id`
+     * const physicalExaminationWithIdOnly = await prisma.physicalExamination.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PhysicalExaminationCreateManyAndReturnArgs>(args?: SelectSubset<T, PhysicalExaminationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PhysicalExaminationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PhysicalExamination.
+     * @param {PhysicalExaminationDeleteArgs} args - Arguments to delete one PhysicalExamination.
+     * @example
+     * // Delete one PhysicalExamination
+     * const PhysicalExamination = await prisma.physicalExamination.delete({
+     *   where: {
+     *     // ... filter to delete one PhysicalExamination
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PhysicalExaminationDeleteArgs>(args: SelectSubset<T, PhysicalExaminationDeleteArgs<ExtArgs>>): Prisma__PhysicalExaminationClient<$Result.GetResult<Prisma.$PhysicalExaminationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PhysicalExamination.
+     * @param {PhysicalExaminationUpdateArgs} args - Arguments to update one PhysicalExamination.
+     * @example
+     * // Update one PhysicalExamination
+     * const physicalExamination = await prisma.physicalExamination.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PhysicalExaminationUpdateArgs>(args: SelectSubset<T, PhysicalExaminationUpdateArgs<ExtArgs>>): Prisma__PhysicalExaminationClient<$Result.GetResult<Prisma.$PhysicalExaminationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PhysicalExaminations.
+     * @param {PhysicalExaminationDeleteManyArgs} args - Arguments to filter PhysicalExaminations to delete.
+     * @example
+     * // Delete a few PhysicalExaminations
+     * const { count } = await prisma.physicalExamination.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PhysicalExaminationDeleteManyArgs>(args?: SelectSubset<T, PhysicalExaminationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PhysicalExaminations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PhysicalExaminationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PhysicalExaminations
+     * const physicalExamination = await prisma.physicalExamination.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PhysicalExaminationUpdateManyArgs>(args: SelectSubset<T, PhysicalExaminationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PhysicalExaminations and returns the data updated in the database.
+     * @param {PhysicalExaminationUpdateManyAndReturnArgs} args - Arguments to update many PhysicalExaminations.
+     * @example
+     * // Update many PhysicalExaminations
+     * const physicalExamination = await prisma.physicalExamination.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PhysicalExaminations and only return the `id`
+     * const physicalExaminationWithIdOnly = await prisma.physicalExamination.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PhysicalExaminationUpdateManyAndReturnArgs>(args: SelectSubset<T, PhysicalExaminationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PhysicalExaminationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PhysicalExamination.
+     * @param {PhysicalExaminationUpsertArgs} args - Arguments to update or create a PhysicalExamination.
+     * @example
+     * // Update or create a PhysicalExamination
+     * const physicalExamination = await prisma.physicalExamination.upsert({
+     *   create: {
+     *     // ... data to create a PhysicalExamination
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PhysicalExamination we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PhysicalExaminationUpsertArgs>(args: SelectSubset<T, PhysicalExaminationUpsertArgs<ExtArgs>>): Prisma__PhysicalExaminationClient<$Result.GetResult<Prisma.$PhysicalExaminationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PhysicalExaminations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PhysicalExaminationCountArgs} args - Arguments to filter PhysicalExaminations to count.
+     * @example
+     * // Count the number of PhysicalExaminations
+     * const count = await prisma.physicalExamination.count({
+     *   where: {
+     *     // ... the filter for the PhysicalExaminations we want to count
+     *   }
+     * })
+    **/
+    count<T extends PhysicalExaminationCountArgs>(
+      args?: Subset<T, PhysicalExaminationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PhysicalExaminationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PhysicalExamination.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PhysicalExaminationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PhysicalExaminationAggregateArgs>(args: Subset<T, PhysicalExaminationAggregateArgs>): Prisma.PrismaPromise<GetPhysicalExaminationAggregateType<T>>
+
+    /**
+     * Group by PhysicalExamination.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PhysicalExaminationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PhysicalExaminationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PhysicalExaminationGroupByArgs['orderBy'] }
+        : { orderBy?: PhysicalExaminationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PhysicalExaminationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPhysicalExaminationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PhysicalExamination model
+   */
+  readonly fields: PhysicalExaminationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PhysicalExamination.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PhysicalExaminationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PhysicalExamination model
+   */
+  interface PhysicalExaminationFieldRefs {
+    readonly id: FieldRef<"PhysicalExamination", 'Int'>
+    readonly queue_id: FieldRef<"PhysicalExamination", 'Int'>
+    readonly patient_id: FieldRef<"PhysicalExamination", 'String'>
+    readonly hypertension: FieldRef<"PhysicalExamination", 'Boolean'>
+    readonly diabetes: FieldRef<"PhysicalExamination", 'Boolean'>
+    readonly asthma: FieldRef<"PhysicalExamination", 'Boolean'>
+    readonly heart_disease: FieldRef<"PhysicalExamination", 'Boolean'>
+    readonly thyroid_disease: FieldRef<"PhysicalExamination", 'Boolean'>
+    readonly kidney_disease: FieldRef<"PhysicalExamination", 'Boolean'>
+    readonly allergies: FieldRef<"PhysicalExamination", 'Boolean'>
+    readonly allergies_specify: FieldRef<"PhysicalExamination", 'String'>
+    readonly surgery_history: FieldRef<"PhysicalExamination", 'Boolean'>
+    readonly surgery_specify: FieldRef<"PhysicalExamination", 'String'>
+    readonly smoker: FieldRef<"PhysicalExamination", 'Boolean'>
+    readonly pack_years: FieldRef<"PhysicalExamination", 'Float'>
+    readonly alcoholic: FieldRef<"PhysicalExamination", 'Boolean'>
+    readonly lmp: FieldRef<"PhysicalExamination", 'DateTime'>
+    readonly gravida: FieldRef<"PhysicalExamination", 'Int'>
+    readonly para: FieldRef<"PhysicalExamination", 'Int'>
+    readonly family_hypertension: FieldRef<"PhysicalExamination", 'Boolean'>
+    readonly family_diabetes: FieldRef<"PhysicalExamination", 'Boolean'>
+    readonly family_cancer: FieldRef<"PhysicalExamination", 'Boolean'>
+    readonly skin: FieldRef<"PhysicalExamination", 'String'>
+    readonly heent: FieldRef<"PhysicalExamination", 'String'>
+    readonly neck: FieldRef<"PhysicalExamination", 'String'>
+    readonly chest_lungs: FieldRef<"PhysicalExamination", 'String'>
+    readonly heart: FieldRef<"PhysicalExamination", 'String'>
+    readonly abdomen: FieldRef<"PhysicalExamination", 'String'>
+    readonly extremities: FieldRef<"PhysicalExamination", 'String'>
+    readonly neurological: FieldRef<"PhysicalExamination", 'String'>
+    readonly fitness_class: FieldRef<"PhysicalExamination", 'String'>
+    readonly recorded_by: FieldRef<"PhysicalExamination", 'Int'>
+    readonly created_at: FieldRef<"PhysicalExamination", 'DateTime'>
+    readonly updated_at: FieldRef<"PhysicalExamination", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PhysicalExamination findUnique
+   */
+  export type PhysicalExaminationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhysicalExamination
+     */
+    select?: PhysicalExaminationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhysicalExamination
+     */
+    omit?: PhysicalExaminationOmit<ExtArgs> | null
+    /**
+     * Filter, which PhysicalExamination to fetch.
+     */
+    where: PhysicalExaminationWhereUniqueInput
+  }
+
+  /**
+   * PhysicalExamination findUniqueOrThrow
+   */
+  export type PhysicalExaminationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhysicalExamination
+     */
+    select?: PhysicalExaminationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhysicalExamination
+     */
+    omit?: PhysicalExaminationOmit<ExtArgs> | null
+    /**
+     * Filter, which PhysicalExamination to fetch.
+     */
+    where: PhysicalExaminationWhereUniqueInput
+  }
+
+  /**
+   * PhysicalExamination findFirst
+   */
+  export type PhysicalExaminationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhysicalExamination
+     */
+    select?: PhysicalExaminationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhysicalExamination
+     */
+    omit?: PhysicalExaminationOmit<ExtArgs> | null
+    /**
+     * Filter, which PhysicalExamination to fetch.
+     */
+    where?: PhysicalExaminationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PhysicalExaminations to fetch.
+     */
+    orderBy?: PhysicalExaminationOrderByWithRelationInput | PhysicalExaminationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PhysicalExaminations.
+     */
+    cursor?: PhysicalExaminationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PhysicalExaminations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PhysicalExaminations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PhysicalExaminations.
+     */
+    distinct?: PhysicalExaminationScalarFieldEnum | PhysicalExaminationScalarFieldEnum[]
+  }
+
+  /**
+   * PhysicalExamination findFirstOrThrow
+   */
+  export type PhysicalExaminationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhysicalExamination
+     */
+    select?: PhysicalExaminationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhysicalExamination
+     */
+    omit?: PhysicalExaminationOmit<ExtArgs> | null
+    /**
+     * Filter, which PhysicalExamination to fetch.
+     */
+    where?: PhysicalExaminationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PhysicalExaminations to fetch.
+     */
+    orderBy?: PhysicalExaminationOrderByWithRelationInput | PhysicalExaminationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PhysicalExaminations.
+     */
+    cursor?: PhysicalExaminationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PhysicalExaminations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PhysicalExaminations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PhysicalExaminations.
+     */
+    distinct?: PhysicalExaminationScalarFieldEnum | PhysicalExaminationScalarFieldEnum[]
+  }
+
+  /**
+   * PhysicalExamination findMany
+   */
+  export type PhysicalExaminationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhysicalExamination
+     */
+    select?: PhysicalExaminationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhysicalExamination
+     */
+    omit?: PhysicalExaminationOmit<ExtArgs> | null
+    /**
+     * Filter, which PhysicalExaminations to fetch.
+     */
+    where?: PhysicalExaminationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PhysicalExaminations to fetch.
+     */
+    orderBy?: PhysicalExaminationOrderByWithRelationInput | PhysicalExaminationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PhysicalExaminations.
+     */
+    cursor?: PhysicalExaminationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PhysicalExaminations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PhysicalExaminations.
+     */
+    skip?: number
+    distinct?: PhysicalExaminationScalarFieldEnum | PhysicalExaminationScalarFieldEnum[]
+  }
+
+  /**
+   * PhysicalExamination create
+   */
+  export type PhysicalExaminationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhysicalExamination
+     */
+    select?: PhysicalExaminationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhysicalExamination
+     */
+    omit?: PhysicalExaminationOmit<ExtArgs> | null
+    /**
+     * The data needed to create a PhysicalExamination.
+     */
+    data: XOR<PhysicalExaminationCreateInput, PhysicalExaminationUncheckedCreateInput>
+  }
+
+  /**
+   * PhysicalExamination createMany
+   */
+  export type PhysicalExaminationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PhysicalExaminations.
+     */
+    data: PhysicalExaminationCreateManyInput | PhysicalExaminationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PhysicalExamination createManyAndReturn
+   */
+  export type PhysicalExaminationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhysicalExamination
+     */
+    select?: PhysicalExaminationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhysicalExamination
+     */
+    omit?: PhysicalExaminationOmit<ExtArgs> | null
+    /**
+     * The data used to create many PhysicalExaminations.
+     */
+    data: PhysicalExaminationCreateManyInput | PhysicalExaminationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PhysicalExamination update
+   */
+  export type PhysicalExaminationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhysicalExamination
+     */
+    select?: PhysicalExaminationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhysicalExamination
+     */
+    omit?: PhysicalExaminationOmit<ExtArgs> | null
+    /**
+     * The data needed to update a PhysicalExamination.
+     */
+    data: XOR<PhysicalExaminationUpdateInput, PhysicalExaminationUncheckedUpdateInput>
+    /**
+     * Choose, which PhysicalExamination to update.
+     */
+    where: PhysicalExaminationWhereUniqueInput
+  }
+
+  /**
+   * PhysicalExamination updateMany
+   */
+  export type PhysicalExaminationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PhysicalExaminations.
+     */
+    data: XOR<PhysicalExaminationUpdateManyMutationInput, PhysicalExaminationUncheckedUpdateManyInput>
+    /**
+     * Filter which PhysicalExaminations to update
+     */
+    where?: PhysicalExaminationWhereInput
+    /**
+     * Limit how many PhysicalExaminations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PhysicalExamination updateManyAndReturn
+   */
+  export type PhysicalExaminationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhysicalExamination
+     */
+    select?: PhysicalExaminationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhysicalExamination
+     */
+    omit?: PhysicalExaminationOmit<ExtArgs> | null
+    /**
+     * The data used to update PhysicalExaminations.
+     */
+    data: XOR<PhysicalExaminationUpdateManyMutationInput, PhysicalExaminationUncheckedUpdateManyInput>
+    /**
+     * Filter which PhysicalExaminations to update
+     */
+    where?: PhysicalExaminationWhereInput
+    /**
+     * Limit how many PhysicalExaminations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PhysicalExamination upsert
+   */
+  export type PhysicalExaminationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhysicalExamination
+     */
+    select?: PhysicalExaminationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhysicalExamination
+     */
+    omit?: PhysicalExaminationOmit<ExtArgs> | null
+    /**
+     * The filter to search for the PhysicalExamination to update in case it exists.
+     */
+    where: PhysicalExaminationWhereUniqueInput
+    /**
+     * In case the PhysicalExamination found by the `where` argument doesn't exist, create a new PhysicalExamination with this data.
+     */
+    create: XOR<PhysicalExaminationCreateInput, PhysicalExaminationUncheckedCreateInput>
+    /**
+     * In case the PhysicalExamination was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PhysicalExaminationUpdateInput, PhysicalExaminationUncheckedUpdateInput>
+  }
+
+  /**
+   * PhysicalExamination delete
+   */
+  export type PhysicalExaminationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhysicalExamination
+     */
+    select?: PhysicalExaminationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhysicalExamination
+     */
+    omit?: PhysicalExaminationOmit<ExtArgs> | null
+    /**
+     * Filter which PhysicalExamination to delete.
+     */
+    where: PhysicalExaminationWhereUniqueInput
+  }
+
+  /**
+   * PhysicalExamination deleteMany
+   */
+  export type PhysicalExaminationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PhysicalExaminations to delete
+     */
+    where?: PhysicalExaminationWhereInput
+    /**
+     * Limit how many PhysicalExaminations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PhysicalExamination without action
+   */
+  export type PhysicalExaminationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PhysicalExamination
+     */
+    select?: PhysicalExaminationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PhysicalExamination
+     */
+    omit?: PhysicalExaminationOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MedicalEvaluation
+   */
+
+  export type AggregateMedicalEvaluation = {
+    _count: MedicalEvaluationCountAggregateOutputType | null
+    _avg: MedicalEvaluationAvgAggregateOutputType | null
+    _sum: MedicalEvaluationSumAggregateOutputType | null
+    _min: MedicalEvaluationMinAggregateOutputType | null
+    _max: MedicalEvaluationMaxAggregateOutputType | null
+  }
+
+  export type MedicalEvaluationAvgAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    recorded_by: number | null
+  }
+
+  export type MedicalEvaluationSumAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    recorded_by: number | null
+  }
+
+  export type MedicalEvaluationMinAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    patient_id: string | null
+    item_code: string | null
+    item_name: string | null
+    findings: string | null
+    assessment: string | null
+    recommendation: string | null
+    class_value: string | null
+    recorded_by: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type MedicalEvaluationMaxAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    patient_id: string | null
+    item_code: string | null
+    item_name: string | null
+    findings: string | null
+    assessment: string | null
+    recommendation: string | null
+    class_value: string | null
+    recorded_by: number | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type MedicalEvaluationCountAggregateOutputType = {
+    id: number
+    queue_id: number
+    patient_id: number
+    item_code: number
+    item_name: number
+    findings: number
+    assessment: number
+    recommendation: number
+    class_value: number
+    recorded_by: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type MedicalEvaluationAvgAggregateInputType = {
+    id?: true
+    queue_id?: true
+    recorded_by?: true
+  }
+
+  export type MedicalEvaluationSumAggregateInputType = {
+    id?: true
+    queue_id?: true
+    recorded_by?: true
+  }
+
+  export type MedicalEvaluationMinAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+    item_code?: true
+    item_name?: true
+    findings?: true
+    assessment?: true
+    recommendation?: true
+    class_value?: true
+    recorded_by?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type MedicalEvaluationMaxAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+    item_code?: true
+    item_name?: true
+    findings?: true
+    assessment?: true
+    recommendation?: true
+    class_value?: true
+    recorded_by?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type MedicalEvaluationCountAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+    item_code?: true
+    item_name?: true
+    findings?: true
+    assessment?: true
+    recommendation?: true
+    class_value?: true
+    recorded_by?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type MedicalEvaluationAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MedicalEvaluation to aggregate.
+     */
+    where?: MedicalEvaluationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MedicalEvaluations to fetch.
+     */
+    orderBy?: MedicalEvaluationOrderByWithRelationInput | MedicalEvaluationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MedicalEvaluationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MedicalEvaluations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MedicalEvaluations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MedicalEvaluations
+    **/
+    _count?: true | MedicalEvaluationCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MedicalEvaluationAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MedicalEvaluationSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MedicalEvaluationMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MedicalEvaluationMaxAggregateInputType
+  }
+
+  export type GetMedicalEvaluationAggregateType<T extends MedicalEvaluationAggregateArgs> = {
+        [P in keyof T & keyof AggregateMedicalEvaluation]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMedicalEvaluation[P]>
+      : GetScalarType<T[P], AggregateMedicalEvaluation[P]>
+  }
+
+
+
+
+  export type MedicalEvaluationGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MedicalEvaluationWhereInput
+    orderBy?: MedicalEvaluationOrderByWithAggregationInput | MedicalEvaluationOrderByWithAggregationInput[]
+    by: MedicalEvaluationScalarFieldEnum[] | MedicalEvaluationScalarFieldEnum
+    having?: MedicalEvaluationScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MedicalEvaluationCountAggregateInputType | true
+    _avg?: MedicalEvaluationAvgAggregateInputType
+    _sum?: MedicalEvaluationSumAggregateInputType
+    _min?: MedicalEvaluationMinAggregateInputType
+    _max?: MedicalEvaluationMaxAggregateInputType
+  }
+
+  export type MedicalEvaluationGroupByOutputType = {
+    id: number
+    queue_id: number
+    patient_id: string | null
+    item_code: string
+    item_name: string | null
+    findings: string | null
+    assessment: string | null
+    recommendation: string | null
+    class_value: string | null
+    recorded_by: number | null
+    created_at: Date
+    updated_at: Date
+    _count: MedicalEvaluationCountAggregateOutputType | null
+    _avg: MedicalEvaluationAvgAggregateOutputType | null
+    _sum: MedicalEvaluationSumAggregateOutputType | null
+    _min: MedicalEvaluationMinAggregateOutputType | null
+    _max: MedicalEvaluationMaxAggregateOutputType | null
+  }
+
+  type GetMedicalEvaluationGroupByPayload<T extends MedicalEvaluationGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MedicalEvaluationGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MedicalEvaluationGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MedicalEvaluationGroupByOutputType[P]>
+            : GetScalarType<T[P], MedicalEvaluationGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MedicalEvaluationSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    item_code?: boolean
+    item_name?: boolean
+    findings?: boolean
+    assessment?: boolean
+    recommendation?: boolean
+    class_value?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["medicalEvaluation"]>
+
+  export type MedicalEvaluationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    item_code?: boolean
+    item_name?: boolean
+    findings?: boolean
+    assessment?: boolean
+    recommendation?: boolean
+    class_value?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["medicalEvaluation"]>
+
+  export type MedicalEvaluationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    item_code?: boolean
+    item_name?: boolean
+    findings?: boolean
+    assessment?: boolean
+    recommendation?: boolean
+    class_value?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["medicalEvaluation"]>
+
+  export type MedicalEvaluationSelectScalar = {
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    item_code?: boolean
+    item_name?: boolean
+    findings?: boolean
+    assessment?: boolean
+    recommendation?: boolean
+    class_value?: boolean
+    recorded_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type MedicalEvaluationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "queue_id" | "patient_id" | "item_code" | "item_name" | "findings" | "assessment" | "recommendation" | "class_value" | "recorded_by" | "created_at" | "updated_at", ExtArgs["result"]["medicalEvaluation"]>
+
+  export type $MedicalEvaluationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MedicalEvaluation"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      queue_id: number
+      patient_id: string | null
+      item_code: string
+      item_name: string | null
+      findings: string | null
+      assessment: string | null
+      recommendation: string | null
+      class_value: string | null
+      recorded_by: number | null
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["medicalEvaluation"]>
+    composites: {}
+  }
+
+  type MedicalEvaluationGetPayload<S extends boolean | null | undefined | MedicalEvaluationDefaultArgs> = $Result.GetResult<Prisma.$MedicalEvaluationPayload, S>
+
+  type MedicalEvaluationCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MedicalEvaluationFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MedicalEvaluationCountAggregateInputType | true
+    }
+
+  export interface MedicalEvaluationDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MedicalEvaluation'], meta: { name: 'MedicalEvaluation' } }
+    /**
+     * Find zero or one MedicalEvaluation that matches the filter.
+     * @param {MedicalEvaluationFindUniqueArgs} args - Arguments to find a MedicalEvaluation
+     * @example
+     * // Get one MedicalEvaluation
+     * const medicalEvaluation = await prisma.medicalEvaluation.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MedicalEvaluationFindUniqueArgs>(args: SelectSubset<T, MedicalEvaluationFindUniqueArgs<ExtArgs>>): Prisma__MedicalEvaluationClient<$Result.GetResult<Prisma.$MedicalEvaluationPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MedicalEvaluation that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MedicalEvaluationFindUniqueOrThrowArgs} args - Arguments to find a MedicalEvaluation
+     * @example
+     * // Get one MedicalEvaluation
+     * const medicalEvaluation = await prisma.medicalEvaluation.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MedicalEvaluationFindUniqueOrThrowArgs>(args: SelectSubset<T, MedicalEvaluationFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MedicalEvaluationClient<$Result.GetResult<Prisma.$MedicalEvaluationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MedicalEvaluation that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MedicalEvaluationFindFirstArgs} args - Arguments to find a MedicalEvaluation
+     * @example
+     * // Get one MedicalEvaluation
+     * const medicalEvaluation = await prisma.medicalEvaluation.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MedicalEvaluationFindFirstArgs>(args?: SelectSubset<T, MedicalEvaluationFindFirstArgs<ExtArgs>>): Prisma__MedicalEvaluationClient<$Result.GetResult<Prisma.$MedicalEvaluationPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MedicalEvaluation that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MedicalEvaluationFindFirstOrThrowArgs} args - Arguments to find a MedicalEvaluation
+     * @example
+     * // Get one MedicalEvaluation
+     * const medicalEvaluation = await prisma.medicalEvaluation.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MedicalEvaluationFindFirstOrThrowArgs>(args?: SelectSubset<T, MedicalEvaluationFindFirstOrThrowArgs<ExtArgs>>): Prisma__MedicalEvaluationClient<$Result.GetResult<Prisma.$MedicalEvaluationPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MedicalEvaluations that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MedicalEvaluationFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MedicalEvaluations
+     * const medicalEvaluations = await prisma.medicalEvaluation.findMany()
+     * 
+     * // Get first 10 MedicalEvaluations
+     * const medicalEvaluations = await prisma.medicalEvaluation.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const medicalEvaluationWithIdOnly = await prisma.medicalEvaluation.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MedicalEvaluationFindManyArgs>(args?: SelectSubset<T, MedicalEvaluationFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MedicalEvaluationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MedicalEvaluation.
+     * @param {MedicalEvaluationCreateArgs} args - Arguments to create a MedicalEvaluation.
+     * @example
+     * // Create one MedicalEvaluation
+     * const MedicalEvaluation = await prisma.medicalEvaluation.create({
+     *   data: {
+     *     // ... data to create a MedicalEvaluation
+     *   }
+     * })
+     * 
+     */
+    create<T extends MedicalEvaluationCreateArgs>(args: SelectSubset<T, MedicalEvaluationCreateArgs<ExtArgs>>): Prisma__MedicalEvaluationClient<$Result.GetResult<Prisma.$MedicalEvaluationPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MedicalEvaluations.
+     * @param {MedicalEvaluationCreateManyArgs} args - Arguments to create many MedicalEvaluations.
+     * @example
+     * // Create many MedicalEvaluations
+     * const medicalEvaluation = await prisma.medicalEvaluation.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MedicalEvaluationCreateManyArgs>(args?: SelectSubset<T, MedicalEvaluationCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MedicalEvaluations and returns the data saved in the database.
+     * @param {MedicalEvaluationCreateManyAndReturnArgs} args - Arguments to create many MedicalEvaluations.
+     * @example
+     * // Create many MedicalEvaluations
+     * const medicalEvaluation = await prisma.medicalEvaluation.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MedicalEvaluations and only return the `id`
+     * const medicalEvaluationWithIdOnly = await prisma.medicalEvaluation.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MedicalEvaluationCreateManyAndReturnArgs>(args?: SelectSubset<T, MedicalEvaluationCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MedicalEvaluationPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MedicalEvaluation.
+     * @param {MedicalEvaluationDeleteArgs} args - Arguments to delete one MedicalEvaluation.
+     * @example
+     * // Delete one MedicalEvaluation
+     * const MedicalEvaluation = await prisma.medicalEvaluation.delete({
+     *   where: {
+     *     // ... filter to delete one MedicalEvaluation
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MedicalEvaluationDeleteArgs>(args: SelectSubset<T, MedicalEvaluationDeleteArgs<ExtArgs>>): Prisma__MedicalEvaluationClient<$Result.GetResult<Prisma.$MedicalEvaluationPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MedicalEvaluation.
+     * @param {MedicalEvaluationUpdateArgs} args - Arguments to update one MedicalEvaluation.
+     * @example
+     * // Update one MedicalEvaluation
+     * const medicalEvaluation = await prisma.medicalEvaluation.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MedicalEvaluationUpdateArgs>(args: SelectSubset<T, MedicalEvaluationUpdateArgs<ExtArgs>>): Prisma__MedicalEvaluationClient<$Result.GetResult<Prisma.$MedicalEvaluationPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MedicalEvaluations.
+     * @param {MedicalEvaluationDeleteManyArgs} args - Arguments to filter MedicalEvaluations to delete.
+     * @example
+     * // Delete a few MedicalEvaluations
+     * const { count } = await prisma.medicalEvaluation.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MedicalEvaluationDeleteManyArgs>(args?: SelectSubset<T, MedicalEvaluationDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MedicalEvaluations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MedicalEvaluationUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MedicalEvaluations
+     * const medicalEvaluation = await prisma.medicalEvaluation.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MedicalEvaluationUpdateManyArgs>(args: SelectSubset<T, MedicalEvaluationUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MedicalEvaluations and returns the data updated in the database.
+     * @param {MedicalEvaluationUpdateManyAndReturnArgs} args - Arguments to update many MedicalEvaluations.
+     * @example
+     * // Update many MedicalEvaluations
+     * const medicalEvaluation = await prisma.medicalEvaluation.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MedicalEvaluations and only return the `id`
+     * const medicalEvaluationWithIdOnly = await prisma.medicalEvaluation.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MedicalEvaluationUpdateManyAndReturnArgs>(args: SelectSubset<T, MedicalEvaluationUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MedicalEvaluationPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MedicalEvaluation.
+     * @param {MedicalEvaluationUpsertArgs} args - Arguments to update or create a MedicalEvaluation.
+     * @example
+     * // Update or create a MedicalEvaluation
+     * const medicalEvaluation = await prisma.medicalEvaluation.upsert({
+     *   create: {
+     *     // ... data to create a MedicalEvaluation
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MedicalEvaluation we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MedicalEvaluationUpsertArgs>(args: SelectSubset<T, MedicalEvaluationUpsertArgs<ExtArgs>>): Prisma__MedicalEvaluationClient<$Result.GetResult<Prisma.$MedicalEvaluationPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MedicalEvaluations.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MedicalEvaluationCountArgs} args - Arguments to filter MedicalEvaluations to count.
+     * @example
+     * // Count the number of MedicalEvaluations
+     * const count = await prisma.medicalEvaluation.count({
+     *   where: {
+     *     // ... the filter for the MedicalEvaluations we want to count
+     *   }
+     * })
+    **/
+    count<T extends MedicalEvaluationCountArgs>(
+      args?: Subset<T, MedicalEvaluationCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MedicalEvaluationCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MedicalEvaluation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MedicalEvaluationAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MedicalEvaluationAggregateArgs>(args: Subset<T, MedicalEvaluationAggregateArgs>): Prisma.PrismaPromise<GetMedicalEvaluationAggregateType<T>>
+
+    /**
+     * Group by MedicalEvaluation.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MedicalEvaluationGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MedicalEvaluationGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MedicalEvaluationGroupByArgs['orderBy'] }
+        : { orderBy?: MedicalEvaluationGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MedicalEvaluationGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMedicalEvaluationGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MedicalEvaluation model
+   */
+  readonly fields: MedicalEvaluationFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MedicalEvaluation.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MedicalEvaluationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MedicalEvaluation model
+   */
+  interface MedicalEvaluationFieldRefs {
+    readonly id: FieldRef<"MedicalEvaluation", 'Int'>
+    readonly queue_id: FieldRef<"MedicalEvaluation", 'Int'>
+    readonly patient_id: FieldRef<"MedicalEvaluation", 'String'>
+    readonly item_code: FieldRef<"MedicalEvaluation", 'String'>
+    readonly item_name: FieldRef<"MedicalEvaluation", 'String'>
+    readonly findings: FieldRef<"MedicalEvaluation", 'String'>
+    readonly assessment: FieldRef<"MedicalEvaluation", 'String'>
+    readonly recommendation: FieldRef<"MedicalEvaluation", 'String'>
+    readonly class_value: FieldRef<"MedicalEvaluation", 'String'>
+    readonly recorded_by: FieldRef<"MedicalEvaluation", 'Int'>
+    readonly created_at: FieldRef<"MedicalEvaluation", 'DateTime'>
+    readonly updated_at: FieldRef<"MedicalEvaluation", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MedicalEvaluation findUnique
+   */
+  export type MedicalEvaluationFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MedicalEvaluation
+     */
+    select?: MedicalEvaluationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MedicalEvaluation
+     */
+    omit?: MedicalEvaluationOmit<ExtArgs> | null
+    /**
+     * Filter, which MedicalEvaluation to fetch.
+     */
+    where: MedicalEvaluationWhereUniqueInput
+  }
+
+  /**
+   * MedicalEvaluation findUniqueOrThrow
+   */
+  export type MedicalEvaluationFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MedicalEvaluation
+     */
+    select?: MedicalEvaluationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MedicalEvaluation
+     */
+    omit?: MedicalEvaluationOmit<ExtArgs> | null
+    /**
+     * Filter, which MedicalEvaluation to fetch.
+     */
+    where: MedicalEvaluationWhereUniqueInput
+  }
+
+  /**
+   * MedicalEvaluation findFirst
+   */
+  export type MedicalEvaluationFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MedicalEvaluation
+     */
+    select?: MedicalEvaluationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MedicalEvaluation
+     */
+    omit?: MedicalEvaluationOmit<ExtArgs> | null
+    /**
+     * Filter, which MedicalEvaluation to fetch.
+     */
+    where?: MedicalEvaluationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MedicalEvaluations to fetch.
+     */
+    orderBy?: MedicalEvaluationOrderByWithRelationInput | MedicalEvaluationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MedicalEvaluations.
+     */
+    cursor?: MedicalEvaluationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MedicalEvaluations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MedicalEvaluations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MedicalEvaluations.
+     */
+    distinct?: MedicalEvaluationScalarFieldEnum | MedicalEvaluationScalarFieldEnum[]
+  }
+
+  /**
+   * MedicalEvaluation findFirstOrThrow
+   */
+  export type MedicalEvaluationFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MedicalEvaluation
+     */
+    select?: MedicalEvaluationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MedicalEvaluation
+     */
+    omit?: MedicalEvaluationOmit<ExtArgs> | null
+    /**
+     * Filter, which MedicalEvaluation to fetch.
+     */
+    where?: MedicalEvaluationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MedicalEvaluations to fetch.
+     */
+    orderBy?: MedicalEvaluationOrderByWithRelationInput | MedicalEvaluationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MedicalEvaluations.
+     */
+    cursor?: MedicalEvaluationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MedicalEvaluations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MedicalEvaluations.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MedicalEvaluations.
+     */
+    distinct?: MedicalEvaluationScalarFieldEnum | MedicalEvaluationScalarFieldEnum[]
+  }
+
+  /**
+   * MedicalEvaluation findMany
+   */
+  export type MedicalEvaluationFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MedicalEvaluation
+     */
+    select?: MedicalEvaluationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MedicalEvaluation
+     */
+    omit?: MedicalEvaluationOmit<ExtArgs> | null
+    /**
+     * Filter, which MedicalEvaluations to fetch.
+     */
+    where?: MedicalEvaluationWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MedicalEvaluations to fetch.
+     */
+    orderBy?: MedicalEvaluationOrderByWithRelationInput | MedicalEvaluationOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MedicalEvaluations.
+     */
+    cursor?: MedicalEvaluationWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MedicalEvaluations from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MedicalEvaluations.
+     */
+    skip?: number
+    distinct?: MedicalEvaluationScalarFieldEnum | MedicalEvaluationScalarFieldEnum[]
+  }
+
+  /**
+   * MedicalEvaluation create
+   */
+  export type MedicalEvaluationCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MedicalEvaluation
+     */
+    select?: MedicalEvaluationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MedicalEvaluation
+     */
+    omit?: MedicalEvaluationOmit<ExtArgs> | null
+    /**
+     * The data needed to create a MedicalEvaluation.
+     */
+    data: XOR<MedicalEvaluationCreateInput, MedicalEvaluationUncheckedCreateInput>
+  }
+
+  /**
+   * MedicalEvaluation createMany
+   */
+  export type MedicalEvaluationCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MedicalEvaluations.
+     */
+    data: MedicalEvaluationCreateManyInput | MedicalEvaluationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MedicalEvaluation createManyAndReturn
+   */
+  export type MedicalEvaluationCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MedicalEvaluation
+     */
+    select?: MedicalEvaluationSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MedicalEvaluation
+     */
+    omit?: MedicalEvaluationOmit<ExtArgs> | null
+    /**
+     * The data used to create many MedicalEvaluations.
+     */
+    data: MedicalEvaluationCreateManyInput | MedicalEvaluationCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * MedicalEvaluation update
+   */
+  export type MedicalEvaluationUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MedicalEvaluation
+     */
+    select?: MedicalEvaluationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MedicalEvaluation
+     */
+    omit?: MedicalEvaluationOmit<ExtArgs> | null
+    /**
+     * The data needed to update a MedicalEvaluation.
+     */
+    data: XOR<MedicalEvaluationUpdateInput, MedicalEvaluationUncheckedUpdateInput>
+    /**
+     * Choose, which MedicalEvaluation to update.
+     */
+    where: MedicalEvaluationWhereUniqueInput
+  }
+
+  /**
+   * MedicalEvaluation updateMany
+   */
+  export type MedicalEvaluationUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MedicalEvaluations.
+     */
+    data: XOR<MedicalEvaluationUpdateManyMutationInput, MedicalEvaluationUncheckedUpdateManyInput>
+    /**
+     * Filter which MedicalEvaluations to update
+     */
+    where?: MedicalEvaluationWhereInput
+    /**
+     * Limit how many MedicalEvaluations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MedicalEvaluation updateManyAndReturn
+   */
+  export type MedicalEvaluationUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MedicalEvaluation
+     */
+    select?: MedicalEvaluationSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MedicalEvaluation
+     */
+    omit?: MedicalEvaluationOmit<ExtArgs> | null
+    /**
+     * The data used to update MedicalEvaluations.
+     */
+    data: XOR<MedicalEvaluationUpdateManyMutationInput, MedicalEvaluationUncheckedUpdateManyInput>
+    /**
+     * Filter which MedicalEvaluations to update
+     */
+    where?: MedicalEvaluationWhereInput
+    /**
+     * Limit how many MedicalEvaluations to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MedicalEvaluation upsert
+   */
+  export type MedicalEvaluationUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MedicalEvaluation
+     */
+    select?: MedicalEvaluationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MedicalEvaluation
+     */
+    omit?: MedicalEvaluationOmit<ExtArgs> | null
+    /**
+     * The filter to search for the MedicalEvaluation to update in case it exists.
+     */
+    where: MedicalEvaluationWhereUniqueInput
+    /**
+     * In case the MedicalEvaluation found by the `where` argument doesn't exist, create a new MedicalEvaluation with this data.
+     */
+    create: XOR<MedicalEvaluationCreateInput, MedicalEvaluationUncheckedCreateInput>
+    /**
+     * In case the MedicalEvaluation was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MedicalEvaluationUpdateInput, MedicalEvaluationUncheckedUpdateInput>
+  }
+
+  /**
+   * MedicalEvaluation delete
+   */
+  export type MedicalEvaluationDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MedicalEvaluation
+     */
+    select?: MedicalEvaluationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MedicalEvaluation
+     */
+    omit?: MedicalEvaluationOmit<ExtArgs> | null
+    /**
+     * Filter which MedicalEvaluation to delete.
+     */
+    where: MedicalEvaluationWhereUniqueInput
+  }
+
+  /**
+   * MedicalEvaluation deleteMany
+   */
+  export type MedicalEvaluationDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MedicalEvaluations to delete
+     */
+    where?: MedicalEvaluationWhereInput
+    /**
+     * Limit how many MedicalEvaluations to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MedicalEvaluation without action
+   */
+  export type MedicalEvaluationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MedicalEvaluation
+     */
+    select?: MedicalEvaluationSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MedicalEvaluation
+     */
+    omit?: MedicalEvaluationOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Prescription
+   */
+
+  export type AggregatePrescription = {
+    _count: PrescriptionCountAggregateOutputType | null
+    _avg: PrescriptionAvgAggregateOutputType | null
+    _sum: PrescriptionSumAggregateOutputType | null
+    _min: PrescriptionMinAggregateOutputType | null
+    _max: PrescriptionMaxAggregateOutputType | null
+  }
+
+  export type PrescriptionAvgAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    patient_id: number | null
+  }
+
+  export type PrescriptionSumAggregateOutputType = {
+    id: number | null
+    queue_id: bigint | null
+    patient_id: bigint | null
+  }
+
+  export type PrescriptionMinAggregateOutputType = {
+    id: number | null
+    queue_id: bigint | null
+    patient_id: bigint | null
+    doctor_name: string | null
+    notes: string | null
+    printed_at: Date | null
+    input_by: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type PrescriptionMaxAggregateOutputType = {
+    id: number | null
+    queue_id: bigint | null
+    patient_id: bigint | null
+    doctor_name: string | null
+    notes: string | null
+    printed_at: Date | null
+    input_by: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type PrescriptionCountAggregateOutputType = {
+    id: number
+    queue_id: number
+    patient_id: number
+    doctor_name: number
+    notes: number
+    printed_at: number
+    input_by: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type PrescriptionAvgAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+  }
+
+  export type PrescriptionSumAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+  }
+
+  export type PrescriptionMinAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+    doctor_name?: true
+    notes?: true
+    printed_at?: true
+    input_by?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type PrescriptionMaxAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+    doctor_name?: true
+    notes?: true
+    printed_at?: true
+    input_by?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type PrescriptionCountAggregateInputType = {
+    id?: true
+    queue_id?: true
+    patient_id?: true
+    doctor_name?: true
+    notes?: true
+    printed_at?: true
+    input_by?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type PrescriptionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Prescription to aggregate.
+     */
+    where?: PrescriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Prescriptions to fetch.
+     */
+    orderBy?: PrescriptionOrderByWithRelationInput | PrescriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PrescriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Prescriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Prescriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Prescriptions
+    **/
+    _count?: true | PrescriptionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PrescriptionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PrescriptionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PrescriptionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PrescriptionMaxAggregateInputType
+  }
+
+  export type GetPrescriptionAggregateType<T extends PrescriptionAggregateArgs> = {
+        [P in keyof T & keyof AggregatePrescription]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePrescription[P]>
+      : GetScalarType<T[P], AggregatePrescription[P]>
+  }
+
+
+
+
+  export type PrescriptionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PrescriptionWhereInput
+    orderBy?: PrescriptionOrderByWithAggregationInput | PrescriptionOrderByWithAggregationInput[]
+    by: PrescriptionScalarFieldEnum[] | PrescriptionScalarFieldEnum
+    having?: PrescriptionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PrescriptionCountAggregateInputType | true
+    _avg?: PrescriptionAvgAggregateInputType
+    _sum?: PrescriptionSumAggregateInputType
+    _min?: PrescriptionMinAggregateInputType
+    _max?: PrescriptionMaxAggregateInputType
+  }
+
+  export type PrescriptionGroupByOutputType = {
+    id: number
+    queue_id: bigint
+    patient_id: bigint
+    doctor_name: string | null
+    notes: string | null
+    printed_at: Date | null
+    input_by: string | null
+    created_at: Date
+    updated_at: Date
+    _count: PrescriptionCountAggregateOutputType | null
+    _avg: PrescriptionAvgAggregateOutputType | null
+    _sum: PrescriptionSumAggregateOutputType | null
+    _min: PrescriptionMinAggregateOutputType | null
+    _max: PrescriptionMaxAggregateOutputType | null
+  }
+
+  type GetPrescriptionGroupByPayload<T extends PrescriptionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PrescriptionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PrescriptionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PrescriptionGroupByOutputType[P]>
+            : GetScalarType<T[P], PrescriptionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PrescriptionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    doctor_name?: boolean
+    notes?: boolean
+    printed_at?: boolean
+    input_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    items?: boolean | Prescription$itemsArgs<ExtArgs>
+    _count?: boolean | PrescriptionCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["prescription"]>
+
+  export type PrescriptionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    doctor_name?: boolean
+    notes?: boolean
+    printed_at?: boolean
+    input_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["prescription"]>
+
+  export type PrescriptionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    doctor_name?: boolean
+    notes?: boolean
+    printed_at?: boolean
+    input_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["prescription"]>
+
+  export type PrescriptionSelectScalar = {
+    id?: boolean
+    queue_id?: boolean
+    patient_id?: boolean
+    doctor_name?: boolean
+    notes?: boolean
+    printed_at?: boolean
+    input_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type PrescriptionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "queue_id" | "patient_id" | "doctor_name" | "notes" | "printed_at" | "input_by" | "created_at" | "updated_at", ExtArgs["result"]["prescription"]>
+  export type PrescriptionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | Prescription$itemsArgs<ExtArgs>
+    _count?: boolean | PrescriptionCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PrescriptionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PrescriptionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $PrescriptionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Prescription"
+    objects: {
+      items: Prisma.$PrescriptionItemPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      queue_id: bigint
+      patient_id: bigint
+      doctor_name: string | null
+      notes: string | null
+      printed_at: Date | null
+      input_by: string | null
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["prescription"]>
+    composites: {}
+  }
+
+  type PrescriptionGetPayload<S extends boolean | null | undefined | PrescriptionDefaultArgs> = $Result.GetResult<Prisma.$PrescriptionPayload, S>
+
+  type PrescriptionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PrescriptionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PrescriptionCountAggregateInputType | true
+    }
+
+  export interface PrescriptionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Prescription'], meta: { name: 'Prescription' } }
+    /**
+     * Find zero or one Prescription that matches the filter.
+     * @param {PrescriptionFindUniqueArgs} args - Arguments to find a Prescription
+     * @example
+     * // Get one Prescription
+     * const prescription = await prisma.prescription.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PrescriptionFindUniqueArgs>(args: SelectSubset<T, PrescriptionFindUniqueArgs<ExtArgs>>): Prisma__PrescriptionClient<$Result.GetResult<Prisma.$PrescriptionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Prescription that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PrescriptionFindUniqueOrThrowArgs} args - Arguments to find a Prescription
+     * @example
+     * // Get one Prescription
+     * const prescription = await prisma.prescription.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PrescriptionFindUniqueOrThrowArgs>(args: SelectSubset<T, PrescriptionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PrescriptionClient<$Result.GetResult<Prisma.$PrescriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Prescription that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrescriptionFindFirstArgs} args - Arguments to find a Prescription
+     * @example
+     * // Get one Prescription
+     * const prescription = await prisma.prescription.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PrescriptionFindFirstArgs>(args?: SelectSubset<T, PrescriptionFindFirstArgs<ExtArgs>>): Prisma__PrescriptionClient<$Result.GetResult<Prisma.$PrescriptionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Prescription that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrescriptionFindFirstOrThrowArgs} args - Arguments to find a Prescription
+     * @example
+     * // Get one Prescription
+     * const prescription = await prisma.prescription.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PrescriptionFindFirstOrThrowArgs>(args?: SelectSubset<T, PrescriptionFindFirstOrThrowArgs<ExtArgs>>): Prisma__PrescriptionClient<$Result.GetResult<Prisma.$PrescriptionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Prescriptions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrescriptionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Prescriptions
+     * const prescriptions = await prisma.prescription.findMany()
+     * 
+     * // Get first 10 Prescriptions
+     * const prescriptions = await prisma.prescription.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const prescriptionWithIdOnly = await prisma.prescription.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PrescriptionFindManyArgs>(args?: SelectSubset<T, PrescriptionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrescriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Prescription.
+     * @param {PrescriptionCreateArgs} args - Arguments to create a Prescription.
+     * @example
+     * // Create one Prescription
+     * const Prescription = await prisma.prescription.create({
+     *   data: {
+     *     // ... data to create a Prescription
+     *   }
+     * })
+     * 
+     */
+    create<T extends PrescriptionCreateArgs>(args: SelectSubset<T, PrescriptionCreateArgs<ExtArgs>>): Prisma__PrescriptionClient<$Result.GetResult<Prisma.$PrescriptionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Prescriptions.
+     * @param {PrescriptionCreateManyArgs} args - Arguments to create many Prescriptions.
+     * @example
+     * // Create many Prescriptions
+     * const prescription = await prisma.prescription.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PrescriptionCreateManyArgs>(args?: SelectSubset<T, PrescriptionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Prescriptions and returns the data saved in the database.
+     * @param {PrescriptionCreateManyAndReturnArgs} args - Arguments to create many Prescriptions.
+     * @example
+     * // Create many Prescriptions
+     * const prescription = await prisma.prescription.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Prescriptions and only return the `id`
+     * const prescriptionWithIdOnly = await prisma.prescription.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PrescriptionCreateManyAndReturnArgs>(args?: SelectSubset<T, PrescriptionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrescriptionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Prescription.
+     * @param {PrescriptionDeleteArgs} args - Arguments to delete one Prescription.
+     * @example
+     * // Delete one Prescription
+     * const Prescription = await prisma.prescription.delete({
+     *   where: {
+     *     // ... filter to delete one Prescription
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PrescriptionDeleteArgs>(args: SelectSubset<T, PrescriptionDeleteArgs<ExtArgs>>): Prisma__PrescriptionClient<$Result.GetResult<Prisma.$PrescriptionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Prescription.
+     * @param {PrescriptionUpdateArgs} args - Arguments to update one Prescription.
+     * @example
+     * // Update one Prescription
+     * const prescription = await prisma.prescription.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PrescriptionUpdateArgs>(args: SelectSubset<T, PrescriptionUpdateArgs<ExtArgs>>): Prisma__PrescriptionClient<$Result.GetResult<Prisma.$PrescriptionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Prescriptions.
+     * @param {PrescriptionDeleteManyArgs} args - Arguments to filter Prescriptions to delete.
+     * @example
+     * // Delete a few Prescriptions
+     * const { count } = await prisma.prescription.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PrescriptionDeleteManyArgs>(args?: SelectSubset<T, PrescriptionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Prescriptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrescriptionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Prescriptions
+     * const prescription = await prisma.prescription.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PrescriptionUpdateManyArgs>(args: SelectSubset<T, PrescriptionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Prescriptions and returns the data updated in the database.
+     * @param {PrescriptionUpdateManyAndReturnArgs} args - Arguments to update many Prescriptions.
+     * @example
+     * // Update many Prescriptions
+     * const prescription = await prisma.prescription.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Prescriptions and only return the `id`
+     * const prescriptionWithIdOnly = await prisma.prescription.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PrescriptionUpdateManyAndReturnArgs>(args: SelectSubset<T, PrescriptionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrescriptionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Prescription.
+     * @param {PrescriptionUpsertArgs} args - Arguments to update or create a Prescription.
+     * @example
+     * // Update or create a Prescription
+     * const prescription = await prisma.prescription.upsert({
+     *   create: {
+     *     // ... data to create a Prescription
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Prescription we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PrescriptionUpsertArgs>(args: SelectSubset<T, PrescriptionUpsertArgs<ExtArgs>>): Prisma__PrescriptionClient<$Result.GetResult<Prisma.$PrescriptionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Prescriptions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrescriptionCountArgs} args - Arguments to filter Prescriptions to count.
+     * @example
+     * // Count the number of Prescriptions
+     * const count = await prisma.prescription.count({
+     *   where: {
+     *     // ... the filter for the Prescriptions we want to count
+     *   }
+     * })
+    **/
+    count<T extends PrescriptionCountArgs>(
+      args?: Subset<T, PrescriptionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PrescriptionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Prescription.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrescriptionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PrescriptionAggregateArgs>(args: Subset<T, PrescriptionAggregateArgs>): Prisma.PrismaPromise<GetPrescriptionAggregateType<T>>
+
+    /**
+     * Group by Prescription.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrescriptionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PrescriptionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PrescriptionGroupByArgs['orderBy'] }
+        : { orderBy?: PrescriptionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PrescriptionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPrescriptionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Prescription model
+   */
+  readonly fields: PrescriptionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Prescription.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PrescriptionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    items<T extends Prescription$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Prescription$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrescriptionItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Prescription model
+   */
+  interface PrescriptionFieldRefs {
+    readonly id: FieldRef<"Prescription", 'Int'>
+    readonly queue_id: FieldRef<"Prescription", 'BigInt'>
+    readonly patient_id: FieldRef<"Prescription", 'BigInt'>
+    readonly doctor_name: FieldRef<"Prescription", 'String'>
+    readonly notes: FieldRef<"Prescription", 'String'>
+    readonly printed_at: FieldRef<"Prescription", 'DateTime'>
+    readonly input_by: FieldRef<"Prescription", 'String'>
+    readonly created_at: FieldRef<"Prescription", 'DateTime'>
+    readonly updated_at: FieldRef<"Prescription", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Prescription findUnique
+   */
+  export type PrescriptionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prescription
+     */
+    select?: PrescriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prescription
+     */
+    omit?: PrescriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Prescription to fetch.
+     */
+    where: PrescriptionWhereUniqueInput
+  }
+
+  /**
+   * Prescription findUniqueOrThrow
+   */
+  export type PrescriptionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prescription
+     */
+    select?: PrescriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prescription
+     */
+    omit?: PrescriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Prescription to fetch.
+     */
+    where: PrescriptionWhereUniqueInput
+  }
+
+  /**
+   * Prescription findFirst
+   */
+  export type PrescriptionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prescription
+     */
+    select?: PrescriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prescription
+     */
+    omit?: PrescriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Prescription to fetch.
+     */
+    where?: PrescriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Prescriptions to fetch.
+     */
+    orderBy?: PrescriptionOrderByWithRelationInput | PrescriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Prescriptions.
+     */
+    cursor?: PrescriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Prescriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Prescriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Prescriptions.
+     */
+    distinct?: PrescriptionScalarFieldEnum | PrescriptionScalarFieldEnum[]
+  }
+
+  /**
+   * Prescription findFirstOrThrow
+   */
+  export type PrescriptionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prescription
+     */
+    select?: PrescriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prescription
+     */
+    omit?: PrescriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Prescription to fetch.
+     */
+    where?: PrescriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Prescriptions to fetch.
+     */
+    orderBy?: PrescriptionOrderByWithRelationInput | PrescriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Prescriptions.
+     */
+    cursor?: PrescriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Prescriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Prescriptions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Prescriptions.
+     */
+    distinct?: PrescriptionScalarFieldEnum | PrescriptionScalarFieldEnum[]
+  }
+
+  /**
+   * Prescription findMany
+   */
+  export type PrescriptionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prescription
+     */
+    select?: PrescriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prescription
+     */
+    omit?: PrescriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionInclude<ExtArgs> | null
+    /**
+     * Filter, which Prescriptions to fetch.
+     */
+    where?: PrescriptionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Prescriptions to fetch.
+     */
+    orderBy?: PrescriptionOrderByWithRelationInput | PrescriptionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Prescriptions.
+     */
+    cursor?: PrescriptionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Prescriptions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Prescriptions.
+     */
+    skip?: number
+    distinct?: PrescriptionScalarFieldEnum | PrescriptionScalarFieldEnum[]
+  }
+
+  /**
+   * Prescription create
+   */
+  export type PrescriptionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prescription
+     */
+    select?: PrescriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prescription
+     */
+    omit?: PrescriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Prescription.
+     */
+    data: XOR<PrescriptionCreateInput, PrescriptionUncheckedCreateInput>
+  }
+
+  /**
+   * Prescription createMany
+   */
+  export type PrescriptionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Prescriptions.
+     */
+    data: PrescriptionCreateManyInput | PrescriptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Prescription createManyAndReturn
+   */
+  export type PrescriptionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prescription
+     */
+    select?: PrescriptionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prescription
+     */
+    omit?: PrescriptionOmit<ExtArgs> | null
+    /**
+     * The data used to create many Prescriptions.
+     */
+    data: PrescriptionCreateManyInput | PrescriptionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Prescription update
+   */
+  export type PrescriptionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prescription
+     */
+    select?: PrescriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prescription
+     */
+    omit?: PrescriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Prescription.
+     */
+    data: XOR<PrescriptionUpdateInput, PrescriptionUncheckedUpdateInput>
+    /**
+     * Choose, which Prescription to update.
+     */
+    where: PrescriptionWhereUniqueInput
+  }
+
+  /**
+   * Prescription updateMany
+   */
+  export type PrescriptionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Prescriptions.
+     */
+    data: XOR<PrescriptionUpdateManyMutationInput, PrescriptionUncheckedUpdateManyInput>
+    /**
+     * Filter which Prescriptions to update
+     */
+    where?: PrescriptionWhereInput
+    /**
+     * Limit how many Prescriptions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Prescription updateManyAndReturn
+   */
+  export type PrescriptionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prescription
+     */
+    select?: PrescriptionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prescription
+     */
+    omit?: PrescriptionOmit<ExtArgs> | null
+    /**
+     * The data used to update Prescriptions.
+     */
+    data: XOR<PrescriptionUpdateManyMutationInput, PrescriptionUncheckedUpdateManyInput>
+    /**
+     * Filter which Prescriptions to update
+     */
+    where?: PrescriptionWhereInput
+    /**
+     * Limit how many Prescriptions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Prescription upsert
+   */
+  export type PrescriptionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prescription
+     */
+    select?: PrescriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prescription
+     */
+    omit?: PrescriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Prescription to update in case it exists.
+     */
+    where: PrescriptionWhereUniqueInput
+    /**
+     * In case the Prescription found by the `where` argument doesn't exist, create a new Prescription with this data.
+     */
+    create: XOR<PrescriptionCreateInput, PrescriptionUncheckedCreateInput>
+    /**
+     * In case the Prescription was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PrescriptionUpdateInput, PrescriptionUncheckedUpdateInput>
+  }
+
+  /**
+   * Prescription delete
+   */
+  export type PrescriptionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prescription
+     */
+    select?: PrescriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prescription
+     */
+    omit?: PrescriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionInclude<ExtArgs> | null
+    /**
+     * Filter which Prescription to delete.
+     */
+    where: PrescriptionWhereUniqueInput
+  }
+
+  /**
+   * Prescription deleteMany
+   */
+  export type PrescriptionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Prescriptions to delete
+     */
+    where?: PrescriptionWhereInput
+    /**
+     * Limit how many Prescriptions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Prescription.items
+   */
+  export type Prescription$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrescriptionItem
+     */
+    select?: PrescriptionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrescriptionItem
+     */
+    omit?: PrescriptionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionItemInclude<ExtArgs> | null
+    where?: PrescriptionItemWhereInput
+    orderBy?: PrescriptionItemOrderByWithRelationInput | PrescriptionItemOrderByWithRelationInput[]
+    cursor?: PrescriptionItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PrescriptionItemScalarFieldEnum | PrescriptionItemScalarFieldEnum[]
+  }
+
+  /**
+   * Prescription without action
+   */
+  export type PrescriptionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Prescription
+     */
+    select?: PrescriptionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Prescription
+     */
+    omit?: PrescriptionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PrescriptionItem
+   */
+
+  export type AggregatePrescriptionItem = {
+    _count: PrescriptionItemCountAggregateOutputType | null
+    _avg: PrescriptionItemAvgAggregateOutputType | null
+    _sum: PrescriptionItemSumAggregateOutputType | null
+    _min: PrescriptionItemMinAggregateOutputType | null
+    _max: PrescriptionItemMaxAggregateOutputType | null
+  }
+
+  export type PrescriptionItemAvgAggregateOutputType = {
+    id: number | null
+    prescription_id: number | null
+    quantity: number | null
+  }
+
+  export type PrescriptionItemSumAggregateOutputType = {
+    id: number | null
+    prescription_id: number | null
+    quantity: number | null
+  }
+
+  export type PrescriptionItemMinAggregateOutputType = {
+    id: number | null
+    prescription_id: number | null
+    medication: string | null
+    dosage: string | null
+    frequency: string | null
+    duration: string | null
+    quantity: number | null
+    instructions: string | null
+  }
+
+  export type PrescriptionItemMaxAggregateOutputType = {
+    id: number | null
+    prescription_id: number | null
+    medication: string | null
+    dosage: string | null
+    frequency: string | null
+    duration: string | null
+    quantity: number | null
+    instructions: string | null
+  }
+
+  export type PrescriptionItemCountAggregateOutputType = {
+    id: number
+    prescription_id: number
+    medication: number
+    dosage: number
+    frequency: number
+    duration: number
+    quantity: number
+    instructions: number
+    _all: number
+  }
+
+
+  export type PrescriptionItemAvgAggregateInputType = {
+    id?: true
+    prescription_id?: true
+    quantity?: true
+  }
+
+  export type PrescriptionItemSumAggregateInputType = {
+    id?: true
+    prescription_id?: true
+    quantity?: true
+  }
+
+  export type PrescriptionItemMinAggregateInputType = {
+    id?: true
+    prescription_id?: true
+    medication?: true
+    dosage?: true
+    frequency?: true
+    duration?: true
+    quantity?: true
+    instructions?: true
+  }
+
+  export type PrescriptionItemMaxAggregateInputType = {
+    id?: true
+    prescription_id?: true
+    medication?: true
+    dosage?: true
+    frequency?: true
+    duration?: true
+    quantity?: true
+    instructions?: true
+  }
+
+  export type PrescriptionItemCountAggregateInputType = {
+    id?: true
+    prescription_id?: true
+    medication?: true
+    dosage?: true
+    frequency?: true
+    duration?: true
+    quantity?: true
+    instructions?: true
+    _all?: true
+  }
+
+  export type PrescriptionItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PrescriptionItem to aggregate.
+     */
+    where?: PrescriptionItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PrescriptionItems to fetch.
+     */
+    orderBy?: PrescriptionItemOrderByWithRelationInput | PrescriptionItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PrescriptionItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PrescriptionItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PrescriptionItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PrescriptionItems
+    **/
+    _count?: true | PrescriptionItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PrescriptionItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PrescriptionItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PrescriptionItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PrescriptionItemMaxAggregateInputType
+  }
+
+  export type GetPrescriptionItemAggregateType<T extends PrescriptionItemAggregateArgs> = {
+        [P in keyof T & keyof AggregatePrescriptionItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePrescriptionItem[P]>
+      : GetScalarType<T[P], AggregatePrescriptionItem[P]>
+  }
+
+
+
+
+  export type PrescriptionItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PrescriptionItemWhereInput
+    orderBy?: PrescriptionItemOrderByWithAggregationInput | PrescriptionItemOrderByWithAggregationInput[]
+    by: PrescriptionItemScalarFieldEnum[] | PrescriptionItemScalarFieldEnum
+    having?: PrescriptionItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PrescriptionItemCountAggregateInputType | true
+    _avg?: PrescriptionItemAvgAggregateInputType
+    _sum?: PrescriptionItemSumAggregateInputType
+    _min?: PrescriptionItemMinAggregateInputType
+    _max?: PrescriptionItemMaxAggregateInputType
+  }
+
+  export type PrescriptionItemGroupByOutputType = {
+    id: number
+    prescription_id: number
+    medication: string
+    dosage: string | null
+    frequency: string | null
+    duration: string | null
+    quantity: number | null
+    instructions: string | null
+    _count: PrescriptionItemCountAggregateOutputType | null
+    _avg: PrescriptionItemAvgAggregateOutputType | null
+    _sum: PrescriptionItemSumAggregateOutputType | null
+    _min: PrescriptionItemMinAggregateOutputType | null
+    _max: PrescriptionItemMaxAggregateOutputType | null
+  }
+
+  type GetPrescriptionItemGroupByPayload<T extends PrescriptionItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PrescriptionItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PrescriptionItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PrescriptionItemGroupByOutputType[P]>
+            : GetScalarType<T[P], PrescriptionItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PrescriptionItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    prescription_id?: boolean
+    medication?: boolean
+    dosage?: boolean
+    frequency?: boolean
+    duration?: boolean
+    quantity?: boolean
+    instructions?: boolean
+    prescription?: boolean | PrescriptionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["prescriptionItem"]>
+
+  export type PrescriptionItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    prescription_id?: boolean
+    medication?: boolean
+    dosage?: boolean
+    frequency?: boolean
+    duration?: boolean
+    quantity?: boolean
+    instructions?: boolean
+    prescription?: boolean | PrescriptionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["prescriptionItem"]>
+
+  export type PrescriptionItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    prescription_id?: boolean
+    medication?: boolean
+    dosage?: boolean
+    frequency?: boolean
+    duration?: boolean
+    quantity?: boolean
+    instructions?: boolean
+    prescription?: boolean | PrescriptionDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["prescriptionItem"]>
+
+  export type PrescriptionItemSelectScalar = {
+    id?: boolean
+    prescription_id?: boolean
+    medication?: boolean
+    dosage?: boolean
+    frequency?: boolean
+    duration?: boolean
+    quantity?: boolean
+    instructions?: boolean
+  }
+
+  export type PrescriptionItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "prescription_id" | "medication" | "dosage" | "frequency" | "duration" | "quantity" | "instructions", ExtArgs["result"]["prescriptionItem"]>
+  export type PrescriptionItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prescription?: boolean | PrescriptionDefaultArgs<ExtArgs>
+  }
+  export type PrescriptionItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prescription?: boolean | PrescriptionDefaultArgs<ExtArgs>
+  }
+  export type PrescriptionItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    prescription?: boolean | PrescriptionDefaultArgs<ExtArgs>
+  }
+
+  export type $PrescriptionItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PrescriptionItem"
+    objects: {
+      prescription: Prisma.$PrescriptionPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      prescription_id: number
+      medication: string
+      dosage: string | null
+      frequency: string | null
+      duration: string | null
+      quantity: number | null
+      instructions: string | null
+    }, ExtArgs["result"]["prescriptionItem"]>
+    composites: {}
+  }
+
+  type PrescriptionItemGetPayload<S extends boolean | null | undefined | PrescriptionItemDefaultArgs> = $Result.GetResult<Prisma.$PrescriptionItemPayload, S>
+
+  type PrescriptionItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PrescriptionItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PrescriptionItemCountAggregateInputType | true
+    }
+
+  export interface PrescriptionItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PrescriptionItem'], meta: { name: 'PrescriptionItem' } }
+    /**
+     * Find zero or one PrescriptionItem that matches the filter.
+     * @param {PrescriptionItemFindUniqueArgs} args - Arguments to find a PrescriptionItem
+     * @example
+     * // Get one PrescriptionItem
+     * const prescriptionItem = await prisma.prescriptionItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PrescriptionItemFindUniqueArgs>(args: SelectSubset<T, PrescriptionItemFindUniqueArgs<ExtArgs>>): Prisma__PrescriptionItemClient<$Result.GetResult<Prisma.$PrescriptionItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PrescriptionItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PrescriptionItemFindUniqueOrThrowArgs} args - Arguments to find a PrescriptionItem
+     * @example
+     * // Get one PrescriptionItem
+     * const prescriptionItem = await prisma.prescriptionItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PrescriptionItemFindUniqueOrThrowArgs>(args: SelectSubset<T, PrescriptionItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PrescriptionItemClient<$Result.GetResult<Prisma.$PrescriptionItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PrescriptionItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrescriptionItemFindFirstArgs} args - Arguments to find a PrescriptionItem
+     * @example
+     * // Get one PrescriptionItem
+     * const prescriptionItem = await prisma.prescriptionItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PrescriptionItemFindFirstArgs>(args?: SelectSubset<T, PrescriptionItemFindFirstArgs<ExtArgs>>): Prisma__PrescriptionItemClient<$Result.GetResult<Prisma.$PrescriptionItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PrescriptionItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrescriptionItemFindFirstOrThrowArgs} args - Arguments to find a PrescriptionItem
+     * @example
+     * // Get one PrescriptionItem
+     * const prescriptionItem = await prisma.prescriptionItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PrescriptionItemFindFirstOrThrowArgs>(args?: SelectSubset<T, PrescriptionItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__PrescriptionItemClient<$Result.GetResult<Prisma.$PrescriptionItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PrescriptionItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrescriptionItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PrescriptionItems
+     * const prescriptionItems = await prisma.prescriptionItem.findMany()
+     * 
+     * // Get first 10 PrescriptionItems
+     * const prescriptionItems = await prisma.prescriptionItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const prescriptionItemWithIdOnly = await prisma.prescriptionItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PrescriptionItemFindManyArgs>(args?: SelectSubset<T, PrescriptionItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrescriptionItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PrescriptionItem.
+     * @param {PrescriptionItemCreateArgs} args - Arguments to create a PrescriptionItem.
+     * @example
+     * // Create one PrescriptionItem
+     * const PrescriptionItem = await prisma.prescriptionItem.create({
+     *   data: {
+     *     // ... data to create a PrescriptionItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends PrescriptionItemCreateArgs>(args: SelectSubset<T, PrescriptionItemCreateArgs<ExtArgs>>): Prisma__PrescriptionItemClient<$Result.GetResult<Prisma.$PrescriptionItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PrescriptionItems.
+     * @param {PrescriptionItemCreateManyArgs} args - Arguments to create many PrescriptionItems.
+     * @example
+     * // Create many PrescriptionItems
+     * const prescriptionItem = await prisma.prescriptionItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PrescriptionItemCreateManyArgs>(args?: SelectSubset<T, PrescriptionItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PrescriptionItems and returns the data saved in the database.
+     * @param {PrescriptionItemCreateManyAndReturnArgs} args - Arguments to create many PrescriptionItems.
+     * @example
+     * // Create many PrescriptionItems
+     * const prescriptionItem = await prisma.prescriptionItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PrescriptionItems and only return the `id`
+     * const prescriptionItemWithIdOnly = await prisma.prescriptionItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PrescriptionItemCreateManyAndReturnArgs>(args?: SelectSubset<T, PrescriptionItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrescriptionItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PrescriptionItem.
+     * @param {PrescriptionItemDeleteArgs} args - Arguments to delete one PrescriptionItem.
+     * @example
+     * // Delete one PrescriptionItem
+     * const PrescriptionItem = await prisma.prescriptionItem.delete({
+     *   where: {
+     *     // ... filter to delete one PrescriptionItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PrescriptionItemDeleteArgs>(args: SelectSubset<T, PrescriptionItemDeleteArgs<ExtArgs>>): Prisma__PrescriptionItemClient<$Result.GetResult<Prisma.$PrescriptionItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PrescriptionItem.
+     * @param {PrescriptionItemUpdateArgs} args - Arguments to update one PrescriptionItem.
+     * @example
+     * // Update one PrescriptionItem
+     * const prescriptionItem = await prisma.prescriptionItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PrescriptionItemUpdateArgs>(args: SelectSubset<T, PrescriptionItemUpdateArgs<ExtArgs>>): Prisma__PrescriptionItemClient<$Result.GetResult<Prisma.$PrescriptionItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PrescriptionItems.
+     * @param {PrescriptionItemDeleteManyArgs} args - Arguments to filter PrescriptionItems to delete.
+     * @example
+     * // Delete a few PrescriptionItems
+     * const { count } = await prisma.prescriptionItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PrescriptionItemDeleteManyArgs>(args?: SelectSubset<T, PrescriptionItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PrescriptionItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrescriptionItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PrescriptionItems
+     * const prescriptionItem = await prisma.prescriptionItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PrescriptionItemUpdateManyArgs>(args: SelectSubset<T, PrescriptionItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PrescriptionItems and returns the data updated in the database.
+     * @param {PrescriptionItemUpdateManyAndReturnArgs} args - Arguments to update many PrescriptionItems.
+     * @example
+     * // Update many PrescriptionItems
+     * const prescriptionItem = await prisma.prescriptionItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PrescriptionItems and only return the `id`
+     * const prescriptionItemWithIdOnly = await prisma.prescriptionItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PrescriptionItemUpdateManyAndReturnArgs>(args: SelectSubset<T, PrescriptionItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PrescriptionItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PrescriptionItem.
+     * @param {PrescriptionItemUpsertArgs} args - Arguments to update or create a PrescriptionItem.
+     * @example
+     * // Update or create a PrescriptionItem
+     * const prescriptionItem = await prisma.prescriptionItem.upsert({
+     *   create: {
+     *     // ... data to create a PrescriptionItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PrescriptionItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PrescriptionItemUpsertArgs>(args: SelectSubset<T, PrescriptionItemUpsertArgs<ExtArgs>>): Prisma__PrescriptionItemClient<$Result.GetResult<Prisma.$PrescriptionItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PrescriptionItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrescriptionItemCountArgs} args - Arguments to filter PrescriptionItems to count.
+     * @example
+     * // Count the number of PrescriptionItems
+     * const count = await prisma.prescriptionItem.count({
+     *   where: {
+     *     // ... the filter for the PrescriptionItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends PrescriptionItemCountArgs>(
+      args?: Subset<T, PrescriptionItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PrescriptionItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PrescriptionItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrescriptionItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PrescriptionItemAggregateArgs>(args: Subset<T, PrescriptionItemAggregateArgs>): Prisma.PrismaPromise<GetPrescriptionItemAggregateType<T>>
+
+    /**
+     * Group by PrescriptionItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PrescriptionItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PrescriptionItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PrescriptionItemGroupByArgs['orderBy'] }
+        : { orderBy?: PrescriptionItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PrescriptionItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPrescriptionItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PrescriptionItem model
+   */
+  readonly fields: PrescriptionItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PrescriptionItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PrescriptionItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    prescription<T extends PrescriptionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PrescriptionDefaultArgs<ExtArgs>>): Prisma__PrescriptionClient<$Result.GetResult<Prisma.$PrescriptionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PrescriptionItem model
+   */
+  interface PrescriptionItemFieldRefs {
+    readonly id: FieldRef<"PrescriptionItem", 'Int'>
+    readonly prescription_id: FieldRef<"PrescriptionItem", 'Int'>
+    readonly medication: FieldRef<"PrescriptionItem", 'String'>
+    readonly dosage: FieldRef<"PrescriptionItem", 'String'>
+    readonly frequency: FieldRef<"PrescriptionItem", 'String'>
+    readonly duration: FieldRef<"PrescriptionItem", 'String'>
+    readonly quantity: FieldRef<"PrescriptionItem", 'Int'>
+    readonly instructions: FieldRef<"PrescriptionItem", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PrescriptionItem findUnique
+   */
+  export type PrescriptionItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrescriptionItem
+     */
+    select?: PrescriptionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrescriptionItem
+     */
+    omit?: PrescriptionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionItemInclude<ExtArgs> | null
+    /**
+     * Filter, which PrescriptionItem to fetch.
+     */
+    where: PrescriptionItemWhereUniqueInput
+  }
+
+  /**
+   * PrescriptionItem findUniqueOrThrow
+   */
+  export type PrescriptionItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrescriptionItem
+     */
+    select?: PrescriptionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrescriptionItem
+     */
+    omit?: PrescriptionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionItemInclude<ExtArgs> | null
+    /**
+     * Filter, which PrescriptionItem to fetch.
+     */
+    where: PrescriptionItemWhereUniqueInput
+  }
+
+  /**
+   * PrescriptionItem findFirst
+   */
+  export type PrescriptionItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrescriptionItem
+     */
+    select?: PrescriptionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrescriptionItem
+     */
+    omit?: PrescriptionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionItemInclude<ExtArgs> | null
+    /**
+     * Filter, which PrescriptionItem to fetch.
+     */
+    where?: PrescriptionItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PrescriptionItems to fetch.
+     */
+    orderBy?: PrescriptionItemOrderByWithRelationInput | PrescriptionItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PrescriptionItems.
+     */
+    cursor?: PrescriptionItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PrescriptionItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PrescriptionItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PrescriptionItems.
+     */
+    distinct?: PrescriptionItemScalarFieldEnum | PrescriptionItemScalarFieldEnum[]
+  }
+
+  /**
+   * PrescriptionItem findFirstOrThrow
+   */
+  export type PrescriptionItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrescriptionItem
+     */
+    select?: PrescriptionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrescriptionItem
+     */
+    omit?: PrescriptionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionItemInclude<ExtArgs> | null
+    /**
+     * Filter, which PrescriptionItem to fetch.
+     */
+    where?: PrescriptionItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PrescriptionItems to fetch.
+     */
+    orderBy?: PrescriptionItemOrderByWithRelationInput | PrescriptionItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PrescriptionItems.
+     */
+    cursor?: PrescriptionItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PrescriptionItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PrescriptionItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PrescriptionItems.
+     */
+    distinct?: PrescriptionItemScalarFieldEnum | PrescriptionItemScalarFieldEnum[]
+  }
+
+  /**
+   * PrescriptionItem findMany
+   */
+  export type PrescriptionItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrescriptionItem
+     */
+    select?: PrescriptionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrescriptionItem
+     */
+    omit?: PrescriptionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionItemInclude<ExtArgs> | null
+    /**
+     * Filter, which PrescriptionItems to fetch.
+     */
+    where?: PrescriptionItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PrescriptionItems to fetch.
+     */
+    orderBy?: PrescriptionItemOrderByWithRelationInput | PrescriptionItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PrescriptionItems.
+     */
+    cursor?: PrescriptionItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PrescriptionItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PrescriptionItems.
+     */
+    skip?: number
+    distinct?: PrescriptionItemScalarFieldEnum | PrescriptionItemScalarFieldEnum[]
+  }
+
+  /**
+   * PrescriptionItem create
+   */
+  export type PrescriptionItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrescriptionItem
+     */
+    select?: PrescriptionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrescriptionItem
+     */
+    omit?: PrescriptionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PrescriptionItem.
+     */
+    data: XOR<PrescriptionItemCreateInput, PrescriptionItemUncheckedCreateInput>
+  }
+
+  /**
+   * PrescriptionItem createMany
+   */
+  export type PrescriptionItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PrescriptionItems.
+     */
+    data: PrescriptionItemCreateManyInput | PrescriptionItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PrescriptionItem createManyAndReturn
+   */
+  export type PrescriptionItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrescriptionItem
+     */
+    select?: PrescriptionItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrescriptionItem
+     */
+    omit?: PrescriptionItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many PrescriptionItems.
+     */
+    data: PrescriptionItemCreateManyInput | PrescriptionItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PrescriptionItem update
+   */
+  export type PrescriptionItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrescriptionItem
+     */
+    select?: PrescriptionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrescriptionItem
+     */
+    omit?: PrescriptionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PrescriptionItem.
+     */
+    data: XOR<PrescriptionItemUpdateInput, PrescriptionItemUncheckedUpdateInput>
+    /**
+     * Choose, which PrescriptionItem to update.
+     */
+    where: PrescriptionItemWhereUniqueInput
+  }
+
+  /**
+   * PrescriptionItem updateMany
+   */
+  export type PrescriptionItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PrescriptionItems.
+     */
+    data: XOR<PrescriptionItemUpdateManyMutationInput, PrescriptionItemUncheckedUpdateManyInput>
+    /**
+     * Filter which PrescriptionItems to update
+     */
+    where?: PrescriptionItemWhereInput
+    /**
+     * Limit how many PrescriptionItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PrescriptionItem updateManyAndReturn
+   */
+  export type PrescriptionItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrescriptionItem
+     */
+    select?: PrescriptionItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrescriptionItem
+     */
+    omit?: PrescriptionItemOmit<ExtArgs> | null
+    /**
+     * The data used to update PrescriptionItems.
+     */
+    data: XOR<PrescriptionItemUpdateManyMutationInput, PrescriptionItemUncheckedUpdateManyInput>
+    /**
+     * Filter which PrescriptionItems to update
+     */
+    where?: PrescriptionItemWhereInput
+    /**
+     * Limit how many PrescriptionItems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PrescriptionItem upsert
+   */
+  export type PrescriptionItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrescriptionItem
+     */
+    select?: PrescriptionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrescriptionItem
+     */
+    omit?: PrescriptionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PrescriptionItem to update in case it exists.
+     */
+    where: PrescriptionItemWhereUniqueInput
+    /**
+     * In case the PrescriptionItem found by the `where` argument doesn't exist, create a new PrescriptionItem with this data.
+     */
+    create: XOR<PrescriptionItemCreateInput, PrescriptionItemUncheckedCreateInput>
+    /**
+     * In case the PrescriptionItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PrescriptionItemUpdateInput, PrescriptionItemUncheckedUpdateInput>
+  }
+
+  /**
+   * PrescriptionItem delete
+   */
+  export type PrescriptionItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrescriptionItem
+     */
+    select?: PrescriptionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrescriptionItem
+     */
+    omit?: PrescriptionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionItemInclude<ExtArgs> | null
+    /**
+     * Filter which PrescriptionItem to delete.
+     */
+    where: PrescriptionItemWhereUniqueInput
+  }
+
+  /**
+   * PrescriptionItem deleteMany
+   */
+  export type PrescriptionItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PrescriptionItems to delete
+     */
+    where?: PrescriptionItemWhereInput
+    /**
+     * Limit how many PrescriptionItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PrescriptionItem without action
+   */
+  export type PrescriptionItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PrescriptionItem
+     */
+    select?: PrescriptionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PrescriptionItem
+     */
+    omit?: PrescriptionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PrescriptionItemInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ResultValue
+   */
+
+  export type AggregateResultValue = {
+    _count: ResultValueCountAggregateOutputType | null
+    _avg: ResultValueAvgAggregateOutputType | null
+    _sum: ResultValueSumAggregateOutputType | null
+    _min: ResultValueMinAggregateOutputType | null
+    _max: ResultValueMaxAggregateOutputType | null
+  }
+
+  export type ResultValueAvgAggregateOutputType = {
+    id: number | null
+    accession_id: number | null
+    queue_id: number | null
+  }
+
+  export type ResultValueSumAggregateOutputType = {
+    id: number | null
+    accession_id: bigint | null
+    queue_id: bigint | null
+  }
+
+  export type ResultValueMinAggregateOutputType = {
+    id: number | null
+    accession_id: bigint | null
+    queue_id: bigint | null
+    item_code: string | null
+    item_description: string | null
+    result_value: string | null
+    result_unit: string | null
+    normal_range: string | null
+    flag: string | null
+    remarks: string | null
+    encoded_by: string | null
+    encoded_at: Date | null
+    validated_by: string | null
+    validated_at: Date | null
+    status: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ResultValueMaxAggregateOutputType = {
+    id: number | null
+    accession_id: bigint | null
+    queue_id: bigint | null
+    item_code: string | null
+    item_description: string | null
+    result_value: string | null
+    result_unit: string | null
+    normal_range: string | null
+    flag: string | null
+    remarks: string | null
+    encoded_by: string | null
+    encoded_at: Date | null
+    validated_by: string | null
+    validated_at: Date | null
+    status: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ResultValueCountAggregateOutputType = {
+    id: number
+    accession_id: number
+    queue_id: number
+    item_code: number
+    item_description: number
+    result_value: number
+    result_unit: number
+    normal_range: number
+    flag: number
+    remarks: number
+    encoded_by: number
+    encoded_at: number
+    validated_by: number
+    validated_at: number
+    status: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type ResultValueAvgAggregateInputType = {
+    id?: true
+    accession_id?: true
+    queue_id?: true
+  }
+
+  export type ResultValueSumAggregateInputType = {
+    id?: true
+    accession_id?: true
+    queue_id?: true
+  }
+
+  export type ResultValueMinAggregateInputType = {
+    id?: true
+    accession_id?: true
+    queue_id?: true
+    item_code?: true
+    item_description?: true
+    result_value?: true
+    result_unit?: true
+    normal_range?: true
+    flag?: true
+    remarks?: true
+    encoded_by?: true
+    encoded_at?: true
+    validated_by?: true
+    validated_at?: true
+    status?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ResultValueMaxAggregateInputType = {
+    id?: true
+    accession_id?: true
+    queue_id?: true
+    item_code?: true
+    item_description?: true
+    result_value?: true
+    result_unit?: true
+    normal_range?: true
+    flag?: true
+    remarks?: true
+    encoded_by?: true
+    encoded_at?: true
+    validated_by?: true
+    validated_at?: true
+    status?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ResultValueCountAggregateInputType = {
+    id?: true
+    accession_id?: true
+    queue_id?: true
+    item_code?: true
+    item_description?: true
+    result_value?: true
+    result_unit?: true
+    normal_range?: true
+    flag?: true
+    remarks?: true
+    encoded_by?: true
+    encoded_at?: true
+    validated_by?: true
+    validated_at?: true
+    status?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type ResultValueAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ResultValue to aggregate.
+     */
+    where?: ResultValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResultValues to fetch.
+     */
+    orderBy?: ResultValueOrderByWithRelationInput | ResultValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ResultValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResultValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResultValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ResultValues
+    **/
+    _count?: true | ResultValueCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ResultValueAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ResultValueSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ResultValueMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ResultValueMaxAggregateInputType
+  }
+
+  export type GetResultValueAggregateType<T extends ResultValueAggregateArgs> = {
+        [P in keyof T & keyof AggregateResultValue]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateResultValue[P]>
+      : GetScalarType<T[P], AggregateResultValue[P]>
+  }
+
+
+
+
+  export type ResultValueGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ResultValueWhereInput
+    orderBy?: ResultValueOrderByWithAggregationInput | ResultValueOrderByWithAggregationInput[]
+    by: ResultValueScalarFieldEnum[] | ResultValueScalarFieldEnum
+    having?: ResultValueScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ResultValueCountAggregateInputType | true
+    _avg?: ResultValueAvgAggregateInputType
+    _sum?: ResultValueSumAggregateInputType
+    _min?: ResultValueMinAggregateInputType
+    _max?: ResultValueMaxAggregateInputType
+  }
+
+  export type ResultValueGroupByOutputType = {
+    id: number
+    accession_id: bigint
+    queue_id: bigint
+    item_code: string | null
+    item_description: string | null
+    result_value: string | null
+    result_unit: string | null
+    normal_range: string | null
+    flag: string | null
+    remarks: string | null
+    encoded_by: string | null
+    encoded_at: Date | null
+    validated_by: string | null
+    validated_at: Date | null
+    status: string
+    created_at: Date
+    updated_at: Date
+    _count: ResultValueCountAggregateOutputType | null
+    _avg: ResultValueAvgAggregateOutputType | null
+    _sum: ResultValueSumAggregateOutputType | null
+    _min: ResultValueMinAggregateOutputType | null
+    _max: ResultValueMaxAggregateOutputType | null
+  }
+
+  type GetResultValueGroupByPayload<T extends ResultValueGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ResultValueGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ResultValueGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ResultValueGroupByOutputType[P]>
+            : GetScalarType<T[P], ResultValueGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ResultValueSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accession_id?: boolean
+    queue_id?: boolean
+    item_code?: boolean
+    item_description?: boolean
+    result_value?: boolean
+    result_unit?: boolean
+    normal_range?: boolean
+    flag?: boolean
+    remarks?: boolean
+    encoded_by?: boolean
+    encoded_at?: boolean
+    validated_by?: boolean
+    validated_at?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["resultValue"]>
+
+  export type ResultValueSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accession_id?: boolean
+    queue_id?: boolean
+    item_code?: boolean
+    item_description?: boolean
+    result_value?: boolean
+    result_unit?: boolean
+    normal_range?: boolean
+    flag?: boolean
+    remarks?: boolean
+    encoded_by?: boolean
+    encoded_at?: boolean
+    validated_by?: boolean
+    validated_at?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["resultValue"]>
+
+  export type ResultValueSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accession_id?: boolean
+    queue_id?: boolean
+    item_code?: boolean
+    item_description?: boolean
+    result_value?: boolean
+    result_unit?: boolean
+    normal_range?: boolean
+    flag?: boolean
+    remarks?: boolean
+    encoded_by?: boolean
+    encoded_at?: boolean
+    validated_by?: boolean
+    validated_at?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["resultValue"]>
+
+  export type ResultValueSelectScalar = {
+    id?: boolean
+    accession_id?: boolean
+    queue_id?: boolean
+    item_code?: boolean
+    item_description?: boolean
+    result_value?: boolean
+    result_unit?: boolean
+    normal_range?: boolean
+    flag?: boolean
+    remarks?: boolean
+    encoded_by?: boolean
+    encoded_at?: boolean
+    validated_by?: boolean
+    validated_at?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type ResultValueOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accession_id" | "queue_id" | "item_code" | "item_description" | "result_value" | "result_unit" | "normal_range" | "flag" | "remarks" | "encoded_by" | "encoded_at" | "validated_by" | "validated_at" | "status" | "created_at" | "updated_at", ExtArgs["result"]["resultValue"]>
+
+  export type $ResultValuePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ResultValue"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      accession_id: bigint
+      queue_id: bigint
+      item_code: string | null
+      item_description: string | null
+      result_value: string | null
+      result_unit: string | null
+      normal_range: string | null
+      flag: string | null
+      remarks: string | null
+      encoded_by: string | null
+      encoded_at: Date | null
+      validated_by: string | null
+      validated_at: Date | null
+      status: string
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["resultValue"]>
+    composites: {}
+  }
+
+  type ResultValueGetPayload<S extends boolean | null | undefined | ResultValueDefaultArgs> = $Result.GetResult<Prisma.$ResultValuePayload, S>
+
+  type ResultValueCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ResultValueFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ResultValueCountAggregateInputType | true
+    }
+
+  export interface ResultValueDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ResultValue'], meta: { name: 'ResultValue' } }
+    /**
+     * Find zero or one ResultValue that matches the filter.
+     * @param {ResultValueFindUniqueArgs} args - Arguments to find a ResultValue
+     * @example
+     * // Get one ResultValue
+     * const resultValue = await prisma.resultValue.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ResultValueFindUniqueArgs>(args: SelectSubset<T, ResultValueFindUniqueArgs<ExtArgs>>): Prisma__ResultValueClient<$Result.GetResult<Prisma.$ResultValuePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ResultValue that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ResultValueFindUniqueOrThrowArgs} args - Arguments to find a ResultValue
+     * @example
+     * // Get one ResultValue
+     * const resultValue = await prisma.resultValue.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ResultValueFindUniqueOrThrowArgs>(args: SelectSubset<T, ResultValueFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ResultValueClient<$Result.GetResult<Prisma.$ResultValuePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ResultValue that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResultValueFindFirstArgs} args - Arguments to find a ResultValue
+     * @example
+     * // Get one ResultValue
+     * const resultValue = await prisma.resultValue.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ResultValueFindFirstArgs>(args?: SelectSubset<T, ResultValueFindFirstArgs<ExtArgs>>): Prisma__ResultValueClient<$Result.GetResult<Prisma.$ResultValuePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ResultValue that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResultValueFindFirstOrThrowArgs} args - Arguments to find a ResultValue
+     * @example
+     * // Get one ResultValue
+     * const resultValue = await prisma.resultValue.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ResultValueFindFirstOrThrowArgs>(args?: SelectSubset<T, ResultValueFindFirstOrThrowArgs<ExtArgs>>): Prisma__ResultValueClient<$Result.GetResult<Prisma.$ResultValuePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ResultValues that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResultValueFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ResultValues
+     * const resultValues = await prisma.resultValue.findMany()
+     * 
+     * // Get first 10 ResultValues
+     * const resultValues = await prisma.resultValue.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const resultValueWithIdOnly = await prisma.resultValue.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ResultValueFindManyArgs>(args?: SelectSubset<T, ResultValueFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResultValuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ResultValue.
+     * @param {ResultValueCreateArgs} args - Arguments to create a ResultValue.
+     * @example
+     * // Create one ResultValue
+     * const ResultValue = await prisma.resultValue.create({
+     *   data: {
+     *     // ... data to create a ResultValue
+     *   }
+     * })
+     * 
+     */
+    create<T extends ResultValueCreateArgs>(args: SelectSubset<T, ResultValueCreateArgs<ExtArgs>>): Prisma__ResultValueClient<$Result.GetResult<Prisma.$ResultValuePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ResultValues.
+     * @param {ResultValueCreateManyArgs} args - Arguments to create many ResultValues.
+     * @example
+     * // Create many ResultValues
+     * const resultValue = await prisma.resultValue.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ResultValueCreateManyArgs>(args?: SelectSubset<T, ResultValueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ResultValues and returns the data saved in the database.
+     * @param {ResultValueCreateManyAndReturnArgs} args - Arguments to create many ResultValues.
+     * @example
+     * // Create many ResultValues
+     * const resultValue = await prisma.resultValue.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ResultValues and only return the `id`
+     * const resultValueWithIdOnly = await prisma.resultValue.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ResultValueCreateManyAndReturnArgs>(args?: SelectSubset<T, ResultValueCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResultValuePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ResultValue.
+     * @param {ResultValueDeleteArgs} args - Arguments to delete one ResultValue.
+     * @example
+     * // Delete one ResultValue
+     * const ResultValue = await prisma.resultValue.delete({
+     *   where: {
+     *     // ... filter to delete one ResultValue
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ResultValueDeleteArgs>(args: SelectSubset<T, ResultValueDeleteArgs<ExtArgs>>): Prisma__ResultValueClient<$Result.GetResult<Prisma.$ResultValuePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ResultValue.
+     * @param {ResultValueUpdateArgs} args - Arguments to update one ResultValue.
+     * @example
+     * // Update one ResultValue
+     * const resultValue = await prisma.resultValue.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ResultValueUpdateArgs>(args: SelectSubset<T, ResultValueUpdateArgs<ExtArgs>>): Prisma__ResultValueClient<$Result.GetResult<Prisma.$ResultValuePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ResultValues.
+     * @param {ResultValueDeleteManyArgs} args - Arguments to filter ResultValues to delete.
+     * @example
+     * // Delete a few ResultValues
+     * const { count } = await prisma.resultValue.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ResultValueDeleteManyArgs>(args?: SelectSubset<T, ResultValueDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ResultValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResultValueUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ResultValues
+     * const resultValue = await prisma.resultValue.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ResultValueUpdateManyArgs>(args: SelectSubset<T, ResultValueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ResultValues and returns the data updated in the database.
+     * @param {ResultValueUpdateManyAndReturnArgs} args - Arguments to update many ResultValues.
+     * @example
+     * // Update many ResultValues
+     * const resultValue = await prisma.resultValue.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ResultValues and only return the `id`
+     * const resultValueWithIdOnly = await prisma.resultValue.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ResultValueUpdateManyAndReturnArgs>(args: SelectSubset<T, ResultValueUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ResultValuePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ResultValue.
+     * @param {ResultValueUpsertArgs} args - Arguments to update or create a ResultValue.
+     * @example
+     * // Update or create a ResultValue
+     * const resultValue = await prisma.resultValue.upsert({
+     *   create: {
+     *     // ... data to create a ResultValue
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ResultValue we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ResultValueUpsertArgs>(args: SelectSubset<T, ResultValueUpsertArgs<ExtArgs>>): Prisma__ResultValueClient<$Result.GetResult<Prisma.$ResultValuePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ResultValues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResultValueCountArgs} args - Arguments to filter ResultValues to count.
+     * @example
+     * // Count the number of ResultValues
+     * const count = await prisma.resultValue.count({
+     *   where: {
+     *     // ... the filter for the ResultValues we want to count
+     *   }
+     * })
+    **/
+    count<T extends ResultValueCountArgs>(
+      args?: Subset<T, ResultValueCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ResultValueCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ResultValue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResultValueAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ResultValueAggregateArgs>(args: Subset<T, ResultValueAggregateArgs>): Prisma.PrismaPromise<GetResultValueAggregateType<T>>
+
+    /**
+     * Group by ResultValue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ResultValueGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ResultValueGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ResultValueGroupByArgs['orderBy'] }
+        : { orderBy?: ResultValueGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ResultValueGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetResultValueGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ResultValue model
+   */
+  readonly fields: ResultValueFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ResultValue.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ResultValueClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ResultValue model
+   */
+  interface ResultValueFieldRefs {
+    readonly id: FieldRef<"ResultValue", 'Int'>
+    readonly accession_id: FieldRef<"ResultValue", 'BigInt'>
+    readonly queue_id: FieldRef<"ResultValue", 'BigInt'>
+    readonly item_code: FieldRef<"ResultValue", 'String'>
+    readonly item_description: FieldRef<"ResultValue", 'String'>
+    readonly result_value: FieldRef<"ResultValue", 'String'>
+    readonly result_unit: FieldRef<"ResultValue", 'String'>
+    readonly normal_range: FieldRef<"ResultValue", 'String'>
+    readonly flag: FieldRef<"ResultValue", 'String'>
+    readonly remarks: FieldRef<"ResultValue", 'String'>
+    readonly encoded_by: FieldRef<"ResultValue", 'String'>
+    readonly encoded_at: FieldRef<"ResultValue", 'DateTime'>
+    readonly validated_by: FieldRef<"ResultValue", 'String'>
+    readonly validated_at: FieldRef<"ResultValue", 'DateTime'>
+    readonly status: FieldRef<"ResultValue", 'String'>
+    readonly created_at: FieldRef<"ResultValue", 'DateTime'>
+    readonly updated_at: FieldRef<"ResultValue", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ResultValue findUnique
+   */
+  export type ResultValueFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResultValue
+     */
+    select?: ResultValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResultValue
+     */
+    omit?: ResultValueOmit<ExtArgs> | null
+    /**
+     * Filter, which ResultValue to fetch.
+     */
+    where: ResultValueWhereUniqueInput
+  }
+
+  /**
+   * ResultValue findUniqueOrThrow
+   */
+  export type ResultValueFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResultValue
+     */
+    select?: ResultValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResultValue
+     */
+    omit?: ResultValueOmit<ExtArgs> | null
+    /**
+     * Filter, which ResultValue to fetch.
+     */
+    where: ResultValueWhereUniqueInput
+  }
+
+  /**
+   * ResultValue findFirst
+   */
+  export type ResultValueFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResultValue
+     */
+    select?: ResultValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResultValue
+     */
+    omit?: ResultValueOmit<ExtArgs> | null
+    /**
+     * Filter, which ResultValue to fetch.
+     */
+    where?: ResultValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResultValues to fetch.
+     */
+    orderBy?: ResultValueOrderByWithRelationInput | ResultValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ResultValues.
+     */
+    cursor?: ResultValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResultValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResultValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ResultValues.
+     */
+    distinct?: ResultValueScalarFieldEnum | ResultValueScalarFieldEnum[]
+  }
+
+  /**
+   * ResultValue findFirstOrThrow
+   */
+  export type ResultValueFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResultValue
+     */
+    select?: ResultValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResultValue
+     */
+    omit?: ResultValueOmit<ExtArgs> | null
+    /**
+     * Filter, which ResultValue to fetch.
+     */
+    where?: ResultValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResultValues to fetch.
+     */
+    orderBy?: ResultValueOrderByWithRelationInput | ResultValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ResultValues.
+     */
+    cursor?: ResultValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResultValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResultValues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ResultValues.
+     */
+    distinct?: ResultValueScalarFieldEnum | ResultValueScalarFieldEnum[]
+  }
+
+  /**
+   * ResultValue findMany
+   */
+  export type ResultValueFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResultValue
+     */
+    select?: ResultValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResultValue
+     */
+    omit?: ResultValueOmit<ExtArgs> | null
+    /**
+     * Filter, which ResultValues to fetch.
+     */
+    where?: ResultValueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ResultValues to fetch.
+     */
+    orderBy?: ResultValueOrderByWithRelationInput | ResultValueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ResultValues.
+     */
+    cursor?: ResultValueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ResultValues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ResultValues.
+     */
+    skip?: number
+    distinct?: ResultValueScalarFieldEnum | ResultValueScalarFieldEnum[]
+  }
+
+  /**
+   * ResultValue create
+   */
+  export type ResultValueCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResultValue
+     */
+    select?: ResultValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResultValue
+     */
+    omit?: ResultValueOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ResultValue.
+     */
+    data: XOR<ResultValueCreateInput, ResultValueUncheckedCreateInput>
+  }
+
+  /**
+   * ResultValue createMany
+   */
+  export type ResultValueCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ResultValues.
+     */
+    data: ResultValueCreateManyInput | ResultValueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ResultValue createManyAndReturn
+   */
+  export type ResultValueCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResultValue
+     */
+    select?: ResultValueSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResultValue
+     */
+    omit?: ResultValueOmit<ExtArgs> | null
+    /**
+     * The data used to create many ResultValues.
+     */
+    data: ResultValueCreateManyInput | ResultValueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ResultValue update
+   */
+  export type ResultValueUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResultValue
+     */
+    select?: ResultValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResultValue
+     */
+    omit?: ResultValueOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ResultValue.
+     */
+    data: XOR<ResultValueUpdateInput, ResultValueUncheckedUpdateInput>
+    /**
+     * Choose, which ResultValue to update.
+     */
+    where: ResultValueWhereUniqueInput
+  }
+
+  /**
+   * ResultValue updateMany
+   */
+  export type ResultValueUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ResultValues.
+     */
+    data: XOR<ResultValueUpdateManyMutationInput, ResultValueUncheckedUpdateManyInput>
+    /**
+     * Filter which ResultValues to update
+     */
+    where?: ResultValueWhereInput
+    /**
+     * Limit how many ResultValues to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ResultValue updateManyAndReturn
+   */
+  export type ResultValueUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResultValue
+     */
+    select?: ResultValueSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResultValue
+     */
+    omit?: ResultValueOmit<ExtArgs> | null
+    /**
+     * The data used to update ResultValues.
+     */
+    data: XOR<ResultValueUpdateManyMutationInput, ResultValueUncheckedUpdateManyInput>
+    /**
+     * Filter which ResultValues to update
+     */
+    where?: ResultValueWhereInput
+    /**
+     * Limit how many ResultValues to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ResultValue upsert
+   */
+  export type ResultValueUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResultValue
+     */
+    select?: ResultValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResultValue
+     */
+    omit?: ResultValueOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ResultValue to update in case it exists.
+     */
+    where: ResultValueWhereUniqueInput
+    /**
+     * In case the ResultValue found by the `where` argument doesn't exist, create a new ResultValue with this data.
+     */
+    create: XOR<ResultValueCreateInput, ResultValueUncheckedCreateInput>
+    /**
+     * In case the ResultValue was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ResultValueUpdateInput, ResultValueUncheckedUpdateInput>
+  }
+
+  /**
+   * ResultValue delete
+   */
+  export type ResultValueDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResultValue
+     */
+    select?: ResultValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResultValue
+     */
+    omit?: ResultValueOmit<ExtArgs> | null
+    /**
+     * Filter which ResultValue to delete.
+     */
+    where: ResultValueWhereUniqueInput
+  }
+
+  /**
+   * ResultValue deleteMany
+   */
+  export type ResultValueDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ResultValues to delete
+     */
+    where?: ResultValueWhereInput
+    /**
+     * Limit how many ResultValues to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ResultValue without action
+   */
+  export type ResultValueDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ResultValue
+     */
+    select?: ResultValueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ResultValue
+     */
+    omit?: ResultValueOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ImagingResult
+   */
+
+  export type AggregateImagingResult = {
+    _count: ImagingResultCountAggregateOutputType | null
+    _avg: ImagingResultAvgAggregateOutputType | null
+    _sum: ImagingResultSumAggregateOutputType | null
+    _min: ImagingResultMinAggregateOutputType | null
+    _max: ImagingResultMaxAggregateOutputType | null
+  }
+
+  export type ImagingResultAvgAggregateOutputType = {
+    id: number | null
+    accession_id: number | null
+    queue_id: number | null
+  }
+
+  export type ImagingResultSumAggregateOutputType = {
+    id: number | null
+    accession_id: bigint | null
+    queue_id: bigint | null
+  }
+
+  export type ImagingResultMinAggregateOutputType = {
+    id: number | null
+    accession_id: bigint | null
+    queue_id: bigint | null
+    item_code: string | null
+    item_description: string | null
+    interpretation: string | null
+    impression: string | null
+    radiologist_name: string | null
+    encoded_by: string | null
+    encoded_at: Date | null
+    validated_by: string | null
+    validated_at: Date | null
+    status: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ImagingResultMaxAggregateOutputType = {
+    id: number | null
+    accession_id: bigint | null
+    queue_id: bigint | null
+    item_code: string | null
+    item_description: string | null
+    interpretation: string | null
+    impression: string | null
+    radiologist_name: string | null
+    encoded_by: string | null
+    encoded_at: Date | null
+    validated_by: string | null
+    validated_at: Date | null
+    status: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ImagingResultCountAggregateOutputType = {
+    id: number
+    accession_id: number
+    queue_id: number
+    item_code: number
+    item_description: number
+    interpretation: number
+    impression: number
+    radiologist_name: number
+    encoded_by: number
+    encoded_at: number
+    validated_by: number
+    validated_at: number
+    status: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type ImagingResultAvgAggregateInputType = {
+    id?: true
+    accession_id?: true
+    queue_id?: true
+  }
+
+  export type ImagingResultSumAggregateInputType = {
+    id?: true
+    accession_id?: true
+    queue_id?: true
+  }
+
+  export type ImagingResultMinAggregateInputType = {
+    id?: true
+    accession_id?: true
+    queue_id?: true
+    item_code?: true
+    item_description?: true
+    interpretation?: true
+    impression?: true
+    radiologist_name?: true
+    encoded_by?: true
+    encoded_at?: true
+    validated_by?: true
+    validated_at?: true
+    status?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ImagingResultMaxAggregateInputType = {
+    id?: true
+    accession_id?: true
+    queue_id?: true
+    item_code?: true
+    item_description?: true
+    interpretation?: true
+    impression?: true
+    radiologist_name?: true
+    encoded_by?: true
+    encoded_at?: true
+    validated_by?: true
+    validated_at?: true
+    status?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ImagingResultCountAggregateInputType = {
+    id?: true
+    accession_id?: true
+    queue_id?: true
+    item_code?: true
+    item_description?: true
+    interpretation?: true
+    impression?: true
+    radiologist_name?: true
+    encoded_by?: true
+    encoded_at?: true
+    validated_by?: true
+    validated_at?: true
+    status?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type ImagingResultAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ImagingResult to aggregate.
+     */
+    where?: ImagingResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ImagingResults to fetch.
+     */
+    orderBy?: ImagingResultOrderByWithRelationInput | ImagingResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ImagingResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ImagingResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ImagingResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ImagingResults
+    **/
+    _count?: true | ImagingResultCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ImagingResultAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ImagingResultSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ImagingResultMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ImagingResultMaxAggregateInputType
+  }
+
+  export type GetImagingResultAggregateType<T extends ImagingResultAggregateArgs> = {
+        [P in keyof T & keyof AggregateImagingResult]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateImagingResult[P]>
+      : GetScalarType<T[P], AggregateImagingResult[P]>
+  }
+
+
+
+
+  export type ImagingResultGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ImagingResultWhereInput
+    orderBy?: ImagingResultOrderByWithAggregationInput | ImagingResultOrderByWithAggregationInput[]
+    by: ImagingResultScalarFieldEnum[] | ImagingResultScalarFieldEnum
+    having?: ImagingResultScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ImagingResultCountAggregateInputType | true
+    _avg?: ImagingResultAvgAggregateInputType
+    _sum?: ImagingResultSumAggregateInputType
+    _min?: ImagingResultMinAggregateInputType
+    _max?: ImagingResultMaxAggregateInputType
+  }
+
+  export type ImagingResultGroupByOutputType = {
+    id: number
+    accession_id: bigint
+    queue_id: bigint
+    item_code: string | null
+    item_description: string | null
+    interpretation: string | null
+    impression: string | null
+    radiologist_name: string | null
+    encoded_by: string | null
+    encoded_at: Date | null
+    validated_by: string | null
+    validated_at: Date | null
+    status: string
+    created_at: Date
+    updated_at: Date
+    _count: ImagingResultCountAggregateOutputType | null
+    _avg: ImagingResultAvgAggregateOutputType | null
+    _sum: ImagingResultSumAggregateOutputType | null
+    _min: ImagingResultMinAggregateOutputType | null
+    _max: ImagingResultMaxAggregateOutputType | null
+  }
+
+  type GetImagingResultGroupByPayload<T extends ImagingResultGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ImagingResultGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ImagingResultGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ImagingResultGroupByOutputType[P]>
+            : GetScalarType<T[P], ImagingResultGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ImagingResultSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accession_id?: boolean
+    queue_id?: boolean
+    item_code?: boolean
+    item_description?: boolean
+    interpretation?: boolean
+    impression?: boolean
+    radiologist_name?: boolean
+    encoded_by?: boolean
+    encoded_at?: boolean
+    validated_by?: boolean
+    validated_at?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["imagingResult"]>
+
+  export type ImagingResultSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accession_id?: boolean
+    queue_id?: boolean
+    item_code?: boolean
+    item_description?: boolean
+    interpretation?: boolean
+    impression?: boolean
+    radiologist_name?: boolean
+    encoded_by?: boolean
+    encoded_at?: boolean
+    validated_by?: boolean
+    validated_at?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["imagingResult"]>
+
+  export type ImagingResultSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    accession_id?: boolean
+    queue_id?: boolean
+    item_code?: boolean
+    item_description?: boolean
+    interpretation?: boolean
+    impression?: boolean
+    radiologist_name?: boolean
+    encoded_by?: boolean
+    encoded_at?: boolean
+    validated_by?: boolean
+    validated_at?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["imagingResult"]>
+
+  export type ImagingResultSelectScalar = {
+    id?: boolean
+    accession_id?: boolean
+    queue_id?: boolean
+    item_code?: boolean
+    item_description?: boolean
+    interpretation?: boolean
+    impression?: boolean
+    radiologist_name?: boolean
+    encoded_by?: boolean
+    encoded_at?: boolean
+    validated_by?: boolean
+    validated_at?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type ImagingResultOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "accession_id" | "queue_id" | "item_code" | "item_description" | "interpretation" | "impression" | "radiologist_name" | "encoded_by" | "encoded_at" | "validated_by" | "validated_at" | "status" | "created_at" | "updated_at", ExtArgs["result"]["imagingResult"]>
+
+  export type $ImagingResultPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ImagingResult"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      accession_id: bigint
+      queue_id: bigint
+      item_code: string | null
+      item_description: string | null
+      interpretation: string | null
+      impression: string | null
+      radiologist_name: string | null
+      encoded_by: string | null
+      encoded_at: Date | null
+      validated_by: string | null
+      validated_at: Date | null
+      status: string
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["imagingResult"]>
+    composites: {}
+  }
+
+  type ImagingResultGetPayload<S extends boolean | null | undefined | ImagingResultDefaultArgs> = $Result.GetResult<Prisma.$ImagingResultPayload, S>
+
+  type ImagingResultCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ImagingResultFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ImagingResultCountAggregateInputType | true
+    }
+
+  export interface ImagingResultDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ImagingResult'], meta: { name: 'ImagingResult' } }
+    /**
+     * Find zero or one ImagingResult that matches the filter.
+     * @param {ImagingResultFindUniqueArgs} args - Arguments to find a ImagingResult
+     * @example
+     * // Get one ImagingResult
+     * const imagingResult = await prisma.imagingResult.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ImagingResultFindUniqueArgs>(args: SelectSubset<T, ImagingResultFindUniqueArgs<ExtArgs>>): Prisma__ImagingResultClient<$Result.GetResult<Prisma.$ImagingResultPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ImagingResult that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ImagingResultFindUniqueOrThrowArgs} args - Arguments to find a ImagingResult
+     * @example
+     * // Get one ImagingResult
+     * const imagingResult = await prisma.imagingResult.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ImagingResultFindUniqueOrThrowArgs>(args: SelectSubset<T, ImagingResultFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ImagingResultClient<$Result.GetResult<Prisma.$ImagingResultPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ImagingResult that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImagingResultFindFirstArgs} args - Arguments to find a ImagingResult
+     * @example
+     * // Get one ImagingResult
+     * const imagingResult = await prisma.imagingResult.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ImagingResultFindFirstArgs>(args?: SelectSubset<T, ImagingResultFindFirstArgs<ExtArgs>>): Prisma__ImagingResultClient<$Result.GetResult<Prisma.$ImagingResultPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ImagingResult that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImagingResultFindFirstOrThrowArgs} args - Arguments to find a ImagingResult
+     * @example
+     * // Get one ImagingResult
+     * const imagingResult = await prisma.imagingResult.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ImagingResultFindFirstOrThrowArgs>(args?: SelectSubset<T, ImagingResultFindFirstOrThrowArgs<ExtArgs>>): Prisma__ImagingResultClient<$Result.GetResult<Prisma.$ImagingResultPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ImagingResults that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImagingResultFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ImagingResults
+     * const imagingResults = await prisma.imagingResult.findMany()
+     * 
+     * // Get first 10 ImagingResults
+     * const imagingResults = await prisma.imagingResult.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const imagingResultWithIdOnly = await prisma.imagingResult.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ImagingResultFindManyArgs>(args?: SelectSubset<T, ImagingResultFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ImagingResultPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ImagingResult.
+     * @param {ImagingResultCreateArgs} args - Arguments to create a ImagingResult.
+     * @example
+     * // Create one ImagingResult
+     * const ImagingResult = await prisma.imagingResult.create({
+     *   data: {
+     *     // ... data to create a ImagingResult
+     *   }
+     * })
+     * 
+     */
+    create<T extends ImagingResultCreateArgs>(args: SelectSubset<T, ImagingResultCreateArgs<ExtArgs>>): Prisma__ImagingResultClient<$Result.GetResult<Prisma.$ImagingResultPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ImagingResults.
+     * @param {ImagingResultCreateManyArgs} args - Arguments to create many ImagingResults.
+     * @example
+     * // Create many ImagingResults
+     * const imagingResult = await prisma.imagingResult.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ImagingResultCreateManyArgs>(args?: SelectSubset<T, ImagingResultCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ImagingResults and returns the data saved in the database.
+     * @param {ImagingResultCreateManyAndReturnArgs} args - Arguments to create many ImagingResults.
+     * @example
+     * // Create many ImagingResults
+     * const imagingResult = await prisma.imagingResult.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ImagingResults and only return the `id`
+     * const imagingResultWithIdOnly = await prisma.imagingResult.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ImagingResultCreateManyAndReturnArgs>(args?: SelectSubset<T, ImagingResultCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ImagingResultPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ImagingResult.
+     * @param {ImagingResultDeleteArgs} args - Arguments to delete one ImagingResult.
+     * @example
+     * // Delete one ImagingResult
+     * const ImagingResult = await prisma.imagingResult.delete({
+     *   where: {
+     *     // ... filter to delete one ImagingResult
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ImagingResultDeleteArgs>(args: SelectSubset<T, ImagingResultDeleteArgs<ExtArgs>>): Prisma__ImagingResultClient<$Result.GetResult<Prisma.$ImagingResultPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ImagingResult.
+     * @param {ImagingResultUpdateArgs} args - Arguments to update one ImagingResult.
+     * @example
+     * // Update one ImagingResult
+     * const imagingResult = await prisma.imagingResult.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ImagingResultUpdateArgs>(args: SelectSubset<T, ImagingResultUpdateArgs<ExtArgs>>): Prisma__ImagingResultClient<$Result.GetResult<Prisma.$ImagingResultPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ImagingResults.
+     * @param {ImagingResultDeleteManyArgs} args - Arguments to filter ImagingResults to delete.
+     * @example
+     * // Delete a few ImagingResults
+     * const { count } = await prisma.imagingResult.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ImagingResultDeleteManyArgs>(args?: SelectSubset<T, ImagingResultDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ImagingResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImagingResultUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ImagingResults
+     * const imagingResult = await prisma.imagingResult.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ImagingResultUpdateManyArgs>(args: SelectSubset<T, ImagingResultUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ImagingResults and returns the data updated in the database.
+     * @param {ImagingResultUpdateManyAndReturnArgs} args - Arguments to update many ImagingResults.
+     * @example
+     * // Update many ImagingResults
+     * const imagingResult = await prisma.imagingResult.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ImagingResults and only return the `id`
+     * const imagingResultWithIdOnly = await prisma.imagingResult.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ImagingResultUpdateManyAndReturnArgs>(args: SelectSubset<T, ImagingResultUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ImagingResultPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ImagingResult.
+     * @param {ImagingResultUpsertArgs} args - Arguments to update or create a ImagingResult.
+     * @example
+     * // Update or create a ImagingResult
+     * const imagingResult = await prisma.imagingResult.upsert({
+     *   create: {
+     *     // ... data to create a ImagingResult
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ImagingResult we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ImagingResultUpsertArgs>(args: SelectSubset<T, ImagingResultUpsertArgs<ExtArgs>>): Prisma__ImagingResultClient<$Result.GetResult<Prisma.$ImagingResultPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ImagingResults.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImagingResultCountArgs} args - Arguments to filter ImagingResults to count.
+     * @example
+     * // Count the number of ImagingResults
+     * const count = await prisma.imagingResult.count({
+     *   where: {
+     *     // ... the filter for the ImagingResults we want to count
+     *   }
+     * })
+    **/
+    count<T extends ImagingResultCountArgs>(
+      args?: Subset<T, ImagingResultCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ImagingResultCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ImagingResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImagingResultAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ImagingResultAggregateArgs>(args: Subset<T, ImagingResultAggregateArgs>): Prisma.PrismaPromise<GetImagingResultAggregateType<T>>
+
+    /**
+     * Group by ImagingResult.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ImagingResultGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ImagingResultGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ImagingResultGroupByArgs['orderBy'] }
+        : { orderBy?: ImagingResultGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ImagingResultGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetImagingResultGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ImagingResult model
+   */
+  readonly fields: ImagingResultFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ImagingResult.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ImagingResultClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ImagingResult model
+   */
+  interface ImagingResultFieldRefs {
+    readonly id: FieldRef<"ImagingResult", 'Int'>
+    readonly accession_id: FieldRef<"ImagingResult", 'BigInt'>
+    readonly queue_id: FieldRef<"ImagingResult", 'BigInt'>
+    readonly item_code: FieldRef<"ImagingResult", 'String'>
+    readonly item_description: FieldRef<"ImagingResult", 'String'>
+    readonly interpretation: FieldRef<"ImagingResult", 'String'>
+    readonly impression: FieldRef<"ImagingResult", 'String'>
+    readonly radiologist_name: FieldRef<"ImagingResult", 'String'>
+    readonly encoded_by: FieldRef<"ImagingResult", 'String'>
+    readonly encoded_at: FieldRef<"ImagingResult", 'DateTime'>
+    readonly validated_by: FieldRef<"ImagingResult", 'String'>
+    readonly validated_at: FieldRef<"ImagingResult", 'DateTime'>
+    readonly status: FieldRef<"ImagingResult", 'String'>
+    readonly created_at: FieldRef<"ImagingResult", 'DateTime'>
+    readonly updated_at: FieldRef<"ImagingResult", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ImagingResult findUnique
+   */
+  export type ImagingResultFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImagingResult
+     */
+    select?: ImagingResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImagingResult
+     */
+    omit?: ImagingResultOmit<ExtArgs> | null
+    /**
+     * Filter, which ImagingResult to fetch.
+     */
+    where: ImagingResultWhereUniqueInput
+  }
+
+  /**
+   * ImagingResult findUniqueOrThrow
+   */
+  export type ImagingResultFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImagingResult
+     */
+    select?: ImagingResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImagingResult
+     */
+    omit?: ImagingResultOmit<ExtArgs> | null
+    /**
+     * Filter, which ImagingResult to fetch.
+     */
+    where: ImagingResultWhereUniqueInput
+  }
+
+  /**
+   * ImagingResult findFirst
+   */
+  export type ImagingResultFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImagingResult
+     */
+    select?: ImagingResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImagingResult
+     */
+    omit?: ImagingResultOmit<ExtArgs> | null
+    /**
+     * Filter, which ImagingResult to fetch.
+     */
+    where?: ImagingResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ImagingResults to fetch.
+     */
+    orderBy?: ImagingResultOrderByWithRelationInput | ImagingResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ImagingResults.
+     */
+    cursor?: ImagingResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ImagingResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ImagingResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ImagingResults.
+     */
+    distinct?: ImagingResultScalarFieldEnum | ImagingResultScalarFieldEnum[]
+  }
+
+  /**
+   * ImagingResult findFirstOrThrow
+   */
+  export type ImagingResultFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImagingResult
+     */
+    select?: ImagingResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImagingResult
+     */
+    omit?: ImagingResultOmit<ExtArgs> | null
+    /**
+     * Filter, which ImagingResult to fetch.
+     */
+    where?: ImagingResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ImagingResults to fetch.
+     */
+    orderBy?: ImagingResultOrderByWithRelationInput | ImagingResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ImagingResults.
+     */
+    cursor?: ImagingResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ImagingResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ImagingResults.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ImagingResults.
+     */
+    distinct?: ImagingResultScalarFieldEnum | ImagingResultScalarFieldEnum[]
+  }
+
+  /**
+   * ImagingResult findMany
+   */
+  export type ImagingResultFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImagingResult
+     */
+    select?: ImagingResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImagingResult
+     */
+    omit?: ImagingResultOmit<ExtArgs> | null
+    /**
+     * Filter, which ImagingResults to fetch.
+     */
+    where?: ImagingResultWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ImagingResults to fetch.
+     */
+    orderBy?: ImagingResultOrderByWithRelationInput | ImagingResultOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ImagingResults.
+     */
+    cursor?: ImagingResultWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ImagingResults from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ImagingResults.
+     */
+    skip?: number
+    distinct?: ImagingResultScalarFieldEnum | ImagingResultScalarFieldEnum[]
+  }
+
+  /**
+   * ImagingResult create
+   */
+  export type ImagingResultCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImagingResult
+     */
+    select?: ImagingResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImagingResult
+     */
+    omit?: ImagingResultOmit<ExtArgs> | null
+    /**
+     * The data needed to create a ImagingResult.
+     */
+    data: XOR<ImagingResultCreateInput, ImagingResultUncheckedCreateInput>
+  }
+
+  /**
+   * ImagingResult createMany
+   */
+  export type ImagingResultCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ImagingResults.
+     */
+    data: ImagingResultCreateManyInput | ImagingResultCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ImagingResult createManyAndReturn
+   */
+  export type ImagingResultCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImagingResult
+     */
+    select?: ImagingResultSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImagingResult
+     */
+    omit?: ImagingResultOmit<ExtArgs> | null
+    /**
+     * The data used to create many ImagingResults.
+     */
+    data: ImagingResultCreateManyInput | ImagingResultCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ImagingResult update
+   */
+  export type ImagingResultUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImagingResult
+     */
+    select?: ImagingResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImagingResult
+     */
+    omit?: ImagingResultOmit<ExtArgs> | null
+    /**
+     * The data needed to update a ImagingResult.
+     */
+    data: XOR<ImagingResultUpdateInput, ImagingResultUncheckedUpdateInput>
+    /**
+     * Choose, which ImagingResult to update.
+     */
+    where: ImagingResultWhereUniqueInput
+  }
+
+  /**
+   * ImagingResult updateMany
+   */
+  export type ImagingResultUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ImagingResults.
+     */
+    data: XOR<ImagingResultUpdateManyMutationInput, ImagingResultUncheckedUpdateManyInput>
+    /**
+     * Filter which ImagingResults to update
+     */
+    where?: ImagingResultWhereInput
+    /**
+     * Limit how many ImagingResults to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ImagingResult updateManyAndReturn
+   */
+  export type ImagingResultUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImagingResult
+     */
+    select?: ImagingResultSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImagingResult
+     */
+    omit?: ImagingResultOmit<ExtArgs> | null
+    /**
+     * The data used to update ImagingResults.
+     */
+    data: XOR<ImagingResultUpdateManyMutationInput, ImagingResultUncheckedUpdateManyInput>
+    /**
+     * Filter which ImagingResults to update
+     */
+    where?: ImagingResultWhereInput
+    /**
+     * Limit how many ImagingResults to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ImagingResult upsert
+   */
+  export type ImagingResultUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImagingResult
+     */
+    select?: ImagingResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImagingResult
+     */
+    omit?: ImagingResultOmit<ExtArgs> | null
+    /**
+     * The filter to search for the ImagingResult to update in case it exists.
+     */
+    where: ImagingResultWhereUniqueInput
+    /**
+     * In case the ImagingResult found by the `where` argument doesn't exist, create a new ImagingResult with this data.
+     */
+    create: XOR<ImagingResultCreateInput, ImagingResultUncheckedCreateInput>
+    /**
+     * In case the ImagingResult was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ImagingResultUpdateInput, ImagingResultUncheckedUpdateInput>
+  }
+
+  /**
+   * ImagingResult delete
+   */
+  export type ImagingResultDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImagingResult
+     */
+    select?: ImagingResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImagingResult
+     */
+    omit?: ImagingResultOmit<ExtArgs> | null
+    /**
+     * Filter which ImagingResult to delete.
+     */
+    where: ImagingResultWhereUniqueInput
+  }
+
+  /**
+   * ImagingResult deleteMany
+   */
+  export type ImagingResultDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ImagingResults to delete
+     */
+    where?: ImagingResultWhereInput
+    /**
+     * Limit how many ImagingResults to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ImagingResult without action
+   */
+  export type ImagingResultDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ImagingResult
+     */
+    select?: ImagingResultSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ImagingResult
+     */
+    omit?: ImagingResultOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model cardNumber
+   */
+
+  export type AggregateCardNumber = {
+    _count: CardNumberCountAggregateOutputType | null
+    _avg: CardNumberAvgAggregateOutputType | null
+    _sum: CardNumberSumAggregateOutputType | null
+    _min: CardNumberMinAggregateOutputType | null
+    _max: CardNumberMaxAggregateOutputType | null
+  }
+
+  export type CardNumberAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type CardNumberSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type CardNumberMinAggregateOutputType = {
+    id: number | null
+    year: string | null
+    batch: string | null
+    month: string | null
+    seriesNum: string | null
+    maskedSeries: string | null
+    generatedcardnumber: string | null
+    codeCompany: string | null
+    generatedBy: string | null
+  }
+
+  export type CardNumberMaxAggregateOutputType = {
+    id: number | null
+    year: string | null
+    batch: string | null
+    month: string | null
+    seriesNum: string | null
+    maskedSeries: string | null
+    generatedcardnumber: string | null
+    codeCompany: string | null
+    generatedBy: string | null
+  }
+
+  export type CardNumberCountAggregateOutputType = {
+    id: number
+    year: number
+    batch: number
+    month: number
+    seriesNum: number
+    maskedSeries: number
+    generatedcardnumber: number
+    codeCompany: number
+    generatedBy: number
+    _all: number
+  }
+
+
+  export type CardNumberAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type CardNumberSumAggregateInputType = {
+    id?: true
+  }
+
+  export type CardNumberMinAggregateInputType = {
+    id?: true
+    year?: true
+    batch?: true
+    month?: true
+    seriesNum?: true
+    maskedSeries?: true
+    generatedcardnumber?: true
+    codeCompany?: true
+    generatedBy?: true
+  }
+
+  export type CardNumberMaxAggregateInputType = {
+    id?: true
+    year?: true
+    batch?: true
+    month?: true
+    seriesNum?: true
+    maskedSeries?: true
+    generatedcardnumber?: true
+    codeCompany?: true
+    generatedBy?: true
+  }
+
+  export type CardNumberCountAggregateInputType = {
+    id?: true
+    year?: true
+    batch?: true
+    month?: true
+    seriesNum?: true
+    maskedSeries?: true
+    generatedcardnumber?: true
+    codeCompany?: true
+    generatedBy?: true
+    _all?: true
+  }
+
+  export type CardNumberAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which cardNumber to aggregate.
+     */
+    where?: cardNumberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cardNumbers to fetch.
+     */
+    orderBy?: cardNumberOrderByWithRelationInput | cardNumberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: cardNumberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cardNumbers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cardNumbers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned cardNumbers
+    **/
+    _count?: true | CardNumberCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CardNumberAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CardNumberSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CardNumberMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CardNumberMaxAggregateInputType
+  }
+
+  export type GetCardNumberAggregateType<T extends CardNumberAggregateArgs> = {
+        [P in keyof T & keyof AggregateCardNumber]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCardNumber[P]>
+      : GetScalarType<T[P], AggregateCardNumber[P]>
+  }
+
+
+
+
+  export type cardNumberGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: cardNumberWhereInput
+    orderBy?: cardNumberOrderByWithAggregationInput | cardNumberOrderByWithAggregationInput[]
+    by: CardNumberScalarFieldEnum[] | CardNumberScalarFieldEnum
+    having?: cardNumberScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CardNumberCountAggregateInputType | true
+    _avg?: CardNumberAvgAggregateInputType
+    _sum?: CardNumberSumAggregateInputType
+    _min?: CardNumberMinAggregateInputType
+    _max?: CardNumberMaxAggregateInputType
+  }
+
+  export type CardNumberGroupByOutputType = {
+    id: number
+    year: string | null
+    batch: string | null
+    month: string | null
+    seriesNum: string | null
+    maskedSeries: string | null
+    generatedcardnumber: string | null
+    codeCompany: string | null
+    generatedBy: string | null
+    _count: CardNumberCountAggregateOutputType | null
+    _avg: CardNumberAvgAggregateOutputType | null
+    _sum: CardNumberSumAggregateOutputType | null
+    _min: CardNumberMinAggregateOutputType | null
+    _max: CardNumberMaxAggregateOutputType | null
+  }
+
+  type GetCardNumberGroupByPayload<T extends cardNumberGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CardNumberGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CardNumberGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CardNumberGroupByOutputType[P]>
+            : GetScalarType<T[P], CardNumberGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type cardNumberSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    year?: boolean
+    batch?: boolean
+    month?: boolean
+    seriesNum?: boolean
+    maskedSeries?: boolean
+    generatedcardnumber?: boolean
+    codeCompany?: boolean
+    generatedBy?: boolean
+  }, ExtArgs["result"]["cardNumber"]>
+
+  export type cardNumberSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    year?: boolean
+    batch?: boolean
+    month?: boolean
+    seriesNum?: boolean
+    maskedSeries?: boolean
+    generatedcardnumber?: boolean
+    codeCompany?: boolean
+    generatedBy?: boolean
+  }, ExtArgs["result"]["cardNumber"]>
+
+  export type cardNumberSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    year?: boolean
+    batch?: boolean
+    month?: boolean
+    seriesNum?: boolean
+    maskedSeries?: boolean
+    generatedcardnumber?: boolean
+    codeCompany?: boolean
+    generatedBy?: boolean
+  }, ExtArgs["result"]["cardNumber"]>
+
+  export type cardNumberSelectScalar = {
+    id?: boolean
+    year?: boolean
+    batch?: boolean
+    month?: boolean
+    seriesNum?: boolean
+    maskedSeries?: boolean
+    generatedcardnumber?: boolean
+    codeCompany?: boolean
+    generatedBy?: boolean
+  }
+
+  export type cardNumberOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "year" | "batch" | "month" | "seriesNum" | "maskedSeries" | "generatedcardnumber" | "codeCompany" | "generatedBy", ExtArgs["result"]["cardNumber"]>
+
+  export type $cardNumberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "cardNumber"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      year: string | null
+      batch: string | null
+      month: string | null
+      seriesNum: string | null
+      maskedSeries: string | null
+      generatedcardnumber: string | null
+      codeCompany: string | null
+      generatedBy: string | null
+    }, ExtArgs["result"]["cardNumber"]>
+    composites: {}
+  }
+
+  type cardNumberGetPayload<S extends boolean | null | undefined | cardNumberDefaultArgs> = $Result.GetResult<Prisma.$cardNumberPayload, S>
+
+  type cardNumberCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<cardNumberFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CardNumberCountAggregateInputType | true
+    }
+
+  export interface cardNumberDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['cardNumber'], meta: { name: 'cardNumber' } }
+    /**
+     * Find zero or one CardNumber that matches the filter.
+     * @param {cardNumberFindUniqueArgs} args - Arguments to find a CardNumber
+     * @example
+     * // Get one CardNumber
+     * const cardNumber = await prisma.cardNumber.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends cardNumberFindUniqueArgs>(args: SelectSubset<T, cardNumberFindUniqueArgs<ExtArgs>>): Prisma__cardNumberClient<$Result.GetResult<Prisma.$cardNumberPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CardNumber that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {cardNumberFindUniqueOrThrowArgs} args - Arguments to find a CardNumber
+     * @example
+     * // Get one CardNumber
+     * const cardNumber = await prisma.cardNumber.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends cardNumberFindUniqueOrThrowArgs>(args: SelectSubset<T, cardNumberFindUniqueOrThrowArgs<ExtArgs>>): Prisma__cardNumberClient<$Result.GetResult<Prisma.$cardNumberPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CardNumber that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardNumberFindFirstArgs} args - Arguments to find a CardNumber
+     * @example
+     * // Get one CardNumber
+     * const cardNumber = await prisma.cardNumber.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends cardNumberFindFirstArgs>(args?: SelectSubset<T, cardNumberFindFirstArgs<ExtArgs>>): Prisma__cardNumberClient<$Result.GetResult<Prisma.$cardNumberPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CardNumber that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardNumberFindFirstOrThrowArgs} args - Arguments to find a CardNumber
+     * @example
+     * // Get one CardNumber
+     * const cardNumber = await prisma.cardNumber.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends cardNumberFindFirstOrThrowArgs>(args?: SelectSubset<T, cardNumberFindFirstOrThrowArgs<ExtArgs>>): Prisma__cardNumberClient<$Result.GetResult<Prisma.$cardNumberPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CardNumbers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardNumberFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CardNumbers
+     * const cardNumbers = await prisma.cardNumber.findMany()
+     * 
+     * // Get first 10 CardNumbers
+     * const cardNumbers = await prisma.cardNumber.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const cardNumberWithIdOnly = await prisma.cardNumber.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends cardNumberFindManyArgs>(args?: SelectSubset<T, cardNumberFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$cardNumberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CardNumber.
+     * @param {cardNumberCreateArgs} args - Arguments to create a CardNumber.
+     * @example
+     * // Create one CardNumber
+     * const CardNumber = await prisma.cardNumber.create({
+     *   data: {
+     *     // ... data to create a CardNumber
+     *   }
+     * })
+     * 
+     */
+    create<T extends cardNumberCreateArgs>(args: SelectSubset<T, cardNumberCreateArgs<ExtArgs>>): Prisma__cardNumberClient<$Result.GetResult<Prisma.$cardNumberPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CardNumbers.
+     * @param {cardNumberCreateManyArgs} args - Arguments to create many CardNumbers.
+     * @example
+     * // Create many CardNumbers
+     * const cardNumber = await prisma.cardNumber.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends cardNumberCreateManyArgs>(args?: SelectSubset<T, cardNumberCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CardNumbers and returns the data saved in the database.
+     * @param {cardNumberCreateManyAndReturnArgs} args - Arguments to create many CardNumbers.
+     * @example
+     * // Create many CardNumbers
+     * const cardNumber = await prisma.cardNumber.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CardNumbers and only return the `id`
+     * const cardNumberWithIdOnly = await prisma.cardNumber.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends cardNumberCreateManyAndReturnArgs>(args?: SelectSubset<T, cardNumberCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$cardNumberPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CardNumber.
+     * @param {cardNumberDeleteArgs} args - Arguments to delete one CardNumber.
+     * @example
+     * // Delete one CardNumber
+     * const CardNumber = await prisma.cardNumber.delete({
+     *   where: {
+     *     // ... filter to delete one CardNumber
+     *   }
+     * })
+     * 
+     */
+    delete<T extends cardNumberDeleteArgs>(args: SelectSubset<T, cardNumberDeleteArgs<ExtArgs>>): Prisma__cardNumberClient<$Result.GetResult<Prisma.$cardNumberPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CardNumber.
+     * @param {cardNumberUpdateArgs} args - Arguments to update one CardNumber.
+     * @example
+     * // Update one CardNumber
+     * const cardNumber = await prisma.cardNumber.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends cardNumberUpdateArgs>(args: SelectSubset<T, cardNumberUpdateArgs<ExtArgs>>): Prisma__cardNumberClient<$Result.GetResult<Prisma.$cardNumberPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CardNumbers.
+     * @param {cardNumberDeleteManyArgs} args - Arguments to filter CardNumbers to delete.
+     * @example
+     * // Delete a few CardNumbers
+     * const { count } = await prisma.cardNumber.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends cardNumberDeleteManyArgs>(args?: SelectSubset<T, cardNumberDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CardNumbers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardNumberUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CardNumbers
+     * const cardNumber = await prisma.cardNumber.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends cardNumberUpdateManyArgs>(args: SelectSubset<T, cardNumberUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CardNumbers and returns the data updated in the database.
+     * @param {cardNumberUpdateManyAndReturnArgs} args - Arguments to update many CardNumbers.
+     * @example
+     * // Update many CardNumbers
+     * const cardNumber = await prisma.cardNumber.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CardNumbers and only return the `id`
+     * const cardNumberWithIdOnly = await prisma.cardNumber.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends cardNumberUpdateManyAndReturnArgs>(args: SelectSubset<T, cardNumberUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$cardNumberPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CardNumber.
+     * @param {cardNumberUpsertArgs} args - Arguments to update or create a CardNumber.
+     * @example
+     * // Update or create a CardNumber
+     * const cardNumber = await prisma.cardNumber.upsert({
+     *   create: {
+     *     // ... data to create a CardNumber
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CardNumber we want to update
+     *   }
+     * })
+     */
+    upsert<T extends cardNumberUpsertArgs>(args: SelectSubset<T, cardNumberUpsertArgs<ExtArgs>>): Prisma__cardNumberClient<$Result.GetResult<Prisma.$cardNumberPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CardNumbers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardNumberCountArgs} args - Arguments to filter CardNumbers to count.
+     * @example
+     * // Count the number of CardNumbers
+     * const count = await prisma.cardNumber.count({
+     *   where: {
+     *     // ... the filter for the CardNumbers we want to count
+     *   }
+     * })
+    **/
+    count<T extends cardNumberCountArgs>(
+      args?: Subset<T, cardNumberCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CardNumberCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CardNumber.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CardNumberAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CardNumberAggregateArgs>(args: Subset<T, CardNumberAggregateArgs>): Prisma.PrismaPromise<GetCardNumberAggregateType<T>>
+
+    /**
+     * Group by CardNumber.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardNumberGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends cardNumberGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: cardNumberGroupByArgs['orderBy'] }
+        : { orderBy?: cardNumberGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, cardNumberGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCardNumberGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the cardNumber model
+   */
+  readonly fields: cardNumberFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for cardNumber.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__cardNumberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the cardNumber model
+   */
+  interface cardNumberFieldRefs {
+    readonly id: FieldRef<"cardNumber", 'Int'>
+    readonly year: FieldRef<"cardNumber", 'String'>
+    readonly batch: FieldRef<"cardNumber", 'String'>
+    readonly month: FieldRef<"cardNumber", 'String'>
+    readonly seriesNum: FieldRef<"cardNumber", 'String'>
+    readonly maskedSeries: FieldRef<"cardNumber", 'String'>
+    readonly generatedcardnumber: FieldRef<"cardNumber", 'String'>
+    readonly codeCompany: FieldRef<"cardNumber", 'String'>
+    readonly generatedBy: FieldRef<"cardNumber", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * cardNumber findUnique
+   */
+  export type cardNumberFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardNumber
+     */
+    select?: cardNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardNumber
+     */
+    omit?: cardNumberOmit<ExtArgs> | null
+    /**
+     * Filter, which cardNumber to fetch.
+     */
+    where: cardNumberWhereUniqueInput
+  }
+
+  /**
+   * cardNumber findUniqueOrThrow
+   */
+  export type cardNumberFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardNumber
+     */
+    select?: cardNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardNumber
+     */
+    omit?: cardNumberOmit<ExtArgs> | null
+    /**
+     * Filter, which cardNumber to fetch.
+     */
+    where: cardNumberWhereUniqueInput
+  }
+
+  /**
+   * cardNumber findFirst
+   */
+  export type cardNumberFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardNumber
+     */
+    select?: cardNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardNumber
+     */
+    omit?: cardNumberOmit<ExtArgs> | null
+    /**
+     * Filter, which cardNumber to fetch.
+     */
+    where?: cardNumberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cardNumbers to fetch.
+     */
+    orderBy?: cardNumberOrderByWithRelationInput | cardNumberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for cardNumbers.
+     */
+    cursor?: cardNumberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cardNumbers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cardNumbers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of cardNumbers.
+     */
+    distinct?: CardNumberScalarFieldEnum | CardNumberScalarFieldEnum[]
+  }
+
+  /**
+   * cardNumber findFirstOrThrow
+   */
+  export type cardNumberFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardNumber
+     */
+    select?: cardNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardNumber
+     */
+    omit?: cardNumberOmit<ExtArgs> | null
+    /**
+     * Filter, which cardNumber to fetch.
+     */
+    where?: cardNumberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cardNumbers to fetch.
+     */
+    orderBy?: cardNumberOrderByWithRelationInput | cardNumberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for cardNumbers.
+     */
+    cursor?: cardNumberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cardNumbers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cardNumbers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of cardNumbers.
+     */
+    distinct?: CardNumberScalarFieldEnum | CardNumberScalarFieldEnum[]
+  }
+
+  /**
+   * cardNumber findMany
+   */
+  export type cardNumberFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardNumber
+     */
+    select?: cardNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardNumber
+     */
+    omit?: cardNumberOmit<ExtArgs> | null
+    /**
+     * Filter, which cardNumbers to fetch.
+     */
+    where?: cardNumberWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cardNumbers to fetch.
+     */
+    orderBy?: cardNumberOrderByWithRelationInput | cardNumberOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing cardNumbers.
+     */
+    cursor?: cardNumberWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cardNumbers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cardNumbers.
+     */
+    skip?: number
+    distinct?: CardNumberScalarFieldEnum | CardNumberScalarFieldEnum[]
+  }
+
+  /**
+   * cardNumber create
+   */
+  export type cardNumberCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardNumber
+     */
+    select?: cardNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardNumber
+     */
+    omit?: cardNumberOmit<ExtArgs> | null
+    /**
+     * The data needed to create a cardNumber.
+     */
+    data: XOR<cardNumberCreateInput, cardNumberUncheckedCreateInput>
+  }
+
+  /**
+   * cardNumber createMany
+   */
+  export type cardNumberCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many cardNumbers.
+     */
+    data: cardNumberCreateManyInput | cardNumberCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * cardNumber createManyAndReturn
+   */
+  export type cardNumberCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardNumber
+     */
+    select?: cardNumberSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardNumber
+     */
+    omit?: cardNumberOmit<ExtArgs> | null
+    /**
+     * The data used to create many cardNumbers.
+     */
+    data: cardNumberCreateManyInput | cardNumberCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * cardNumber update
+   */
+  export type cardNumberUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardNumber
+     */
+    select?: cardNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardNumber
+     */
+    omit?: cardNumberOmit<ExtArgs> | null
+    /**
+     * The data needed to update a cardNumber.
+     */
+    data: XOR<cardNumberUpdateInput, cardNumberUncheckedUpdateInput>
+    /**
+     * Choose, which cardNumber to update.
+     */
+    where: cardNumberWhereUniqueInput
+  }
+
+  /**
+   * cardNumber updateMany
+   */
+  export type cardNumberUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update cardNumbers.
+     */
+    data: XOR<cardNumberUpdateManyMutationInput, cardNumberUncheckedUpdateManyInput>
+    /**
+     * Filter which cardNumbers to update
+     */
+    where?: cardNumberWhereInput
+    /**
+     * Limit how many cardNumbers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * cardNumber updateManyAndReturn
+   */
+  export type cardNumberUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardNumber
+     */
+    select?: cardNumberSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardNumber
+     */
+    omit?: cardNumberOmit<ExtArgs> | null
+    /**
+     * The data used to update cardNumbers.
+     */
+    data: XOR<cardNumberUpdateManyMutationInput, cardNumberUncheckedUpdateManyInput>
+    /**
+     * Filter which cardNumbers to update
+     */
+    where?: cardNumberWhereInput
+    /**
+     * Limit how many cardNumbers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * cardNumber upsert
+   */
+  export type cardNumberUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardNumber
+     */
+    select?: cardNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardNumber
+     */
+    omit?: cardNumberOmit<ExtArgs> | null
+    /**
+     * The filter to search for the cardNumber to update in case it exists.
+     */
+    where: cardNumberWhereUniqueInput
+    /**
+     * In case the cardNumber found by the `where` argument doesn't exist, create a new cardNumber with this data.
+     */
+    create: XOR<cardNumberCreateInput, cardNumberUncheckedCreateInput>
+    /**
+     * In case the cardNumber was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<cardNumberUpdateInput, cardNumberUncheckedUpdateInput>
+  }
+
+  /**
+   * cardNumber delete
+   */
+  export type cardNumberDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardNumber
+     */
+    select?: cardNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardNumber
+     */
+    omit?: cardNumberOmit<ExtArgs> | null
+    /**
+     * Filter which cardNumber to delete.
+     */
+    where: cardNumberWhereUniqueInput
+  }
+
+  /**
+   * cardNumber deleteMany
+   */
+  export type cardNumberDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which cardNumbers to delete
+     */
+    where?: cardNumberWhereInput
+    /**
+     * Limit how many cardNumbers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * cardNumber without action
+   */
+  export type cardNumberDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardNumber
+     */
+    select?: cardNumberSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardNumber
+     */
+    omit?: cardNumberOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model cardVerified
+   */
+
+  export type AggregateCardVerified = {
+    _count: CardVerifiedCountAggregateOutputType | null
+    _avg: CardVerifiedAvgAggregateOutputType | null
+    _sum: CardVerifiedSumAggregateOutputType | null
+    _min: CardVerifiedMinAggregateOutputType | null
+    _max: CardVerifiedMaxAggregateOutputType | null
+  }
+
+  export type CardVerifiedAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type CardVerifiedSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type CardVerifiedMinAggregateOutputType = {
+    id: number | null
+    verifiedcardnumbers: string | null
+    ictreceived: string | null
+    datereceived: Date | null
+  }
+
+  export type CardVerifiedMaxAggregateOutputType = {
+    id: number | null
+    verifiedcardnumbers: string | null
+    ictreceived: string | null
+    datereceived: Date | null
+  }
+
+  export type CardVerifiedCountAggregateOutputType = {
+    id: number
+    verifiedcardnumbers: number
+    ictreceived: number
+    datereceived: number
+    _all: number
+  }
+
+
+  export type CardVerifiedAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type CardVerifiedSumAggregateInputType = {
+    id?: true
+  }
+
+  export type CardVerifiedMinAggregateInputType = {
+    id?: true
+    verifiedcardnumbers?: true
+    ictreceived?: true
+    datereceived?: true
+  }
+
+  export type CardVerifiedMaxAggregateInputType = {
+    id?: true
+    verifiedcardnumbers?: true
+    ictreceived?: true
+    datereceived?: true
+  }
+
+  export type CardVerifiedCountAggregateInputType = {
+    id?: true
+    verifiedcardnumbers?: true
+    ictreceived?: true
+    datereceived?: true
+    _all?: true
+  }
+
+  export type CardVerifiedAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which cardVerified to aggregate.
+     */
+    where?: cardVerifiedWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cardVerifieds to fetch.
+     */
+    orderBy?: cardVerifiedOrderByWithRelationInput | cardVerifiedOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: cardVerifiedWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cardVerifieds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cardVerifieds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned cardVerifieds
+    **/
+    _count?: true | CardVerifiedCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CardVerifiedAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CardVerifiedSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CardVerifiedMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CardVerifiedMaxAggregateInputType
+  }
+
+  export type GetCardVerifiedAggregateType<T extends CardVerifiedAggregateArgs> = {
+        [P in keyof T & keyof AggregateCardVerified]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCardVerified[P]>
+      : GetScalarType<T[P], AggregateCardVerified[P]>
+  }
+
+
+
+
+  export type cardVerifiedGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: cardVerifiedWhereInput
+    orderBy?: cardVerifiedOrderByWithAggregationInput | cardVerifiedOrderByWithAggregationInput[]
+    by: CardVerifiedScalarFieldEnum[] | CardVerifiedScalarFieldEnum
+    having?: cardVerifiedScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CardVerifiedCountAggregateInputType | true
+    _avg?: CardVerifiedAvgAggregateInputType
+    _sum?: CardVerifiedSumAggregateInputType
+    _min?: CardVerifiedMinAggregateInputType
+    _max?: CardVerifiedMaxAggregateInputType
+  }
+
+  export type CardVerifiedGroupByOutputType = {
+    id: number
+    verifiedcardnumbers: string | null
+    ictreceived: string | null
+    datereceived: Date | null
+    _count: CardVerifiedCountAggregateOutputType | null
+    _avg: CardVerifiedAvgAggregateOutputType | null
+    _sum: CardVerifiedSumAggregateOutputType | null
+    _min: CardVerifiedMinAggregateOutputType | null
+    _max: CardVerifiedMaxAggregateOutputType | null
+  }
+
+  type GetCardVerifiedGroupByPayload<T extends cardVerifiedGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CardVerifiedGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CardVerifiedGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CardVerifiedGroupByOutputType[P]>
+            : GetScalarType<T[P], CardVerifiedGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type cardVerifiedSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    verifiedcardnumbers?: boolean
+    ictreceived?: boolean
+    datereceived?: boolean
+  }, ExtArgs["result"]["cardVerified"]>
+
+  export type cardVerifiedSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    verifiedcardnumbers?: boolean
+    ictreceived?: boolean
+    datereceived?: boolean
+  }, ExtArgs["result"]["cardVerified"]>
+
+  export type cardVerifiedSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    verifiedcardnumbers?: boolean
+    ictreceived?: boolean
+    datereceived?: boolean
+  }, ExtArgs["result"]["cardVerified"]>
+
+  export type cardVerifiedSelectScalar = {
+    id?: boolean
+    verifiedcardnumbers?: boolean
+    ictreceived?: boolean
+    datereceived?: boolean
+  }
+
+  export type cardVerifiedOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "verifiedcardnumbers" | "ictreceived" | "datereceived", ExtArgs["result"]["cardVerified"]>
+
+  export type $cardVerifiedPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "cardVerified"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      verifiedcardnumbers: string | null
+      ictreceived: string | null
+      datereceived: Date | null
+    }, ExtArgs["result"]["cardVerified"]>
+    composites: {}
+  }
+
+  type cardVerifiedGetPayload<S extends boolean | null | undefined | cardVerifiedDefaultArgs> = $Result.GetResult<Prisma.$cardVerifiedPayload, S>
+
+  type cardVerifiedCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<cardVerifiedFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CardVerifiedCountAggregateInputType | true
+    }
+
+  export interface cardVerifiedDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['cardVerified'], meta: { name: 'cardVerified' } }
+    /**
+     * Find zero or one CardVerified that matches the filter.
+     * @param {cardVerifiedFindUniqueArgs} args - Arguments to find a CardVerified
+     * @example
+     * // Get one CardVerified
+     * const cardVerified = await prisma.cardVerified.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends cardVerifiedFindUniqueArgs>(args: SelectSubset<T, cardVerifiedFindUniqueArgs<ExtArgs>>): Prisma__cardVerifiedClient<$Result.GetResult<Prisma.$cardVerifiedPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CardVerified that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {cardVerifiedFindUniqueOrThrowArgs} args - Arguments to find a CardVerified
+     * @example
+     * // Get one CardVerified
+     * const cardVerified = await prisma.cardVerified.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends cardVerifiedFindUniqueOrThrowArgs>(args: SelectSubset<T, cardVerifiedFindUniqueOrThrowArgs<ExtArgs>>): Prisma__cardVerifiedClient<$Result.GetResult<Prisma.$cardVerifiedPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CardVerified that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardVerifiedFindFirstArgs} args - Arguments to find a CardVerified
+     * @example
+     * // Get one CardVerified
+     * const cardVerified = await prisma.cardVerified.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends cardVerifiedFindFirstArgs>(args?: SelectSubset<T, cardVerifiedFindFirstArgs<ExtArgs>>): Prisma__cardVerifiedClient<$Result.GetResult<Prisma.$cardVerifiedPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CardVerified that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardVerifiedFindFirstOrThrowArgs} args - Arguments to find a CardVerified
+     * @example
+     * // Get one CardVerified
+     * const cardVerified = await prisma.cardVerified.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends cardVerifiedFindFirstOrThrowArgs>(args?: SelectSubset<T, cardVerifiedFindFirstOrThrowArgs<ExtArgs>>): Prisma__cardVerifiedClient<$Result.GetResult<Prisma.$cardVerifiedPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CardVerifieds that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardVerifiedFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CardVerifieds
+     * const cardVerifieds = await prisma.cardVerified.findMany()
+     * 
+     * // Get first 10 CardVerifieds
+     * const cardVerifieds = await prisma.cardVerified.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const cardVerifiedWithIdOnly = await prisma.cardVerified.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends cardVerifiedFindManyArgs>(args?: SelectSubset<T, cardVerifiedFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$cardVerifiedPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CardVerified.
+     * @param {cardVerifiedCreateArgs} args - Arguments to create a CardVerified.
+     * @example
+     * // Create one CardVerified
+     * const CardVerified = await prisma.cardVerified.create({
+     *   data: {
+     *     // ... data to create a CardVerified
+     *   }
+     * })
+     * 
+     */
+    create<T extends cardVerifiedCreateArgs>(args: SelectSubset<T, cardVerifiedCreateArgs<ExtArgs>>): Prisma__cardVerifiedClient<$Result.GetResult<Prisma.$cardVerifiedPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CardVerifieds.
+     * @param {cardVerifiedCreateManyArgs} args - Arguments to create many CardVerifieds.
+     * @example
+     * // Create many CardVerifieds
+     * const cardVerified = await prisma.cardVerified.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends cardVerifiedCreateManyArgs>(args?: SelectSubset<T, cardVerifiedCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CardVerifieds and returns the data saved in the database.
+     * @param {cardVerifiedCreateManyAndReturnArgs} args - Arguments to create many CardVerifieds.
+     * @example
+     * // Create many CardVerifieds
+     * const cardVerified = await prisma.cardVerified.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CardVerifieds and only return the `id`
+     * const cardVerifiedWithIdOnly = await prisma.cardVerified.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends cardVerifiedCreateManyAndReturnArgs>(args?: SelectSubset<T, cardVerifiedCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$cardVerifiedPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CardVerified.
+     * @param {cardVerifiedDeleteArgs} args - Arguments to delete one CardVerified.
+     * @example
+     * // Delete one CardVerified
+     * const CardVerified = await prisma.cardVerified.delete({
+     *   where: {
+     *     // ... filter to delete one CardVerified
+     *   }
+     * })
+     * 
+     */
+    delete<T extends cardVerifiedDeleteArgs>(args: SelectSubset<T, cardVerifiedDeleteArgs<ExtArgs>>): Prisma__cardVerifiedClient<$Result.GetResult<Prisma.$cardVerifiedPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CardVerified.
+     * @param {cardVerifiedUpdateArgs} args - Arguments to update one CardVerified.
+     * @example
+     * // Update one CardVerified
+     * const cardVerified = await prisma.cardVerified.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends cardVerifiedUpdateArgs>(args: SelectSubset<T, cardVerifiedUpdateArgs<ExtArgs>>): Prisma__cardVerifiedClient<$Result.GetResult<Prisma.$cardVerifiedPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CardVerifieds.
+     * @param {cardVerifiedDeleteManyArgs} args - Arguments to filter CardVerifieds to delete.
+     * @example
+     * // Delete a few CardVerifieds
+     * const { count } = await prisma.cardVerified.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends cardVerifiedDeleteManyArgs>(args?: SelectSubset<T, cardVerifiedDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CardVerifieds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardVerifiedUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CardVerifieds
+     * const cardVerified = await prisma.cardVerified.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends cardVerifiedUpdateManyArgs>(args: SelectSubset<T, cardVerifiedUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CardVerifieds and returns the data updated in the database.
+     * @param {cardVerifiedUpdateManyAndReturnArgs} args - Arguments to update many CardVerifieds.
+     * @example
+     * // Update many CardVerifieds
+     * const cardVerified = await prisma.cardVerified.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CardVerifieds and only return the `id`
+     * const cardVerifiedWithIdOnly = await prisma.cardVerified.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends cardVerifiedUpdateManyAndReturnArgs>(args: SelectSubset<T, cardVerifiedUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$cardVerifiedPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CardVerified.
+     * @param {cardVerifiedUpsertArgs} args - Arguments to update or create a CardVerified.
+     * @example
+     * // Update or create a CardVerified
+     * const cardVerified = await prisma.cardVerified.upsert({
+     *   create: {
+     *     // ... data to create a CardVerified
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CardVerified we want to update
+     *   }
+     * })
+     */
+    upsert<T extends cardVerifiedUpsertArgs>(args: SelectSubset<T, cardVerifiedUpsertArgs<ExtArgs>>): Prisma__cardVerifiedClient<$Result.GetResult<Prisma.$cardVerifiedPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CardVerifieds.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardVerifiedCountArgs} args - Arguments to filter CardVerifieds to count.
+     * @example
+     * // Count the number of CardVerifieds
+     * const count = await prisma.cardVerified.count({
+     *   where: {
+     *     // ... the filter for the CardVerifieds we want to count
+     *   }
+     * })
+    **/
+    count<T extends cardVerifiedCountArgs>(
+      args?: Subset<T, cardVerifiedCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CardVerifiedCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CardVerified.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CardVerifiedAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CardVerifiedAggregateArgs>(args: Subset<T, CardVerifiedAggregateArgs>): Prisma.PrismaPromise<GetCardVerifiedAggregateType<T>>
+
+    /**
+     * Group by CardVerified.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {cardVerifiedGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends cardVerifiedGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: cardVerifiedGroupByArgs['orderBy'] }
+        : { orderBy?: cardVerifiedGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, cardVerifiedGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCardVerifiedGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the cardVerified model
+   */
+  readonly fields: cardVerifiedFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for cardVerified.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__cardVerifiedClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the cardVerified model
+   */
+  interface cardVerifiedFieldRefs {
+    readonly id: FieldRef<"cardVerified", 'Int'>
+    readonly verifiedcardnumbers: FieldRef<"cardVerified", 'String'>
+    readonly ictreceived: FieldRef<"cardVerified", 'String'>
+    readonly datereceived: FieldRef<"cardVerified", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * cardVerified findUnique
+   */
+  export type cardVerifiedFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardVerified
+     */
+    select?: cardVerifiedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardVerified
+     */
+    omit?: cardVerifiedOmit<ExtArgs> | null
+    /**
+     * Filter, which cardVerified to fetch.
+     */
+    where: cardVerifiedWhereUniqueInput
+  }
+
+  /**
+   * cardVerified findUniqueOrThrow
+   */
+  export type cardVerifiedFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardVerified
+     */
+    select?: cardVerifiedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardVerified
+     */
+    omit?: cardVerifiedOmit<ExtArgs> | null
+    /**
+     * Filter, which cardVerified to fetch.
+     */
+    where: cardVerifiedWhereUniqueInput
+  }
+
+  /**
+   * cardVerified findFirst
+   */
+  export type cardVerifiedFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardVerified
+     */
+    select?: cardVerifiedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardVerified
+     */
+    omit?: cardVerifiedOmit<ExtArgs> | null
+    /**
+     * Filter, which cardVerified to fetch.
+     */
+    where?: cardVerifiedWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cardVerifieds to fetch.
+     */
+    orderBy?: cardVerifiedOrderByWithRelationInput | cardVerifiedOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for cardVerifieds.
+     */
+    cursor?: cardVerifiedWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cardVerifieds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cardVerifieds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of cardVerifieds.
+     */
+    distinct?: CardVerifiedScalarFieldEnum | CardVerifiedScalarFieldEnum[]
+  }
+
+  /**
+   * cardVerified findFirstOrThrow
+   */
+  export type cardVerifiedFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardVerified
+     */
+    select?: cardVerifiedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardVerified
+     */
+    omit?: cardVerifiedOmit<ExtArgs> | null
+    /**
+     * Filter, which cardVerified to fetch.
+     */
+    where?: cardVerifiedWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cardVerifieds to fetch.
+     */
+    orderBy?: cardVerifiedOrderByWithRelationInput | cardVerifiedOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for cardVerifieds.
+     */
+    cursor?: cardVerifiedWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cardVerifieds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cardVerifieds.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of cardVerifieds.
+     */
+    distinct?: CardVerifiedScalarFieldEnum | CardVerifiedScalarFieldEnum[]
+  }
+
+  /**
+   * cardVerified findMany
+   */
+  export type cardVerifiedFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardVerified
+     */
+    select?: cardVerifiedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardVerified
+     */
+    omit?: cardVerifiedOmit<ExtArgs> | null
+    /**
+     * Filter, which cardVerifieds to fetch.
+     */
+    where?: cardVerifiedWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of cardVerifieds to fetch.
+     */
+    orderBy?: cardVerifiedOrderByWithRelationInput | cardVerifiedOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing cardVerifieds.
+     */
+    cursor?: cardVerifiedWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` cardVerifieds from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` cardVerifieds.
+     */
+    skip?: number
+    distinct?: CardVerifiedScalarFieldEnum | CardVerifiedScalarFieldEnum[]
+  }
+
+  /**
+   * cardVerified create
+   */
+  export type cardVerifiedCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardVerified
+     */
+    select?: cardVerifiedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardVerified
+     */
+    omit?: cardVerifiedOmit<ExtArgs> | null
+    /**
+     * The data needed to create a cardVerified.
+     */
+    data: XOR<cardVerifiedCreateInput, cardVerifiedUncheckedCreateInput>
+  }
+
+  /**
+   * cardVerified createMany
+   */
+  export type cardVerifiedCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many cardVerifieds.
+     */
+    data: cardVerifiedCreateManyInput | cardVerifiedCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * cardVerified createManyAndReturn
+   */
+  export type cardVerifiedCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardVerified
+     */
+    select?: cardVerifiedSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardVerified
+     */
+    omit?: cardVerifiedOmit<ExtArgs> | null
+    /**
+     * The data used to create many cardVerifieds.
+     */
+    data: cardVerifiedCreateManyInput | cardVerifiedCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * cardVerified update
+   */
+  export type cardVerifiedUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardVerified
+     */
+    select?: cardVerifiedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardVerified
+     */
+    omit?: cardVerifiedOmit<ExtArgs> | null
+    /**
+     * The data needed to update a cardVerified.
+     */
+    data: XOR<cardVerifiedUpdateInput, cardVerifiedUncheckedUpdateInput>
+    /**
+     * Choose, which cardVerified to update.
+     */
+    where: cardVerifiedWhereUniqueInput
+  }
+
+  /**
+   * cardVerified updateMany
+   */
+  export type cardVerifiedUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update cardVerifieds.
+     */
+    data: XOR<cardVerifiedUpdateManyMutationInput, cardVerifiedUncheckedUpdateManyInput>
+    /**
+     * Filter which cardVerifieds to update
+     */
+    where?: cardVerifiedWhereInput
+    /**
+     * Limit how many cardVerifieds to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * cardVerified updateManyAndReturn
+   */
+  export type cardVerifiedUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardVerified
+     */
+    select?: cardVerifiedSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardVerified
+     */
+    omit?: cardVerifiedOmit<ExtArgs> | null
+    /**
+     * The data used to update cardVerifieds.
+     */
+    data: XOR<cardVerifiedUpdateManyMutationInput, cardVerifiedUncheckedUpdateManyInput>
+    /**
+     * Filter which cardVerifieds to update
+     */
+    where?: cardVerifiedWhereInput
+    /**
+     * Limit how many cardVerifieds to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * cardVerified upsert
+   */
+  export type cardVerifiedUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardVerified
+     */
+    select?: cardVerifiedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardVerified
+     */
+    omit?: cardVerifiedOmit<ExtArgs> | null
+    /**
+     * The filter to search for the cardVerified to update in case it exists.
+     */
+    where: cardVerifiedWhereUniqueInput
+    /**
+     * In case the cardVerified found by the `where` argument doesn't exist, create a new cardVerified with this data.
+     */
+    create: XOR<cardVerifiedCreateInput, cardVerifiedUncheckedCreateInput>
+    /**
+     * In case the cardVerified was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<cardVerifiedUpdateInput, cardVerifiedUncheckedUpdateInput>
+  }
+
+  /**
+   * cardVerified delete
+   */
+  export type cardVerifiedDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardVerified
+     */
+    select?: cardVerifiedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardVerified
+     */
+    omit?: cardVerifiedOmit<ExtArgs> | null
+    /**
+     * Filter which cardVerified to delete.
+     */
+    where: cardVerifiedWhereUniqueInput
+  }
+
+  /**
+   * cardVerified deleteMany
+   */
+  export type cardVerifiedDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which cardVerifieds to delete
+     */
+    where?: cardVerifiedWhereInput
+    /**
+     * Limit how many cardVerifieds to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * cardVerified without action
+   */
+  export type cardVerifiedDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the cardVerified
+     */
+    select?: cardVerifiedSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the cardVerified
+     */
+    omit?: cardVerifiedOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -39338,6 +53392,237 @@ export namespace Prisma {
   };
 
   export type PaymenthistoryScalarFieldEnum = (typeof PaymenthistoryScalarFieldEnum)[keyof typeof PaymenthistoryScalarFieldEnum]
+
+
+  export const CardEnrollmentScalarFieldEnum: {
+    id: 'id',
+    cardnumber: 'cardnumber',
+    dateenrolled: 'dateenrolled',
+    daterelease: 'daterelease',
+    releaseto: 'releaseto',
+    oldreleaseto: 'oldreleaseto',
+    releaseby: 'releaseby',
+    receivedby: 'receivedby',
+    receiveddate: 'receiveddate',
+    status: 'status',
+    transferto: 'transferto',
+    datetransfer: 'datetransfer',
+    transferby: 'transferby'
+  };
+
+  export type CardEnrollmentScalarFieldEnum = (typeof CardEnrollmentScalarFieldEnum)[keyof typeof CardEnrollmentScalarFieldEnum]
+
+
+  export const VitalSignScalarFieldEnum: {
+    id: 'id',
+    queue_id: 'queue_id',
+    patient_id: 'patient_id',
+    chief_complaint: 'chief_complaint',
+    pcp_doctor: 'pcp_doctor',
+    bp_systolic: 'bp_systolic',
+    bp_diastolic: 'bp_diastolic',
+    bp_systolic2: 'bp_systolic2',
+    bp_diastolic2: 'bp_diastolic2',
+    bp_systolic3: 'bp_systolic3',
+    bp_diastolic3: 'bp_diastolic3',
+    heart_rate: 'heart_rate',
+    temperature: 'temperature',
+    respiratory_rate: 'respiratory_rate',
+    weight_kg: 'weight_kg',
+    height_cm: 'height_cm',
+    bmi: 'bmi',
+    vision_right_od: 'vision_right_od',
+    vision_left_os: 'vision_left_os',
+    vision_corrected: 'vision_corrected',
+    color_vision: 'color_vision',
+    recorded_by: 'recorded_by',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type VitalSignScalarFieldEnum = (typeof VitalSignScalarFieldEnum)[keyof typeof VitalSignScalarFieldEnum]
+
+
+  export const ConsultationNoteScalarFieldEnum: {
+    id: 'id',
+    queue_id: 'queue_id',
+    patient_id: 'patient_id',
+    chief_complaint: 'chief_complaint',
+    history_illness: 'history_illness',
+    past_history: 'past_history',
+    family_history: 'family_history',
+    pe_findings: 'pe_findings',
+    diagnosis: 'diagnosis',
+    icd_code: 'icd_code',
+    treatment_plan: 'treatment_plan',
+    orders: 'orders',
+    pcp_doctor: 'pcp_doctor',
+    doctor_id: 'doctor_id',
+    doctor_name: 'doctor_name',
+    is_draft: 'is_draft',
+    status: 'status',
+    recorded_by: 'recorded_by',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type ConsultationNoteScalarFieldEnum = (typeof ConsultationNoteScalarFieldEnum)[keyof typeof ConsultationNoteScalarFieldEnum]
+
+
+  export const PhysicalExaminationScalarFieldEnum: {
+    id: 'id',
+    queue_id: 'queue_id',
+    patient_id: 'patient_id',
+    hypertension: 'hypertension',
+    diabetes: 'diabetes',
+    asthma: 'asthma',
+    heart_disease: 'heart_disease',
+    thyroid_disease: 'thyroid_disease',
+    kidney_disease: 'kidney_disease',
+    allergies: 'allergies',
+    allergies_specify: 'allergies_specify',
+    surgery_history: 'surgery_history',
+    surgery_specify: 'surgery_specify',
+    smoker: 'smoker',
+    pack_years: 'pack_years',
+    alcoholic: 'alcoholic',
+    lmp: 'lmp',
+    gravida: 'gravida',
+    para: 'para',
+    family_hypertension: 'family_hypertension',
+    family_diabetes: 'family_diabetes',
+    family_cancer: 'family_cancer',
+    skin: 'skin',
+    heent: 'heent',
+    neck: 'neck',
+    chest_lungs: 'chest_lungs',
+    heart: 'heart',
+    abdomen: 'abdomen',
+    extremities: 'extremities',
+    neurological: 'neurological',
+    fitness_class: 'fitness_class',
+    recorded_by: 'recorded_by',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type PhysicalExaminationScalarFieldEnum = (typeof PhysicalExaminationScalarFieldEnum)[keyof typeof PhysicalExaminationScalarFieldEnum]
+
+
+  export const MedicalEvaluationScalarFieldEnum: {
+    id: 'id',
+    queue_id: 'queue_id',
+    patient_id: 'patient_id',
+    item_code: 'item_code',
+    item_name: 'item_name',
+    findings: 'findings',
+    assessment: 'assessment',
+    recommendation: 'recommendation',
+    class_value: 'class_value',
+    recorded_by: 'recorded_by',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type MedicalEvaluationScalarFieldEnum = (typeof MedicalEvaluationScalarFieldEnum)[keyof typeof MedicalEvaluationScalarFieldEnum]
+
+
+  export const PrescriptionScalarFieldEnum: {
+    id: 'id',
+    queue_id: 'queue_id',
+    patient_id: 'patient_id',
+    doctor_name: 'doctor_name',
+    notes: 'notes',
+    printed_at: 'printed_at',
+    input_by: 'input_by',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type PrescriptionScalarFieldEnum = (typeof PrescriptionScalarFieldEnum)[keyof typeof PrescriptionScalarFieldEnum]
+
+
+  export const PrescriptionItemScalarFieldEnum: {
+    id: 'id',
+    prescription_id: 'prescription_id',
+    medication: 'medication',
+    dosage: 'dosage',
+    frequency: 'frequency',
+    duration: 'duration',
+    quantity: 'quantity',
+    instructions: 'instructions'
+  };
+
+  export type PrescriptionItemScalarFieldEnum = (typeof PrescriptionItemScalarFieldEnum)[keyof typeof PrescriptionItemScalarFieldEnum]
+
+
+  export const ResultValueScalarFieldEnum: {
+    id: 'id',
+    accession_id: 'accession_id',
+    queue_id: 'queue_id',
+    item_code: 'item_code',
+    item_description: 'item_description',
+    result_value: 'result_value',
+    result_unit: 'result_unit',
+    normal_range: 'normal_range',
+    flag: 'flag',
+    remarks: 'remarks',
+    encoded_by: 'encoded_by',
+    encoded_at: 'encoded_at',
+    validated_by: 'validated_by',
+    validated_at: 'validated_at',
+    status: 'status',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type ResultValueScalarFieldEnum = (typeof ResultValueScalarFieldEnum)[keyof typeof ResultValueScalarFieldEnum]
+
+
+  export const ImagingResultScalarFieldEnum: {
+    id: 'id',
+    accession_id: 'accession_id',
+    queue_id: 'queue_id',
+    item_code: 'item_code',
+    item_description: 'item_description',
+    interpretation: 'interpretation',
+    impression: 'impression',
+    radiologist_name: 'radiologist_name',
+    encoded_by: 'encoded_by',
+    encoded_at: 'encoded_at',
+    validated_by: 'validated_by',
+    validated_at: 'validated_at',
+    status: 'status',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type ImagingResultScalarFieldEnum = (typeof ImagingResultScalarFieldEnum)[keyof typeof ImagingResultScalarFieldEnum]
+
+
+  export const CardNumberScalarFieldEnum: {
+    id: 'id',
+    year: 'year',
+    batch: 'batch',
+    month: 'month',
+    seriesNum: 'seriesNum',
+    maskedSeries: 'maskedSeries',
+    generatedcardnumber: 'generatedcardnumber',
+    codeCompany: 'codeCompany',
+    generatedBy: 'generatedBy'
+  };
+
+  export type CardNumberScalarFieldEnum = (typeof CardNumberScalarFieldEnum)[keyof typeof CardNumberScalarFieldEnum]
+
+
+  export const CardVerifiedScalarFieldEnum: {
+    id: 'id',
+    verifiedcardnumbers: 'verifiedcardnumbers',
+    ictreceived: 'ictreceived',
+    datereceived: 'datereceived'
+  };
+
+  export type CardVerifiedScalarFieldEnum = (typeof CardVerifiedScalarFieldEnum)[keyof typeof CardVerifiedScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -43588,6 +57873,1157 @@ export namespace Prisma {
     OReditReason?: StringNullableWithAggregatesFilter<"paymenthistory"> | string | null
     HMOId?: StringNullableWithAggregatesFilter<"paymenthistory"> | string | null
     HMOPName?: StringNullableWithAggregatesFilter<"paymenthistory"> | string | null
+  }
+
+  export type cardEnrollmentWhereInput = {
+    AND?: cardEnrollmentWhereInput | cardEnrollmentWhereInput[]
+    OR?: cardEnrollmentWhereInput[]
+    NOT?: cardEnrollmentWhereInput | cardEnrollmentWhereInput[]
+    id?: IntFilter<"cardEnrollment"> | number
+    cardnumber?: StringNullableFilter<"cardEnrollment"> | string | null
+    dateenrolled?: DateTimeNullableFilter<"cardEnrollment"> | Date | string | null
+    daterelease?: DateTimeNullableFilter<"cardEnrollment"> | Date | string | null
+    releaseto?: StringNullableFilter<"cardEnrollment"> | string | null
+    oldreleaseto?: StringNullableFilter<"cardEnrollment"> | string | null
+    releaseby?: StringNullableFilter<"cardEnrollment"> | string | null
+    receivedby?: StringNullableFilter<"cardEnrollment"> | string | null
+    receiveddate?: DateTimeNullableFilter<"cardEnrollment"> | Date | string | null
+    status?: IntNullableFilter<"cardEnrollment"> | number | null
+    transferto?: StringNullableFilter<"cardEnrollment"> | string | null
+    datetransfer?: DateTimeNullableFilter<"cardEnrollment"> | Date | string | null
+    transferby?: StringNullableFilter<"cardEnrollment"> | string | null
+  }
+
+  export type cardEnrollmentOrderByWithRelationInput = {
+    id?: SortOrder
+    cardnumber?: SortOrderInput | SortOrder
+    dateenrolled?: SortOrderInput | SortOrder
+    daterelease?: SortOrderInput | SortOrder
+    releaseto?: SortOrderInput | SortOrder
+    oldreleaseto?: SortOrderInput | SortOrder
+    releaseby?: SortOrderInput | SortOrder
+    receivedby?: SortOrderInput | SortOrder
+    receiveddate?: SortOrderInput | SortOrder
+    status?: SortOrderInput | SortOrder
+    transferto?: SortOrderInput | SortOrder
+    datetransfer?: SortOrderInput | SortOrder
+    transferby?: SortOrderInput | SortOrder
+  }
+
+  export type cardEnrollmentWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: cardEnrollmentWhereInput | cardEnrollmentWhereInput[]
+    OR?: cardEnrollmentWhereInput[]
+    NOT?: cardEnrollmentWhereInput | cardEnrollmentWhereInput[]
+    cardnumber?: StringNullableFilter<"cardEnrollment"> | string | null
+    dateenrolled?: DateTimeNullableFilter<"cardEnrollment"> | Date | string | null
+    daterelease?: DateTimeNullableFilter<"cardEnrollment"> | Date | string | null
+    releaseto?: StringNullableFilter<"cardEnrollment"> | string | null
+    oldreleaseto?: StringNullableFilter<"cardEnrollment"> | string | null
+    releaseby?: StringNullableFilter<"cardEnrollment"> | string | null
+    receivedby?: StringNullableFilter<"cardEnrollment"> | string | null
+    receiveddate?: DateTimeNullableFilter<"cardEnrollment"> | Date | string | null
+    status?: IntNullableFilter<"cardEnrollment"> | number | null
+    transferto?: StringNullableFilter<"cardEnrollment"> | string | null
+    datetransfer?: DateTimeNullableFilter<"cardEnrollment"> | Date | string | null
+    transferby?: StringNullableFilter<"cardEnrollment"> | string | null
+  }, "id">
+
+  export type cardEnrollmentOrderByWithAggregationInput = {
+    id?: SortOrder
+    cardnumber?: SortOrderInput | SortOrder
+    dateenrolled?: SortOrderInput | SortOrder
+    daterelease?: SortOrderInput | SortOrder
+    releaseto?: SortOrderInput | SortOrder
+    oldreleaseto?: SortOrderInput | SortOrder
+    releaseby?: SortOrderInput | SortOrder
+    receivedby?: SortOrderInput | SortOrder
+    receiveddate?: SortOrderInput | SortOrder
+    status?: SortOrderInput | SortOrder
+    transferto?: SortOrderInput | SortOrder
+    datetransfer?: SortOrderInput | SortOrder
+    transferby?: SortOrderInput | SortOrder
+    _count?: cardEnrollmentCountOrderByAggregateInput
+    _avg?: cardEnrollmentAvgOrderByAggregateInput
+    _max?: cardEnrollmentMaxOrderByAggregateInput
+    _min?: cardEnrollmentMinOrderByAggregateInput
+    _sum?: cardEnrollmentSumOrderByAggregateInput
+  }
+
+  export type cardEnrollmentScalarWhereWithAggregatesInput = {
+    AND?: cardEnrollmentScalarWhereWithAggregatesInput | cardEnrollmentScalarWhereWithAggregatesInput[]
+    OR?: cardEnrollmentScalarWhereWithAggregatesInput[]
+    NOT?: cardEnrollmentScalarWhereWithAggregatesInput | cardEnrollmentScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"cardEnrollment"> | number
+    cardnumber?: StringNullableWithAggregatesFilter<"cardEnrollment"> | string | null
+    dateenrolled?: DateTimeNullableWithAggregatesFilter<"cardEnrollment"> | Date | string | null
+    daterelease?: DateTimeNullableWithAggregatesFilter<"cardEnrollment"> | Date | string | null
+    releaseto?: StringNullableWithAggregatesFilter<"cardEnrollment"> | string | null
+    oldreleaseto?: StringNullableWithAggregatesFilter<"cardEnrollment"> | string | null
+    releaseby?: StringNullableWithAggregatesFilter<"cardEnrollment"> | string | null
+    receivedby?: StringNullableWithAggregatesFilter<"cardEnrollment"> | string | null
+    receiveddate?: DateTimeNullableWithAggregatesFilter<"cardEnrollment"> | Date | string | null
+    status?: IntNullableWithAggregatesFilter<"cardEnrollment"> | number | null
+    transferto?: StringNullableWithAggregatesFilter<"cardEnrollment"> | string | null
+    datetransfer?: DateTimeNullableWithAggregatesFilter<"cardEnrollment"> | Date | string | null
+    transferby?: StringNullableWithAggregatesFilter<"cardEnrollment"> | string | null
+  }
+
+  export type VitalSignWhereInput = {
+    AND?: VitalSignWhereInput | VitalSignWhereInput[]
+    OR?: VitalSignWhereInput[]
+    NOT?: VitalSignWhereInput | VitalSignWhereInput[]
+    id?: IntFilter<"VitalSign"> | number
+    queue_id?: IntFilter<"VitalSign"> | number
+    patient_id?: StringNullableFilter<"VitalSign"> | string | null
+    chief_complaint?: StringNullableFilter<"VitalSign"> | string | null
+    pcp_doctor?: StringNullableFilter<"VitalSign"> | string | null
+    bp_systolic?: IntNullableFilter<"VitalSign"> | number | null
+    bp_diastolic?: IntNullableFilter<"VitalSign"> | number | null
+    bp_systolic2?: IntNullableFilter<"VitalSign"> | number | null
+    bp_diastolic2?: IntNullableFilter<"VitalSign"> | number | null
+    bp_systolic3?: IntNullableFilter<"VitalSign"> | number | null
+    bp_diastolic3?: IntNullableFilter<"VitalSign"> | number | null
+    heart_rate?: IntNullableFilter<"VitalSign"> | number | null
+    temperature?: DecimalNullableFilter<"VitalSign"> | Decimal | DecimalJsLike | number | string | null
+    respiratory_rate?: IntNullableFilter<"VitalSign"> | number | null
+    weight_kg?: DecimalNullableFilter<"VitalSign"> | Decimal | DecimalJsLike | number | string | null
+    height_cm?: DecimalNullableFilter<"VitalSign"> | Decimal | DecimalJsLike | number | string | null
+    bmi?: DecimalNullableFilter<"VitalSign"> | Decimal | DecimalJsLike | number | string | null
+    vision_right_od?: StringNullableFilter<"VitalSign"> | string | null
+    vision_left_os?: StringNullableFilter<"VitalSign"> | string | null
+    vision_corrected?: StringNullableFilter<"VitalSign"> | string | null
+    color_vision?: StringNullableFilter<"VitalSign"> | string | null
+    recorded_by?: IntNullableFilter<"VitalSign"> | number | null
+    created_at?: DateTimeFilter<"VitalSign"> | Date | string
+    updated_at?: DateTimeFilter<"VitalSign"> | Date | string
+  }
+
+  export type VitalSignOrderByWithRelationInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrderInput | SortOrder
+    chief_complaint?: SortOrderInput | SortOrder
+    pcp_doctor?: SortOrderInput | SortOrder
+    bp_systolic?: SortOrderInput | SortOrder
+    bp_diastolic?: SortOrderInput | SortOrder
+    bp_systolic2?: SortOrderInput | SortOrder
+    bp_diastolic2?: SortOrderInput | SortOrder
+    bp_systolic3?: SortOrderInput | SortOrder
+    bp_diastolic3?: SortOrderInput | SortOrder
+    heart_rate?: SortOrderInput | SortOrder
+    temperature?: SortOrderInput | SortOrder
+    respiratory_rate?: SortOrderInput | SortOrder
+    weight_kg?: SortOrderInput | SortOrder
+    height_cm?: SortOrderInput | SortOrder
+    bmi?: SortOrderInput | SortOrder
+    vision_right_od?: SortOrderInput | SortOrder
+    vision_left_os?: SortOrderInput | SortOrder
+    vision_corrected?: SortOrderInput | SortOrder
+    color_vision?: SortOrderInput | SortOrder
+    recorded_by?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type VitalSignWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    queue_id?: number
+    AND?: VitalSignWhereInput | VitalSignWhereInput[]
+    OR?: VitalSignWhereInput[]
+    NOT?: VitalSignWhereInput | VitalSignWhereInput[]
+    patient_id?: StringNullableFilter<"VitalSign"> | string | null
+    chief_complaint?: StringNullableFilter<"VitalSign"> | string | null
+    pcp_doctor?: StringNullableFilter<"VitalSign"> | string | null
+    bp_systolic?: IntNullableFilter<"VitalSign"> | number | null
+    bp_diastolic?: IntNullableFilter<"VitalSign"> | number | null
+    bp_systolic2?: IntNullableFilter<"VitalSign"> | number | null
+    bp_diastolic2?: IntNullableFilter<"VitalSign"> | number | null
+    bp_systolic3?: IntNullableFilter<"VitalSign"> | number | null
+    bp_diastolic3?: IntNullableFilter<"VitalSign"> | number | null
+    heart_rate?: IntNullableFilter<"VitalSign"> | number | null
+    temperature?: DecimalNullableFilter<"VitalSign"> | Decimal | DecimalJsLike | number | string | null
+    respiratory_rate?: IntNullableFilter<"VitalSign"> | number | null
+    weight_kg?: DecimalNullableFilter<"VitalSign"> | Decimal | DecimalJsLike | number | string | null
+    height_cm?: DecimalNullableFilter<"VitalSign"> | Decimal | DecimalJsLike | number | string | null
+    bmi?: DecimalNullableFilter<"VitalSign"> | Decimal | DecimalJsLike | number | string | null
+    vision_right_od?: StringNullableFilter<"VitalSign"> | string | null
+    vision_left_os?: StringNullableFilter<"VitalSign"> | string | null
+    vision_corrected?: StringNullableFilter<"VitalSign"> | string | null
+    color_vision?: StringNullableFilter<"VitalSign"> | string | null
+    recorded_by?: IntNullableFilter<"VitalSign"> | number | null
+    created_at?: DateTimeFilter<"VitalSign"> | Date | string
+    updated_at?: DateTimeFilter<"VitalSign"> | Date | string
+  }, "id" | "queue_id">
+
+  export type VitalSignOrderByWithAggregationInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrderInput | SortOrder
+    chief_complaint?: SortOrderInput | SortOrder
+    pcp_doctor?: SortOrderInput | SortOrder
+    bp_systolic?: SortOrderInput | SortOrder
+    bp_diastolic?: SortOrderInput | SortOrder
+    bp_systolic2?: SortOrderInput | SortOrder
+    bp_diastolic2?: SortOrderInput | SortOrder
+    bp_systolic3?: SortOrderInput | SortOrder
+    bp_diastolic3?: SortOrderInput | SortOrder
+    heart_rate?: SortOrderInput | SortOrder
+    temperature?: SortOrderInput | SortOrder
+    respiratory_rate?: SortOrderInput | SortOrder
+    weight_kg?: SortOrderInput | SortOrder
+    height_cm?: SortOrderInput | SortOrder
+    bmi?: SortOrderInput | SortOrder
+    vision_right_od?: SortOrderInput | SortOrder
+    vision_left_os?: SortOrderInput | SortOrder
+    vision_corrected?: SortOrderInput | SortOrder
+    color_vision?: SortOrderInput | SortOrder
+    recorded_by?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: VitalSignCountOrderByAggregateInput
+    _avg?: VitalSignAvgOrderByAggregateInput
+    _max?: VitalSignMaxOrderByAggregateInput
+    _min?: VitalSignMinOrderByAggregateInput
+    _sum?: VitalSignSumOrderByAggregateInput
+  }
+
+  export type VitalSignScalarWhereWithAggregatesInput = {
+    AND?: VitalSignScalarWhereWithAggregatesInput | VitalSignScalarWhereWithAggregatesInput[]
+    OR?: VitalSignScalarWhereWithAggregatesInput[]
+    NOT?: VitalSignScalarWhereWithAggregatesInput | VitalSignScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"VitalSign"> | number
+    queue_id?: IntWithAggregatesFilter<"VitalSign"> | number
+    patient_id?: StringNullableWithAggregatesFilter<"VitalSign"> | string | null
+    chief_complaint?: StringNullableWithAggregatesFilter<"VitalSign"> | string | null
+    pcp_doctor?: StringNullableWithAggregatesFilter<"VitalSign"> | string | null
+    bp_systolic?: IntNullableWithAggregatesFilter<"VitalSign"> | number | null
+    bp_diastolic?: IntNullableWithAggregatesFilter<"VitalSign"> | number | null
+    bp_systolic2?: IntNullableWithAggregatesFilter<"VitalSign"> | number | null
+    bp_diastolic2?: IntNullableWithAggregatesFilter<"VitalSign"> | number | null
+    bp_systolic3?: IntNullableWithAggregatesFilter<"VitalSign"> | number | null
+    bp_diastolic3?: IntNullableWithAggregatesFilter<"VitalSign"> | number | null
+    heart_rate?: IntNullableWithAggregatesFilter<"VitalSign"> | number | null
+    temperature?: DecimalNullableWithAggregatesFilter<"VitalSign"> | Decimal | DecimalJsLike | number | string | null
+    respiratory_rate?: IntNullableWithAggregatesFilter<"VitalSign"> | number | null
+    weight_kg?: DecimalNullableWithAggregatesFilter<"VitalSign"> | Decimal | DecimalJsLike | number | string | null
+    height_cm?: DecimalNullableWithAggregatesFilter<"VitalSign"> | Decimal | DecimalJsLike | number | string | null
+    bmi?: DecimalNullableWithAggregatesFilter<"VitalSign"> | Decimal | DecimalJsLike | number | string | null
+    vision_right_od?: StringNullableWithAggregatesFilter<"VitalSign"> | string | null
+    vision_left_os?: StringNullableWithAggregatesFilter<"VitalSign"> | string | null
+    vision_corrected?: StringNullableWithAggregatesFilter<"VitalSign"> | string | null
+    color_vision?: StringNullableWithAggregatesFilter<"VitalSign"> | string | null
+    recorded_by?: IntNullableWithAggregatesFilter<"VitalSign"> | number | null
+    created_at?: DateTimeWithAggregatesFilter<"VitalSign"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"VitalSign"> | Date | string
+  }
+
+  export type ConsultationNoteWhereInput = {
+    AND?: ConsultationNoteWhereInput | ConsultationNoteWhereInput[]
+    OR?: ConsultationNoteWhereInput[]
+    NOT?: ConsultationNoteWhereInput | ConsultationNoteWhereInput[]
+    id?: IntFilter<"ConsultationNote"> | number
+    queue_id?: IntFilter<"ConsultationNote"> | number
+    patient_id?: StringNullableFilter<"ConsultationNote"> | string | null
+    chief_complaint?: StringNullableFilter<"ConsultationNote"> | string | null
+    history_illness?: StringNullableFilter<"ConsultationNote"> | string | null
+    past_history?: StringNullableFilter<"ConsultationNote"> | string | null
+    family_history?: StringNullableFilter<"ConsultationNote"> | string | null
+    pe_findings?: StringNullableFilter<"ConsultationNote"> | string | null
+    diagnosis?: StringNullableFilter<"ConsultationNote"> | string | null
+    icd_code?: StringNullableFilter<"ConsultationNote"> | string | null
+    treatment_plan?: StringNullableFilter<"ConsultationNote"> | string | null
+    orders?: StringNullableFilter<"ConsultationNote"> | string | null
+    pcp_doctor?: StringNullableFilter<"ConsultationNote"> | string | null
+    doctor_id?: IntNullableFilter<"ConsultationNote"> | number | null
+    doctor_name?: StringNullableFilter<"ConsultationNote"> | string | null
+    is_draft?: IntFilter<"ConsultationNote"> | number
+    status?: StringNullableFilter<"ConsultationNote"> | string | null
+    recorded_by?: IntNullableFilter<"ConsultationNote"> | number | null
+    created_at?: DateTimeFilter<"ConsultationNote"> | Date | string
+    updated_at?: DateTimeFilter<"ConsultationNote"> | Date | string
+  }
+
+  export type ConsultationNoteOrderByWithRelationInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrderInput | SortOrder
+    chief_complaint?: SortOrderInput | SortOrder
+    history_illness?: SortOrderInput | SortOrder
+    past_history?: SortOrderInput | SortOrder
+    family_history?: SortOrderInput | SortOrder
+    pe_findings?: SortOrderInput | SortOrder
+    diagnosis?: SortOrderInput | SortOrder
+    icd_code?: SortOrderInput | SortOrder
+    treatment_plan?: SortOrderInput | SortOrder
+    orders?: SortOrderInput | SortOrder
+    pcp_doctor?: SortOrderInput | SortOrder
+    doctor_id?: SortOrderInput | SortOrder
+    doctor_name?: SortOrderInput | SortOrder
+    is_draft?: SortOrder
+    status?: SortOrderInput | SortOrder
+    recorded_by?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ConsultationNoteWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    queue_id?: number
+    AND?: ConsultationNoteWhereInput | ConsultationNoteWhereInput[]
+    OR?: ConsultationNoteWhereInput[]
+    NOT?: ConsultationNoteWhereInput | ConsultationNoteWhereInput[]
+    patient_id?: StringNullableFilter<"ConsultationNote"> | string | null
+    chief_complaint?: StringNullableFilter<"ConsultationNote"> | string | null
+    history_illness?: StringNullableFilter<"ConsultationNote"> | string | null
+    past_history?: StringNullableFilter<"ConsultationNote"> | string | null
+    family_history?: StringNullableFilter<"ConsultationNote"> | string | null
+    pe_findings?: StringNullableFilter<"ConsultationNote"> | string | null
+    diagnosis?: StringNullableFilter<"ConsultationNote"> | string | null
+    icd_code?: StringNullableFilter<"ConsultationNote"> | string | null
+    treatment_plan?: StringNullableFilter<"ConsultationNote"> | string | null
+    orders?: StringNullableFilter<"ConsultationNote"> | string | null
+    pcp_doctor?: StringNullableFilter<"ConsultationNote"> | string | null
+    doctor_id?: IntNullableFilter<"ConsultationNote"> | number | null
+    doctor_name?: StringNullableFilter<"ConsultationNote"> | string | null
+    is_draft?: IntFilter<"ConsultationNote"> | number
+    status?: StringNullableFilter<"ConsultationNote"> | string | null
+    recorded_by?: IntNullableFilter<"ConsultationNote"> | number | null
+    created_at?: DateTimeFilter<"ConsultationNote"> | Date | string
+    updated_at?: DateTimeFilter<"ConsultationNote"> | Date | string
+  }, "id" | "queue_id">
+
+  export type ConsultationNoteOrderByWithAggregationInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrderInput | SortOrder
+    chief_complaint?: SortOrderInput | SortOrder
+    history_illness?: SortOrderInput | SortOrder
+    past_history?: SortOrderInput | SortOrder
+    family_history?: SortOrderInput | SortOrder
+    pe_findings?: SortOrderInput | SortOrder
+    diagnosis?: SortOrderInput | SortOrder
+    icd_code?: SortOrderInput | SortOrder
+    treatment_plan?: SortOrderInput | SortOrder
+    orders?: SortOrderInput | SortOrder
+    pcp_doctor?: SortOrderInput | SortOrder
+    doctor_id?: SortOrderInput | SortOrder
+    doctor_name?: SortOrderInput | SortOrder
+    is_draft?: SortOrder
+    status?: SortOrderInput | SortOrder
+    recorded_by?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: ConsultationNoteCountOrderByAggregateInput
+    _avg?: ConsultationNoteAvgOrderByAggregateInput
+    _max?: ConsultationNoteMaxOrderByAggregateInput
+    _min?: ConsultationNoteMinOrderByAggregateInput
+    _sum?: ConsultationNoteSumOrderByAggregateInput
+  }
+
+  export type ConsultationNoteScalarWhereWithAggregatesInput = {
+    AND?: ConsultationNoteScalarWhereWithAggregatesInput | ConsultationNoteScalarWhereWithAggregatesInput[]
+    OR?: ConsultationNoteScalarWhereWithAggregatesInput[]
+    NOT?: ConsultationNoteScalarWhereWithAggregatesInput | ConsultationNoteScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ConsultationNote"> | number
+    queue_id?: IntWithAggregatesFilter<"ConsultationNote"> | number
+    patient_id?: StringNullableWithAggregatesFilter<"ConsultationNote"> | string | null
+    chief_complaint?: StringNullableWithAggregatesFilter<"ConsultationNote"> | string | null
+    history_illness?: StringNullableWithAggregatesFilter<"ConsultationNote"> | string | null
+    past_history?: StringNullableWithAggregatesFilter<"ConsultationNote"> | string | null
+    family_history?: StringNullableWithAggregatesFilter<"ConsultationNote"> | string | null
+    pe_findings?: StringNullableWithAggregatesFilter<"ConsultationNote"> | string | null
+    diagnosis?: StringNullableWithAggregatesFilter<"ConsultationNote"> | string | null
+    icd_code?: StringNullableWithAggregatesFilter<"ConsultationNote"> | string | null
+    treatment_plan?: StringNullableWithAggregatesFilter<"ConsultationNote"> | string | null
+    orders?: StringNullableWithAggregatesFilter<"ConsultationNote"> | string | null
+    pcp_doctor?: StringNullableWithAggregatesFilter<"ConsultationNote"> | string | null
+    doctor_id?: IntNullableWithAggregatesFilter<"ConsultationNote"> | number | null
+    doctor_name?: StringNullableWithAggregatesFilter<"ConsultationNote"> | string | null
+    is_draft?: IntWithAggregatesFilter<"ConsultationNote"> | number
+    status?: StringNullableWithAggregatesFilter<"ConsultationNote"> | string | null
+    recorded_by?: IntNullableWithAggregatesFilter<"ConsultationNote"> | number | null
+    created_at?: DateTimeWithAggregatesFilter<"ConsultationNote"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"ConsultationNote"> | Date | string
+  }
+
+  export type PhysicalExaminationWhereInput = {
+    AND?: PhysicalExaminationWhereInput | PhysicalExaminationWhereInput[]
+    OR?: PhysicalExaminationWhereInput[]
+    NOT?: PhysicalExaminationWhereInput | PhysicalExaminationWhereInput[]
+    id?: IntFilter<"PhysicalExamination"> | number
+    queue_id?: IntFilter<"PhysicalExamination"> | number
+    patient_id?: StringNullableFilter<"PhysicalExamination"> | string | null
+    hypertension?: BoolFilter<"PhysicalExamination"> | boolean
+    diabetes?: BoolFilter<"PhysicalExamination"> | boolean
+    asthma?: BoolFilter<"PhysicalExamination"> | boolean
+    heart_disease?: BoolFilter<"PhysicalExamination"> | boolean
+    thyroid_disease?: BoolFilter<"PhysicalExamination"> | boolean
+    kidney_disease?: BoolFilter<"PhysicalExamination"> | boolean
+    allergies?: BoolFilter<"PhysicalExamination"> | boolean
+    allergies_specify?: StringNullableFilter<"PhysicalExamination"> | string | null
+    surgery_history?: BoolFilter<"PhysicalExamination"> | boolean
+    surgery_specify?: StringNullableFilter<"PhysicalExamination"> | string | null
+    smoker?: BoolFilter<"PhysicalExamination"> | boolean
+    pack_years?: FloatNullableFilter<"PhysicalExamination"> | number | null
+    alcoholic?: BoolFilter<"PhysicalExamination"> | boolean
+    lmp?: DateTimeNullableFilter<"PhysicalExamination"> | Date | string | null
+    gravida?: IntNullableFilter<"PhysicalExamination"> | number | null
+    para?: IntNullableFilter<"PhysicalExamination"> | number | null
+    family_hypertension?: BoolFilter<"PhysicalExamination"> | boolean
+    family_diabetes?: BoolFilter<"PhysicalExamination"> | boolean
+    family_cancer?: BoolFilter<"PhysicalExamination"> | boolean
+    skin?: StringNullableFilter<"PhysicalExamination"> | string | null
+    heent?: StringNullableFilter<"PhysicalExamination"> | string | null
+    neck?: StringNullableFilter<"PhysicalExamination"> | string | null
+    chest_lungs?: StringNullableFilter<"PhysicalExamination"> | string | null
+    heart?: StringNullableFilter<"PhysicalExamination"> | string | null
+    abdomen?: StringNullableFilter<"PhysicalExamination"> | string | null
+    extremities?: StringNullableFilter<"PhysicalExamination"> | string | null
+    neurological?: StringNullableFilter<"PhysicalExamination"> | string | null
+    fitness_class?: StringNullableFilter<"PhysicalExamination"> | string | null
+    recorded_by?: IntNullableFilter<"PhysicalExamination"> | number | null
+    created_at?: DateTimeFilter<"PhysicalExamination"> | Date | string
+    updated_at?: DateTimeFilter<"PhysicalExamination"> | Date | string
+  }
+
+  export type PhysicalExaminationOrderByWithRelationInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrderInput | SortOrder
+    hypertension?: SortOrder
+    diabetes?: SortOrder
+    asthma?: SortOrder
+    heart_disease?: SortOrder
+    thyroid_disease?: SortOrder
+    kidney_disease?: SortOrder
+    allergies?: SortOrder
+    allergies_specify?: SortOrderInput | SortOrder
+    surgery_history?: SortOrder
+    surgery_specify?: SortOrderInput | SortOrder
+    smoker?: SortOrder
+    pack_years?: SortOrderInput | SortOrder
+    alcoholic?: SortOrder
+    lmp?: SortOrderInput | SortOrder
+    gravida?: SortOrderInput | SortOrder
+    para?: SortOrderInput | SortOrder
+    family_hypertension?: SortOrder
+    family_diabetes?: SortOrder
+    family_cancer?: SortOrder
+    skin?: SortOrderInput | SortOrder
+    heent?: SortOrderInput | SortOrder
+    neck?: SortOrderInput | SortOrder
+    chest_lungs?: SortOrderInput | SortOrder
+    heart?: SortOrderInput | SortOrder
+    abdomen?: SortOrderInput | SortOrder
+    extremities?: SortOrderInput | SortOrder
+    neurological?: SortOrderInput | SortOrder
+    fitness_class?: SortOrderInput | SortOrder
+    recorded_by?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type PhysicalExaminationWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    queue_id?: number
+    AND?: PhysicalExaminationWhereInput | PhysicalExaminationWhereInput[]
+    OR?: PhysicalExaminationWhereInput[]
+    NOT?: PhysicalExaminationWhereInput | PhysicalExaminationWhereInput[]
+    patient_id?: StringNullableFilter<"PhysicalExamination"> | string | null
+    hypertension?: BoolFilter<"PhysicalExamination"> | boolean
+    diabetes?: BoolFilter<"PhysicalExamination"> | boolean
+    asthma?: BoolFilter<"PhysicalExamination"> | boolean
+    heart_disease?: BoolFilter<"PhysicalExamination"> | boolean
+    thyroid_disease?: BoolFilter<"PhysicalExamination"> | boolean
+    kidney_disease?: BoolFilter<"PhysicalExamination"> | boolean
+    allergies?: BoolFilter<"PhysicalExamination"> | boolean
+    allergies_specify?: StringNullableFilter<"PhysicalExamination"> | string | null
+    surgery_history?: BoolFilter<"PhysicalExamination"> | boolean
+    surgery_specify?: StringNullableFilter<"PhysicalExamination"> | string | null
+    smoker?: BoolFilter<"PhysicalExamination"> | boolean
+    pack_years?: FloatNullableFilter<"PhysicalExamination"> | number | null
+    alcoholic?: BoolFilter<"PhysicalExamination"> | boolean
+    lmp?: DateTimeNullableFilter<"PhysicalExamination"> | Date | string | null
+    gravida?: IntNullableFilter<"PhysicalExamination"> | number | null
+    para?: IntNullableFilter<"PhysicalExamination"> | number | null
+    family_hypertension?: BoolFilter<"PhysicalExamination"> | boolean
+    family_diabetes?: BoolFilter<"PhysicalExamination"> | boolean
+    family_cancer?: BoolFilter<"PhysicalExamination"> | boolean
+    skin?: StringNullableFilter<"PhysicalExamination"> | string | null
+    heent?: StringNullableFilter<"PhysicalExamination"> | string | null
+    neck?: StringNullableFilter<"PhysicalExamination"> | string | null
+    chest_lungs?: StringNullableFilter<"PhysicalExamination"> | string | null
+    heart?: StringNullableFilter<"PhysicalExamination"> | string | null
+    abdomen?: StringNullableFilter<"PhysicalExamination"> | string | null
+    extremities?: StringNullableFilter<"PhysicalExamination"> | string | null
+    neurological?: StringNullableFilter<"PhysicalExamination"> | string | null
+    fitness_class?: StringNullableFilter<"PhysicalExamination"> | string | null
+    recorded_by?: IntNullableFilter<"PhysicalExamination"> | number | null
+    created_at?: DateTimeFilter<"PhysicalExamination"> | Date | string
+    updated_at?: DateTimeFilter<"PhysicalExamination"> | Date | string
+  }, "id" | "queue_id">
+
+  export type PhysicalExaminationOrderByWithAggregationInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrderInput | SortOrder
+    hypertension?: SortOrder
+    diabetes?: SortOrder
+    asthma?: SortOrder
+    heart_disease?: SortOrder
+    thyroid_disease?: SortOrder
+    kidney_disease?: SortOrder
+    allergies?: SortOrder
+    allergies_specify?: SortOrderInput | SortOrder
+    surgery_history?: SortOrder
+    surgery_specify?: SortOrderInput | SortOrder
+    smoker?: SortOrder
+    pack_years?: SortOrderInput | SortOrder
+    alcoholic?: SortOrder
+    lmp?: SortOrderInput | SortOrder
+    gravida?: SortOrderInput | SortOrder
+    para?: SortOrderInput | SortOrder
+    family_hypertension?: SortOrder
+    family_diabetes?: SortOrder
+    family_cancer?: SortOrder
+    skin?: SortOrderInput | SortOrder
+    heent?: SortOrderInput | SortOrder
+    neck?: SortOrderInput | SortOrder
+    chest_lungs?: SortOrderInput | SortOrder
+    heart?: SortOrderInput | SortOrder
+    abdomen?: SortOrderInput | SortOrder
+    extremities?: SortOrderInput | SortOrder
+    neurological?: SortOrderInput | SortOrder
+    fitness_class?: SortOrderInput | SortOrder
+    recorded_by?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: PhysicalExaminationCountOrderByAggregateInput
+    _avg?: PhysicalExaminationAvgOrderByAggregateInput
+    _max?: PhysicalExaminationMaxOrderByAggregateInput
+    _min?: PhysicalExaminationMinOrderByAggregateInput
+    _sum?: PhysicalExaminationSumOrderByAggregateInput
+  }
+
+  export type PhysicalExaminationScalarWhereWithAggregatesInput = {
+    AND?: PhysicalExaminationScalarWhereWithAggregatesInput | PhysicalExaminationScalarWhereWithAggregatesInput[]
+    OR?: PhysicalExaminationScalarWhereWithAggregatesInput[]
+    NOT?: PhysicalExaminationScalarWhereWithAggregatesInput | PhysicalExaminationScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"PhysicalExamination"> | number
+    queue_id?: IntWithAggregatesFilter<"PhysicalExamination"> | number
+    patient_id?: StringNullableWithAggregatesFilter<"PhysicalExamination"> | string | null
+    hypertension?: BoolWithAggregatesFilter<"PhysicalExamination"> | boolean
+    diabetes?: BoolWithAggregatesFilter<"PhysicalExamination"> | boolean
+    asthma?: BoolWithAggregatesFilter<"PhysicalExamination"> | boolean
+    heart_disease?: BoolWithAggregatesFilter<"PhysicalExamination"> | boolean
+    thyroid_disease?: BoolWithAggregatesFilter<"PhysicalExamination"> | boolean
+    kidney_disease?: BoolWithAggregatesFilter<"PhysicalExamination"> | boolean
+    allergies?: BoolWithAggregatesFilter<"PhysicalExamination"> | boolean
+    allergies_specify?: StringNullableWithAggregatesFilter<"PhysicalExamination"> | string | null
+    surgery_history?: BoolWithAggregatesFilter<"PhysicalExamination"> | boolean
+    surgery_specify?: StringNullableWithAggregatesFilter<"PhysicalExamination"> | string | null
+    smoker?: BoolWithAggregatesFilter<"PhysicalExamination"> | boolean
+    pack_years?: FloatNullableWithAggregatesFilter<"PhysicalExamination"> | number | null
+    alcoholic?: BoolWithAggregatesFilter<"PhysicalExamination"> | boolean
+    lmp?: DateTimeNullableWithAggregatesFilter<"PhysicalExamination"> | Date | string | null
+    gravida?: IntNullableWithAggregatesFilter<"PhysicalExamination"> | number | null
+    para?: IntNullableWithAggregatesFilter<"PhysicalExamination"> | number | null
+    family_hypertension?: BoolWithAggregatesFilter<"PhysicalExamination"> | boolean
+    family_diabetes?: BoolWithAggregatesFilter<"PhysicalExamination"> | boolean
+    family_cancer?: BoolWithAggregatesFilter<"PhysicalExamination"> | boolean
+    skin?: StringNullableWithAggregatesFilter<"PhysicalExamination"> | string | null
+    heent?: StringNullableWithAggregatesFilter<"PhysicalExamination"> | string | null
+    neck?: StringNullableWithAggregatesFilter<"PhysicalExamination"> | string | null
+    chest_lungs?: StringNullableWithAggregatesFilter<"PhysicalExamination"> | string | null
+    heart?: StringNullableWithAggregatesFilter<"PhysicalExamination"> | string | null
+    abdomen?: StringNullableWithAggregatesFilter<"PhysicalExamination"> | string | null
+    extremities?: StringNullableWithAggregatesFilter<"PhysicalExamination"> | string | null
+    neurological?: StringNullableWithAggregatesFilter<"PhysicalExamination"> | string | null
+    fitness_class?: StringNullableWithAggregatesFilter<"PhysicalExamination"> | string | null
+    recorded_by?: IntNullableWithAggregatesFilter<"PhysicalExamination"> | number | null
+    created_at?: DateTimeWithAggregatesFilter<"PhysicalExamination"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"PhysicalExamination"> | Date | string
+  }
+
+  export type MedicalEvaluationWhereInput = {
+    AND?: MedicalEvaluationWhereInput | MedicalEvaluationWhereInput[]
+    OR?: MedicalEvaluationWhereInput[]
+    NOT?: MedicalEvaluationWhereInput | MedicalEvaluationWhereInput[]
+    id?: IntFilter<"MedicalEvaluation"> | number
+    queue_id?: IntFilter<"MedicalEvaluation"> | number
+    patient_id?: StringNullableFilter<"MedicalEvaluation"> | string | null
+    item_code?: StringFilter<"MedicalEvaluation"> | string
+    item_name?: StringNullableFilter<"MedicalEvaluation"> | string | null
+    findings?: StringNullableFilter<"MedicalEvaluation"> | string | null
+    assessment?: StringNullableFilter<"MedicalEvaluation"> | string | null
+    recommendation?: StringNullableFilter<"MedicalEvaluation"> | string | null
+    class_value?: StringNullableFilter<"MedicalEvaluation"> | string | null
+    recorded_by?: IntNullableFilter<"MedicalEvaluation"> | number | null
+    created_at?: DateTimeFilter<"MedicalEvaluation"> | Date | string
+    updated_at?: DateTimeFilter<"MedicalEvaluation"> | Date | string
+  }
+
+  export type MedicalEvaluationOrderByWithRelationInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrderInput | SortOrder
+    item_code?: SortOrder
+    item_name?: SortOrderInput | SortOrder
+    findings?: SortOrderInput | SortOrder
+    assessment?: SortOrderInput | SortOrder
+    recommendation?: SortOrderInput | SortOrder
+    class_value?: SortOrderInput | SortOrder
+    recorded_by?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type MedicalEvaluationWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    queue_id_item_code?: MedicalEvaluationQueue_id_item_codeCompoundUniqueInput
+    AND?: MedicalEvaluationWhereInput | MedicalEvaluationWhereInput[]
+    OR?: MedicalEvaluationWhereInput[]
+    NOT?: MedicalEvaluationWhereInput | MedicalEvaluationWhereInput[]
+    queue_id?: IntFilter<"MedicalEvaluation"> | number
+    patient_id?: StringNullableFilter<"MedicalEvaluation"> | string | null
+    item_code?: StringFilter<"MedicalEvaluation"> | string
+    item_name?: StringNullableFilter<"MedicalEvaluation"> | string | null
+    findings?: StringNullableFilter<"MedicalEvaluation"> | string | null
+    assessment?: StringNullableFilter<"MedicalEvaluation"> | string | null
+    recommendation?: StringNullableFilter<"MedicalEvaluation"> | string | null
+    class_value?: StringNullableFilter<"MedicalEvaluation"> | string | null
+    recorded_by?: IntNullableFilter<"MedicalEvaluation"> | number | null
+    created_at?: DateTimeFilter<"MedicalEvaluation"> | Date | string
+    updated_at?: DateTimeFilter<"MedicalEvaluation"> | Date | string
+  }, "id" | "queue_id_item_code">
+
+  export type MedicalEvaluationOrderByWithAggregationInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrderInput | SortOrder
+    item_code?: SortOrder
+    item_name?: SortOrderInput | SortOrder
+    findings?: SortOrderInput | SortOrder
+    assessment?: SortOrderInput | SortOrder
+    recommendation?: SortOrderInput | SortOrder
+    class_value?: SortOrderInput | SortOrder
+    recorded_by?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: MedicalEvaluationCountOrderByAggregateInput
+    _avg?: MedicalEvaluationAvgOrderByAggregateInput
+    _max?: MedicalEvaluationMaxOrderByAggregateInput
+    _min?: MedicalEvaluationMinOrderByAggregateInput
+    _sum?: MedicalEvaluationSumOrderByAggregateInput
+  }
+
+  export type MedicalEvaluationScalarWhereWithAggregatesInput = {
+    AND?: MedicalEvaluationScalarWhereWithAggregatesInput | MedicalEvaluationScalarWhereWithAggregatesInput[]
+    OR?: MedicalEvaluationScalarWhereWithAggregatesInput[]
+    NOT?: MedicalEvaluationScalarWhereWithAggregatesInput | MedicalEvaluationScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"MedicalEvaluation"> | number
+    queue_id?: IntWithAggregatesFilter<"MedicalEvaluation"> | number
+    patient_id?: StringNullableWithAggregatesFilter<"MedicalEvaluation"> | string | null
+    item_code?: StringWithAggregatesFilter<"MedicalEvaluation"> | string
+    item_name?: StringNullableWithAggregatesFilter<"MedicalEvaluation"> | string | null
+    findings?: StringNullableWithAggregatesFilter<"MedicalEvaluation"> | string | null
+    assessment?: StringNullableWithAggregatesFilter<"MedicalEvaluation"> | string | null
+    recommendation?: StringNullableWithAggregatesFilter<"MedicalEvaluation"> | string | null
+    class_value?: StringNullableWithAggregatesFilter<"MedicalEvaluation"> | string | null
+    recorded_by?: IntNullableWithAggregatesFilter<"MedicalEvaluation"> | number | null
+    created_at?: DateTimeWithAggregatesFilter<"MedicalEvaluation"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"MedicalEvaluation"> | Date | string
+  }
+
+  export type PrescriptionWhereInput = {
+    AND?: PrescriptionWhereInput | PrescriptionWhereInput[]
+    OR?: PrescriptionWhereInput[]
+    NOT?: PrescriptionWhereInput | PrescriptionWhereInput[]
+    id?: IntFilter<"Prescription"> | number
+    queue_id?: BigIntFilter<"Prescription"> | bigint | number
+    patient_id?: BigIntFilter<"Prescription"> | bigint | number
+    doctor_name?: StringNullableFilter<"Prescription"> | string | null
+    notes?: StringNullableFilter<"Prescription"> | string | null
+    printed_at?: DateTimeNullableFilter<"Prescription"> | Date | string | null
+    input_by?: StringNullableFilter<"Prescription"> | string | null
+    created_at?: DateTimeFilter<"Prescription"> | Date | string
+    updated_at?: DateTimeFilter<"Prescription"> | Date | string
+    items?: PrescriptionItemListRelationFilter
+  }
+
+  export type PrescriptionOrderByWithRelationInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    doctor_name?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    printed_at?: SortOrderInput | SortOrder
+    input_by?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    items?: PrescriptionItemOrderByRelationAggregateInput
+  }
+
+  export type PrescriptionWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: PrescriptionWhereInput | PrescriptionWhereInput[]
+    OR?: PrescriptionWhereInput[]
+    NOT?: PrescriptionWhereInput | PrescriptionWhereInput[]
+    queue_id?: BigIntFilter<"Prescription"> | bigint | number
+    patient_id?: BigIntFilter<"Prescription"> | bigint | number
+    doctor_name?: StringNullableFilter<"Prescription"> | string | null
+    notes?: StringNullableFilter<"Prescription"> | string | null
+    printed_at?: DateTimeNullableFilter<"Prescription"> | Date | string | null
+    input_by?: StringNullableFilter<"Prescription"> | string | null
+    created_at?: DateTimeFilter<"Prescription"> | Date | string
+    updated_at?: DateTimeFilter<"Prescription"> | Date | string
+    items?: PrescriptionItemListRelationFilter
+  }, "id">
+
+  export type PrescriptionOrderByWithAggregationInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    doctor_name?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    printed_at?: SortOrderInput | SortOrder
+    input_by?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: PrescriptionCountOrderByAggregateInput
+    _avg?: PrescriptionAvgOrderByAggregateInput
+    _max?: PrescriptionMaxOrderByAggregateInput
+    _min?: PrescriptionMinOrderByAggregateInput
+    _sum?: PrescriptionSumOrderByAggregateInput
+  }
+
+  export type PrescriptionScalarWhereWithAggregatesInput = {
+    AND?: PrescriptionScalarWhereWithAggregatesInput | PrescriptionScalarWhereWithAggregatesInput[]
+    OR?: PrescriptionScalarWhereWithAggregatesInput[]
+    NOT?: PrescriptionScalarWhereWithAggregatesInput | PrescriptionScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Prescription"> | number
+    queue_id?: BigIntWithAggregatesFilter<"Prescription"> | bigint | number
+    patient_id?: BigIntWithAggregatesFilter<"Prescription"> | bigint | number
+    doctor_name?: StringNullableWithAggregatesFilter<"Prescription"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"Prescription"> | string | null
+    printed_at?: DateTimeNullableWithAggregatesFilter<"Prescription"> | Date | string | null
+    input_by?: StringNullableWithAggregatesFilter<"Prescription"> | string | null
+    created_at?: DateTimeWithAggregatesFilter<"Prescription"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Prescription"> | Date | string
+  }
+
+  export type PrescriptionItemWhereInput = {
+    AND?: PrescriptionItemWhereInput | PrescriptionItemWhereInput[]
+    OR?: PrescriptionItemWhereInput[]
+    NOT?: PrescriptionItemWhereInput | PrescriptionItemWhereInput[]
+    id?: IntFilter<"PrescriptionItem"> | number
+    prescription_id?: IntFilter<"PrescriptionItem"> | number
+    medication?: StringFilter<"PrescriptionItem"> | string
+    dosage?: StringNullableFilter<"PrescriptionItem"> | string | null
+    frequency?: StringNullableFilter<"PrescriptionItem"> | string | null
+    duration?: StringNullableFilter<"PrescriptionItem"> | string | null
+    quantity?: IntNullableFilter<"PrescriptionItem"> | number | null
+    instructions?: StringNullableFilter<"PrescriptionItem"> | string | null
+    prescription?: XOR<PrescriptionScalarRelationFilter, PrescriptionWhereInput>
+  }
+
+  export type PrescriptionItemOrderByWithRelationInput = {
+    id?: SortOrder
+    prescription_id?: SortOrder
+    medication?: SortOrder
+    dosage?: SortOrderInput | SortOrder
+    frequency?: SortOrderInput | SortOrder
+    duration?: SortOrderInput | SortOrder
+    quantity?: SortOrderInput | SortOrder
+    instructions?: SortOrderInput | SortOrder
+    prescription?: PrescriptionOrderByWithRelationInput
+  }
+
+  export type PrescriptionItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: PrescriptionItemWhereInput | PrescriptionItemWhereInput[]
+    OR?: PrescriptionItemWhereInput[]
+    NOT?: PrescriptionItemWhereInput | PrescriptionItemWhereInput[]
+    prescription_id?: IntFilter<"PrescriptionItem"> | number
+    medication?: StringFilter<"PrescriptionItem"> | string
+    dosage?: StringNullableFilter<"PrescriptionItem"> | string | null
+    frequency?: StringNullableFilter<"PrescriptionItem"> | string | null
+    duration?: StringNullableFilter<"PrescriptionItem"> | string | null
+    quantity?: IntNullableFilter<"PrescriptionItem"> | number | null
+    instructions?: StringNullableFilter<"PrescriptionItem"> | string | null
+    prescription?: XOR<PrescriptionScalarRelationFilter, PrescriptionWhereInput>
+  }, "id">
+
+  export type PrescriptionItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    prescription_id?: SortOrder
+    medication?: SortOrder
+    dosage?: SortOrderInput | SortOrder
+    frequency?: SortOrderInput | SortOrder
+    duration?: SortOrderInput | SortOrder
+    quantity?: SortOrderInput | SortOrder
+    instructions?: SortOrderInput | SortOrder
+    _count?: PrescriptionItemCountOrderByAggregateInput
+    _avg?: PrescriptionItemAvgOrderByAggregateInput
+    _max?: PrescriptionItemMaxOrderByAggregateInput
+    _min?: PrescriptionItemMinOrderByAggregateInput
+    _sum?: PrescriptionItemSumOrderByAggregateInput
+  }
+
+  export type PrescriptionItemScalarWhereWithAggregatesInput = {
+    AND?: PrescriptionItemScalarWhereWithAggregatesInput | PrescriptionItemScalarWhereWithAggregatesInput[]
+    OR?: PrescriptionItemScalarWhereWithAggregatesInput[]
+    NOT?: PrescriptionItemScalarWhereWithAggregatesInput | PrescriptionItemScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"PrescriptionItem"> | number
+    prescription_id?: IntWithAggregatesFilter<"PrescriptionItem"> | number
+    medication?: StringWithAggregatesFilter<"PrescriptionItem"> | string
+    dosage?: StringNullableWithAggregatesFilter<"PrescriptionItem"> | string | null
+    frequency?: StringNullableWithAggregatesFilter<"PrescriptionItem"> | string | null
+    duration?: StringNullableWithAggregatesFilter<"PrescriptionItem"> | string | null
+    quantity?: IntNullableWithAggregatesFilter<"PrescriptionItem"> | number | null
+    instructions?: StringNullableWithAggregatesFilter<"PrescriptionItem"> | string | null
+  }
+
+  export type ResultValueWhereInput = {
+    AND?: ResultValueWhereInput | ResultValueWhereInput[]
+    OR?: ResultValueWhereInput[]
+    NOT?: ResultValueWhereInput | ResultValueWhereInput[]
+    id?: IntFilter<"ResultValue"> | number
+    accession_id?: BigIntFilter<"ResultValue"> | bigint | number
+    queue_id?: BigIntFilter<"ResultValue"> | bigint | number
+    item_code?: StringNullableFilter<"ResultValue"> | string | null
+    item_description?: StringNullableFilter<"ResultValue"> | string | null
+    result_value?: StringNullableFilter<"ResultValue"> | string | null
+    result_unit?: StringNullableFilter<"ResultValue"> | string | null
+    normal_range?: StringNullableFilter<"ResultValue"> | string | null
+    flag?: StringNullableFilter<"ResultValue"> | string | null
+    remarks?: StringNullableFilter<"ResultValue"> | string | null
+    encoded_by?: StringNullableFilter<"ResultValue"> | string | null
+    encoded_at?: DateTimeNullableFilter<"ResultValue"> | Date | string | null
+    validated_by?: StringNullableFilter<"ResultValue"> | string | null
+    validated_at?: DateTimeNullableFilter<"ResultValue"> | Date | string | null
+    status?: StringFilter<"ResultValue"> | string
+    created_at?: DateTimeFilter<"ResultValue"> | Date | string
+    updated_at?: DateTimeFilter<"ResultValue"> | Date | string
+  }
+
+  export type ResultValueOrderByWithRelationInput = {
+    id?: SortOrder
+    accession_id?: SortOrder
+    queue_id?: SortOrder
+    item_code?: SortOrderInput | SortOrder
+    item_description?: SortOrderInput | SortOrder
+    result_value?: SortOrderInput | SortOrder
+    result_unit?: SortOrderInput | SortOrder
+    normal_range?: SortOrderInput | SortOrder
+    flag?: SortOrderInput | SortOrder
+    remarks?: SortOrderInput | SortOrder
+    encoded_by?: SortOrderInput | SortOrder
+    encoded_at?: SortOrderInput | SortOrder
+    validated_by?: SortOrderInput | SortOrder
+    validated_at?: SortOrderInput | SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ResultValueWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    accession_id?: bigint | number
+    AND?: ResultValueWhereInput | ResultValueWhereInput[]
+    OR?: ResultValueWhereInput[]
+    NOT?: ResultValueWhereInput | ResultValueWhereInput[]
+    queue_id?: BigIntFilter<"ResultValue"> | bigint | number
+    item_code?: StringNullableFilter<"ResultValue"> | string | null
+    item_description?: StringNullableFilter<"ResultValue"> | string | null
+    result_value?: StringNullableFilter<"ResultValue"> | string | null
+    result_unit?: StringNullableFilter<"ResultValue"> | string | null
+    normal_range?: StringNullableFilter<"ResultValue"> | string | null
+    flag?: StringNullableFilter<"ResultValue"> | string | null
+    remarks?: StringNullableFilter<"ResultValue"> | string | null
+    encoded_by?: StringNullableFilter<"ResultValue"> | string | null
+    encoded_at?: DateTimeNullableFilter<"ResultValue"> | Date | string | null
+    validated_by?: StringNullableFilter<"ResultValue"> | string | null
+    validated_at?: DateTimeNullableFilter<"ResultValue"> | Date | string | null
+    status?: StringFilter<"ResultValue"> | string
+    created_at?: DateTimeFilter<"ResultValue"> | Date | string
+    updated_at?: DateTimeFilter<"ResultValue"> | Date | string
+  }, "id" | "accession_id">
+
+  export type ResultValueOrderByWithAggregationInput = {
+    id?: SortOrder
+    accession_id?: SortOrder
+    queue_id?: SortOrder
+    item_code?: SortOrderInput | SortOrder
+    item_description?: SortOrderInput | SortOrder
+    result_value?: SortOrderInput | SortOrder
+    result_unit?: SortOrderInput | SortOrder
+    normal_range?: SortOrderInput | SortOrder
+    flag?: SortOrderInput | SortOrder
+    remarks?: SortOrderInput | SortOrder
+    encoded_by?: SortOrderInput | SortOrder
+    encoded_at?: SortOrderInput | SortOrder
+    validated_by?: SortOrderInput | SortOrder
+    validated_at?: SortOrderInput | SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: ResultValueCountOrderByAggregateInput
+    _avg?: ResultValueAvgOrderByAggregateInput
+    _max?: ResultValueMaxOrderByAggregateInput
+    _min?: ResultValueMinOrderByAggregateInput
+    _sum?: ResultValueSumOrderByAggregateInput
+  }
+
+  export type ResultValueScalarWhereWithAggregatesInput = {
+    AND?: ResultValueScalarWhereWithAggregatesInput | ResultValueScalarWhereWithAggregatesInput[]
+    OR?: ResultValueScalarWhereWithAggregatesInput[]
+    NOT?: ResultValueScalarWhereWithAggregatesInput | ResultValueScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ResultValue"> | number
+    accession_id?: BigIntWithAggregatesFilter<"ResultValue"> | bigint | number
+    queue_id?: BigIntWithAggregatesFilter<"ResultValue"> | bigint | number
+    item_code?: StringNullableWithAggregatesFilter<"ResultValue"> | string | null
+    item_description?: StringNullableWithAggregatesFilter<"ResultValue"> | string | null
+    result_value?: StringNullableWithAggregatesFilter<"ResultValue"> | string | null
+    result_unit?: StringNullableWithAggregatesFilter<"ResultValue"> | string | null
+    normal_range?: StringNullableWithAggregatesFilter<"ResultValue"> | string | null
+    flag?: StringNullableWithAggregatesFilter<"ResultValue"> | string | null
+    remarks?: StringNullableWithAggregatesFilter<"ResultValue"> | string | null
+    encoded_by?: StringNullableWithAggregatesFilter<"ResultValue"> | string | null
+    encoded_at?: DateTimeNullableWithAggregatesFilter<"ResultValue"> | Date | string | null
+    validated_by?: StringNullableWithAggregatesFilter<"ResultValue"> | string | null
+    validated_at?: DateTimeNullableWithAggregatesFilter<"ResultValue"> | Date | string | null
+    status?: StringWithAggregatesFilter<"ResultValue"> | string
+    created_at?: DateTimeWithAggregatesFilter<"ResultValue"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"ResultValue"> | Date | string
+  }
+
+  export type ImagingResultWhereInput = {
+    AND?: ImagingResultWhereInput | ImagingResultWhereInput[]
+    OR?: ImagingResultWhereInput[]
+    NOT?: ImagingResultWhereInput | ImagingResultWhereInput[]
+    id?: IntFilter<"ImagingResult"> | number
+    accession_id?: BigIntFilter<"ImagingResult"> | bigint | number
+    queue_id?: BigIntFilter<"ImagingResult"> | bigint | number
+    item_code?: StringNullableFilter<"ImagingResult"> | string | null
+    item_description?: StringNullableFilter<"ImagingResult"> | string | null
+    interpretation?: StringNullableFilter<"ImagingResult"> | string | null
+    impression?: StringNullableFilter<"ImagingResult"> | string | null
+    radiologist_name?: StringNullableFilter<"ImagingResult"> | string | null
+    encoded_by?: StringNullableFilter<"ImagingResult"> | string | null
+    encoded_at?: DateTimeNullableFilter<"ImagingResult"> | Date | string | null
+    validated_by?: StringNullableFilter<"ImagingResult"> | string | null
+    validated_at?: DateTimeNullableFilter<"ImagingResult"> | Date | string | null
+    status?: StringFilter<"ImagingResult"> | string
+    created_at?: DateTimeFilter<"ImagingResult"> | Date | string
+    updated_at?: DateTimeFilter<"ImagingResult"> | Date | string
+  }
+
+  export type ImagingResultOrderByWithRelationInput = {
+    id?: SortOrder
+    accession_id?: SortOrder
+    queue_id?: SortOrder
+    item_code?: SortOrderInput | SortOrder
+    item_description?: SortOrderInput | SortOrder
+    interpretation?: SortOrderInput | SortOrder
+    impression?: SortOrderInput | SortOrder
+    radiologist_name?: SortOrderInput | SortOrder
+    encoded_by?: SortOrderInput | SortOrder
+    encoded_at?: SortOrderInput | SortOrder
+    validated_by?: SortOrderInput | SortOrder
+    validated_at?: SortOrderInput | SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ImagingResultWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    accession_id?: bigint | number
+    AND?: ImagingResultWhereInput | ImagingResultWhereInput[]
+    OR?: ImagingResultWhereInput[]
+    NOT?: ImagingResultWhereInput | ImagingResultWhereInput[]
+    queue_id?: BigIntFilter<"ImagingResult"> | bigint | number
+    item_code?: StringNullableFilter<"ImagingResult"> | string | null
+    item_description?: StringNullableFilter<"ImagingResult"> | string | null
+    interpretation?: StringNullableFilter<"ImagingResult"> | string | null
+    impression?: StringNullableFilter<"ImagingResult"> | string | null
+    radiologist_name?: StringNullableFilter<"ImagingResult"> | string | null
+    encoded_by?: StringNullableFilter<"ImagingResult"> | string | null
+    encoded_at?: DateTimeNullableFilter<"ImagingResult"> | Date | string | null
+    validated_by?: StringNullableFilter<"ImagingResult"> | string | null
+    validated_at?: DateTimeNullableFilter<"ImagingResult"> | Date | string | null
+    status?: StringFilter<"ImagingResult"> | string
+    created_at?: DateTimeFilter<"ImagingResult"> | Date | string
+    updated_at?: DateTimeFilter<"ImagingResult"> | Date | string
+  }, "id" | "accession_id">
+
+  export type ImagingResultOrderByWithAggregationInput = {
+    id?: SortOrder
+    accession_id?: SortOrder
+    queue_id?: SortOrder
+    item_code?: SortOrderInput | SortOrder
+    item_description?: SortOrderInput | SortOrder
+    interpretation?: SortOrderInput | SortOrder
+    impression?: SortOrderInput | SortOrder
+    radiologist_name?: SortOrderInput | SortOrder
+    encoded_by?: SortOrderInput | SortOrder
+    encoded_at?: SortOrderInput | SortOrder
+    validated_by?: SortOrderInput | SortOrder
+    validated_at?: SortOrderInput | SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: ImagingResultCountOrderByAggregateInput
+    _avg?: ImagingResultAvgOrderByAggregateInput
+    _max?: ImagingResultMaxOrderByAggregateInput
+    _min?: ImagingResultMinOrderByAggregateInput
+    _sum?: ImagingResultSumOrderByAggregateInput
+  }
+
+  export type ImagingResultScalarWhereWithAggregatesInput = {
+    AND?: ImagingResultScalarWhereWithAggregatesInput | ImagingResultScalarWhereWithAggregatesInput[]
+    OR?: ImagingResultScalarWhereWithAggregatesInput[]
+    NOT?: ImagingResultScalarWhereWithAggregatesInput | ImagingResultScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"ImagingResult"> | number
+    accession_id?: BigIntWithAggregatesFilter<"ImagingResult"> | bigint | number
+    queue_id?: BigIntWithAggregatesFilter<"ImagingResult"> | bigint | number
+    item_code?: StringNullableWithAggregatesFilter<"ImagingResult"> | string | null
+    item_description?: StringNullableWithAggregatesFilter<"ImagingResult"> | string | null
+    interpretation?: StringNullableWithAggregatesFilter<"ImagingResult"> | string | null
+    impression?: StringNullableWithAggregatesFilter<"ImagingResult"> | string | null
+    radiologist_name?: StringNullableWithAggregatesFilter<"ImagingResult"> | string | null
+    encoded_by?: StringNullableWithAggregatesFilter<"ImagingResult"> | string | null
+    encoded_at?: DateTimeNullableWithAggregatesFilter<"ImagingResult"> | Date | string | null
+    validated_by?: StringNullableWithAggregatesFilter<"ImagingResult"> | string | null
+    validated_at?: DateTimeNullableWithAggregatesFilter<"ImagingResult"> | Date | string | null
+    status?: StringWithAggregatesFilter<"ImagingResult"> | string
+    created_at?: DateTimeWithAggregatesFilter<"ImagingResult"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"ImagingResult"> | Date | string
+  }
+
+  export type cardNumberWhereInput = {
+    AND?: cardNumberWhereInput | cardNumberWhereInput[]
+    OR?: cardNumberWhereInput[]
+    NOT?: cardNumberWhereInput | cardNumberWhereInput[]
+    id?: IntFilter<"cardNumber"> | number
+    year?: StringNullableFilter<"cardNumber"> | string | null
+    batch?: StringNullableFilter<"cardNumber"> | string | null
+    month?: StringNullableFilter<"cardNumber"> | string | null
+    seriesNum?: StringNullableFilter<"cardNumber"> | string | null
+    maskedSeries?: StringNullableFilter<"cardNumber"> | string | null
+    generatedcardnumber?: StringNullableFilter<"cardNumber"> | string | null
+    codeCompany?: StringNullableFilter<"cardNumber"> | string | null
+    generatedBy?: StringNullableFilter<"cardNumber"> | string | null
+  }
+
+  export type cardNumberOrderByWithRelationInput = {
+    id?: SortOrder
+    year?: SortOrderInput | SortOrder
+    batch?: SortOrderInput | SortOrder
+    month?: SortOrderInput | SortOrder
+    seriesNum?: SortOrderInput | SortOrder
+    maskedSeries?: SortOrderInput | SortOrder
+    generatedcardnumber?: SortOrderInput | SortOrder
+    codeCompany?: SortOrderInput | SortOrder
+    generatedBy?: SortOrderInput | SortOrder
+  }
+
+  export type cardNumberWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: cardNumberWhereInput | cardNumberWhereInput[]
+    OR?: cardNumberWhereInput[]
+    NOT?: cardNumberWhereInput | cardNumberWhereInput[]
+    year?: StringNullableFilter<"cardNumber"> | string | null
+    batch?: StringNullableFilter<"cardNumber"> | string | null
+    month?: StringNullableFilter<"cardNumber"> | string | null
+    seriesNum?: StringNullableFilter<"cardNumber"> | string | null
+    maskedSeries?: StringNullableFilter<"cardNumber"> | string | null
+    generatedcardnumber?: StringNullableFilter<"cardNumber"> | string | null
+    codeCompany?: StringNullableFilter<"cardNumber"> | string | null
+    generatedBy?: StringNullableFilter<"cardNumber"> | string | null
+  }, "id">
+
+  export type cardNumberOrderByWithAggregationInput = {
+    id?: SortOrder
+    year?: SortOrderInput | SortOrder
+    batch?: SortOrderInput | SortOrder
+    month?: SortOrderInput | SortOrder
+    seriesNum?: SortOrderInput | SortOrder
+    maskedSeries?: SortOrderInput | SortOrder
+    generatedcardnumber?: SortOrderInput | SortOrder
+    codeCompany?: SortOrderInput | SortOrder
+    generatedBy?: SortOrderInput | SortOrder
+    _count?: cardNumberCountOrderByAggregateInput
+    _avg?: cardNumberAvgOrderByAggregateInput
+    _max?: cardNumberMaxOrderByAggregateInput
+    _min?: cardNumberMinOrderByAggregateInput
+    _sum?: cardNumberSumOrderByAggregateInput
+  }
+
+  export type cardNumberScalarWhereWithAggregatesInput = {
+    AND?: cardNumberScalarWhereWithAggregatesInput | cardNumberScalarWhereWithAggregatesInput[]
+    OR?: cardNumberScalarWhereWithAggregatesInput[]
+    NOT?: cardNumberScalarWhereWithAggregatesInput | cardNumberScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"cardNumber"> | number
+    year?: StringNullableWithAggregatesFilter<"cardNumber"> | string | null
+    batch?: StringNullableWithAggregatesFilter<"cardNumber"> | string | null
+    month?: StringNullableWithAggregatesFilter<"cardNumber"> | string | null
+    seriesNum?: StringNullableWithAggregatesFilter<"cardNumber"> | string | null
+    maskedSeries?: StringNullableWithAggregatesFilter<"cardNumber"> | string | null
+    generatedcardnumber?: StringNullableWithAggregatesFilter<"cardNumber"> | string | null
+    codeCompany?: StringNullableWithAggregatesFilter<"cardNumber"> | string | null
+    generatedBy?: StringNullableWithAggregatesFilter<"cardNumber"> | string | null
+  }
+
+  export type cardVerifiedWhereInput = {
+    AND?: cardVerifiedWhereInput | cardVerifiedWhereInput[]
+    OR?: cardVerifiedWhereInput[]
+    NOT?: cardVerifiedWhereInput | cardVerifiedWhereInput[]
+    id?: IntFilter<"cardVerified"> | number
+    verifiedcardnumbers?: StringNullableFilter<"cardVerified"> | string | null
+    ictreceived?: StringNullableFilter<"cardVerified"> | string | null
+    datereceived?: DateTimeNullableFilter<"cardVerified"> | Date | string | null
+  }
+
+  export type cardVerifiedOrderByWithRelationInput = {
+    id?: SortOrder
+    verifiedcardnumbers?: SortOrderInput | SortOrder
+    ictreceived?: SortOrderInput | SortOrder
+    datereceived?: SortOrderInput | SortOrder
+  }
+
+  export type cardVerifiedWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: cardVerifiedWhereInput | cardVerifiedWhereInput[]
+    OR?: cardVerifiedWhereInput[]
+    NOT?: cardVerifiedWhereInput | cardVerifiedWhereInput[]
+    verifiedcardnumbers?: StringNullableFilter<"cardVerified"> | string | null
+    ictreceived?: StringNullableFilter<"cardVerified"> | string | null
+    datereceived?: DateTimeNullableFilter<"cardVerified"> | Date | string | null
+  }, "id">
+
+  export type cardVerifiedOrderByWithAggregationInput = {
+    id?: SortOrder
+    verifiedcardnumbers?: SortOrderInput | SortOrder
+    ictreceived?: SortOrderInput | SortOrder
+    datereceived?: SortOrderInput | SortOrder
+    _count?: cardVerifiedCountOrderByAggregateInput
+    _avg?: cardVerifiedAvgOrderByAggregateInput
+    _max?: cardVerifiedMaxOrderByAggregateInput
+    _min?: cardVerifiedMinOrderByAggregateInput
+    _sum?: cardVerifiedSumOrderByAggregateInput
+  }
+
+  export type cardVerifiedScalarWhereWithAggregatesInput = {
+    AND?: cardVerifiedScalarWhereWithAggregatesInput | cardVerifiedScalarWhereWithAggregatesInput[]
+    OR?: cardVerifiedScalarWhereWithAggregatesInput[]
+    NOT?: cardVerifiedScalarWhereWithAggregatesInput | cardVerifiedScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"cardVerified"> | number
+    verifiedcardnumbers?: StringNullableWithAggregatesFilter<"cardVerified"> | string | null
+    ictreceived?: StringNullableWithAggregatesFilter<"cardVerified"> | string | null
+    datereceived?: DateTimeNullableWithAggregatesFilter<"cardVerified"> | Date | string | null
   }
 
   export type UserCreateInput = {
@@ -48837,6 +64273,1368 @@ export namespace Prisma {
     HMOPName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type cardEnrollmentCreateInput = {
+    cardnumber?: string | null
+    dateenrolled?: Date | string | null
+    daterelease?: Date | string | null
+    releaseto?: string | null
+    oldreleaseto?: string | null
+    releaseby?: string | null
+    receivedby?: string | null
+    receiveddate?: Date | string | null
+    status?: number | null
+    transferto?: string | null
+    datetransfer?: Date | string | null
+    transferby?: string | null
+  }
+
+  export type cardEnrollmentUncheckedCreateInput = {
+    id?: number
+    cardnumber?: string | null
+    dateenrolled?: Date | string | null
+    daterelease?: Date | string | null
+    releaseto?: string | null
+    oldreleaseto?: string | null
+    releaseby?: string | null
+    receivedby?: string | null
+    receiveddate?: Date | string | null
+    status?: number | null
+    transferto?: string | null
+    datetransfer?: Date | string | null
+    transferby?: string | null
+  }
+
+  export type cardEnrollmentUpdateInput = {
+    cardnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    dateenrolled?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    daterelease?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    releaseto?: NullableStringFieldUpdateOperationsInput | string | null
+    oldreleaseto?: NullableStringFieldUpdateOperationsInput | string | null
+    releaseby?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedby?: NullableStringFieldUpdateOperationsInput | string | null
+    receiveddate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: NullableIntFieldUpdateOperationsInput | number | null
+    transferto?: NullableStringFieldUpdateOperationsInput | string | null
+    datetransfer?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transferby?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type cardEnrollmentUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    cardnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    dateenrolled?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    daterelease?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    releaseto?: NullableStringFieldUpdateOperationsInput | string | null
+    oldreleaseto?: NullableStringFieldUpdateOperationsInput | string | null
+    releaseby?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedby?: NullableStringFieldUpdateOperationsInput | string | null
+    receiveddate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: NullableIntFieldUpdateOperationsInput | number | null
+    transferto?: NullableStringFieldUpdateOperationsInput | string | null
+    datetransfer?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transferby?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type cardEnrollmentCreateManyInput = {
+    id?: number
+    cardnumber?: string | null
+    dateenrolled?: Date | string | null
+    daterelease?: Date | string | null
+    releaseto?: string | null
+    oldreleaseto?: string | null
+    releaseby?: string | null
+    receivedby?: string | null
+    receiveddate?: Date | string | null
+    status?: number | null
+    transferto?: string | null
+    datetransfer?: Date | string | null
+    transferby?: string | null
+  }
+
+  export type cardEnrollmentUpdateManyMutationInput = {
+    cardnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    dateenrolled?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    daterelease?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    releaseto?: NullableStringFieldUpdateOperationsInput | string | null
+    oldreleaseto?: NullableStringFieldUpdateOperationsInput | string | null
+    releaseby?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedby?: NullableStringFieldUpdateOperationsInput | string | null
+    receiveddate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: NullableIntFieldUpdateOperationsInput | number | null
+    transferto?: NullableStringFieldUpdateOperationsInput | string | null
+    datetransfer?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transferby?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type cardEnrollmentUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    cardnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    dateenrolled?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    daterelease?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    releaseto?: NullableStringFieldUpdateOperationsInput | string | null
+    oldreleaseto?: NullableStringFieldUpdateOperationsInput | string | null
+    releaseby?: NullableStringFieldUpdateOperationsInput | string | null
+    receivedby?: NullableStringFieldUpdateOperationsInput | string | null
+    receiveddate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: NullableIntFieldUpdateOperationsInput | number | null
+    transferto?: NullableStringFieldUpdateOperationsInput | string | null
+    datetransfer?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    transferby?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type VitalSignCreateInput = {
+    queue_id: number
+    patient_id?: string | null
+    chief_complaint?: string | null
+    pcp_doctor?: string | null
+    bp_systolic?: number | null
+    bp_diastolic?: number | null
+    bp_systolic2?: number | null
+    bp_diastolic2?: number | null
+    bp_systolic3?: number | null
+    bp_diastolic3?: number | null
+    heart_rate?: number | null
+    temperature?: Decimal | DecimalJsLike | number | string | null
+    respiratory_rate?: number | null
+    weight_kg?: Decimal | DecimalJsLike | number | string | null
+    height_cm?: Decimal | DecimalJsLike | number | string | null
+    bmi?: Decimal | DecimalJsLike | number | string | null
+    vision_right_od?: string | null
+    vision_left_os?: string | null
+    vision_corrected?: string | null
+    color_vision?: string | null
+    recorded_by?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type VitalSignUncheckedCreateInput = {
+    id?: number
+    queue_id: number
+    patient_id?: string | null
+    chief_complaint?: string | null
+    pcp_doctor?: string | null
+    bp_systolic?: number | null
+    bp_diastolic?: number | null
+    bp_systolic2?: number | null
+    bp_diastolic2?: number | null
+    bp_systolic3?: number | null
+    bp_diastolic3?: number | null
+    heart_rate?: number | null
+    temperature?: Decimal | DecimalJsLike | number | string | null
+    respiratory_rate?: number | null
+    weight_kg?: Decimal | DecimalJsLike | number | string | null
+    height_cm?: Decimal | DecimalJsLike | number | string | null
+    bmi?: Decimal | DecimalJsLike | number | string | null
+    vision_right_od?: string | null
+    vision_left_os?: string | null
+    vision_corrected?: string | null
+    color_vision?: string | null
+    recorded_by?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type VitalSignUpdateInput = {
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    chief_complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    pcp_doctor?: NullableStringFieldUpdateOperationsInput | string | null
+    bp_systolic?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_diastolic?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_systolic2?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_diastolic2?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_systolic3?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_diastolic3?: NullableIntFieldUpdateOperationsInput | number | null
+    heart_rate?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    respiratory_rate?: NullableIntFieldUpdateOperationsInput | number | null
+    weight_kg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    height_cm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    bmi?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    vision_right_od?: NullableStringFieldUpdateOperationsInput | string | null
+    vision_left_os?: NullableStringFieldUpdateOperationsInput | string | null
+    vision_corrected?: NullableStringFieldUpdateOperationsInput | string | null
+    color_vision?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VitalSignUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    chief_complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    pcp_doctor?: NullableStringFieldUpdateOperationsInput | string | null
+    bp_systolic?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_diastolic?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_systolic2?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_diastolic2?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_systolic3?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_diastolic3?: NullableIntFieldUpdateOperationsInput | number | null
+    heart_rate?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    respiratory_rate?: NullableIntFieldUpdateOperationsInput | number | null
+    weight_kg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    height_cm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    bmi?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    vision_right_od?: NullableStringFieldUpdateOperationsInput | string | null
+    vision_left_os?: NullableStringFieldUpdateOperationsInput | string | null
+    vision_corrected?: NullableStringFieldUpdateOperationsInput | string | null
+    color_vision?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VitalSignCreateManyInput = {
+    id?: number
+    queue_id: number
+    patient_id?: string | null
+    chief_complaint?: string | null
+    pcp_doctor?: string | null
+    bp_systolic?: number | null
+    bp_diastolic?: number | null
+    bp_systolic2?: number | null
+    bp_diastolic2?: number | null
+    bp_systolic3?: number | null
+    bp_diastolic3?: number | null
+    heart_rate?: number | null
+    temperature?: Decimal | DecimalJsLike | number | string | null
+    respiratory_rate?: number | null
+    weight_kg?: Decimal | DecimalJsLike | number | string | null
+    height_cm?: Decimal | DecimalJsLike | number | string | null
+    bmi?: Decimal | DecimalJsLike | number | string | null
+    vision_right_od?: string | null
+    vision_left_os?: string | null
+    vision_corrected?: string | null
+    color_vision?: string | null
+    recorded_by?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type VitalSignUpdateManyMutationInput = {
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    chief_complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    pcp_doctor?: NullableStringFieldUpdateOperationsInput | string | null
+    bp_systolic?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_diastolic?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_systolic2?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_diastolic2?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_systolic3?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_diastolic3?: NullableIntFieldUpdateOperationsInput | number | null
+    heart_rate?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    respiratory_rate?: NullableIntFieldUpdateOperationsInput | number | null
+    weight_kg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    height_cm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    bmi?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    vision_right_od?: NullableStringFieldUpdateOperationsInput | string | null
+    vision_left_os?: NullableStringFieldUpdateOperationsInput | string | null
+    vision_corrected?: NullableStringFieldUpdateOperationsInput | string | null
+    color_vision?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VitalSignUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    chief_complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    pcp_doctor?: NullableStringFieldUpdateOperationsInput | string | null
+    bp_systolic?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_diastolic?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_systolic2?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_diastolic2?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_systolic3?: NullableIntFieldUpdateOperationsInput | number | null
+    bp_diastolic3?: NullableIntFieldUpdateOperationsInput | number | null
+    heart_rate?: NullableIntFieldUpdateOperationsInput | number | null
+    temperature?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    respiratory_rate?: NullableIntFieldUpdateOperationsInput | number | null
+    weight_kg?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    height_cm?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    bmi?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    vision_right_od?: NullableStringFieldUpdateOperationsInput | string | null
+    vision_left_os?: NullableStringFieldUpdateOperationsInput | string | null
+    vision_corrected?: NullableStringFieldUpdateOperationsInput | string | null
+    color_vision?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConsultationNoteCreateInput = {
+    queue_id: number
+    patient_id?: string | null
+    chief_complaint?: string | null
+    history_illness?: string | null
+    past_history?: string | null
+    family_history?: string | null
+    pe_findings?: string | null
+    diagnosis?: string | null
+    icd_code?: string | null
+    treatment_plan?: string | null
+    orders?: string | null
+    pcp_doctor?: string | null
+    doctor_id?: number | null
+    doctor_name?: string | null
+    is_draft?: number
+    status?: string | null
+    recorded_by?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ConsultationNoteUncheckedCreateInput = {
+    id?: number
+    queue_id: number
+    patient_id?: string | null
+    chief_complaint?: string | null
+    history_illness?: string | null
+    past_history?: string | null
+    family_history?: string | null
+    pe_findings?: string | null
+    diagnosis?: string | null
+    icd_code?: string | null
+    treatment_plan?: string | null
+    orders?: string | null
+    pcp_doctor?: string | null
+    doctor_id?: number | null
+    doctor_name?: string | null
+    is_draft?: number
+    status?: string | null
+    recorded_by?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ConsultationNoteUpdateInput = {
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    chief_complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    history_illness?: NullableStringFieldUpdateOperationsInput | string | null
+    past_history?: NullableStringFieldUpdateOperationsInput | string | null
+    family_history?: NullableStringFieldUpdateOperationsInput | string | null
+    pe_findings?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosis?: NullableStringFieldUpdateOperationsInput | string | null
+    icd_code?: NullableStringFieldUpdateOperationsInput | string | null
+    treatment_plan?: NullableStringFieldUpdateOperationsInput | string | null
+    orders?: NullableStringFieldUpdateOperationsInput | string | null
+    pcp_doctor?: NullableStringFieldUpdateOperationsInput | string | null
+    doctor_id?: NullableIntFieldUpdateOperationsInput | number | null
+    doctor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    is_draft?: IntFieldUpdateOperationsInput | number
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConsultationNoteUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    chief_complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    history_illness?: NullableStringFieldUpdateOperationsInput | string | null
+    past_history?: NullableStringFieldUpdateOperationsInput | string | null
+    family_history?: NullableStringFieldUpdateOperationsInput | string | null
+    pe_findings?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosis?: NullableStringFieldUpdateOperationsInput | string | null
+    icd_code?: NullableStringFieldUpdateOperationsInput | string | null
+    treatment_plan?: NullableStringFieldUpdateOperationsInput | string | null
+    orders?: NullableStringFieldUpdateOperationsInput | string | null
+    pcp_doctor?: NullableStringFieldUpdateOperationsInput | string | null
+    doctor_id?: NullableIntFieldUpdateOperationsInput | number | null
+    doctor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    is_draft?: IntFieldUpdateOperationsInput | number
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConsultationNoteCreateManyInput = {
+    id?: number
+    queue_id: number
+    patient_id?: string | null
+    chief_complaint?: string | null
+    history_illness?: string | null
+    past_history?: string | null
+    family_history?: string | null
+    pe_findings?: string | null
+    diagnosis?: string | null
+    icd_code?: string | null
+    treatment_plan?: string | null
+    orders?: string | null
+    pcp_doctor?: string | null
+    doctor_id?: number | null
+    doctor_name?: string | null
+    is_draft?: number
+    status?: string | null
+    recorded_by?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ConsultationNoteUpdateManyMutationInput = {
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    chief_complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    history_illness?: NullableStringFieldUpdateOperationsInput | string | null
+    past_history?: NullableStringFieldUpdateOperationsInput | string | null
+    family_history?: NullableStringFieldUpdateOperationsInput | string | null
+    pe_findings?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosis?: NullableStringFieldUpdateOperationsInput | string | null
+    icd_code?: NullableStringFieldUpdateOperationsInput | string | null
+    treatment_plan?: NullableStringFieldUpdateOperationsInput | string | null
+    orders?: NullableStringFieldUpdateOperationsInput | string | null
+    pcp_doctor?: NullableStringFieldUpdateOperationsInput | string | null
+    doctor_id?: NullableIntFieldUpdateOperationsInput | number | null
+    doctor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    is_draft?: IntFieldUpdateOperationsInput | number
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ConsultationNoteUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    chief_complaint?: NullableStringFieldUpdateOperationsInput | string | null
+    history_illness?: NullableStringFieldUpdateOperationsInput | string | null
+    past_history?: NullableStringFieldUpdateOperationsInput | string | null
+    family_history?: NullableStringFieldUpdateOperationsInput | string | null
+    pe_findings?: NullableStringFieldUpdateOperationsInput | string | null
+    diagnosis?: NullableStringFieldUpdateOperationsInput | string | null
+    icd_code?: NullableStringFieldUpdateOperationsInput | string | null
+    treatment_plan?: NullableStringFieldUpdateOperationsInput | string | null
+    orders?: NullableStringFieldUpdateOperationsInput | string | null
+    pcp_doctor?: NullableStringFieldUpdateOperationsInput | string | null
+    doctor_id?: NullableIntFieldUpdateOperationsInput | number | null
+    doctor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    is_draft?: IntFieldUpdateOperationsInput | number
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PhysicalExaminationCreateInput = {
+    queue_id: number
+    patient_id?: string | null
+    hypertension?: boolean
+    diabetes?: boolean
+    asthma?: boolean
+    heart_disease?: boolean
+    thyroid_disease?: boolean
+    kidney_disease?: boolean
+    allergies?: boolean
+    allergies_specify?: string | null
+    surgery_history?: boolean
+    surgery_specify?: string | null
+    smoker?: boolean
+    pack_years?: number | null
+    alcoholic?: boolean
+    lmp?: Date | string | null
+    gravida?: number | null
+    para?: number | null
+    family_hypertension?: boolean
+    family_diabetes?: boolean
+    family_cancer?: boolean
+    skin?: string | null
+    heent?: string | null
+    neck?: string | null
+    chest_lungs?: string | null
+    heart?: string | null
+    abdomen?: string | null
+    extremities?: string | null
+    neurological?: string | null
+    fitness_class?: string | null
+    recorded_by?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type PhysicalExaminationUncheckedCreateInput = {
+    id?: number
+    queue_id: number
+    patient_id?: string | null
+    hypertension?: boolean
+    diabetes?: boolean
+    asthma?: boolean
+    heart_disease?: boolean
+    thyroid_disease?: boolean
+    kidney_disease?: boolean
+    allergies?: boolean
+    allergies_specify?: string | null
+    surgery_history?: boolean
+    surgery_specify?: string | null
+    smoker?: boolean
+    pack_years?: number | null
+    alcoholic?: boolean
+    lmp?: Date | string | null
+    gravida?: number | null
+    para?: number | null
+    family_hypertension?: boolean
+    family_diabetes?: boolean
+    family_cancer?: boolean
+    skin?: string | null
+    heent?: string | null
+    neck?: string | null
+    chest_lungs?: string | null
+    heart?: string | null
+    abdomen?: string | null
+    extremities?: string | null
+    neurological?: string | null
+    fitness_class?: string | null
+    recorded_by?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type PhysicalExaminationUpdateInput = {
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    hypertension?: BoolFieldUpdateOperationsInput | boolean
+    diabetes?: BoolFieldUpdateOperationsInput | boolean
+    asthma?: BoolFieldUpdateOperationsInput | boolean
+    heart_disease?: BoolFieldUpdateOperationsInput | boolean
+    thyroid_disease?: BoolFieldUpdateOperationsInput | boolean
+    kidney_disease?: BoolFieldUpdateOperationsInput | boolean
+    allergies?: BoolFieldUpdateOperationsInput | boolean
+    allergies_specify?: NullableStringFieldUpdateOperationsInput | string | null
+    surgery_history?: BoolFieldUpdateOperationsInput | boolean
+    surgery_specify?: NullableStringFieldUpdateOperationsInput | string | null
+    smoker?: BoolFieldUpdateOperationsInput | boolean
+    pack_years?: NullableFloatFieldUpdateOperationsInput | number | null
+    alcoholic?: BoolFieldUpdateOperationsInput | boolean
+    lmp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gravida?: NullableIntFieldUpdateOperationsInput | number | null
+    para?: NullableIntFieldUpdateOperationsInput | number | null
+    family_hypertension?: BoolFieldUpdateOperationsInput | boolean
+    family_diabetes?: BoolFieldUpdateOperationsInput | boolean
+    family_cancer?: BoolFieldUpdateOperationsInput | boolean
+    skin?: NullableStringFieldUpdateOperationsInput | string | null
+    heent?: NullableStringFieldUpdateOperationsInput | string | null
+    neck?: NullableStringFieldUpdateOperationsInput | string | null
+    chest_lungs?: NullableStringFieldUpdateOperationsInput | string | null
+    heart?: NullableStringFieldUpdateOperationsInput | string | null
+    abdomen?: NullableStringFieldUpdateOperationsInput | string | null
+    extremities?: NullableStringFieldUpdateOperationsInput | string | null
+    neurological?: NullableStringFieldUpdateOperationsInput | string | null
+    fitness_class?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PhysicalExaminationUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    hypertension?: BoolFieldUpdateOperationsInput | boolean
+    diabetes?: BoolFieldUpdateOperationsInput | boolean
+    asthma?: BoolFieldUpdateOperationsInput | boolean
+    heart_disease?: BoolFieldUpdateOperationsInput | boolean
+    thyroid_disease?: BoolFieldUpdateOperationsInput | boolean
+    kidney_disease?: BoolFieldUpdateOperationsInput | boolean
+    allergies?: BoolFieldUpdateOperationsInput | boolean
+    allergies_specify?: NullableStringFieldUpdateOperationsInput | string | null
+    surgery_history?: BoolFieldUpdateOperationsInput | boolean
+    surgery_specify?: NullableStringFieldUpdateOperationsInput | string | null
+    smoker?: BoolFieldUpdateOperationsInput | boolean
+    pack_years?: NullableFloatFieldUpdateOperationsInput | number | null
+    alcoholic?: BoolFieldUpdateOperationsInput | boolean
+    lmp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gravida?: NullableIntFieldUpdateOperationsInput | number | null
+    para?: NullableIntFieldUpdateOperationsInput | number | null
+    family_hypertension?: BoolFieldUpdateOperationsInput | boolean
+    family_diabetes?: BoolFieldUpdateOperationsInput | boolean
+    family_cancer?: BoolFieldUpdateOperationsInput | boolean
+    skin?: NullableStringFieldUpdateOperationsInput | string | null
+    heent?: NullableStringFieldUpdateOperationsInput | string | null
+    neck?: NullableStringFieldUpdateOperationsInput | string | null
+    chest_lungs?: NullableStringFieldUpdateOperationsInput | string | null
+    heart?: NullableStringFieldUpdateOperationsInput | string | null
+    abdomen?: NullableStringFieldUpdateOperationsInput | string | null
+    extremities?: NullableStringFieldUpdateOperationsInput | string | null
+    neurological?: NullableStringFieldUpdateOperationsInput | string | null
+    fitness_class?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PhysicalExaminationCreateManyInput = {
+    id?: number
+    queue_id: number
+    patient_id?: string | null
+    hypertension?: boolean
+    diabetes?: boolean
+    asthma?: boolean
+    heart_disease?: boolean
+    thyroid_disease?: boolean
+    kidney_disease?: boolean
+    allergies?: boolean
+    allergies_specify?: string | null
+    surgery_history?: boolean
+    surgery_specify?: string | null
+    smoker?: boolean
+    pack_years?: number | null
+    alcoholic?: boolean
+    lmp?: Date | string | null
+    gravida?: number | null
+    para?: number | null
+    family_hypertension?: boolean
+    family_diabetes?: boolean
+    family_cancer?: boolean
+    skin?: string | null
+    heent?: string | null
+    neck?: string | null
+    chest_lungs?: string | null
+    heart?: string | null
+    abdomen?: string | null
+    extremities?: string | null
+    neurological?: string | null
+    fitness_class?: string | null
+    recorded_by?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type PhysicalExaminationUpdateManyMutationInput = {
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    hypertension?: BoolFieldUpdateOperationsInput | boolean
+    diabetes?: BoolFieldUpdateOperationsInput | boolean
+    asthma?: BoolFieldUpdateOperationsInput | boolean
+    heart_disease?: BoolFieldUpdateOperationsInput | boolean
+    thyroid_disease?: BoolFieldUpdateOperationsInput | boolean
+    kidney_disease?: BoolFieldUpdateOperationsInput | boolean
+    allergies?: BoolFieldUpdateOperationsInput | boolean
+    allergies_specify?: NullableStringFieldUpdateOperationsInput | string | null
+    surgery_history?: BoolFieldUpdateOperationsInput | boolean
+    surgery_specify?: NullableStringFieldUpdateOperationsInput | string | null
+    smoker?: BoolFieldUpdateOperationsInput | boolean
+    pack_years?: NullableFloatFieldUpdateOperationsInput | number | null
+    alcoholic?: BoolFieldUpdateOperationsInput | boolean
+    lmp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gravida?: NullableIntFieldUpdateOperationsInput | number | null
+    para?: NullableIntFieldUpdateOperationsInput | number | null
+    family_hypertension?: BoolFieldUpdateOperationsInput | boolean
+    family_diabetes?: BoolFieldUpdateOperationsInput | boolean
+    family_cancer?: BoolFieldUpdateOperationsInput | boolean
+    skin?: NullableStringFieldUpdateOperationsInput | string | null
+    heent?: NullableStringFieldUpdateOperationsInput | string | null
+    neck?: NullableStringFieldUpdateOperationsInput | string | null
+    chest_lungs?: NullableStringFieldUpdateOperationsInput | string | null
+    heart?: NullableStringFieldUpdateOperationsInput | string | null
+    abdomen?: NullableStringFieldUpdateOperationsInput | string | null
+    extremities?: NullableStringFieldUpdateOperationsInput | string | null
+    neurological?: NullableStringFieldUpdateOperationsInput | string | null
+    fitness_class?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PhysicalExaminationUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    hypertension?: BoolFieldUpdateOperationsInput | boolean
+    diabetes?: BoolFieldUpdateOperationsInput | boolean
+    asthma?: BoolFieldUpdateOperationsInput | boolean
+    heart_disease?: BoolFieldUpdateOperationsInput | boolean
+    thyroid_disease?: BoolFieldUpdateOperationsInput | boolean
+    kidney_disease?: BoolFieldUpdateOperationsInput | boolean
+    allergies?: BoolFieldUpdateOperationsInput | boolean
+    allergies_specify?: NullableStringFieldUpdateOperationsInput | string | null
+    surgery_history?: BoolFieldUpdateOperationsInput | boolean
+    surgery_specify?: NullableStringFieldUpdateOperationsInput | string | null
+    smoker?: BoolFieldUpdateOperationsInput | boolean
+    pack_years?: NullableFloatFieldUpdateOperationsInput | number | null
+    alcoholic?: BoolFieldUpdateOperationsInput | boolean
+    lmp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gravida?: NullableIntFieldUpdateOperationsInput | number | null
+    para?: NullableIntFieldUpdateOperationsInput | number | null
+    family_hypertension?: BoolFieldUpdateOperationsInput | boolean
+    family_diabetes?: BoolFieldUpdateOperationsInput | boolean
+    family_cancer?: BoolFieldUpdateOperationsInput | boolean
+    skin?: NullableStringFieldUpdateOperationsInput | string | null
+    heent?: NullableStringFieldUpdateOperationsInput | string | null
+    neck?: NullableStringFieldUpdateOperationsInput | string | null
+    chest_lungs?: NullableStringFieldUpdateOperationsInput | string | null
+    heart?: NullableStringFieldUpdateOperationsInput | string | null
+    abdomen?: NullableStringFieldUpdateOperationsInput | string | null
+    extremities?: NullableStringFieldUpdateOperationsInput | string | null
+    neurological?: NullableStringFieldUpdateOperationsInput | string | null
+    fitness_class?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MedicalEvaluationCreateInput = {
+    queue_id: number
+    patient_id?: string | null
+    item_code: string
+    item_name?: string | null
+    findings?: string | null
+    assessment?: string | null
+    recommendation?: string | null
+    class_value?: string | null
+    recorded_by?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type MedicalEvaluationUncheckedCreateInput = {
+    id?: number
+    queue_id: number
+    patient_id?: string | null
+    item_code: string
+    item_name?: string | null
+    findings?: string | null
+    assessment?: string | null
+    recommendation?: string | null
+    class_value?: string | null
+    recorded_by?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type MedicalEvaluationUpdateInput = {
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    item_code?: StringFieldUpdateOperationsInput | string
+    item_name?: NullableStringFieldUpdateOperationsInput | string | null
+    findings?: NullableStringFieldUpdateOperationsInput | string | null
+    assessment?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: NullableStringFieldUpdateOperationsInput | string | null
+    class_value?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MedicalEvaluationUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    item_code?: StringFieldUpdateOperationsInput | string
+    item_name?: NullableStringFieldUpdateOperationsInput | string | null
+    findings?: NullableStringFieldUpdateOperationsInput | string | null
+    assessment?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: NullableStringFieldUpdateOperationsInput | string | null
+    class_value?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MedicalEvaluationCreateManyInput = {
+    id?: number
+    queue_id: number
+    patient_id?: string | null
+    item_code: string
+    item_name?: string | null
+    findings?: string | null
+    assessment?: string | null
+    recommendation?: string | null
+    class_value?: string | null
+    recorded_by?: number | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type MedicalEvaluationUpdateManyMutationInput = {
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    item_code?: StringFieldUpdateOperationsInput | string
+    item_name?: NullableStringFieldUpdateOperationsInput | string | null
+    findings?: NullableStringFieldUpdateOperationsInput | string | null
+    assessment?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: NullableStringFieldUpdateOperationsInput | string | null
+    class_value?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MedicalEvaluationUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    queue_id?: IntFieldUpdateOperationsInput | number
+    patient_id?: NullableStringFieldUpdateOperationsInput | string | null
+    item_code?: StringFieldUpdateOperationsInput | string
+    item_name?: NullableStringFieldUpdateOperationsInput | string | null
+    findings?: NullableStringFieldUpdateOperationsInput | string | null
+    assessment?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: NullableStringFieldUpdateOperationsInput | string | null
+    class_value?: NullableStringFieldUpdateOperationsInput | string | null
+    recorded_by?: NullableIntFieldUpdateOperationsInput | number | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PrescriptionCreateInput = {
+    queue_id: bigint | number
+    patient_id: bigint | number
+    doctor_name?: string | null
+    notes?: string | null
+    printed_at?: Date | string | null
+    input_by?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    items?: PrescriptionItemCreateNestedManyWithoutPrescriptionInput
+  }
+
+  export type PrescriptionUncheckedCreateInput = {
+    id?: number
+    queue_id: bigint | number
+    patient_id: bigint | number
+    doctor_name?: string | null
+    notes?: string | null
+    printed_at?: Date | string | null
+    input_by?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    items?: PrescriptionItemUncheckedCreateNestedManyWithoutPrescriptionInput
+  }
+
+  export type PrescriptionUpdateInput = {
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    patient_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    doctor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    printed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    input_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: PrescriptionItemUpdateManyWithoutPrescriptionNestedInput
+  }
+
+  export type PrescriptionUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    patient_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    doctor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    printed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    input_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: PrescriptionItemUncheckedUpdateManyWithoutPrescriptionNestedInput
+  }
+
+  export type PrescriptionCreateManyInput = {
+    id?: number
+    queue_id: bigint | number
+    patient_id: bigint | number
+    doctor_name?: string | null
+    notes?: string | null
+    printed_at?: Date | string | null
+    input_by?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type PrescriptionUpdateManyMutationInput = {
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    patient_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    doctor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    printed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    input_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PrescriptionUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    patient_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    doctor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    printed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    input_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PrescriptionItemCreateInput = {
+    medication: string
+    dosage?: string | null
+    frequency?: string | null
+    duration?: string | null
+    quantity?: number | null
+    instructions?: string | null
+    prescription: PrescriptionCreateNestedOneWithoutItemsInput
+  }
+
+  export type PrescriptionItemUncheckedCreateInput = {
+    id?: number
+    prescription_id: number
+    medication: string
+    dosage?: string | null
+    frequency?: string | null
+    duration?: string | null
+    quantity?: number | null
+    instructions?: string | null
+  }
+
+  export type PrescriptionItemUpdateInput = {
+    medication?: StringFieldUpdateOperationsInput | string
+    dosage?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+    prescription?: PrescriptionUpdateOneRequiredWithoutItemsNestedInput
+  }
+
+  export type PrescriptionItemUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    prescription_id?: IntFieldUpdateOperationsInput | number
+    medication?: StringFieldUpdateOperationsInput | string
+    dosage?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PrescriptionItemCreateManyInput = {
+    id?: number
+    prescription_id: number
+    medication: string
+    dosage?: string | null
+    frequency?: string | null
+    duration?: string | null
+    quantity?: number | null
+    instructions?: string | null
+  }
+
+  export type PrescriptionItemUpdateManyMutationInput = {
+    medication?: StringFieldUpdateOperationsInput | string
+    dosage?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PrescriptionItemUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    prescription_id?: IntFieldUpdateOperationsInput | number
+    medication?: StringFieldUpdateOperationsInput | string
+    dosage?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ResultValueCreateInput = {
+    accession_id: bigint | number
+    queue_id: bigint | number
+    item_code?: string | null
+    item_description?: string | null
+    result_value?: string | null
+    result_unit?: string | null
+    normal_range?: string | null
+    flag?: string | null
+    remarks?: string | null
+    encoded_by?: string | null
+    encoded_at?: Date | string | null
+    validated_by?: string | null
+    validated_at?: Date | string | null
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ResultValueUncheckedCreateInput = {
+    id?: number
+    accession_id: bigint | number
+    queue_id: bigint | number
+    item_code?: string | null
+    item_description?: string | null
+    result_value?: string | null
+    result_unit?: string | null
+    normal_range?: string | null
+    flag?: string | null
+    remarks?: string | null
+    encoded_by?: string | null
+    encoded_at?: Date | string | null
+    validated_by?: string | null
+    validated_at?: Date | string | null
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ResultValueUpdateInput = {
+    accession_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    item_code?: NullableStringFieldUpdateOperationsInput | string | null
+    item_description?: NullableStringFieldUpdateOperationsInput | string | null
+    result_value?: NullableStringFieldUpdateOperationsInput | string | null
+    result_unit?: NullableStringFieldUpdateOperationsInput | string | null
+    normal_range?: NullableStringFieldUpdateOperationsInput | string | null
+    flag?: NullableStringFieldUpdateOperationsInput | string | null
+    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_by?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    validated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResultValueUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    accession_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    item_code?: NullableStringFieldUpdateOperationsInput | string | null
+    item_description?: NullableStringFieldUpdateOperationsInput | string | null
+    result_value?: NullableStringFieldUpdateOperationsInput | string | null
+    result_unit?: NullableStringFieldUpdateOperationsInput | string | null
+    normal_range?: NullableStringFieldUpdateOperationsInput | string | null
+    flag?: NullableStringFieldUpdateOperationsInput | string | null
+    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_by?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    validated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResultValueCreateManyInput = {
+    id?: number
+    accession_id: bigint | number
+    queue_id: bigint | number
+    item_code?: string | null
+    item_description?: string | null
+    result_value?: string | null
+    result_unit?: string | null
+    normal_range?: string | null
+    flag?: string | null
+    remarks?: string | null
+    encoded_by?: string | null
+    encoded_at?: Date | string | null
+    validated_by?: string | null
+    validated_at?: Date | string | null
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ResultValueUpdateManyMutationInput = {
+    accession_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    item_code?: NullableStringFieldUpdateOperationsInput | string | null
+    item_description?: NullableStringFieldUpdateOperationsInput | string | null
+    result_value?: NullableStringFieldUpdateOperationsInput | string | null
+    result_unit?: NullableStringFieldUpdateOperationsInput | string | null
+    normal_range?: NullableStringFieldUpdateOperationsInput | string | null
+    flag?: NullableStringFieldUpdateOperationsInput | string | null
+    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_by?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    validated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ResultValueUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    accession_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    item_code?: NullableStringFieldUpdateOperationsInput | string | null
+    item_description?: NullableStringFieldUpdateOperationsInput | string | null
+    result_value?: NullableStringFieldUpdateOperationsInput | string | null
+    result_unit?: NullableStringFieldUpdateOperationsInput | string | null
+    normal_range?: NullableStringFieldUpdateOperationsInput | string | null
+    flag?: NullableStringFieldUpdateOperationsInput | string | null
+    remarks?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_by?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    validated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImagingResultCreateInput = {
+    accession_id: bigint | number
+    queue_id: bigint | number
+    item_code?: string | null
+    item_description?: string | null
+    interpretation?: string | null
+    impression?: string | null
+    radiologist_name?: string | null
+    encoded_by?: string | null
+    encoded_at?: Date | string | null
+    validated_by?: string | null
+    validated_at?: Date | string | null
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ImagingResultUncheckedCreateInput = {
+    id?: number
+    accession_id: bigint | number
+    queue_id: bigint | number
+    item_code?: string | null
+    item_description?: string | null
+    interpretation?: string | null
+    impression?: string | null
+    radiologist_name?: string | null
+    encoded_by?: string | null
+    encoded_at?: Date | string | null
+    validated_by?: string | null
+    validated_at?: Date | string | null
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ImagingResultUpdateInput = {
+    accession_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    item_code?: NullableStringFieldUpdateOperationsInput | string | null
+    item_description?: NullableStringFieldUpdateOperationsInput | string | null
+    interpretation?: NullableStringFieldUpdateOperationsInput | string | null
+    impression?: NullableStringFieldUpdateOperationsInput | string | null
+    radiologist_name?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_by?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    validated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImagingResultUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    accession_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    item_code?: NullableStringFieldUpdateOperationsInput | string | null
+    item_description?: NullableStringFieldUpdateOperationsInput | string | null
+    interpretation?: NullableStringFieldUpdateOperationsInput | string | null
+    impression?: NullableStringFieldUpdateOperationsInput | string | null
+    radiologist_name?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_by?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    validated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImagingResultCreateManyInput = {
+    id?: number
+    accession_id: bigint | number
+    queue_id: bigint | number
+    item_code?: string | null
+    item_description?: string | null
+    interpretation?: string | null
+    impression?: string | null
+    radiologist_name?: string | null
+    encoded_by?: string | null
+    encoded_at?: Date | string | null
+    validated_by?: string | null
+    validated_at?: Date | string | null
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ImagingResultUpdateManyMutationInput = {
+    accession_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    item_code?: NullableStringFieldUpdateOperationsInput | string | null
+    item_description?: NullableStringFieldUpdateOperationsInput | string | null
+    interpretation?: NullableStringFieldUpdateOperationsInput | string | null
+    impression?: NullableStringFieldUpdateOperationsInput | string | null
+    radiologist_name?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_by?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    validated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ImagingResultUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    accession_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    item_code?: NullableStringFieldUpdateOperationsInput | string | null
+    item_description?: NullableStringFieldUpdateOperationsInput | string | null
+    interpretation?: NullableStringFieldUpdateOperationsInput | string | null
+    impression?: NullableStringFieldUpdateOperationsInput | string | null
+    radiologist_name?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_by?: NullableStringFieldUpdateOperationsInput | string | null
+    encoded_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    validated_by?: NullableStringFieldUpdateOperationsInput | string | null
+    validated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type cardNumberCreateInput = {
+    id: number
+    year?: string | null
+    batch?: string | null
+    month?: string | null
+    seriesNum?: string | null
+    maskedSeries?: string | null
+    generatedcardnumber?: string | null
+    codeCompany?: string | null
+    generatedBy?: string | null
+  }
+
+  export type cardNumberUncheckedCreateInput = {
+    id: number
+    year?: string | null
+    batch?: string | null
+    month?: string | null
+    seriesNum?: string | null
+    maskedSeries?: string | null
+    generatedcardnumber?: string | null
+    codeCompany?: string | null
+    generatedBy?: string | null
+  }
+
+  export type cardNumberUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    year?: NullableStringFieldUpdateOperationsInput | string | null
+    batch?: NullableStringFieldUpdateOperationsInput | string | null
+    month?: NullableStringFieldUpdateOperationsInput | string | null
+    seriesNum?: NullableStringFieldUpdateOperationsInput | string | null
+    maskedSeries?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedcardnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    codeCompany?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type cardNumberUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    year?: NullableStringFieldUpdateOperationsInput | string | null
+    batch?: NullableStringFieldUpdateOperationsInput | string | null
+    month?: NullableStringFieldUpdateOperationsInput | string | null
+    seriesNum?: NullableStringFieldUpdateOperationsInput | string | null
+    maskedSeries?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedcardnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    codeCompany?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type cardNumberCreateManyInput = {
+    id: number
+    year?: string | null
+    batch?: string | null
+    month?: string | null
+    seriesNum?: string | null
+    maskedSeries?: string | null
+    generatedcardnumber?: string | null
+    codeCompany?: string | null
+    generatedBy?: string | null
+  }
+
+  export type cardNumberUpdateManyMutationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    year?: NullableStringFieldUpdateOperationsInput | string | null
+    batch?: NullableStringFieldUpdateOperationsInput | string | null
+    month?: NullableStringFieldUpdateOperationsInput | string | null
+    seriesNum?: NullableStringFieldUpdateOperationsInput | string | null
+    maskedSeries?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedcardnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    codeCompany?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type cardNumberUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    year?: NullableStringFieldUpdateOperationsInput | string | null
+    batch?: NullableStringFieldUpdateOperationsInput | string | null
+    month?: NullableStringFieldUpdateOperationsInput | string | null
+    seriesNum?: NullableStringFieldUpdateOperationsInput | string | null
+    maskedSeries?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedcardnumber?: NullableStringFieldUpdateOperationsInput | string | null
+    codeCompany?: NullableStringFieldUpdateOperationsInput | string | null
+    generatedBy?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type cardVerifiedCreateInput = {
+    id: number
+    verifiedcardnumbers?: string | null
+    ictreceived?: string | null
+    datereceived?: Date | string | null
+  }
+
+  export type cardVerifiedUncheckedCreateInput = {
+    id: number
+    verifiedcardnumbers?: string | null
+    ictreceived?: string | null
+    datereceived?: Date | string | null
+  }
+
+  export type cardVerifiedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    verifiedcardnumbers?: NullableStringFieldUpdateOperationsInput | string | null
+    ictreceived?: NullableStringFieldUpdateOperationsInput | string | null
+    datereceived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type cardVerifiedUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    verifiedcardnumbers?: NullableStringFieldUpdateOperationsInput | string | null
+    ictreceived?: NullableStringFieldUpdateOperationsInput | string | null
+    datereceived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type cardVerifiedCreateManyInput = {
+    id: number
+    verifiedcardnumbers?: string | null
+    ictreceived?: string | null
+    datereceived?: Date | string | null
+  }
+
+  export type cardVerifiedUpdateManyMutationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    verifiedcardnumbers?: NullableStringFieldUpdateOperationsInput | string | null
+    ictreceived?: NullableStringFieldUpdateOperationsInput | string | null
+    datereceived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type cardVerifiedUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    verifiedcardnumbers?: NullableStringFieldUpdateOperationsInput | string | null
+    ictreceived?: NullableStringFieldUpdateOperationsInput | string | null
+    datereceived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -51924,6 +68722,776 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type cardEnrollmentCountOrderByAggregateInput = {
+    id?: SortOrder
+    cardnumber?: SortOrder
+    dateenrolled?: SortOrder
+    daterelease?: SortOrder
+    releaseto?: SortOrder
+    oldreleaseto?: SortOrder
+    releaseby?: SortOrder
+    receivedby?: SortOrder
+    receiveddate?: SortOrder
+    status?: SortOrder
+    transferto?: SortOrder
+    datetransfer?: SortOrder
+    transferby?: SortOrder
+  }
+
+  export type cardEnrollmentAvgOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+  }
+
+  export type cardEnrollmentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    cardnumber?: SortOrder
+    dateenrolled?: SortOrder
+    daterelease?: SortOrder
+    releaseto?: SortOrder
+    oldreleaseto?: SortOrder
+    releaseby?: SortOrder
+    receivedby?: SortOrder
+    receiveddate?: SortOrder
+    status?: SortOrder
+    transferto?: SortOrder
+    datetransfer?: SortOrder
+    transferby?: SortOrder
+  }
+
+  export type cardEnrollmentMinOrderByAggregateInput = {
+    id?: SortOrder
+    cardnumber?: SortOrder
+    dateenrolled?: SortOrder
+    daterelease?: SortOrder
+    releaseto?: SortOrder
+    oldreleaseto?: SortOrder
+    releaseby?: SortOrder
+    receivedby?: SortOrder
+    receiveddate?: SortOrder
+    status?: SortOrder
+    transferto?: SortOrder
+    datetransfer?: SortOrder
+    transferby?: SortOrder
+  }
+
+  export type cardEnrollmentSumOrderByAggregateInput = {
+    id?: SortOrder
+    status?: SortOrder
+  }
+
+  export type VitalSignCountOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    chief_complaint?: SortOrder
+    pcp_doctor?: SortOrder
+    bp_systolic?: SortOrder
+    bp_diastolic?: SortOrder
+    bp_systolic2?: SortOrder
+    bp_diastolic2?: SortOrder
+    bp_systolic3?: SortOrder
+    bp_diastolic3?: SortOrder
+    heart_rate?: SortOrder
+    temperature?: SortOrder
+    respiratory_rate?: SortOrder
+    weight_kg?: SortOrder
+    height_cm?: SortOrder
+    bmi?: SortOrder
+    vision_right_od?: SortOrder
+    vision_left_os?: SortOrder
+    vision_corrected?: SortOrder
+    color_vision?: SortOrder
+    recorded_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type VitalSignAvgOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    bp_systolic?: SortOrder
+    bp_diastolic?: SortOrder
+    bp_systolic2?: SortOrder
+    bp_diastolic2?: SortOrder
+    bp_systolic3?: SortOrder
+    bp_diastolic3?: SortOrder
+    heart_rate?: SortOrder
+    temperature?: SortOrder
+    respiratory_rate?: SortOrder
+    weight_kg?: SortOrder
+    height_cm?: SortOrder
+    bmi?: SortOrder
+    recorded_by?: SortOrder
+  }
+
+  export type VitalSignMaxOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    chief_complaint?: SortOrder
+    pcp_doctor?: SortOrder
+    bp_systolic?: SortOrder
+    bp_diastolic?: SortOrder
+    bp_systolic2?: SortOrder
+    bp_diastolic2?: SortOrder
+    bp_systolic3?: SortOrder
+    bp_diastolic3?: SortOrder
+    heart_rate?: SortOrder
+    temperature?: SortOrder
+    respiratory_rate?: SortOrder
+    weight_kg?: SortOrder
+    height_cm?: SortOrder
+    bmi?: SortOrder
+    vision_right_od?: SortOrder
+    vision_left_os?: SortOrder
+    vision_corrected?: SortOrder
+    color_vision?: SortOrder
+    recorded_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type VitalSignMinOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    chief_complaint?: SortOrder
+    pcp_doctor?: SortOrder
+    bp_systolic?: SortOrder
+    bp_diastolic?: SortOrder
+    bp_systolic2?: SortOrder
+    bp_diastolic2?: SortOrder
+    bp_systolic3?: SortOrder
+    bp_diastolic3?: SortOrder
+    heart_rate?: SortOrder
+    temperature?: SortOrder
+    respiratory_rate?: SortOrder
+    weight_kg?: SortOrder
+    height_cm?: SortOrder
+    bmi?: SortOrder
+    vision_right_od?: SortOrder
+    vision_left_os?: SortOrder
+    vision_corrected?: SortOrder
+    color_vision?: SortOrder
+    recorded_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type VitalSignSumOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    bp_systolic?: SortOrder
+    bp_diastolic?: SortOrder
+    bp_systolic2?: SortOrder
+    bp_diastolic2?: SortOrder
+    bp_systolic3?: SortOrder
+    bp_diastolic3?: SortOrder
+    heart_rate?: SortOrder
+    temperature?: SortOrder
+    respiratory_rate?: SortOrder
+    weight_kg?: SortOrder
+    height_cm?: SortOrder
+    bmi?: SortOrder
+    recorded_by?: SortOrder
+  }
+
+  export type ConsultationNoteCountOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    chief_complaint?: SortOrder
+    history_illness?: SortOrder
+    past_history?: SortOrder
+    family_history?: SortOrder
+    pe_findings?: SortOrder
+    diagnosis?: SortOrder
+    icd_code?: SortOrder
+    treatment_plan?: SortOrder
+    orders?: SortOrder
+    pcp_doctor?: SortOrder
+    doctor_id?: SortOrder
+    doctor_name?: SortOrder
+    is_draft?: SortOrder
+    status?: SortOrder
+    recorded_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ConsultationNoteAvgOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    doctor_id?: SortOrder
+    is_draft?: SortOrder
+    recorded_by?: SortOrder
+  }
+
+  export type ConsultationNoteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    chief_complaint?: SortOrder
+    history_illness?: SortOrder
+    past_history?: SortOrder
+    family_history?: SortOrder
+    pe_findings?: SortOrder
+    diagnosis?: SortOrder
+    icd_code?: SortOrder
+    treatment_plan?: SortOrder
+    orders?: SortOrder
+    pcp_doctor?: SortOrder
+    doctor_id?: SortOrder
+    doctor_name?: SortOrder
+    is_draft?: SortOrder
+    status?: SortOrder
+    recorded_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ConsultationNoteMinOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    chief_complaint?: SortOrder
+    history_illness?: SortOrder
+    past_history?: SortOrder
+    family_history?: SortOrder
+    pe_findings?: SortOrder
+    diagnosis?: SortOrder
+    icd_code?: SortOrder
+    treatment_plan?: SortOrder
+    orders?: SortOrder
+    pcp_doctor?: SortOrder
+    doctor_id?: SortOrder
+    doctor_name?: SortOrder
+    is_draft?: SortOrder
+    status?: SortOrder
+    recorded_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ConsultationNoteSumOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    doctor_id?: SortOrder
+    is_draft?: SortOrder
+    recorded_by?: SortOrder
+  }
+
+  export type PhysicalExaminationCountOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    hypertension?: SortOrder
+    diabetes?: SortOrder
+    asthma?: SortOrder
+    heart_disease?: SortOrder
+    thyroid_disease?: SortOrder
+    kidney_disease?: SortOrder
+    allergies?: SortOrder
+    allergies_specify?: SortOrder
+    surgery_history?: SortOrder
+    surgery_specify?: SortOrder
+    smoker?: SortOrder
+    pack_years?: SortOrder
+    alcoholic?: SortOrder
+    lmp?: SortOrder
+    gravida?: SortOrder
+    para?: SortOrder
+    family_hypertension?: SortOrder
+    family_diabetes?: SortOrder
+    family_cancer?: SortOrder
+    skin?: SortOrder
+    heent?: SortOrder
+    neck?: SortOrder
+    chest_lungs?: SortOrder
+    heart?: SortOrder
+    abdomen?: SortOrder
+    extremities?: SortOrder
+    neurological?: SortOrder
+    fitness_class?: SortOrder
+    recorded_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type PhysicalExaminationAvgOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    pack_years?: SortOrder
+    gravida?: SortOrder
+    para?: SortOrder
+    recorded_by?: SortOrder
+  }
+
+  export type PhysicalExaminationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    hypertension?: SortOrder
+    diabetes?: SortOrder
+    asthma?: SortOrder
+    heart_disease?: SortOrder
+    thyroid_disease?: SortOrder
+    kidney_disease?: SortOrder
+    allergies?: SortOrder
+    allergies_specify?: SortOrder
+    surgery_history?: SortOrder
+    surgery_specify?: SortOrder
+    smoker?: SortOrder
+    pack_years?: SortOrder
+    alcoholic?: SortOrder
+    lmp?: SortOrder
+    gravida?: SortOrder
+    para?: SortOrder
+    family_hypertension?: SortOrder
+    family_diabetes?: SortOrder
+    family_cancer?: SortOrder
+    skin?: SortOrder
+    heent?: SortOrder
+    neck?: SortOrder
+    chest_lungs?: SortOrder
+    heart?: SortOrder
+    abdomen?: SortOrder
+    extremities?: SortOrder
+    neurological?: SortOrder
+    fitness_class?: SortOrder
+    recorded_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type PhysicalExaminationMinOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    hypertension?: SortOrder
+    diabetes?: SortOrder
+    asthma?: SortOrder
+    heart_disease?: SortOrder
+    thyroid_disease?: SortOrder
+    kidney_disease?: SortOrder
+    allergies?: SortOrder
+    allergies_specify?: SortOrder
+    surgery_history?: SortOrder
+    surgery_specify?: SortOrder
+    smoker?: SortOrder
+    pack_years?: SortOrder
+    alcoholic?: SortOrder
+    lmp?: SortOrder
+    gravida?: SortOrder
+    para?: SortOrder
+    family_hypertension?: SortOrder
+    family_diabetes?: SortOrder
+    family_cancer?: SortOrder
+    skin?: SortOrder
+    heent?: SortOrder
+    neck?: SortOrder
+    chest_lungs?: SortOrder
+    heart?: SortOrder
+    abdomen?: SortOrder
+    extremities?: SortOrder
+    neurological?: SortOrder
+    fitness_class?: SortOrder
+    recorded_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type PhysicalExaminationSumOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    pack_years?: SortOrder
+    gravida?: SortOrder
+    para?: SortOrder
+    recorded_by?: SortOrder
+  }
+
+  export type MedicalEvaluationQueue_id_item_codeCompoundUniqueInput = {
+    queue_id: number
+    item_code: string
+  }
+
+  export type MedicalEvaluationCountOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    item_code?: SortOrder
+    item_name?: SortOrder
+    findings?: SortOrder
+    assessment?: SortOrder
+    recommendation?: SortOrder
+    class_value?: SortOrder
+    recorded_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type MedicalEvaluationAvgOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    recorded_by?: SortOrder
+  }
+
+  export type MedicalEvaluationMaxOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    item_code?: SortOrder
+    item_name?: SortOrder
+    findings?: SortOrder
+    assessment?: SortOrder
+    recommendation?: SortOrder
+    class_value?: SortOrder
+    recorded_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type MedicalEvaluationMinOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    item_code?: SortOrder
+    item_name?: SortOrder
+    findings?: SortOrder
+    assessment?: SortOrder
+    recommendation?: SortOrder
+    class_value?: SortOrder
+    recorded_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type MedicalEvaluationSumOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    recorded_by?: SortOrder
+  }
+
+  export type PrescriptionItemListRelationFilter = {
+    every?: PrescriptionItemWhereInput
+    some?: PrescriptionItemWhereInput
+    none?: PrescriptionItemWhereInput
+  }
+
+  export type PrescriptionItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PrescriptionCountOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    doctor_name?: SortOrder
+    notes?: SortOrder
+    printed_at?: SortOrder
+    input_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type PrescriptionAvgOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+  }
+
+  export type PrescriptionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    doctor_name?: SortOrder
+    notes?: SortOrder
+    printed_at?: SortOrder
+    input_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type PrescriptionMinOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+    doctor_name?: SortOrder
+    notes?: SortOrder
+    printed_at?: SortOrder
+    input_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type PrescriptionSumOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    patient_id?: SortOrder
+  }
+
+  export type PrescriptionScalarRelationFilter = {
+    is?: PrescriptionWhereInput
+    isNot?: PrescriptionWhereInput
+  }
+
+  export type PrescriptionItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    prescription_id?: SortOrder
+    medication?: SortOrder
+    dosage?: SortOrder
+    frequency?: SortOrder
+    duration?: SortOrder
+    quantity?: SortOrder
+    instructions?: SortOrder
+  }
+
+  export type PrescriptionItemAvgOrderByAggregateInput = {
+    id?: SortOrder
+    prescription_id?: SortOrder
+    quantity?: SortOrder
+  }
+
+  export type PrescriptionItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    prescription_id?: SortOrder
+    medication?: SortOrder
+    dosage?: SortOrder
+    frequency?: SortOrder
+    duration?: SortOrder
+    quantity?: SortOrder
+    instructions?: SortOrder
+  }
+
+  export type PrescriptionItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    prescription_id?: SortOrder
+    medication?: SortOrder
+    dosage?: SortOrder
+    frequency?: SortOrder
+    duration?: SortOrder
+    quantity?: SortOrder
+    instructions?: SortOrder
+  }
+
+  export type PrescriptionItemSumOrderByAggregateInput = {
+    id?: SortOrder
+    prescription_id?: SortOrder
+    quantity?: SortOrder
+  }
+
+  export type ResultValueCountOrderByAggregateInput = {
+    id?: SortOrder
+    accession_id?: SortOrder
+    queue_id?: SortOrder
+    item_code?: SortOrder
+    item_description?: SortOrder
+    result_value?: SortOrder
+    result_unit?: SortOrder
+    normal_range?: SortOrder
+    flag?: SortOrder
+    remarks?: SortOrder
+    encoded_by?: SortOrder
+    encoded_at?: SortOrder
+    validated_by?: SortOrder
+    validated_at?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ResultValueAvgOrderByAggregateInput = {
+    id?: SortOrder
+    accession_id?: SortOrder
+    queue_id?: SortOrder
+  }
+
+  export type ResultValueMaxOrderByAggregateInput = {
+    id?: SortOrder
+    accession_id?: SortOrder
+    queue_id?: SortOrder
+    item_code?: SortOrder
+    item_description?: SortOrder
+    result_value?: SortOrder
+    result_unit?: SortOrder
+    normal_range?: SortOrder
+    flag?: SortOrder
+    remarks?: SortOrder
+    encoded_by?: SortOrder
+    encoded_at?: SortOrder
+    validated_by?: SortOrder
+    validated_at?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ResultValueMinOrderByAggregateInput = {
+    id?: SortOrder
+    accession_id?: SortOrder
+    queue_id?: SortOrder
+    item_code?: SortOrder
+    item_description?: SortOrder
+    result_value?: SortOrder
+    result_unit?: SortOrder
+    normal_range?: SortOrder
+    flag?: SortOrder
+    remarks?: SortOrder
+    encoded_by?: SortOrder
+    encoded_at?: SortOrder
+    validated_by?: SortOrder
+    validated_at?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ResultValueSumOrderByAggregateInput = {
+    id?: SortOrder
+    accession_id?: SortOrder
+    queue_id?: SortOrder
+  }
+
+  export type ImagingResultCountOrderByAggregateInput = {
+    id?: SortOrder
+    accession_id?: SortOrder
+    queue_id?: SortOrder
+    item_code?: SortOrder
+    item_description?: SortOrder
+    interpretation?: SortOrder
+    impression?: SortOrder
+    radiologist_name?: SortOrder
+    encoded_by?: SortOrder
+    encoded_at?: SortOrder
+    validated_by?: SortOrder
+    validated_at?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ImagingResultAvgOrderByAggregateInput = {
+    id?: SortOrder
+    accession_id?: SortOrder
+    queue_id?: SortOrder
+  }
+
+  export type ImagingResultMaxOrderByAggregateInput = {
+    id?: SortOrder
+    accession_id?: SortOrder
+    queue_id?: SortOrder
+    item_code?: SortOrder
+    item_description?: SortOrder
+    interpretation?: SortOrder
+    impression?: SortOrder
+    radiologist_name?: SortOrder
+    encoded_by?: SortOrder
+    encoded_at?: SortOrder
+    validated_by?: SortOrder
+    validated_at?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ImagingResultMinOrderByAggregateInput = {
+    id?: SortOrder
+    accession_id?: SortOrder
+    queue_id?: SortOrder
+    item_code?: SortOrder
+    item_description?: SortOrder
+    interpretation?: SortOrder
+    impression?: SortOrder
+    radiologist_name?: SortOrder
+    encoded_by?: SortOrder
+    encoded_at?: SortOrder
+    validated_by?: SortOrder
+    validated_at?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ImagingResultSumOrderByAggregateInput = {
+    id?: SortOrder
+    accession_id?: SortOrder
+    queue_id?: SortOrder
+  }
+
+  export type cardNumberCountOrderByAggregateInput = {
+    id?: SortOrder
+    year?: SortOrder
+    batch?: SortOrder
+    month?: SortOrder
+    seriesNum?: SortOrder
+    maskedSeries?: SortOrder
+    generatedcardnumber?: SortOrder
+    codeCompany?: SortOrder
+    generatedBy?: SortOrder
+  }
+
+  export type cardNumberAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type cardNumberMaxOrderByAggregateInput = {
+    id?: SortOrder
+    year?: SortOrder
+    batch?: SortOrder
+    month?: SortOrder
+    seriesNum?: SortOrder
+    maskedSeries?: SortOrder
+    generatedcardnumber?: SortOrder
+    codeCompany?: SortOrder
+    generatedBy?: SortOrder
+  }
+
+  export type cardNumberMinOrderByAggregateInput = {
+    id?: SortOrder
+    year?: SortOrder
+    batch?: SortOrder
+    month?: SortOrder
+    seriesNum?: SortOrder
+    maskedSeries?: SortOrder
+    generatedcardnumber?: SortOrder
+    codeCompany?: SortOrder
+    generatedBy?: SortOrder
+  }
+
+  export type cardNumberSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type cardVerifiedCountOrderByAggregateInput = {
+    id?: SortOrder
+    verifiedcardnumbers?: SortOrder
+    ictreceived?: SortOrder
+    datereceived?: SortOrder
+  }
+
+  export type cardVerifiedAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type cardVerifiedMaxOrderByAggregateInput = {
+    id?: SortOrder
+    verifiedcardnumbers?: SortOrder
+    ictreceived?: SortOrder
+    datereceived?: SortOrder
+  }
+
+  export type cardVerifiedMinOrderByAggregateInput = {
+    id?: SortOrder
+    verifiedcardnumbers?: SortOrder
+    ictreceived?: SortOrder
+    datereceived?: SortOrder
+  }
+
+  export type cardVerifiedSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
@@ -52002,6 +69570,62 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type PrescriptionItemCreateNestedManyWithoutPrescriptionInput = {
+    create?: XOR<PrescriptionItemCreateWithoutPrescriptionInput, PrescriptionItemUncheckedCreateWithoutPrescriptionInput> | PrescriptionItemCreateWithoutPrescriptionInput[] | PrescriptionItemUncheckedCreateWithoutPrescriptionInput[]
+    connectOrCreate?: PrescriptionItemCreateOrConnectWithoutPrescriptionInput | PrescriptionItemCreateOrConnectWithoutPrescriptionInput[]
+    createMany?: PrescriptionItemCreateManyPrescriptionInputEnvelope
+    connect?: PrescriptionItemWhereUniqueInput | PrescriptionItemWhereUniqueInput[]
+  }
+
+  export type PrescriptionItemUncheckedCreateNestedManyWithoutPrescriptionInput = {
+    create?: XOR<PrescriptionItemCreateWithoutPrescriptionInput, PrescriptionItemUncheckedCreateWithoutPrescriptionInput> | PrescriptionItemCreateWithoutPrescriptionInput[] | PrescriptionItemUncheckedCreateWithoutPrescriptionInput[]
+    connectOrCreate?: PrescriptionItemCreateOrConnectWithoutPrescriptionInput | PrescriptionItemCreateOrConnectWithoutPrescriptionInput[]
+    createMany?: PrescriptionItemCreateManyPrescriptionInputEnvelope
+    connect?: PrescriptionItemWhereUniqueInput | PrescriptionItemWhereUniqueInput[]
+  }
+
+  export type PrescriptionItemUpdateManyWithoutPrescriptionNestedInput = {
+    create?: XOR<PrescriptionItemCreateWithoutPrescriptionInput, PrescriptionItemUncheckedCreateWithoutPrescriptionInput> | PrescriptionItemCreateWithoutPrescriptionInput[] | PrescriptionItemUncheckedCreateWithoutPrescriptionInput[]
+    connectOrCreate?: PrescriptionItemCreateOrConnectWithoutPrescriptionInput | PrescriptionItemCreateOrConnectWithoutPrescriptionInput[]
+    upsert?: PrescriptionItemUpsertWithWhereUniqueWithoutPrescriptionInput | PrescriptionItemUpsertWithWhereUniqueWithoutPrescriptionInput[]
+    createMany?: PrescriptionItemCreateManyPrescriptionInputEnvelope
+    set?: PrescriptionItemWhereUniqueInput | PrescriptionItemWhereUniqueInput[]
+    disconnect?: PrescriptionItemWhereUniqueInput | PrescriptionItemWhereUniqueInput[]
+    delete?: PrescriptionItemWhereUniqueInput | PrescriptionItemWhereUniqueInput[]
+    connect?: PrescriptionItemWhereUniqueInput | PrescriptionItemWhereUniqueInput[]
+    update?: PrescriptionItemUpdateWithWhereUniqueWithoutPrescriptionInput | PrescriptionItemUpdateWithWhereUniqueWithoutPrescriptionInput[]
+    updateMany?: PrescriptionItemUpdateManyWithWhereWithoutPrescriptionInput | PrescriptionItemUpdateManyWithWhereWithoutPrescriptionInput[]
+    deleteMany?: PrescriptionItemScalarWhereInput | PrescriptionItemScalarWhereInput[]
+  }
+
+  export type PrescriptionItemUncheckedUpdateManyWithoutPrescriptionNestedInput = {
+    create?: XOR<PrescriptionItemCreateWithoutPrescriptionInput, PrescriptionItemUncheckedCreateWithoutPrescriptionInput> | PrescriptionItemCreateWithoutPrescriptionInput[] | PrescriptionItemUncheckedCreateWithoutPrescriptionInput[]
+    connectOrCreate?: PrescriptionItemCreateOrConnectWithoutPrescriptionInput | PrescriptionItemCreateOrConnectWithoutPrescriptionInput[]
+    upsert?: PrescriptionItemUpsertWithWhereUniqueWithoutPrescriptionInput | PrescriptionItemUpsertWithWhereUniqueWithoutPrescriptionInput[]
+    createMany?: PrescriptionItemCreateManyPrescriptionInputEnvelope
+    set?: PrescriptionItemWhereUniqueInput | PrescriptionItemWhereUniqueInput[]
+    disconnect?: PrescriptionItemWhereUniqueInput | PrescriptionItemWhereUniqueInput[]
+    delete?: PrescriptionItemWhereUniqueInput | PrescriptionItemWhereUniqueInput[]
+    connect?: PrescriptionItemWhereUniqueInput | PrescriptionItemWhereUniqueInput[]
+    update?: PrescriptionItemUpdateWithWhereUniqueWithoutPrescriptionInput | PrescriptionItemUpdateWithWhereUniqueWithoutPrescriptionInput[]
+    updateMany?: PrescriptionItemUpdateManyWithWhereWithoutPrescriptionInput | PrescriptionItemUpdateManyWithWhereWithoutPrescriptionInput[]
+    deleteMany?: PrescriptionItemScalarWhereInput | PrescriptionItemScalarWhereInput[]
+  }
+
+  export type PrescriptionCreateNestedOneWithoutItemsInput = {
+    create?: XOR<PrescriptionCreateWithoutItemsInput, PrescriptionUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: PrescriptionCreateOrConnectWithoutItemsInput
+    connect?: PrescriptionWhereUniqueInput
+  }
+
+  export type PrescriptionUpdateOneRequiredWithoutItemsNestedInput = {
+    create?: XOR<PrescriptionCreateWithoutItemsInput, PrescriptionUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: PrescriptionCreateOrConnectWithoutItemsInput
+    upsert?: PrescriptionUpsertWithoutItemsInput
+    connect?: PrescriptionWhereUniqueInput
+    update?: XOR<XOR<PrescriptionUpdateToOneWithWhereWithoutItemsInput, PrescriptionUpdateWithoutItemsInput>, PrescriptionUncheckedUpdateWithoutItemsInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -52329,6 +69953,166 @@ export namespace Prisma {
     _sum?: NestedFloatNullableFilter<$PrismaModel>
     _min?: NestedFloatNullableFilter<$PrismaModel>
     _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
+  export type PrescriptionItemCreateWithoutPrescriptionInput = {
+    medication: string
+    dosage?: string | null
+    frequency?: string | null
+    duration?: string | null
+    quantity?: number | null
+    instructions?: string | null
+  }
+
+  export type PrescriptionItemUncheckedCreateWithoutPrescriptionInput = {
+    id?: number
+    medication: string
+    dosage?: string | null
+    frequency?: string | null
+    duration?: string | null
+    quantity?: number | null
+    instructions?: string | null
+  }
+
+  export type PrescriptionItemCreateOrConnectWithoutPrescriptionInput = {
+    where: PrescriptionItemWhereUniqueInput
+    create: XOR<PrescriptionItemCreateWithoutPrescriptionInput, PrescriptionItemUncheckedCreateWithoutPrescriptionInput>
+  }
+
+  export type PrescriptionItemCreateManyPrescriptionInputEnvelope = {
+    data: PrescriptionItemCreateManyPrescriptionInput | PrescriptionItemCreateManyPrescriptionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PrescriptionItemUpsertWithWhereUniqueWithoutPrescriptionInput = {
+    where: PrescriptionItemWhereUniqueInput
+    update: XOR<PrescriptionItemUpdateWithoutPrescriptionInput, PrescriptionItemUncheckedUpdateWithoutPrescriptionInput>
+    create: XOR<PrescriptionItemCreateWithoutPrescriptionInput, PrescriptionItemUncheckedCreateWithoutPrescriptionInput>
+  }
+
+  export type PrescriptionItemUpdateWithWhereUniqueWithoutPrescriptionInput = {
+    where: PrescriptionItemWhereUniqueInput
+    data: XOR<PrescriptionItemUpdateWithoutPrescriptionInput, PrescriptionItemUncheckedUpdateWithoutPrescriptionInput>
+  }
+
+  export type PrescriptionItemUpdateManyWithWhereWithoutPrescriptionInput = {
+    where: PrescriptionItemScalarWhereInput
+    data: XOR<PrescriptionItemUpdateManyMutationInput, PrescriptionItemUncheckedUpdateManyWithoutPrescriptionInput>
+  }
+
+  export type PrescriptionItemScalarWhereInput = {
+    AND?: PrescriptionItemScalarWhereInput | PrescriptionItemScalarWhereInput[]
+    OR?: PrescriptionItemScalarWhereInput[]
+    NOT?: PrescriptionItemScalarWhereInput | PrescriptionItemScalarWhereInput[]
+    id?: IntFilter<"PrescriptionItem"> | number
+    prescription_id?: IntFilter<"PrescriptionItem"> | number
+    medication?: StringFilter<"PrescriptionItem"> | string
+    dosage?: StringNullableFilter<"PrescriptionItem"> | string | null
+    frequency?: StringNullableFilter<"PrescriptionItem"> | string | null
+    duration?: StringNullableFilter<"PrescriptionItem"> | string | null
+    quantity?: IntNullableFilter<"PrescriptionItem"> | number | null
+    instructions?: StringNullableFilter<"PrescriptionItem"> | string | null
+  }
+
+  export type PrescriptionCreateWithoutItemsInput = {
+    queue_id: bigint | number
+    patient_id: bigint | number
+    doctor_name?: string | null
+    notes?: string | null
+    printed_at?: Date | string | null
+    input_by?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type PrescriptionUncheckedCreateWithoutItemsInput = {
+    id?: number
+    queue_id: bigint | number
+    patient_id: bigint | number
+    doctor_name?: string | null
+    notes?: string | null
+    printed_at?: Date | string | null
+    input_by?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type PrescriptionCreateOrConnectWithoutItemsInput = {
+    where: PrescriptionWhereUniqueInput
+    create: XOR<PrescriptionCreateWithoutItemsInput, PrescriptionUncheckedCreateWithoutItemsInput>
+  }
+
+  export type PrescriptionUpsertWithoutItemsInput = {
+    update: XOR<PrescriptionUpdateWithoutItemsInput, PrescriptionUncheckedUpdateWithoutItemsInput>
+    create: XOR<PrescriptionCreateWithoutItemsInput, PrescriptionUncheckedCreateWithoutItemsInput>
+    where?: PrescriptionWhereInput
+  }
+
+  export type PrescriptionUpdateToOneWithWhereWithoutItemsInput = {
+    where?: PrescriptionWhereInput
+    data: XOR<PrescriptionUpdateWithoutItemsInput, PrescriptionUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type PrescriptionUpdateWithoutItemsInput = {
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    patient_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    doctor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    printed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    input_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PrescriptionUncheckedUpdateWithoutItemsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    patient_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    doctor_name?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    printed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    input_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PrescriptionItemCreateManyPrescriptionInput = {
+    id?: number
+    medication: string
+    dosage?: string | null
+    frequency?: string | null
+    duration?: string | null
+    quantity?: number | null
+    instructions?: string | null
+  }
+
+  export type PrescriptionItemUpdateWithoutPrescriptionInput = {
+    medication?: StringFieldUpdateOperationsInput | string
+    dosage?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PrescriptionItemUncheckedUpdateWithoutPrescriptionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    medication?: StringFieldUpdateOperationsInput | string
+    dosage?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PrescriptionItemUncheckedUpdateManyWithoutPrescriptionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    medication?: StringFieldUpdateOperationsInput | string
+    dosage?: NullableStringFieldUpdateOperationsInput | string | null
+    frequency?: NullableStringFieldUpdateOperationsInput | string | null
+    duration?: NullableStringFieldUpdateOperationsInput | string | null
+    quantity?: NullableIntFieldUpdateOperationsInput | number | null
+    instructions?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 
