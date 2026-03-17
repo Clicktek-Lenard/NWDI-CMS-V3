@@ -28,13 +28,18 @@
       "name": "§4 Patient Management",
       "tasks": [
         {
-          "name": "Create patient records & unique IDs",
+          "name": "Maintain demographics & contact details",
           "status": "done",
           "progress": 100
         },
         {
-          "name": "Maintain demographics & contact details",
+          "name": "Update patient info & record search",
           "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Create patient records & unique IDs",
+          "status": "not-started",
           "progress": 100
         },
         {
@@ -42,11 +47,6 @@
           "status": "done",
           "progress": 100,
           "notes": "SOAP/history captured in clinical module. Diagnostic results not linked — LIS external dependency."
-        },
-        {
-          "name": "Update patient info & record search",
-          "status": "done",
-          "progress": 100
         }
       ]
     },
