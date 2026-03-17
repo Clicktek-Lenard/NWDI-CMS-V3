@@ -54,12 +54,12 @@
       "name": "Mirth Integration",
       "tasks": [
         {
-          "name": "LIS Integration",
+          "name": "RIS Integration",
           "status": "not-started",
           "progress": 0
         },
         {
-          "name": "RIS Integration",
+          "name": "LIS Integration",
           "status": "done",
           "progress": 0
         }
