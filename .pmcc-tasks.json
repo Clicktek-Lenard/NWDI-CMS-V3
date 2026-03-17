@@ -28,18 +28,18 @@
       "name": "§4 Patient Management",
       "tasks": [
         {
-          "name": "Update patient info & record search",
-          "status": "done",
+          "name": "Maintain demographics & contact details",
+          "status": "not-started",
           "progress": 100
         },
         {
           "name": "Create patient records & unique IDs",
-          "status": "not-started",
+          "status": "done",
           "progress": 100
         },
         {
-          "name": "Maintain demographics & contact details",
-          "status": "not-started",
+          "name": "Update patient info & record search",
+          "status": "done",
           "progress": 100
         },
         {
