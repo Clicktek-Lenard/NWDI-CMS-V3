@@ -69,6 +69,21 @@
           "name": "Appointment dashboards & daily schedules",
           "status": "done",
           "progress": 100
+        },
+        {
+          "name": "Audit trail logging",
+          "status": "not-started",
+          "progress": 0
+        },
+        {
+          "name": "AML transaction monitoring",
+          "status": "not-started",
+          "progress": 0
+        },
+        {
+          "name": "KYC verification flow",
+          "status": "in-progress",
+          "progress": 25
         }
       ]
     },
@@ -208,6 +223,31 @@
           "name": "Cashier summary reports",
           "status": "done",
           "progress": 100
+        },
+        {
+          "name": "Bill pay scheduling",
+          "status": "done",
+          "progress": 10
+        },
+        {
+          "name": "Transfer limits & velocity checks",
+          "status": "done",
+          "progress": 0
+        },
+        {
+          "name": "Internal transfer between accounts",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "International wire transfers",
+          "status": "done",
+          "progress": 0
+        },
+        {
+          "name": "External bank transfer (ACH)",
+          "status": "done",
+          "progress": 30
         }
       ]
     },
@@ -235,6 +275,26 @@
           "status": "not-started",
           "progress": 0,
           "notes": "No patient portal or public result URL. Blocked — requires Oracle EROS."
+        },
+        {
+          "name": "Transaction history with search",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Account overview dashboard",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "Multi-currency display",
+          "status": "done",
+          "progress": 0
+        },
+        {
+          "name": "Statement download (PDF)",
+          "status": "done",
+          "progress": 45
         }
       ]
     },
@@ -278,6 +338,21 @@
           "name": "Manage item master list",
           "status": "done",
           "progress": 100
+        },
+        {
+          "name": "Transaction alerts",
+          "status": "done",
+          "progress": 0
+        },
+        {
+          "name": "Push notification service setup",
+          "status": "done",
+          "progress": 0
+        },
+        {
+          "name": "Low balance warnings",
+          "status": "done",
+          "progress": 0
         }
       ]
     },
@@ -298,6 +373,11 @@
           "name": "Maintain audit logs",
           "status": "done",
           "progress": 100
+        },
+        {
+          "name": "GDPR data export/deletion",
+          "status": "not-started",
+          "progress": 0
         },
         {
           "name": "GDPR data export/deletion",
@@ -331,6 +411,36 @@
         },
         {
           "name": "PIN-based fallback auth",
+          "status": "not-started",
+          "progress": 100
+        },
+        {
+          "name": "PIN-based fallback auth",
+          "status": "not-started",
+          "progress": 100
+        },
+        {
+          "name": "Biometric login (Face ID / Touch ID)",
+          "status": "not-started",
+          "progress": 100
+        },
+        {
+          "name": "test 1",
+          "status": "not-started",
+          "progress": 0
+        },
+        {
+          "name": "Device binding & registration",
+          "status": "not-started",
+          "progress": 50
+        },
+        {
+          "name": "Session timeout & auto-lock",
+          "status": "not-started",
+          "progress": 90
+        },
+        {
+          "name": "OAuth2 token refresh flow",
           "status": "not-started",
           "progress": 100
         }
