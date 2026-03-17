@@ -25,6 +25,21 @@
   },
   "milestones": [
     {
+      "name": "Mirth Integration",
+      "tasks": [
+        {
+          "name": "RIS Integration",
+          "status": "done",
+          "progress": 0
+        },
+        {
+          "name": "LIS Integration",
+          "status": "not-started",
+          "progress": 0
+        }
+      ]
+    },
+    {
       "name": "§4 Patient Management",
       "tasks": [
         {
@@ -47,21 +62,6 @@
           "name": "Update patient info & record search",
           "status": "done",
           "progress": 100
-        }
-      ]
-    },
-    {
-      "name": "Mirth Integration",
-      "tasks": [
-        {
-          "name": "LIS Integration",
-          "status": "done",
-          "progress": 0
-        },
-        {
-          "name": "RIS Integration",
-          "status": "done",
-          "progress": 0
         }
       ]
     },
