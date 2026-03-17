@@ -367,5 +367,22 @@
         }
       ]
     }
+    ,
+    {
+      "name": "test",
+      "tasks": [
+        {
+          "name": "test 1",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "test 2",
+          "status": "in-progress",
+          "progress": 50,
+          "notes": "Application stable. No DB backup strategy in codebase."
+        }
+      ]
+    }
   ]
 }
