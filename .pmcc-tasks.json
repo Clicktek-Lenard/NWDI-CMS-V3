@@ -52,7 +52,13 @@
     },
     {
       "name": "Mirth Integration",
-      "tasks": []
+      "tasks": [
+        {
+          "name": "RIS Integration",
+          "status": "not-started",
+          "progress": 0
+        }
+      ]
     },
     {
       "name": "§5 Appointment and Scheduling",
