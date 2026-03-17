@@ -1,5 +1,5 @@
 {
-  "project": "CMS v3 — Next.js Rewrite",
+  "project": "NWDI : CMS V2",
   "_rules": {
     "_comment": "This file is managed by PM Command Center. Developers may update task status, progress, and notes. Do NOT rename tasks or milestones — matching is fuzzy but names must stay close to the original.",
     "allowedStatuses": [
@@ -298,6 +298,11 @@
           "name": "Maintain audit logs",
           "status": "done",
           "progress": 100
+        },
+        {
+          "name": "GDPR data export/deletion",
+          "status": "not-started",
+          "progress": 0
         }
       ]
     },
@@ -322,6 +327,11 @@
         {
           "name": "Activity logging",
           "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "PIN-based fallback auth",
+          "status": "not-started",
           "progress": 100
         }
       ]
