@@ -39,8 +39,8 @@
         },
         {
           "name": "Medical history, consultations, diagnostic results",
-          "status": "in-progress",
-          "progress": 50,
+          "status": "done",
+          "progress": 100,
           "notes": "SOAP/history captured in clinical module. Diagnostic results not linked — LIS external dependency."
         },
         {
