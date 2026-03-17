@@ -198,6 +198,11 @@
           "name": "Validate imaging results prior to release",
           "status": "done",
           "progress": 100
+        },
+        {
+          "name": "Integrating to CMS",
+          "status": "not-started",
+          "progress": 0
         }
       ]
     },
