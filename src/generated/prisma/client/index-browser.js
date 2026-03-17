@@ -1068,6 +1068,44 @@ exports.Prisma.CardVerifiedScalarFieldEnum = {
   datereceived: 'datereceived'
 };
 
+exports.Prisma.AppointmentScalarFieldEnum = {
+  Id: 'Id',
+  IdBU: 'IdBU',
+  IdPatient: 'IdPatient',
+  PatientName: 'PatientName',
+  IdPhysician: 'IdPhysician',
+  PhysicianName: 'PhysicianName',
+  AppointmentDate: 'AppointmentDate',
+  TimeSlot: 'TimeSlot',
+  Notes: 'Notes',
+  IdQueue: 'IdQueue',
+  Status: 'Status',
+  InputBy: 'InputBy',
+  InputDateTime: 'InputDateTime',
+  UpdateBy: 'UpdateBy',
+  UpdateDateTime: 'UpdateDateTime'
+};
+
+exports.Prisma.SendoutScalarFieldEnum = {
+  Id: 'Id',
+  IdQueue: 'IdQueue',
+  QueueCode: 'QueueCode',
+  PatientName: 'PatientName',
+  IdBUFrom: 'IdBUFrom',
+  IdBUTo: 'IdBUTo',
+  Items: 'Items',
+  Notes: 'Notes',
+  Status: 'Status',
+  SentBy: 'SentBy',
+  SentDate: 'SentDate',
+  ReceivedBy: 'ReceivedBy',
+  DateReceived: 'DateReceived',
+  CompletedBy: 'CompletedBy',
+  DateCompleted: 'DateCompleted',
+  UpdateBy: 'UpdateBy',
+  UpdateDate: 'UpdateDate'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1122,7 +1160,9 @@ exports.Prisma.ModelName = {
   ResultValue: 'ResultValue',
   ImagingResult: 'ImagingResult',
   cardNumber: 'cardNumber',
-  cardVerified: 'cardVerified'
+  cardVerified: 'cardVerified',
+  appointment: 'appointment',
+  sendout: 'sendout'
 };
 
 /**

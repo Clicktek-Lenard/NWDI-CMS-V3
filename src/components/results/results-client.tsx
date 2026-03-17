@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { apiFetch } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { useCreateSendout, useSendouts, useSendoutSummary, useReceiveSendout, useCompleteSendout } from "@/hooks/use-sendouts";
 
 /* ─── Types ──────────────────────────────────────────────────────────────── */
 
@@ -1156,6 +1157,12 @@ function ReleasingPanel({ queues, date }: { queues: QueueRow[]; date: string }) 
 
 function SendoutPanel({ queues }: { queues: QueueRow[] }) {
   const [sendoutTo, setSendoutTo] = useState<Record<number, string>>({});
+  const [sendoutView, setSendoutView] = useState<"create" | "tracking">("create");
+  const createSendout = useCreateSendout();
+  const { data: sendouts, isLoading: sendoutsLoading } = useSendouts();
+  const { data: summary } = useSendoutSummary();
+  const receiveSendout = useReceiveSendout();
+  const completeSendout = useCompleteSendout();
 
   const { data: branchData } = useQuery<{ success: boolean; data: { code: string; description: string }[] }>({
     queryKey: ["branches"],
@@ -1167,55 +1174,201 @@ function SendoutPanel({ queues }: { queues: QueueRow[] }) {
   // Show all queues with accession items (any status), as potential sendouts
   const relevantQueues = queues.filter((q) => q.accessions.length > 0);
 
-  if (relevantQueues.length === 0) {
-    return <p className="py-10 text-center text-sm text-slate-400">No accession records for today.</p>;
-  }
+  const handleSendout = async (q: QueueRow) => {
+    const destBranch = sendoutTo[q.id];
+    if (!destBranch) return;
+
+    const items = JSON.stringify(q.accessions.map(a => ({
+      code: a.itemCode,
+      description: a.itemDescription,
+      type: a.type,
+    })));
+
+    await createSendout.mutateAsync({
+      idQueue:     q.id,
+      queueCode:   q.code,
+      patientName: q.patientName,
+      idBUTo:      destBranch,
+      items,
+    });
+
+    // Also open the PDF
+    window.open(
+      `/api/queue/${q.id}/pdf?type=referral-slip&to=${encodeURIComponent(destBranch)}`,
+      "_blank"
+    );
+  };
+
+  const sendoutStatusLabel = (status: number) => {
+    if (status === 201) return { label: "Sent",      cls: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300" };
+    if (status === 301) return { label: "Received",  cls: "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300" };
+    if (status === 501) return { label: "Completed", cls: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300" };
+    return { label: String(status), cls: "bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300" };
+  };
 
   return (
-    <div className="space-y-3">
-      <p className="text-xs text-slate-500 dark:text-slate-400">
-        Select a queue to generate a branch sendout referral slip. Optionally specify the receiving branch.
-      </p>
-      {relevantQueues.map((q) => (
-        <div
-          key={q.id}
-          className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm dark:border-slate-700 dark:bg-slate-800"
-        >
-          <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-100">{q.code}</span>
-              <span className="text-sm text-slate-700 dark:text-slate-200">{q.patientName}</span>
-              <StatusBadge status={q.status} name={q.statusName} />
-            </div>
-            <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
-              {q.accessions.length} test{q.accessions.length !== 1 ? "s" : ""}
-            </p>
+    <div className="space-y-4">
+      {/* Summary cards */}
+      {summary && (
+        <div className="grid grid-cols-3 gap-3">
+          <div className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-center dark:border-amber-800 dark:bg-amber-950">
+            <p className="text-2xl font-bold text-amber-700 dark:text-amber-300">{summary.pending}</p>
+            <p className="text-xs text-amber-600 dark:text-amber-400">Pending</p>
           </div>
-          <div className="flex items-center gap-2">
-            <select
-              value={sendoutTo[q.id] ?? ""}
-              onChange={(e) => setSendoutTo((p) => ({ ...p, [q.id]: e.target.value }))}
-              className="w-44 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
-            >
-              <option value="">— Receiving branch —</option>
-              {branches.map((b) => (
-                <option key={b.code} value={b.code}>
-                  {b.code} — {b.description}
-                </option>
-              ))}
-            </select>
-            <a
-              href={`/api/queue/${q.id}/pdf?type=referral-slip${sendoutTo[q.id] ? `&to=${encodeURIComponent(sendoutTo[q.id])}` : ""}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-teal-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-teal-700"
-            >
-              <ScanLine className="h-3.5 w-3.5" />
-              Referral Slip
-            </a>
+          <div className="rounded-lg border border-blue-200 bg-blue-50 p-3 text-center dark:border-blue-800 dark:bg-blue-950">
+            <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">{summary.received}</p>
+            <p className="text-xs text-blue-600 dark:text-blue-400">Received</p>
+          </div>
+          <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3 text-center dark:border-emerald-800 dark:bg-emerald-950">
+            <p className="text-2xl font-bold text-emerald-700 dark:text-emerald-300">{summary.completed}</p>
+            <p className="text-xs text-emerald-600 dark:text-emerald-400">Completed</p>
           </div>
         </div>
-      ))}
+      )}
+
+      {/* Sub-tabs */}
+      <div className="flex gap-2">
+        <button
+          onClick={() => setSendoutView("create")}
+          className={cn("rounded-lg px-3 py-1.5 text-xs font-medium transition-colors",
+            sendoutView === "create"
+              ? "bg-teal-600 text-white"
+              : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+          )}
+        >
+          <ScanLine className="mr-1 inline h-3.5 w-3.5" />
+          New Sendout
+        </button>
+        <button
+          onClick={() => setSendoutView("tracking")}
+          className={cn("rounded-lg px-3 py-1.5 text-xs font-medium transition-colors",
+            sendoutView === "tracking"
+              ? "bg-teal-600 text-white"
+              : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300"
+          )}
+        >
+          <Send className="mr-1 inline h-3.5 w-3.5" />
+          Tracking
+        </button>
+      </div>
+
+      {/* Create sendout view */}
+      {sendoutView === "create" && (
+        <div className="space-y-3">
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Select a queue and receiving branch, then click Send & Print to create a tracked sendout and generate the referral slip.
+          </p>
+          {relevantQueues.length === 0 ? (
+            <p className="py-10 text-center text-sm text-slate-400">No accession records for today.</p>
+          ) : (
+            relevantQueues.map((q) => (
+              <div
+                key={q.id}
+                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm dark:border-slate-700 dark:bg-slate-800"
+              >
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-100">{q.code}</span>
+                    <span className="text-sm text-slate-700 dark:text-slate-200">{q.patientName}</span>
+                    <StatusBadge status={q.status} name={q.statusName} />
+                  </div>
+                  <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">
+                    {q.accessions.length} test{q.accessions.length !== 1 ? "s" : ""}
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <select
+                    value={sendoutTo[q.id] ?? ""}
+                    onChange={(e) => setSendoutTo((p) => ({ ...p, [q.id]: e.target.value }))}
+                    className="w-44 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100"
+                  >
+                    <option value="">— Receiving branch —</option>
+                    {branches.map((b) => (
+                      <option key={b.code} value={b.code}>
+                        {b.code} — {b.description}
+                      </option>
+                    ))}
+                  </select>
+                  <button
+                    onClick={() => handleSendout(q)}
+                    disabled={!sendoutTo[q.id] || createSendout.isPending}
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-teal-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    <ScanLine className="h-3.5 w-3.5" />
+                    Send & Print
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
+
+      {/* Tracking view */}
+      {sendoutView === "tracking" && (
+        <div>
+          {sendoutsLoading ? (
+            <div className="flex items-center justify-center py-12 text-slate-400">
+              <RefreshCw className="h-6 w-6 animate-spin" />
+            </div>
+          ) : !sendouts || sendouts.length === 0 ? (
+            <p className="py-10 text-center text-sm text-slate-400">No sendout records found.</p>
+          ) : (
+            <div className="overflow-hidden rounded-xl border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-slate-100 bg-slate-50 dark:border-slate-700 dark:bg-slate-800/50">
+                    <th className="px-3 py-2 text-left text-xs font-medium text-slate-600 dark:text-slate-400">Queue</th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-slate-600 dark:text-slate-400">Patient</th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-slate-600 dark:text-slate-400">From</th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-slate-600 dark:text-slate-400">To</th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-slate-600 dark:text-slate-400">Sent</th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-slate-600 dark:text-slate-400">Status</th>
+                    <th className="px-3 py-2 text-right text-xs font-medium text-slate-600 dark:text-slate-400">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-700/60">
+                  {sendouts.map((s) => {
+                    const st = sendoutStatusLabel(s.status);
+                    return (
+                      <tr key={s.id} className="hover:bg-slate-50 dark:hover:bg-slate-700/20">
+                        <td className="px-3 py-2 font-mono text-xs text-slate-700 dark:text-slate-200">{s.queueCode}</td>
+                        <td className="px-3 py-2 text-slate-700 dark:text-slate-200">{s.patientName}</td>
+                        <td className="px-3 py-2 text-xs text-slate-500">{s.idBUFrom}</td>
+                        <td className="px-3 py-2 text-xs text-slate-500">{s.idBUTo}</td>
+                        <td className="px-3 py-2 text-xs text-slate-500">{new Date(s.sentDate).toLocaleDateString("en-PH")}</td>
+                        <td className="px-3 py-2">
+                          <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${st.cls}`}>{st.label}</span>
+                        </td>
+                        <td className="px-3 py-2 text-right">
+                          {s.status === 201 && (
+                            <button
+                              onClick={() => receiveSendout.mutate(s.id)}
+                              disabled={receiveSendout.isPending}
+                              className="rounded-md border border-blue-200 bg-white px-2 py-1 text-xs font-medium text-blue-600 hover:bg-blue-50 dark:border-blue-800 dark:bg-slate-800 dark:text-blue-400"
+                            >
+                              Receive
+                            </button>
+                          )}
+                          {s.status === 301 && (
+                            <button
+                              onClick={() => completeSendout.mutate(s.id)}
+                              disabled={completeSendout.isPending}
+                              className="rounded-md border border-emerald-200 bg-white px-2 py-1 text-xs font-medium text-emerald-600 hover:bg-emerald-50 dark:border-emerald-800 dark:bg-slate-800 dark:text-emerald-400"
+                            >
+                              Complete
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -124,7 +124,7 @@
 
 <!-- HEADER -->
 <div class="hdr">
-  <div class="eyebrow">Feature Comparison · March 17, 2026 (updated — patient photo upload, duplicate detection &amp; merge completed)</div>
+  <div class="eyebrow">Feature Comparison · March 17, 2026 (updated — appointment scheduling, referral/sendout tracking, backup/restore)</div>
   <h1>CMS v1 (PHP Laravel) &nbsp;vs&nbsp; CMS v3 (Next.js) &nbsp;vs&nbsp; FRD Requirements</h1>
   <div class="meta">
     <span>&#128196; FRD: CMS_FRD.pdf — 15 sections, 40+ requirements</span>
@@ -164,9 +164,9 @@
       <div class="sc-label">CMS v3 · Next.js</div>
       <div class="sc-title">Rewrite In Progress</div>
       <div class="sc-sub">Multi-tenant · API-first</div>
-      <div class="sc-pct">87%</div>
-      <div class="sc-bar"><span style="width:87%"></span></div>
-      <div class="sc-chips">75+ API handlers · 27 components · Queue + Clinical + Payment core done · Full specimen workflow 210→300→360→311→600 complete · Results monitoring + receiving + releasing + barcode labels done · Lab result encoding + validate (EncodingModal) · Critical result flagging (H/L/C badges, color-coded rows, flag chips in releasing panel) · Imaging result encoding + validate (ImagingModal) · Lab Result PDF with real values · Imaging Result PDF (A4, per-study findings/impression) · Email lab results via nodemailer · Prescription module (form + PDF) · Operations Dashboard (stats + auto-refresh) · Patient visit history modal (paginated, accession drill-down) · Discount report (date fixed) · Branch sendout + referral slip PDF · Amendment module complete · Audit logging fully implemented (separate cms_audit DB · viewer UI) · Patient Management (search, create, edit, history) · Payment History tab + OR Reprint button · Consultation Summary PDF · 10 PDF types total · Reports (8 types + discount) · Appointments module (physician daily schedule, date picker, per-physician cards) · Admin Settings hub · Sidebar consolidated · EROS Admin: Companies + Items &amp; Packages + Item Master List full CRUD (search, paginate, add, edit, delete) · Kiosk Display Board (/kiosk) — public TV display, 10s auto-refresh, filter tabs, priority badges, marquee ticker</div>
+      <div class="sc-pct">89%</div>
+      <div class="sc-bar"><span style="width:89%"></span></div>
+      <div class="sc-chips">75+ API handlers · 27 components · Queue + Clinical + Payment core done · Full specimen workflow 210→300→360→311→600 complete · Results monitoring + receiving + releasing + barcode labels done · Lab result encoding + validate (EncodingModal) · Critical result flagging (H/L/C badges, color-coded rows, flag chips in releasing panel) · Imaging result encoding + validate (ImagingModal) · Lab Result PDF with real values · Imaging Result PDF (A4, per-study findings/impression) · Email lab results via nodemailer · Prescription module (form + PDF) · Operations Dashboard (stats + auto-refresh) · Patient visit history modal (paginated, accession drill-down) · Discount report (date fixed) · Branch sendout + referral slip PDF + sendout CRUD &amp; tracking (Sent→Received→Completed) · Amendment module complete · Audit logging fully implemented (separate cms_audit DB · viewer UI) · Patient Management (search, create, edit, history) · Payment History tab + OR Reprint button · Consultation Summary PDF · 10 PDF types total · Reports (8 types + discount) · Appointments module (appointment table, pre-booking form, physician availability, conflict detection, upcoming view, check-in link) · Admin Settings hub · Sidebar consolidated · EROS Admin: Companies + Items &amp; Packages + Item Master List full CRUD (search, paginate, add, edit, delete) · Kiosk Display Board (/kiosk) — public TV display, 10s auto-refresh, filter tabs, priority badges, marquee ticker · DB backup/restore scripts (pg_dump) + admin API endpoint (DEVTEAM-only)</div>
     </div>
   </div>
 
@@ -193,7 +193,7 @@
           <td class="mx-mod">Appointment &amp; Scheduling §5 <small>Consultations, teleconsult, ECU</small></td>
           <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
           <td class="mx-cell"><span class="pct-val v1-pct">40%</span><div class="bar-mini" style="background:#0ea5e9;width:40px"></div></td>
-          <td class="mx-cell"><span class="pct-val v3-pct">55%</span><div class="bar-mini" style="background:#f59e0b;width:55px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">90%</span><div class="bar-mini" style="background:#10b981;width:90px"></div></td>
         </tr>
         <tr>
           <td class="mx-mod">Registration §6 <small>Check-in, queue generation, DRF</small></td>
@@ -235,7 +235,7 @@
           <td class="mx-mod">Referral &amp; Endorsement §12 <small>EROS, branch referrals, tracking</small></td>
           <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
           <td class="mx-cell"><span class="pct-val v1-pct">100%</span><div class="bar-mini" style="background:#0ea5e9;width:100px"></div></td>
-          <td class="mx-cell"><span class="pct-val v3-pct">15%</span><div class="bar-mini" style="background:#ef4444;width:15px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">55%</span><div class="bar-mini" style="background:#f59e0b;width:55px"></div></td>
         </tr>
         <tr>
           <td class="mx-mod">Monitoring &amp; Reporting §13 <small>Dashboards, audit logs, exports</small></td>
@@ -253,7 +253,7 @@
           <td class="mx-mod">Non-Functional §15 <small>Performance, reliability, scalability</small></td>
           <td class="mx-cell"><span class="pill p-done"><span class="dot d-g"></span>Required</span></td>
           <td class="mx-cell"><span class="pct-val v1-pct">85%</span><div class="bar-mini" style="background:#0ea5e9;width:85px"></div></td>
-          <td class="mx-cell"><span class="pct-val v3-pct">85%</span><div class="bar-mini" style="background:#10b981;width:85px"></div></td>
+          <td class="mx-cell"><span class="pct-val v3-pct">90%</span><div class="bar-mini" style="background:#10b981;width:90px"></div></td>
         </tr>
       </tbody>
     </table>
@@ -305,8 +305,8 @@
         <tr>
           <td><div class="td-req">Schedule physician consultations</div></td>
           <td class="td-v1"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Via E-Card / enrollment system. No standalone scheduling calendar.</td>
-          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br><code>GET /api/appointments/schedule?date=</code> — queues grouped by physician for the day · <code>/appointments</code> page with date picker, per-physician cards (patient name, queue code, status, time-in), click-through to queue · No pre-booking form (needs future appointment table)</td>
-          <td class="td-gap"><span class="gap-par">Partial</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>appointment</code> table + full CRUD API · Pre-booking form with physician availability &amp; time-slot picker · Conflict detection (overlapping appointments blocked) · Upcoming appointments view with status chips · Check-in to queue link · <code>/appointments</code> page with date picker, per-physician cards, click-through to queue</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Teleconsultation &amp; ECU/home services</div></td>
@@ -500,8 +500,8 @@
         <tr>
           <td><div class="td-req">Branch-to-branch referrals</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ErosController.php</span> (67K lines) · Lab-to-Lab · Multi-branch routing</td>
-          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Sendout tab in Results module: lists all queues with accessions, "Receiving branch" input, "Referral Slip" PDF link · Referral Slip A5 PDF (<code>/api/queue/[id]/pdf?type=referral-slip?to=&amp;by=&amp;notes=</code>) with patient info, referred-to/by, tests table, signature lines · Full EROS/CRUD referral tracking not built</td>
-          <td class="td-gap"><span class="gap-par">Partial</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>sendout</code> table + full CRUD API &amp; service · SendoutPanel persists records with status tracking (Sent → Received → Completed) · Referral Slip A5 PDF (<code>/api/queue/[id]/pdf?type=referral-slip</code>) with patient info, referred-to/by, tests table, signature lines · Sendout tab in Results module with receiving branch input</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Refer patients for lab/imaging procedures</div></td>
@@ -512,8 +512,8 @@
         <tr>
           <td><div class="td-req">Track referral completion</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ECardReceivedController.php</span> · <span class="tag">Receiving.php</span> model · Status tracking</td>
-          <td class="td-v3"><span class="pill p-miss"><span class="dot d-r"></span>Missing</span><br>Not built — receiving/transfer workflow not implemented</td>
-          <td class="td-gap"><span class="gap-new">Gap</span></td>
+          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Summary cards for sendout status counts · Receive &amp; Complete actions in Results panel · Status tracking Sent → Received → Completed · Full E-Card receiving/transfer workflow not yet built</td>
+          <td class="td-gap"><span class="gap-par">Partial</span></td>
         </tr>
 
         <!-- §12b EROS ADMIN -->
@@ -596,8 +596,8 @@
         <tr>
           <td><div class="td-req">Reliability &amp; backups</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Production-hardened across 10+ clinic branches</td>
-          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br>Application stable. No DB backup strategy in codebase.</td>
-          <td class="td-gap"><span class="gap-par">Partial</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Backup/restore shell scripts (<code>pg_dump</code> / <code>pg_restore</code>) · Admin API endpoint (<code>POST /api/admin/backup</code>, DEVTEAM-only) · Documented backup procedures · Application stable &amp; production-ready</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Usability</div></td>

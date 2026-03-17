@@ -203,6 +203,16 @@ export type cardNumber = $Result.DefaultSelection<Prisma.$cardNumberPayload>
  * 
  */
 export type cardVerified = $Result.DefaultSelection<Prisma.$cardVerifiedPayload>
+/**
+ * Model appointment
+ * 
+ */
+export type appointment = $Result.DefaultSelection<Prisma.$appointmentPayload>
+/**
+ * Model sendout
+ * 
+ */
+export type sendout = $Result.DefaultSelection<Prisma.$sendoutPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -700,6 +710,26 @@ export class PrismaClient<
     * ```
     */
   get cardVerified(): Prisma.cardVerifiedDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.appointment`: Exposes CRUD operations for the **appointment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Appointments
+    * const appointments = await prisma.appointment.findMany()
+    * ```
+    */
+  get appointment(): Prisma.appointmentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.sendout`: Exposes CRUD operations for the **sendout** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Sendouts
+    * const sendouts = await prisma.sendout.findMany()
+    * ```
+    */
+  get sendout(): Prisma.sendoutDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1171,7 +1201,9 @@ export namespace Prisma {
     ResultValue: 'ResultValue',
     ImagingResult: 'ImagingResult',
     cardNumber: 'cardNumber',
-    cardVerified: 'cardVerified'
+    cardVerified: 'cardVerified',
+    appointment: 'appointment',
+    sendout: 'sendout'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1187,7 +1219,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "users_from_cdb" | "cache" | "cache_locks" | "sessions" | "password_reset_tokens" | "failed_jobs" | "job_batches" | "jobs" | "migrations" | "settings" | "businessunits" | "company" | "department" | "patient" | "physician" | "queue" | "queuestatus" | "transactions" | "vitals" | "itemmaster" | "itemprice" | "msg_queue" | "transactiontype" | "role" | "accessionno" | "paymenthistory" | "cardEnrollment" | "vitalSign" | "consultationNote" | "physicalExamination" | "medicalEvaluation" | "prescription" | "prescriptionItem" | "resultValue" | "imagingResult" | "cardNumber" | "cardVerified"
+      modelProps: "user" | "users_from_cdb" | "cache" | "cache_locks" | "sessions" | "password_reset_tokens" | "failed_jobs" | "job_batches" | "jobs" | "migrations" | "settings" | "businessunits" | "company" | "department" | "patient" | "physician" | "queue" | "queuestatus" | "transactions" | "vitals" | "itemmaster" | "itemprice" | "msg_queue" | "transactiontype" | "role" | "accessionno" | "paymenthistory" | "cardEnrollment" | "vitalSign" | "consultationNote" | "physicalExamination" | "medicalEvaluation" | "prescription" | "prescriptionItem" | "resultValue" | "imagingResult" | "cardNumber" | "cardVerified" | "appointment" | "sendout"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4003,6 +4035,154 @@ export namespace Prisma {
           }
         }
       }
+      appointment: {
+        payload: Prisma.$appointmentPayload<ExtArgs>
+        fields: Prisma.appointmentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.appointmentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$appointmentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.appointmentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$appointmentPayload>
+          }
+          findFirst: {
+            args: Prisma.appointmentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$appointmentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.appointmentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$appointmentPayload>
+          }
+          findMany: {
+            args: Prisma.appointmentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$appointmentPayload>[]
+          }
+          create: {
+            args: Prisma.appointmentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$appointmentPayload>
+          }
+          createMany: {
+            args: Prisma.appointmentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.appointmentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$appointmentPayload>[]
+          }
+          delete: {
+            args: Prisma.appointmentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$appointmentPayload>
+          }
+          update: {
+            args: Prisma.appointmentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$appointmentPayload>
+          }
+          deleteMany: {
+            args: Prisma.appointmentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.appointmentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.appointmentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$appointmentPayload>[]
+          }
+          upsert: {
+            args: Prisma.appointmentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$appointmentPayload>
+          }
+          aggregate: {
+            args: Prisma.AppointmentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAppointment>
+          }
+          groupBy: {
+            args: Prisma.appointmentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AppointmentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.appointmentCountArgs<ExtArgs>
+            result: $Utils.Optional<AppointmentCountAggregateOutputType> | number
+          }
+        }
+      }
+      sendout: {
+        payload: Prisma.$sendoutPayload<ExtArgs>
+        fields: Prisma.sendoutFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.sendoutFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$sendoutPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.sendoutFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$sendoutPayload>
+          }
+          findFirst: {
+            args: Prisma.sendoutFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$sendoutPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.sendoutFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$sendoutPayload>
+          }
+          findMany: {
+            args: Prisma.sendoutFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$sendoutPayload>[]
+          }
+          create: {
+            args: Prisma.sendoutCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$sendoutPayload>
+          }
+          createMany: {
+            args: Prisma.sendoutCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.sendoutCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$sendoutPayload>[]
+          }
+          delete: {
+            args: Prisma.sendoutDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$sendoutPayload>
+          }
+          update: {
+            args: Prisma.sendoutUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$sendoutPayload>
+          }
+          deleteMany: {
+            args: Prisma.sendoutDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.sendoutUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.sendoutUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$sendoutPayload>[]
+          }
+          upsert: {
+            args: Prisma.sendoutUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$sendoutPayload>
+          }
+          aggregate: {
+            args: Prisma.SendoutAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSendout>
+          }
+          groupBy: {
+            args: Prisma.sendoutGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SendoutGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.sendoutCountArgs<ExtArgs>
+            result: $Utils.Optional<SendoutCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4149,6 +4329,8 @@ export namespace Prisma {
     imagingResult?: ImagingResultOmit
     cardNumber?: cardNumberOmit
     cardVerified?: cardVerifiedOmit
+    appointment?: appointmentOmit
+    sendout?: sendoutOmit
   }
 
   /* Types for Logging */
@@ -52550,6 +52732,2374 @@ export namespace Prisma {
 
 
   /**
+   * Model appointment
+   */
+
+  export type AggregateAppointment = {
+    _count: AppointmentCountAggregateOutputType | null
+    _avg: AppointmentAvgAggregateOutputType | null
+    _sum: AppointmentSumAggregateOutputType | null
+    _min: AppointmentMinAggregateOutputType | null
+    _max: AppointmentMaxAggregateOutputType | null
+  }
+
+  export type AppointmentAvgAggregateOutputType = {
+    Id: number | null
+    IdPatient: number | null
+    IdPhysician: number | null
+    IdQueue: number | null
+    Status: number | null
+  }
+
+  export type AppointmentSumAggregateOutputType = {
+    Id: bigint | null
+    IdPatient: bigint | null
+    IdPhysician: bigint | null
+    IdQueue: bigint | null
+    Status: number | null
+  }
+
+  export type AppointmentMinAggregateOutputType = {
+    Id: bigint | null
+    IdBU: string | null
+    IdPatient: bigint | null
+    PatientName: string | null
+    IdPhysician: bigint | null
+    PhysicianName: string | null
+    AppointmentDate: Date | null
+    TimeSlot: string | null
+    Notes: string | null
+    IdQueue: bigint | null
+    Status: number | null
+    InputBy: string | null
+    InputDateTime: Date | null
+    UpdateBy: string | null
+    UpdateDateTime: Date | null
+  }
+
+  export type AppointmentMaxAggregateOutputType = {
+    Id: bigint | null
+    IdBU: string | null
+    IdPatient: bigint | null
+    PatientName: string | null
+    IdPhysician: bigint | null
+    PhysicianName: string | null
+    AppointmentDate: Date | null
+    TimeSlot: string | null
+    Notes: string | null
+    IdQueue: bigint | null
+    Status: number | null
+    InputBy: string | null
+    InputDateTime: Date | null
+    UpdateBy: string | null
+    UpdateDateTime: Date | null
+  }
+
+  export type AppointmentCountAggregateOutputType = {
+    Id: number
+    IdBU: number
+    IdPatient: number
+    PatientName: number
+    IdPhysician: number
+    PhysicianName: number
+    AppointmentDate: number
+    TimeSlot: number
+    Notes: number
+    IdQueue: number
+    Status: number
+    InputBy: number
+    InputDateTime: number
+    UpdateBy: number
+    UpdateDateTime: number
+    _all: number
+  }
+
+
+  export type AppointmentAvgAggregateInputType = {
+    Id?: true
+    IdPatient?: true
+    IdPhysician?: true
+    IdQueue?: true
+    Status?: true
+  }
+
+  export type AppointmentSumAggregateInputType = {
+    Id?: true
+    IdPatient?: true
+    IdPhysician?: true
+    IdQueue?: true
+    Status?: true
+  }
+
+  export type AppointmentMinAggregateInputType = {
+    Id?: true
+    IdBU?: true
+    IdPatient?: true
+    PatientName?: true
+    IdPhysician?: true
+    PhysicianName?: true
+    AppointmentDate?: true
+    TimeSlot?: true
+    Notes?: true
+    IdQueue?: true
+    Status?: true
+    InputBy?: true
+    InputDateTime?: true
+    UpdateBy?: true
+    UpdateDateTime?: true
+  }
+
+  export type AppointmentMaxAggregateInputType = {
+    Id?: true
+    IdBU?: true
+    IdPatient?: true
+    PatientName?: true
+    IdPhysician?: true
+    PhysicianName?: true
+    AppointmentDate?: true
+    TimeSlot?: true
+    Notes?: true
+    IdQueue?: true
+    Status?: true
+    InputBy?: true
+    InputDateTime?: true
+    UpdateBy?: true
+    UpdateDateTime?: true
+  }
+
+  export type AppointmentCountAggregateInputType = {
+    Id?: true
+    IdBU?: true
+    IdPatient?: true
+    PatientName?: true
+    IdPhysician?: true
+    PhysicianName?: true
+    AppointmentDate?: true
+    TimeSlot?: true
+    Notes?: true
+    IdQueue?: true
+    Status?: true
+    InputBy?: true
+    InputDateTime?: true
+    UpdateBy?: true
+    UpdateDateTime?: true
+    _all?: true
+  }
+
+  export type AppointmentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which appointment to aggregate.
+     */
+    where?: appointmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of appointments to fetch.
+     */
+    orderBy?: appointmentOrderByWithRelationInput | appointmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: appointmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` appointments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` appointments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned appointments
+    **/
+    _count?: true | AppointmentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AppointmentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AppointmentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AppointmentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AppointmentMaxAggregateInputType
+  }
+
+  export type GetAppointmentAggregateType<T extends AppointmentAggregateArgs> = {
+        [P in keyof T & keyof AggregateAppointment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAppointment[P]>
+      : GetScalarType<T[P], AggregateAppointment[P]>
+  }
+
+
+
+
+  export type appointmentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: appointmentWhereInput
+    orderBy?: appointmentOrderByWithAggregationInput | appointmentOrderByWithAggregationInput[]
+    by: AppointmentScalarFieldEnum[] | AppointmentScalarFieldEnum
+    having?: appointmentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AppointmentCountAggregateInputType | true
+    _avg?: AppointmentAvgAggregateInputType
+    _sum?: AppointmentSumAggregateInputType
+    _min?: AppointmentMinAggregateInputType
+    _max?: AppointmentMaxAggregateInputType
+  }
+
+  export type AppointmentGroupByOutputType = {
+    Id: bigint
+    IdBU: string
+    IdPatient: bigint
+    PatientName: string | null
+    IdPhysician: bigint
+    PhysicianName: string | null
+    AppointmentDate: Date
+    TimeSlot: string | null
+    Notes: string | null
+    IdQueue: bigint | null
+    Status: number
+    InputBy: string | null
+    InputDateTime: Date
+    UpdateBy: string | null
+    UpdateDateTime: Date | null
+    _count: AppointmentCountAggregateOutputType | null
+    _avg: AppointmentAvgAggregateOutputType | null
+    _sum: AppointmentSumAggregateOutputType | null
+    _min: AppointmentMinAggregateOutputType | null
+    _max: AppointmentMaxAggregateOutputType | null
+  }
+
+  type GetAppointmentGroupByPayload<T extends appointmentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AppointmentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AppointmentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AppointmentGroupByOutputType[P]>
+            : GetScalarType<T[P], AppointmentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type appointmentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    Id?: boolean
+    IdBU?: boolean
+    IdPatient?: boolean
+    PatientName?: boolean
+    IdPhysician?: boolean
+    PhysicianName?: boolean
+    AppointmentDate?: boolean
+    TimeSlot?: boolean
+    Notes?: boolean
+    IdQueue?: boolean
+    Status?: boolean
+    InputBy?: boolean
+    InputDateTime?: boolean
+    UpdateBy?: boolean
+    UpdateDateTime?: boolean
+  }, ExtArgs["result"]["appointment"]>
+
+  export type appointmentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    Id?: boolean
+    IdBU?: boolean
+    IdPatient?: boolean
+    PatientName?: boolean
+    IdPhysician?: boolean
+    PhysicianName?: boolean
+    AppointmentDate?: boolean
+    TimeSlot?: boolean
+    Notes?: boolean
+    IdQueue?: boolean
+    Status?: boolean
+    InputBy?: boolean
+    InputDateTime?: boolean
+    UpdateBy?: boolean
+    UpdateDateTime?: boolean
+  }, ExtArgs["result"]["appointment"]>
+
+  export type appointmentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    Id?: boolean
+    IdBU?: boolean
+    IdPatient?: boolean
+    PatientName?: boolean
+    IdPhysician?: boolean
+    PhysicianName?: boolean
+    AppointmentDate?: boolean
+    TimeSlot?: boolean
+    Notes?: boolean
+    IdQueue?: boolean
+    Status?: boolean
+    InputBy?: boolean
+    InputDateTime?: boolean
+    UpdateBy?: boolean
+    UpdateDateTime?: boolean
+  }, ExtArgs["result"]["appointment"]>
+
+  export type appointmentSelectScalar = {
+    Id?: boolean
+    IdBU?: boolean
+    IdPatient?: boolean
+    PatientName?: boolean
+    IdPhysician?: boolean
+    PhysicianName?: boolean
+    AppointmentDate?: boolean
+    TimeSlot?: boolean
+    Notes?: boolean
+    IdQueue?: boolean
+    Status?: boolean
+    InputBy?: boolean
+    InputDateTime?: boolean
+    UpdateBy?: boolean
+    UpdateDateTime?: boolean
+  }
+
+  export type appointmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"Id" | "IdBU" | "IdPatient" | "PatientName" | "IdPhysician" | "PhysicianName" | "AppointmentDate" | "TimeSlot" | "Notes" | "IdQueue" | "Status" | "InputBy" | "InputDateTime" | "UpdateBy" | "UpdateDateTime", ExtArgs["result"]["appointment"]>
+
+  export type $appointmentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "appointment"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      Id: bigint
+      IdBU: string
+      IdPatient: bigint
+      PatientName: string | null
+      IdPhysician: bigint
+      PhysicianName: string | null
+      AppointmentDate: Date
+      TimeSlot: string | null
+      Notes: string | null
+      IdQueue: bigint | null
+      Status: number
+      InputBy: string | null
+      InputDateTime: Date
+      UpdateBy: string | null
+      UpdateDateTime: Date | null
+    }, ExtArgs["result"]["appointment"]>
+    composites: {}
+  }
+
+  type appointmentGetPayload<S extends boolean | null | undefined | appointmentDefaultArgs> = $Result.GetResult<Prisma.$appointmentPayload, S>
+
+  type appointmentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<appointmentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AppointmentCountAggregateInputType | true
+    }
+
+  export interface appointmentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['appointment'], meta: { name: 'appointment' } }
+    /**
+     * Find zero or one Appointment that matches the filter.
+     * @param {appointmentFindUniqueArgs} args - Arguments to find a Appointment
+     * @example
+     * // Get one Appointment
+     * const appointment = await prisma.appointment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends appointmentFindUniqueArgs>(args: SelectSubset<T, appointmentFindUniqueArgs<ExtArgs>>): Prisma__appointmentClient<$Result.GetResult<Prisma.$appointmentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Appointment that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {appointmentFindUniqueOrThrowArgs} args - Arguments to find a Appointment
+     * @example
+     * // Get one Appointment
+     * const appointment = await prisma.appointment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends appointmentFindUniqueOrThrowArgs>(args: SelectSubset<T, appointmentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__appointmentClient<$Result.GetResult<Prisma.$appointmentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Appointment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {appointmentFindFirstArgs} args - Arguments to find a Appointment
+     * @example
+     * // Get one Appointment
+     * const appointment = await prisma.appointment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends appointmentFindFirstArgs>(args?: SelectSubset<T, appointmentFindFirstArgs<ExtArgs>>): Prisma__appointmentClient<$Result.GetResult<Prisma.$appointmentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Appointment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {appointmentFindFirstOrThrowArgs} args - Arguments to find a Appointment
+     * @example
+     * // Get one Appointment
+     * const appointment = await prisma.appointment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends appointmentFindFirstOrThrowArgs>(args?: SelectSubset<T, appointmentFindFirstOrThrowArgs<ExtArgs>>): Prisma__appointmentClient<$Result.GetResult<Prisma.$appointmentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Appointments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {appointmentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Appointments
+     * const appointments = await prisma.appointment.findMany()
+     * 
+     * // Get first 10 Appointments
+     * const appointments = await prisma.appointment.findMany({ take: 10 })
+     * 
+     * // Only select the `Id`
+     * const appointmentWithIdOnly = await prisma.appointment.findMany({ select: { Id: true } })
+     * 
+     */
+    findMany<T extends appointmentFindManyArgs>(args?: SelectSubset<T, appointmentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$appointmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Appointment.
+     * @param {appointmentCreateArgs} args - Arguments to create a Appointment.
+     * @example
+     * // Create one Appointment
+     * const Appointment = await prisma.appointment.create({
+     *   data: {
+     *     // ... data to create a Appointment
+     *   }
+     * })
+     * 
+     */
+    create<T extends appointmentCreateArgs>(args: SelectSubset<T, appointmentCreateArgs<ExtArgs>>): Prisma__appointmentClient<$Result.GetResult<Prisma.$appointmentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Appointments.
+     * @param {appointmentCreateManyArgs} args - Arguments to create many Appointments.
+     * @example
+     * // Create many Appointments
+     * const appointment = await prisma.appointment.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends appointmentCreateManyArgs>(args?: SelectSubset<T, appointmentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Appointments and returns the data saved in the database.
+     * @param {appointmentCreateManyAndReturnArgs} args - Arguments to create many Appointments.
+     * @example
+     * // Create many Appointments
+     * const appointment = await prisma.appointment.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Appointments and only return the `Id`
+     * const appointmentWithIdOnly = await prisma.appointment.createManyAndReturn({
+     *   select: { Id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends appointmentCreateManyAndReturnArgs>(args?: SelectSubset<T, appointmentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$appointmentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Appointment.
+     * @param {appointmentDeleteArgs} args - Arguments to delete one Appointment.
+     * @example
+     * // Delete one Appointment
+     * const Appointment = await prisma.appointment.delete({
+     *   where: {
+     *     // ... filter to delete one Appointment
+     *   }
+     * })
+     * 
+     */
+    delete<T extends appointmentDeleteArgs>(args: SelectSubset<T, appointmentDeleteArgs<ExtArgs>>): Prisma__appointmentClient<$Result.GetResult<Prisma.$appointmentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Appointment.
+     * @param {appointmentUpdateArgs} args - Arguments to update one Appointment.
+     * @example
+     * // Update one Appointment
+     * const appointment = await prisma.appointment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends appointmentUpdateArgs>(args: SelectSubset<T, appointmentUpdateArgs<ExtArgs>>): Prisma__appointmentClient<$Result.GetResult<Prisma.$appointmentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Appointments.
+     * @param {appointmentDeleteManyArgs} args - Arguments to filter Appointments to delete.
+     * @example
+     * // Delete a few Appointments
+     * const { count } = await prisma.appointment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends appointmentDeleteManyArgs>(args?: SelectSubset<T, appointmentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Appointments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {appointmentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Appointments
+     * const appointment = await prisma.appointment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends appointmentUpdateManyArgs>(args: SelectSubset<T, appointmentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Appointments and returns the data updated in the database.
+     * @param {appointmentUpdateManyAndReturnArgs} args - Arguments to update many Appointments.
+     * @example
+     * // Update many Appointments
+     * const appointment = await prisma.appointment.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Appointments and only return the `Id`
+     * const appointmentWithIdOnly = await prisma.appointment.updateManyAndReturn({
+     *   select: { Id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends appointmentUpdateManyAndReturnArgs>(args: SelectSubset<T, appointmentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$appointmentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Appointment.
+     * @param {appointmentUpsertArgs} args - Arguments to update or create a Appointment.
+     * @example
+     * // Update or create a Appointment
+     * const appointment = await prisma.appointment.upsert({
+     *   create: {
+     *     // ... data to create a Appointment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Appointment we want to update
+     *   }
+     * })
+     */
+    upsert<T extends appointmentUpsertArgs>(args: SelectSubset<T, appointmentUpsertArgs<ExtArgs>>): Prisma__appointmentClient<$Result.GetResult<Prisma.$appointmentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Appointments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {appointmentCountArgs} args - Arguments to filter Appointments to count.
+     * @example
+     * // Count the number of Appointments
+     * const count = await prisma.appointment.count({
+     *   where: {
+     *     // ... the filter for the Appointments we want to count
+     *   }
+     * })
+    **/
+    count<T extends appointmentCountArgs>(
+      args?: Subset<T, appointmentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AppointmentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Appointment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AppointmentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AppointmentAggregateArgs>(args: Subset<T, AppointmentAggregateArgs>): Prisma.PrismaPromise<GetAppointmentAggregateType<T>>
+
+    /**
+     * Group by Appointment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {appointmentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends appointmentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: appointmentGroupByArgs['orderBy'] }
+        : { orderBy?: appointmentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, appointmentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAppointmentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the appointment model
+   */
+  readonly fields: appointmentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for appointment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__appointmentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the appointment model
+   */
+  interface appointmentFieldRefs {
+    readonly Id: FieldRef<"appointment", 'BigInt'>
+    readonly IdBU: FieldRef<"appointment", 'String'>
+    readonly IdPatient: FieldRef<"appointment", 'BigInt'>
+    readonly PatientName: FieldRef<"appointment", 'String'>
+    readonly IdPhysician: FieldRef<"appointment", 'BigInt'>
+    readonly PhysicianName: FieldRef<"appointment", 'String'>
+    readonly AppointmentDate: FieldRef<"appointment", 'DateTime'>
+    readonly TimeSlot: FieldRef<"appointment", 'String'>
+    readonly Notes: FieldRef<"appointment", 'String'>
+    readonly IdQueue: FieldRef<"appointment", 'BigInt'>
+    readonly Status: FieldRef<"appointment", 'Int'>
+    readonly InputBy: FieldRef<"appointment", 'String'>
+    readonly InputDateTime: FieldRef<"appointment", 'DateTime'>
+    readonly UpdateBy: FieldRef<"appointment", 'String'>
+    readonly UpdateDateTime: FieldRef<"appointment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * appointment findUnique
+   */
+  export type appointmentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the appointment
+     */
+    select?: appointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the appointment
+     */
+    omit?: appointmentOmit<ExtArgs> | null
+    /**
+     * Filter, which appointment to fetch.
+     */
+    where: appointmentWhereUniqueInput
+  }
+
+  /**
+   * appointment findUniqueOrThrow
+   */
+  export type appointmentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the appointment
+     */
+    select?: appointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the appointment
+     */
+    omit?: appointmentOmit<ExtArgs> | null
+    /**
+     * Filter, which appointment to fetch.
+     */
+    where: appointmentWhereUniqueInput
+  }
+
+  /**
+   * appointment findFirst
+   */
+  export type appointmentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the appointment
+     */
+    select?: appointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the appointment
+     */
+    omit?: appointmentOmit<ExtArgs> | null
+    /**
+     * Filter, which appointment to fetch.
+     */
+    where?: appointmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of appointments to fetch.
+     */
+    orderBy?: appointmentOrderByWithRelationInput | appointmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for appointments.
+     */
+    cursor?: appointmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` appointments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` appointments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of appointments.
+     */
+    distinct?: AppointmentScalarFieldEnum | AppointmentScalarFieldEnum[]
+  }
+
+  /**
+   * appointment findFirstOrThrow
+   */
+  export type appointmentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the appointment
+     */
+    select?: appointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the appointment
+     */
+    omit?: appointmentOmit<ExtArgs> | null
+    /**
+     * Filter, which appointment to fetch.
+     */
+    where?: appointmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of appointments to fetch.
+     */
+    orderBy?: appointmentOrderByWithRelationInput | appointmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for appointments.
+     */
+    cursor?: appointmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` appointments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` appointments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of appointments.
+     */
+    distinct?: AppointmentScalarFieldEnum | AppointmentScalarFieldEnum[]
+  }
+
+  /**
+   * appointment findMany
+   */
+  export type appointmentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the appointment
+     */
+    select?: appointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the appointment
+     */
+    omit?: appointmentOmit<ExtArgs> | null
+    /**
+     * Filter, which appointments to fetch.
+     */
+    where?: appointmentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of appointments to fetch.
+     */
+    orderBy?: appointmentOrderByWithRelationInput | appointmentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing appointments.
+     */
+    cursor?: appointmentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` appointments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` appointments.
+     */
+    skip?: number
+    distinct?: AppointmentScalarFieldEnum | AppointmentScalarFieldEnum[]
+  }
+
+  /**
+   * appointment create
+   */
+  export type appointmentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the appointment
+     */
+    select?: appointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the appointment
+     */
+    omit?: appointmentOmit<ExtArgs> | null
+    /**
+     * The data needed to create a appointment.
+     */
+    data: XOR<appointmentCreateInput, appointmentUncheckedCreateInput>
+  }
+
+  /**
+   * appointment createMany
+   */
+  export type appointmentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many appointments.
+     */
+    data: appointmentCreateManyInput | appointmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * appointment createManyAndReturn
+   */
+  export type appointmentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the appointment
+     */
+    select?: appointmentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the appointment
+     */
+    omit?: appointmentOmit<ExtArgs> | null
+    /**
+     * The data used to create many appointments.
+     */
+    data: appointmentCreateManyInput | appointmentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * appointment update
+   */
+  export type appointmentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the appointment
+     */
+    select?: appointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the appointment
+     */
+    omit?: appointmentOmit<ExtArgs> | null
+    /**
+     * The data needed to update a appointment.
+     */
+    data: XOR<appointmentUpdateInput, appointmentUncheckedUpdateInput>
+    /**
+     * Choose, which appointment to update.
+     */
+    where: appointmentWhereUniqueInput
+  }
+
+  /**
+   * appointment updateMany
+   */
+  export type appointmentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update appointments.
+     */
+    data: XOR<appointmentUpdateManyMutationInput, appointmentUncheckedUpdateManyInput>
+    /**
+     * Filter which appointments to update
+     */
+    where?: appointmentWhereInput
+    /**
+     * Limit how many appointments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * appointment updateManyAndReturn
+   */
+  export type appointmentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the appointment
+     */
+    select?: appointmentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the appointment
+     */
+    omit?: appointmentOmit<ExtArgs> | null
+    /**
+     * The data used to update appointments.
+     */
+    data: XOR<appointmentUpdateManyMutationInput, appointmentUncheckedUpdateManyInput>
+    /**
+     * Filter which appointments to update
+     */
+    where?: appointmentWhereInput
+    /**
+     * Limit how many appointments to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * appointment upsert
+   */
+  export type appointmentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the appointment
+     */
+    select?: appointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the appointment
+     */
+    omit?: appointmentOmit<ExtArgs> | null
+    /**
+     * The filter to search for the appointment to update in case it exists.
+     */
+    where: appointmentWhereUniqueInput
+    /**
+     * In case the appointment found by the `where` argument doesn't exist, create a new appointment with this data.
+     */
+    create: XOR<appointmentCreateInput, appointmentUncheckedCreateInput>
+    /**
+     * In case the appointment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<appointmentUpdateInput, appointmentUncheckedUpdateInput>
+  }
+
+  /**
+   * appointment delete
+   */
+  export type appointmentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the appointment
+     */
+    select?: appointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the appointment
+     */
+    omit?: appointmentOmit<ExtArgs> | null
+    /**
+     * Filter which appointment to delete.
+     */
+    where: appointmentWhereUniqueInput
+  }
+
+  /**
+   * appointment deleteMany
+   */
+  export type appointmentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which appointments to delete
+     */
+    where?: appointmentWhereInput
+    /**
+     * Limit how many appointments to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * appointment without action
+   */
+  export type appointmentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the appointment
+     */
+    select?: appointmentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the appointment
+     */
+    omit?: appointmentOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model sendout
+   */
+
+  export type AggregateSendout = {
+    _count: SendoutCountAggregateOutputType | null
+    _avg: SendoutAvgAggregateOutputType | null
+    _sum: SendoutSumAggregateOutputType | null
+    _min: SendoutMinAggregateOutputType | null
+    _max: SendoutMaxAggregateOutputType | null
+  }
+
+  export type SendoutAvgAggregateOutputType = {
+    Id: number | null
+    IdQueue: number | null
+    Status: number | null
+  }
+
+  export type SendoutSumAggregateOutputType = {
+    Id: bigint | null
+    IdQueue: bigint | null
+    Status: number | null
+  }
+
+  export type SendoutMinAggregateOutputType = {
+    Id: bigint | null
+    IdQueue: bigint | null
+    QueueCode: string | null
+    PatientName: string | null
+    IdBUFrom: string | null
+    IdBUTo: string | null
+    Items: string | null
+    Notes: string | null
+    Status: number | null
+    SentBy: string | null
+    SentDate: Date | null
+    ReceivedBy: string | null
+    DateReceived: Date | null
+    CompletedBy: string | null
+    DateCompleted: Date | null
+    UpdateBy: string | null
+    UpdateDate: Date | null
+  }
+
+  export type SendoutMaxAggregateOutputType = {
+    Id: bigint | null
+    IdQueue: bigint | null
+    QueueCode: string | null
+    PatientName: string | null
+    IdBUFrom: string | null
+    IdBUTo: string | null
+    Items: string | null
+    Notes: string | null
+    Status: number | null
+    SentBy: string | null
+    SentDate: Date | null
+    ReceivedBy: string | null
+    DateReceived: Date | null
+    CompletedBy: string | null
+    DateCompleted: Date | null
+    UpdateBy: string | null
+    UpdateDate: Date | null
+  }
+
+  export type SendoutCountAggregateOutputType = {
+    Id: number
+    IdQueue: number
+    QueueCode: number
+    PatientName: number
+    IdBUFrom: number
+    IdBUTo: number
+    Items: number
+    Notes: number
+    Status: number
+    SentBy: number
+    SentDate: number
+    ReceivedBy: number
+    DateReceived: number
+    CompletedBy: number
+    DateCompleted: number
+    UpdateBy: number
+    UpdateDate: number
+    _all: number
+  }
+
+
+  export type SendoutAvgAggregateInputType = {
+    Id?: true
+    IdQueue?: true
+    Status?: true
+  }
+
+  export type SendoutSumAggregateInputType = {
+    Id?: true
+    IdQueue?: true
+    Status?: true
+  }
+
+  export type SendoutMinAggregateInputType = {
+    Id?: true
+    IdQueue?: true
+    QueueCode?: true
+    PatientName?: true
+    IdBUFrom?: true
+    IdBUTo?: true
+    Items?: true
+    Notes?: true
+    Status?: true
+    SentBy?: true
+    SentDate?: true
+    ReceivedBy?: true
+    DateReceived?: true
+    CompletedBy?: true
+    DateCompleted?: true
+    UpdateBy?: true
+    UpdateDate?: true
+  }
+
+  export type SendoutMaxAggregateInputType = {
+    Id?: true
+    IdQueue?: true
+    QueueCode?: true
+    PatientName?: true
+    IdBUFrom?: true
+    IdBUTo?: true
+    Items?: true
+    Notes?: true
+    Status?: true
+    SentBy?: true
+    SentDate?: true
+    ReceivedBy?: true
+    DateReceived?: true
+    CompletedBy?: true
+    DateCompleted?: true
+    UpdateBy?: true
+    UpdateDate?: true
+  }
+
+  export type SendoutCountAggregateInputType = {
+    Id?: true
+    IdQueue?: true
+    QueueCode?: true
+    PatientName?: true
+    IdBUFrom?: true
+    IdBUTo?: true
+    Items?: true
+    Notes?: true
+    Status?: true
+    SentBy?: true
+    SentDate?: true
+    ReceivedBy?: true
+    DateReceived?: true
+    CompletedBy?: true
+    DateCompleted?: true
+    UpdateBy?: true
+    UpdateDate?: true
+    _all?: true
+  }
+
+  export type SendoutAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which sendout to aggregate.
+     */
+    where?: sendoutWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of sendouts to fetch.
+     */
+    orderBy?: sendoutOrderByWithRelationInput | sendoutOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: sendoutWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` sendouts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` sendouts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned sendouts
+    **/
+    _count?: true | SendoutCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SendoutAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SendoutSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SendoutMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SendoutMaxAggregateInputType
+  }
+
+  export type GetSendoutAggregateType<T extends SendoutAggregateArgs> = {
+        [P in keyof T & keyof AggregateSendout]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSendout[P]>
+      : GetScalarType<T[P], AggregateSendout[P]>
+  }
+
+
+
+
+  export type sendoutGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: sendoutWhereInput
+    orderBy?: sendoutOrderByWithAggregationInput | sendoutOrderByWithAggregationInput[]
+    by: SendoutScalarFieldEnum[] | SendoutScalarFieldEnum
+    having?: sendoutScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SendoutCountAggregateInputType | true
+    _avg?: SendoutAvgAggregateInputType
+    _sum?: SendoutSumAggregateInputType
+    _min?: SendoutMinAggregateInputType
+    _max?: SendoutMaxAggregateInputType
+  }
+
+  export type SendoutGroupByOutputType = {
+    Id: bigint
+    IdQueue: bigint
+    QueueCode: string | null
+    PatientName: string | null
+    IdBUFrom: string
+    IdBUTo: string
+    Items: string | null
+    Notes: string | null
+    Status: number
+    SentBy: string | null
+    SentDate: Date
+    ReceivedBy: string | null
+    DateReceived: Date | null
+    CompletedBy: string | null
+    DateCompleted: Date | null
+    UpdateBy: string | null
+    UpdateDate: Date | null
+    _count: SendoutCountAggregateOutputType | null
+    _avg: SendoutAvgAggregateOutputType | null
+    _sum: SendoutSumAggregateOutputType | null
+    _min: SendoutMinAggregateOutputType | null
+    _max: SendoutMaxAggregateOutputType | null
+  }
+
+  type GetSendoutGroupByPayload<T extends sendoutGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SendoutGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SendoutGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SendoutGroupByOutputType[P]>
+            : GetScalarType<T[P], SendoutGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type sendoutSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    Id?: boolean
+    IdQueue?: boolean
+    QueueCode?: boolean
+    PatientName?: boolean
+    IdBUFrom?: boolean
+    IdBUTo?: boolean
+    Items?: boolean
+    Notes?: boolean
+    Status?: boolean
+    SentBy?: boolean
+    SentDate?: boolean
+    ReceivedBy?: boolean
+    DateReceived?: boolean
+    CompletedBy?: boolean
+    DateCompleted?: boolean
+    UpdateBy?: boolean
+    UpdateDate?: boolean
+  }, ExtArgs["result"]["sendout"]>
+
+  export type sendoutSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    Id?: boolean
+    IdQueue?: boolean
+    QueueCode?: boolean
+    PatientName?: boolean
+    IdBUFrom?: boolean
+    IdBUTo?: boolean
+    Items?: boolean
+    Notes?: boolean
+    Status?: boolean
+    SentBy?: boolean
+    SentDate?: boolean
+    ReceivedBy?: boolean
+    DateReceived?: boolean
+    CompletedBy?: boolean
+    DateCompleted?: boolean
+    UpdateBy?: boolean
+    UpdateDate?: boolean
+  }, ExtArgs["result"]["sendout"]>
+
+  export type sendoutSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    Id?: boolean
+    IdQueue?: boolean
+    QueueCode?: boolean
+    PatientName?: boolean
+    IdBUFrom?: boolean
+    IdBUTo?: boolean
+    Items?: boolean
+    Notes?: boolean
+    Status?: boolean
+    SentBy?: boolean
+    SentDate?: boolean
+    ReceivedBy?: boolean
+    DateReceived?: boolean
+    CompletedBy?: boolean
+    DateCompleted?: boolean
+    UpdateBy?: boolean
+    UpdateDate?: boolean
+  }, ExtArgs["result"]["sendout"]>
+
+  export type sendoutSelectScalar = {
+    Id?: boolean
+    IdQueue?: boolean
+    QueueCode?: boolean
+    PatientName?: boolean
+    IdBUFrom?: boolean
+    IdBUTo?: boolean
+    Items?: boolean
+    Notes?: boolean
+    Status?: boolean
+    SentBy?: boolean
+    SentDate?: boolean
+    ReceivedBy?: boolean
+    DateReceived?: boolean
+    CompletedBy?: boolean
+    DateCompleted?: boolean
+    UpdateBy?: boolean
+    UpdateDate?: boolean
+  }
+
+  export type sendoutOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"Id" | "IdQueue" | "QueueCode" | "PatientName" | "IdBUFrom" | "IdBUTo" | "Items" | "Notes" | "Status" | "SentBy" | "SentDate" | "ReceivedBy" | "DateReceived" | "CompletedBy" | "DateCompleted" | "UpdateBy" | "UpdateDate", ExtArgs["result"]["sendout"]>
+
+  export type $sendoutPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "sendout"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      Id: bigint
+      IdQueue: bigint
+      QueueCode: string | null
+      PatientName: string | null
+      IdBUFrom: string
+      IdBUTo: string
+      Items: string | null
+      Notes: string | null
+      Status: number
+      SentBy: string | null
+      SentDate: Date
+      ReceivedBy: string | null
+      DateReceived: Date | null
+      CompletedBy: string | null
+      DateCompleted: Date | null
+      UpdateBy: string | null
+      UpdateDate: Date | null
+    }, ExtArgs["result"]["sendout"]>
+    composites: {}
+  }
+
+  type sendoutGetPayload<S extends boolean | null | undefined | sendoutDefaultArgs> = $Result.GetResult<Prisma.$sendoutPayload, S>
+
+  type sendoutCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<sendoutFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SendoutCountAggregateInputType | true
+    }
+
+  export interface sendoutDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['sendout'], meta: { name: 'sendout' } }
+    /**
+     * Find zero or one Sendout that matches the filter.
+     * @param {sendoutFindUniqueArgs} args - Arguments to find a Sendout
+     * @example
+     * // Get one Sendout
+     * const sendout = await prisma.sendout.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends sendoutFindUniqueArgs>(args: SelectSubset<T, sendoutFindUniqueArgs<ExtArgs>>): Prisma__sendoutClient<$Result.GetResult<Prisma.$sendoutPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Sendout that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {sendoutFindUniqueOrThrowArgs} args - Arguments to find a Sendout
+     * @example
+     * // Get one Sendout
+     * const sendout = await prisma.sendout.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends sendoutFindUniqueOrThrowArgs>(args: SelectSubset<T, sendoutFindUniqueOrThrowArgs<ExtArgs>>): Prisma__sendoutClient<$Result.GetResult<Prisma.$sendoutPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Sendout that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {sendoutFindFirstArgs} args - Arguments to find a Sendout
+     * @example
+     * // Get one Sendout
+     * const sendout = await prisma.sendout.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends sendoutFindFirstArgs>(args?: SelectSubset<T, sendoutFindFirstArgs<ExtArgs>>): Prisma__sendoutClient<$Result.GetResult<Prisma.$sendoutPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Sendout that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {sendoutFindFirstOrThrowArgs} args - Arguments to find a Sendout
+     * @example
+     * // Get one Sendout
+     * const sendout = await prisma.sendout.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends sendoutFindFirstOrThrowArgs>(args?: SelectSubset<T, sendoutFindFirstOrThrowArgs<ExtArgs>>): Prisma__sendoutClient<$Result.GetResult<Prisma.$sendoutPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Sendouts that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {sendoutFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Sendouts
+     * const sendouts = await prisma.sendout.findMany()
+     * 
+     * // Get first 10 Sendouts
+     * const sendouts = await prisma.sendout.findMany({ take: 10 })
+     * 
+     * // Only select the `Id`
+     * const sendoutWithIdOnly = await prisma.sendout.findMany({ select: { Id: true } })
+     * 
+     */
+    findMany<T extends sendoutFindManyArgs>(args?: SelectSubset<T, sendoutFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$sendoutPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Sendout.
+     * @param {sendoutCreateArgs} args - Arguments to create a Sendout.
+     * @example
+     * // Create one Sendout
+     * const Sendout = await prisma.sendout.create({
+     *   data: {
+     *     // ... data to create a Sendout
+     *   }
+     * })
+     * 
+     */
+    create<T extends sendoutCreateArgs>(args: SelectSubset<T, sendoutCreateArgs<ExtArgs>>): Prisma__sendoutClient<$Result.GetResult<Prisma.$sendoutPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Sendouts.
+     * @param {sendoutCreateManyArgs} args - Arguments to create many Sendouts.
+     * @example
+     * // Create many Sendouts
+     * const sendout = await prisma.sendout.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends sendoutCreateManyArgs>(args?: SelectSubset<T, sendoutCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Sendouts and returns the data saved in the database.
+     * @param {sendoutCreateManyAndReturnArgs} args - Arguments to create many Sendouts.
+     * @example
+     * // Create many Sendouts
+     * const sendout = await prisma.sendout.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Sendouts and only return the `Id`
+     * const sendoutWithIdOnly = await prisma.sendout.createManyAndReturn({
+     *   select: { Id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends sendoutCreateManyAndReturnArgs>(args?: SelectSubset<T, sendoutCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$sendoutPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Sendout.
+     * @param {sendoutDeleteArgs} args - Arguments to delete one Sendout.
+     * @example
+     * // Delete one Sendout
+     * const Sendout = await prisma.sendout.delete({
+     *   where: {
+     *     // ... filter to delete one Sendout
+     *   }
+     * })
+     * 
+     */
+    delete<T extends sendoutDeleteArgs>(args: SelectSubset<T, sendoutDeleteArgs<ExtArgs>>): Prisma__sendoutClient<$Result.GetResult<Prisma.$sendoutPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Sendout.
+     * @param {sendoutUpdateArgs} args - Arguments to update one Sendout.
+     * @example
+     * // Update one Sendout
+     * const sendout = await prisma.sendout.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends sendoutUpdateArgs>(args: SelectSubset<T, sendoutUpdateArgs<ExtArgs>>): Prisma__sendoutClient<$Result.GetResult<Prisma.$sendoutPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Sendouts.
+     * @param {sendoutDeleteManyArgs} args - Arguments to filter Sendouts to delete.
+     * @example
+     * // Delete a few Sendouts
+     * const { count } = await prisma.sendout.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends sendoutDeleteManyArgs>(args?: SelectSubset<T, sendoutDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Sendouts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {sendoutUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Sendouts
+     * const sendout = await prisma.sendout.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends sendoutUpdateManyArgs>(args: SelectSubset<T, sendoutUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Sendouts and returns the data updated in the database.
+     * @param {sendoutUpdateManyAndReturnArgs} args - Arguments to update many Sendouts.
+     * @example
+     * // Update many Sendouts
+     * const sendout = await prisma.sendout.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Sendouts and only return the `Id`
+     * const sendoutWithIdOnly = await prisma.sendout.updateManyAndReturn({
+     *   select: { Id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends sendoutUpdateManyAndReturnArgs>(args: SelectSubset<T, sendoutUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$sendoutPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Sendout.
+     * @param {sendoutUpsertArgs} args - Arguments to update or create a Sendout.
+     * @example
+     * // Update or create a Sendout
+     * const sendout = await prisma.sendout.upsert({
+     *   create: {
+     *     // ... data to create a Sendout
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Sendout we want to update
+     *   }
+     * })
+     */
+    upsert<T extends sendoutUpsertArgs>(args: SelectSubset<T, sendoutUpsertArgs<ExtArgs>>): Prisma__sendoutClient<$Result.GetResult<Prisma.$sendoutPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Sendouts.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {sendoutCountArgs} args - Arguments to filter Sendouts to count.
+     * @example
+     * // Count the number of Sendouts
+     * const count = await prisma.sendout.count({
+     *   where: {
+     *     // ... the filter for the Sendouts we want to count
+     *   }
+     * })
+    **/
+    count<T extends sendoutCountArgs>(
+      args?: Subset<T, sendoutCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SendoutCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Sendout.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SendoutAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SendoutAggregateArgs>(args: Subset<T, SendoutAggregateArgs>): Prisma.PrismaPromise<GetSendoutAggregateType<T>>
+
+    /**
+     * Group by Sendout.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {sendoutGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends sendoutGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: sendoutGroupByArgs['orderBy'] }
+        : { orderBy?: sendoutGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, sendoutGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSendoutGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the sendout model
+   */
+  readonly fields: sendoutFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for sendout.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__sendoutClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the sendout model
+   */
+  interface sendoutFieldRefs {
+    readonly Id: FieldRef<"sendout", 'BigInt'>
+    readonly IdQueue: FieldRef<"sendout", 'BigInt'>
+    readonly QueueCode: FieldRef<"sendout", 'String'>
+    readonly PatientName: FieldRef<"sendout", 'String'>
+    readonly IdBUFrom: FieldRef<"sendout", 'String'>
+    readonly IdBUTo: FieldRef<"sendout", 'String'>
+    readonly Items: FieldRef<"sendout", 'String'>
+    readonly Notes: FieldRef<"sendout", 'String'>
+    readonly Status: FieldRef<"sendout", 'Int'>
+    readonly SentBy: FieldRef<"sendout", 'String'>
+    readonly SentDate: FieldRef<"sendout", 'DateTime'>
+    readonly ReceivedBy: FieldRef<"sendout", 'String'>
+    readonly DateReceived: FieldRef<"sendout", 'DateTime'>
+    readonly CompletedBy: FieldRef<"sendout", 'String'>
+    readonly DateCompleted: FieldRef<"sendout", 'DateTime'>
+    readonly UpdateBy: FieldRef<"sendout", 'String'>
+    readonly UpdateDate: FieldRef<"sendout", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * sendout findUnique
+   */
+  export type sendoutFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the sendout
+     */
+    select?: sendoutSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the sendout
+     */
+    omit?: sendoutOmit<ExtArgs> | null
+    /**
+     * Filter, which sendout to fetch.
+     */
+    where: sendoutWhereUniqueInput
+  }
+
+  /**
+   * sendout findUniqueOrThrow
+   */
+  export type sendoutFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the sendout
+     */
+    select?: sendoutSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the sendout
+     */
+    omit?: sendoutOmit<ExtArgs> | null
+    /**
+     * Filter, which sendout to fetch.
+     */
+    where: sendoutWhereUniqueInput
+  }
+
+  /**
+   * sendout findFirst
+   */
+  export type sendoutFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the sendout
+     */
+    select?: sendoutSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the sendout
+     */
+    omit?: sendoutOmit<ExtArgs> | null
+    /**
+     * Filter, which sendout to fetch.
+     */
+    where?: sendoutWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of sendouts to fetch.
+     */
+    orderBy?: sendoutOrderByWithRelationInput | sendoutOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for sendouts.
+     */
+    cursor?: sendoutWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` sendouts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` sendouts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of sendouts.
+     */
+    distinct?: SendoutScalarFieldEnum | SendoutScalarFieldEnum[]
+  }
+
+  /**
+   * sendout findFirstOrThrow
+   */
+  export type sendoutFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the sendout
+     */
+    select?: sendoutSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the sendout
+     */
+    omit?: sendoutOmit<ExtArgs> | null
+    /**
+     * Filter, which sendout to fetch.
+     */
+    where?: sendoutWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of sendouts to fetch.
+     */
+    orderBy?: sendoutOrderByWithRelationInput | sendoutOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for sendouts.
+     */
+    cursor?: sendoutWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` sendouts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` sendouts.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of sendouts.
+     */
+    distinct?: SendoutScalarFieldEnum | SendoutScalarFieldEnum[]
+  }
+
+  /**
+   * sendout findMany
+   */
+  export type sendoutFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the sendout
+     */
+    select?: sendoutSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the sendout
+     */
+    omit?: sendoutOmit<ExtArgs> | null
+    /**
+     * Filter, which sendouts to fetch.
+     */
+    where?: sendoutWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of sendouts to fetch.
+     */
+    orderBy?: sendoutOrderByWithRelationInput | sendoutOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing sendouts.
+     */
+    cursor?: sendoutWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` sendouts from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` sendouts.
+     */
+    skip?: number
+    distinct?: SendoutScalarFieldEnum | SendoutScalarFieldEnum[]
+  }
+
+  /**
+   * sendout create
+   */
+  export type sendoutCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the sendout
+     */
+    select?: sendoutSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the sendout
+     */
+    omit?: sendoutOmit<ExtArgs> | null
+    /**
+     * The data needed to create a sendout.
+     */
+    data: XOR<sendoutCreateInput, sendoutUncheckedCreateInput>
+  }
+
+  /**
+   * sendout createMany
+   */
+  export type sendoutCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many sendouts.
+     */
+    data: sendoutCreateManyInput | sendoutCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * sendout createManyAndReturn
+   */
+  export type sendoutCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the sendout
+     */
+    select?: sendoutSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the sendout
+     */
+    omit?: sendoutOmit<ExtArgs> | null
+    /**
+     * The data used to create many sendouts.
+     */
+    data: sendoutCreateManyInput | sendoutCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * sendout update
+   */
+  export type sendoutUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the sendout
+     */
+    select?: sendoutSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the sendout
+     */
+    omit?: sendoutOmit<ExtArgs> | null
+    /**
+     * The data needed to update a sendout.
+     */
+    data: XOR<sendoutUpdateInput, sendoutUncheckedUpdateInput>
+    /**
+     * Choose, which sendout to update.
+     */
+    where: sendoutWhereUniqueInput
+  }
+
+  /**
+   * sendout updateMany
+   */
+  export type sendoutUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update sendouts.
+     */
+    data: XOR<sendoutUpdateManyMutationInput, sendoutUncheckedUpdateManyInput>
+    /**
+     * Filter which sendouts to update
+     */
+    where?: sendoutWhereInput
+    /**
+     * Limit how many sendouts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * sendout updateManyAndReturn
+   */
+  export type sendoutUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the sendout
+     */
+    select?: sendoutSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the sendout
+     */
+    omit?: sendoutOmit<ExtArgs> | null
+    /**
+     * The data used to update sendouts.
+     */
+    data: XOR<sendoutUpdateManyMutationInput, sendoutUncheckedUpdateManyInput>
+    /**
+     * Filter which sendouts to update
+     */
+    where?: sendoutWhereInput
+    /**
+     * Limit how many sendouts to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * sendout upsert
+   */
+  export type sendoutUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the sendout
+     */
+    select?: sendoutSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the sendout
+     */
+    omit?: sendoutOmit<ExtArgs> | null
+    /**
+     * The filter to search for the sendout to update in case it exists.
+     */
+    where: sendoutWhereUniqueInput
+    /**
+     * In case the sendout found by the `where` argument doesn't exist, create a new sendout with this data.
+     */
+    create: XOR<sendoutCreateInput, sendoutUncheckedCreateInput>
+    /**
+     * In case the sendout was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<sendoutUpdateInput, sendoutUncheckedUpdateInput>
+  }
+
+  /**
+   * sendout delete
+   */
+  export type sendoutDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the sendout
+     */
+    select?: sendoutSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the sendout
+     */
+    omit?: sendoutOmit<ExtArgs> | null
+    /**
+     * Filter which sendout to delete.
+     */
+    where: sendoutWhereUniqueInput
+  }
+
+  /**
+   * sendout deleteMany
+   */
+  export type sendoutDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which sendouts to delete
+     */
+    where?: sendoutWhereInput
+    /**
+     * Limit how many sendouts to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * sendout without action
+   */
+  export type sendoutDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the sendout
+     */
+    select?: sendoutSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the sendout
+     */
+    omit?: sendoutOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -53623,6 +56173,50 @@ export namespace Prisma {
   };
 
   export type CardVerifiedScalarFieldEnum = (typeof CardVerifiedScalarFieldEnum)[keyof typeof CardVerifiedScalarFieldEnum]
+
+
+  export const AppointmentScalarFieldEnum: {
+    Id: 'Id',
+    IdBU: 'IdBU',
+    IdPatient: 'IdPatient',
+    PatientName: 'PatientName',
+    IdPhysician: 'IdPhysician',
+    PhysicianName: 'PhysicianName',
+    AppointmentDate: 'AppointmentDate',
+    TimeSlot: 'TimeSlot',
+    Notes: 'Notes',
+    IdQueue: 'IdQueue',
+    Status: 'Status',
+    InputBy: 'InputBy',
+    InputDateTime: 'InputDateTime',
+    UpdateBy: 'UpdateBy',
+    UpdateDateTime: 'UpdateDateTime'
+  };
+
+  export type AppointmentScalarFieldEnum = (typeof AppointmentScalarFieldEnum)[keyof typeof AppointmentScalarFieldEnum]
+
+
+  export const SendoutScalarFieldEnum: {
+    Id: 'Id',
+    IdQueue: 'IdQueue',
+    QueueCode: 'QueueCode',
+    PatientName: 'PatientName',
+    IdBUFrom: 'IdBUFrom',
+    IdBUTo: 'IdBUTo',
+    Items: 'Items',
+    Notes: 'Notes',
+    Status: 'Status',
+    SentBy: 'SentBy',
+    SentDate: 'SentDate',
+    ReceivedBy: 'ReceivedBy',
+    DateReceived: 'DateReceived',
+    CompletedBy: 'CompletedBy',
+    DateCompleted: 'DateCompleted',
+    UpdateBy: 'UpdateBy',
+    UpdateDate: 'UpdateDate'
+  };
+
+  export type SendoutScalarFieldEnum = (typeof SendoutScalarFieldEnum)[keyof typeof SendoutScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -59024,6 +61618,224 @@ export namespace Prisma {
     verifiedcardnumbers?: StringNullableWithAggregatesFilter<"cardVerified"> | string | null
     ictreceived?: StringNullableWithAggregatesFilter<"cardVerified"> | string | null
     datereceived?: DateTimeNullableWithAggregatesFilter<"cardVerified"> | Date | string | null
+  }
+
+  export type appointmentWhereInput = {
+    AND?: appointmentWhereInput | appointmentWhereInput[]
+    OR?: appointmentWhereInput[]
+    NOT?: appointmentWhereInput | appointmentWhereInput[]
+    Id?: BigIntFilter<"appointment"> | bigint | number
+    IdBU?: StringFilter<"appointment"> | string
+    IdPatient?: BigIntFilter<"appointment"> | bigint | number
+    PatientName?: StringNullableFilter<"appointment"> | string | null
+    IdPhysician?: BigIntFilter<"appointment"> | bigint | number
+    PhysicianName?: StringNullableFilter<"appointment"> | string | null
+    AppointmentDate?: DateTimeFilter<"appointment"> | Date | string
+    TimeSlot?: StringNullableFilter<"appointment"> | string | null
+    Notes?: StringNullableFilter<"appointment"> | string | null
+    IdQueue?: BigIntNullableFilter<"appointment"> | bigint | number | null
+    Status?: IntFilter<"appointment"> | number
+    InputBy?: StringNullableFilter<"appointment"> | string | null
+    InputDateTime?: DateTimeFilter<"appointment"> | Date | string
+    UpdateBy?: StringNullableFilter<"appointment"> | string | null
+    UpdateDateTime?: DateTimeNullableFilter<"appointment"> | Date | string | null
+  }
+
+  export type appointmentOrderByWithRelationInput = {
+    Id?: SortOrder
+    IdBU?: SortOrder
+    IdPatient?: SortOrder
+    PatientName?: SortOrderInput | SortOrder
+    IdPhysician?: SortOrder
+    PhysicianName?: SortOrderInput | SortOrder
+    AppointmentDate?: SortOrder
+    TimeSlot?: SortOrderInput | SortOrder
+    Notes?: SortOrderInput | SortOrder
+    IdQueue?: SortOrderInput | SortOrder
+    Status?: SortOrder
+    InputBy?: SortOrderInput | SortOrder
+    InputDateTime?: SortOrder
+    UpdateBy?: SortOrderInput | SortOrder
+    UpdateDateTime?: SortOrderInput | SortOrder
+  }
+
+  export type appointmentWhereUniqueInput = Prisma.AtLeast<{
+    Id?: bigint | number
+    AND?: appointmentWhereInput | appointmentWhereInput[]
+    OR?: appointmentWhereInput[]
+    NOT?: appointmentWhereInput | appointmentWhereInput[]
+    IdBU?: StringFilter<"appointment"> | string
+    IdPatient?: BigIntFilter<"appointment"> | bigint | number
+    PatientName?: StringNullableFilter<"appointment"> | string | null
+    IdPhysician?: BigIntFilter<"appointment"> | bigint | number
+    PhysicianName?: StringNullableFilter<"appointment"> | string | null
+    AppointmentDate?: DateTimeFilter<"appointment"> | Date | string
+    TimeSlot?: StringNullableFilter<"appointment"> | string | null
+    Notes?: StringNullableFilter<"appointment"> | string | null
+    IdQueue?: BigIntNullableFilter<"appointment"> | bigint | number | null
+    Status?: IntFilter<"appointment"> | number
+    InputBy?: StringNullableFilter<"appointment"> | string | null
+    InputDateTime?: DateTimeFilter<"appointment"> | Date | string
+    UpdateBy?: StringNullableFilter<"appointment"> | string | null
+    UpdateDateTime?: DateTimeNullableFilter<"appointment"> | Date | string | null
+  }, "Id">
+
+  export type appointmentOrderByWithAggregationInput = {
+    Id?: SortOrder
+    IdBU?: SortOrder
+    IdPatient?: SortOrder
+    PatientName?: SortOrderInput | SortOrder
+    IdPhysician?: SortOrder
+    PhysicianName?: SortOrderInput | SortOrder
+    AppointmentDate?: SortOrder
+    TimeSlot?: SortOrderInput | SortOrder
+    Notes?: SortOrderInput | SortOrder
+    IdQueue?: SortOrderInput | SortOrder
+    Status?: SortOrder
+    InputBy?: SortOrderInput | SortOrder
+    InputDateTime?: SortOrder
+    UpdateBy?: SortOrderInput | SortOrder
+    UpdateDateTime?: SortOrderInput | SortOrder
+    _count?: appointmentCountOrderByAggregateInput
+    _avg?: appointmentAvgOrderByAggregateInput
+    _max?: appointmentMaxOrderByAggregateInput
+    _min?: appointmentMinOrderByAggregateInput
+    _sum?: appointmentSumOrderByAggregateInput
+  }
+
+  export type appointmentScalarWhereWithAggregatesInput = {
+    AND?: appointmentScalarWhereWithAggregatesInput | appointmentScalarWhereWithAggregatesInput[]
+    OR?: appointmentScalarWhereWithAggregatesInput[]
+    NOT?: appointmentScalarWhereWithAggregatesInput | appointmentScalarWhereWithAggregatesInput[]
+    Id?: BigIntWithAggregatesFilter<"appointment"> | bigint | number
+    IdBU?: StringWithAggregatesFilter<"appointment"> | string
+    IdPatient?: BigIntWithAggregatesFilter<"appointment"> | bigint | number
+    PatientName?: StringNullableWithAggregatesFilter<"appointment"> | string | null
+    IdPhysician?: BigIntWithAggregatesFilter<"appointment"> | bigint | number
+    PhysicianName?: StringNullableWithAggregatesFilter<"appointment"> | string | null
+    AppointmentDate?: DateTimeWithAggregatesFilter<"appointment"> | Date | string
+    TimeSlot?: StringNullableWithAggregatesFilter<"appointment"> | string | null
+    Notes?: StringNullableWithAggregatesFilter<"appointment"> | string | null
+    IdQueue?: BigIntNullableWithAggregatesFilter<"appointment"> | bigint | number | null
+    Status?: IntWithAggregatesFilter<"appointment"> | number
+    InputBy?: StringNullableWithAggregatesFilter<"appointment"> | string | null
+    InputDateTime?: DateTimeWithAggregatesFilter<"appointment"> | Date | string
+    UpdateBy?: StringNullableWithAggregatesFilter<"appointment"> | string | null
+    UpdateDateTime?: DateTimeNullableWithAggregatesFilter<"appointment"> | Date | string | null
+  }
+
+  export type sendoutWhereInput = {
+    AND?: sendoutWhereInput | sendoutWhereInput[]
+    OR?: sendoutWhereInput[]
+    NOT?: sendoutWhereInput | sendoutWhereInput[]
+    Id?: BigIntFilter<"sendout"> | bigint | number
+    IdQueue?: BigIntFilter<"sendout"> | bigint | number
+    QueueCode?: StringNullableFilter<"sendout"> | string | null
+    PatientName?: StringNullableFilter<"sendout"> | string | null
+    IdBUFrom?: StringFilter<"sendout"> | string
+    IdBUTo?: StringFilter<"sendout"> | string
+    Items?: StringNullableFilter<"sendout"> | string | null
+    Notes?: StringNullableFilter<"sendout"> | string | null
+    Status?: IntFilter<"sendout"> | number
+    SentBy?: StringNullableFilter<"sendout"> | string | null
+    SentDate?: DateTimeFilter<"sendout"> | Date | string
+    ReceivedBy?: StringNullableFilter<"sendout"> | string | null
+    DateReceived?: DateTimeNullableFilter<"sendout"> | Date | string | null
+    CompletedBy?: StringNullableFilter<"sendout"> | string | null
+    DateCompleted?: DateTimeNullableFilter<"sendout"> | Date | string | null
+    UpdateBy?: StringNullableFilter<"sendout"> | string | null
+    UpdateDate?: DateTimeNullableFilter<"sendout"> | Date | string | null
+  }
+
+  export type sendoutOrderByWithRelationInput = {
+    Id?: SortOrder
+    IdQueue?: SortOrder
+    QueueCode?: SortOrderInput | SortOrder
+    PatientName?: SortOrderInput | SortOrder
+    IdBUFrom?: SortOrder
+    IdBUTo?: SortOrder
+    Items?: SortOrderInput | SortOrder
+    Notes?: SortOrderInput | SortOrder
+    Status?: SortOrder
+    SentBy?: SortOrderInput | SortOrder
+    SentDate?: SortOrder
+    ReceivedBy?: SortOrderInput | SortOrder
+    DateReceived?: SortOrderInput | SortOrder
+    CompletedBy?: SortOrderInput | SortOrder
+    DateCompleted?: SortOrderInput | SortOrder
+    UpdateBy?: SortOrderInput | SortOrder
+    UpdateDate?: SortOrderInput | SortOrder
+  }
+
+  export type sendoutWhereUniqueInput = Prisma.AtLeast<{
+    Id?: bigint | number
+    AND?: sendoutWhereInput | sendoutWhereInput[]
+    OR?: sendoutWhereInput[]
+    NOT?: sendoutWhereInput | sendoutWhereInput[]
+    IdQueue?: BigIntFilter<"sendout"> | bigint | number
+    QueueCode?: StringNullableFilter<"sendout"> | string | null
+    PatientName?: StringNullableFilter<"sendout"> | string | null
+    IdBUFrom?: StringFilter<"sendout"> | string
+    IdBUTo?: StringFilter<"sendout"> | string
+    Items?: StringNullableFilter<"sendout"> | string | null
+    Notes?: StringNullableFilter<"sendout"> | string | null
+    Status?: IntFilter<"sendout"> | number
+    SentBy?: StringNullableFilter<"sendout"> | string | null
+    SentDate?: DateTimeFilter<"sendout"> | Date | string
+    ReceivedBy?: StringNullableFilter<"sendout"> | string | null
+    DateReceived?: DateTimeNullableFilter<"sendout"> | Date | string | null
+    CompletedBy?: StringNullableFilter<"sendout"> | string | null
+    DateCompleted?: DateTimeNullableFilter<"sendout"> | Date | string | null
+    UpdateBy?: StringNullableFilter<"sendout"> | string | null
+    UpdateDate?: DateTimeNullableFilter<"sendout"> | Date | string | null
+  }, "Id">
+
+  export type sendoutOrderByWithAggregationInput = {
+    Id?: SortOrder
+    IdQueue?: SortOrder
+    QueueCode?: SortOrderInput | SortOrder
+    PatientName?: SortOrderInput | SortOrder
+    IdBUFrom?: SortOrder
+    IdBUTo?: SortOrder
+    Items?: SortOrderInput | SortOrder
+    Notes?: SortOrderInput | SortOrder
+    Status?: SortOrder
+    SentBy?: SortOrderInput | SortOrder
+    SentDate?: SortOrder
+    ReceivedBy?: SortOrderInput | SortOrder
+    DateReceived?: SortOrderInput | SortOrder
+    CompletedBy?: SortOrderInput | SortOrder
+    DateCompleted?: SortOrderInput | SortOrder
+    UpdateBy?: SortOrderInput | SortOrder
+    UpdateDate?: SortOrderInput | SortOrder
+    _count?: sendoutCountOrderByAggregateInput
+    _avg?: sendoutAvgOrderByAggregateInput
+    _max?: sendoutMaxOrderByAggregateInput
+    _min?: sendoutMinOrderByAggregateInput
+    _sum?: sendoutSumOrderByAggregateInput
+  }
+
+  export type sendoutScalarWhereWithAggregatesInput = {
+    AND?: sendoutScalarWhereWithAggregatesInput | sendoutScalarWhereWithAggregatesInput[]
+    OR?: sendoutScalarWhereWithAggregatesInput[]
+    NOT?: sendoutScalarWhereWithAggregatesInput | sendoutScalarWhereWithAggregatesInput[]
+    Id?: BigIntWithAggregatesFilter<"sendout"> | bigint | number
+    IdQueue?: BigIntWithAggregatesFilter<"sendout"> | bigint | number
+    QueueCode?: StringNullableWithAggregatesFilter<"sendout"> | string | null
+    PatientName?: StringNullableWithAggregatesFilter<"sendout"> | string | null
+    IdBUFrom?: StringWithAggregatesFilter<"sendout"> | string
+    IdBUTo?: StringWithAggregatesFilter<"sendout"> | string
+    Items?: StringNullableWithAggregatesFilter<"sendout"> | string | null
+    Notes?: StringNullableWithAggregatesFilter<"sendout"> | string | null
+    Status?: IntWithAggregatesFilter<"sendout"> | number
+    SentBy?: StringNullableWithAggregatesFilter<"sendout"> | string | null
+    SentDate?: DateTimeWithAggregatesFilter<"sendout"> | Date | string
+    ReceivedBy?: StringNullableWithAggregatesFilter<"sendout"> | string | null
+    DateReceived?: DateTimeNullableWithAggregatesFilter<"sendout"> | Date | string | null
+    CompletedBy?: StringNullableWithAggregatesFilter<"sendout"> | string | null
+    DateCompleted?: DateTimeNullableWithAggregatesFilter<"sendout"> | Date | string | null
+    UpdateBy?: StringNullableWithAggregatesFilter<"sendout"> | string | null
+    UpdateDate?: DateTimeNullableWithAggregatesFilter<"sendout"> | Date | string | null
   }
 
   export type UserCreateInput = {
@@ -65635,6 +68447,272 @@ export namespace Prisma {
     datereceived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type appointmentCreateInput = {
+    Id?: bigint | number
+    IdBU: string
+    IdPatient: bigint | number
+    PatientName?: string | null
+    IdPhysician: bigint | number
+    PhysicianName?: string | null
+    AppointmentDate: Date | string
+    TimeSlot?: string | null
+    Notes?: string | null
+    IdQueue?: bigint | number | null
+    Status?: number
+    InputBy?: string | null
+    InputDateTime?: Date | string
+    UpdateBy?: string | null
+    UpdateDateTime?: Date | string | null
+  }
+
+  export type appointmentUncheckedCreateInput = {
+    Id?: bigint | number
+    IdBU: string
+    IdPatient: bigint | number
+    PatientName?: string | null
+    IdPhysician: bigint | number
+    PhysicianName?: string | null
+    AppointmentDate: Date | string
+    TimeSlot?: string | null
+    Notes?: string | null
+    IdQueue?: bigint | number | null
+    Status?: number
+    InputBy?: string | null
+    InputDateTime?: Date | string
+    UpdateBy?: string | null
+    UpdateDateTime?: Date | string | null
+  }
+
+  export type appointmentUpdateInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdBU?: StringFieldUpdateOperationsInput | string
+    IdPatient?: BigIntFieldUpdateOperationsInput | bigint | number
+    PatientName?: NullableStringFieldUpdateOperationsInput | string | null
+    IdPhysician?: BigIntFieldUpdateOperationsInput | bigint | number
+    PhysicianName?: NullableStringFieldUpdateOperationsInput | string | null
+    AppointmentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    TimeSlot?: NullableStringFieldUpdateOperationsInput | string | null
+    Notes?: NullableStringFieldUpdateOperationsInput | string | null
+    IdQueue?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    Status?: IntFieldUpdateOperationsInput | number
+    InputBy?: NullableStringFieldUpdateOperationsInput | string | null
+    InputDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    UpdateBy?: NullableStringFieldUpdateOperationsInput | string | null
+    UpdateDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type appointmentUncheckedUpdateInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdBU?: StringFieldUpdateOperationsInput | string
+    IdPatient?: BigIntFieldUpdateOperationsInput | bigint | number
+    PatientName?: NullableStringFieldUpdateOperationsInput | string | null
+    IdPhysician?: BigIntFieldUpdateOperationsInput | bigint | number
+    PhysicianName?: NullableStringFieldUpdateOperationsInput | string | null
+    AppointmentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    TimeSlot?: NullableStringFieldUpdateOperationsInput | string | null
+    Notes?: NullableStringFieldUpdateOperationsInput | string | null
+    IdQueue?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    Status?: IntFieldUpdateOperationsInput | number
+    InputBy?: NullableStringFieldUpdateOperationsInput | string | null
+    InputDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    UpdateBy?: NullableStringFieldUpdateOperationsInput | string | null
+    UpdateDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type appointmentCreateManyInput = {
+    Id?: bigint | number
+    IdBU: string
+    IdPatient: bigint | number
+    PatientName?: string | null
+    IdPhysician: bigint | number
+    PhysicianName?: string | null
+    AppointmentDate: Date | string
+    TimeSlot?: string | null
+    Notes?: string | null
+    IdQueue?: bigint | number | null
+    Status?: number
+    InputBy?: string | null
+    InputDateTime?: Date | string
+    UpdateBy?: string | null
+    UpdateDateTime?: Date | string | null
+  }
+
+  export type appointmentUpdateManyMutationInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdBU?: StringFieldUpdateOperationsInput | string
+    IdPatient?: BigIntFieldUpdateOperationsInput | bigint | number
+    PatientName?: NullableStringFieldUpdateOperationsInput | string | null
+    IdPhysician?: BigIntFieldUpdateOperationsInput | bigint | number
+    PhysicianName?: NullableStringFieldUpdateOperationsInput | string | null
+    AppointmentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    TimeSlot?: NullableStringFieldUpdateOperationsInput | string | null
+    Notes?: NullableStringFieldUpdateOperationsInput | string | null
+    IdQueue?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    Status?: IntFieldUpdateOperationsInput | number
+    InputBy?: NullableStringFieldUpdateOperationsInput | string | null
+    InputDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    UpdateBy?: NullableStringFieldUpdateOperationsInput | string | null
+    UpdateDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type appointmentUncheckedUpdateManyInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdBU?: StringFieldUpdateOperationsInput | string
+    IdPatient?: BigIntFieldUpdateOperationsInput | bigint | number
+    PatientName?: NullableStringFieldUpdateOperationsInput | string | null
+    IdPhysician?: BigIntFieldUpdateOperationsInput | bigint | number
+    PhysicianName?: NullableStringFieldUpdateOperationsInput | string | null
+    AppointmentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    TimeSlot?: NullableStringFieldUpdateOperationsInput | string | null
+    Notes?: NullableStringFieldUpdateOperationsInput | string | null
+    IdQueue?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    Status?: IntFieldUpdateOperationsInput | number
+    InputBy?: NullableStringFieldUpdateOperationsInput | string | null
+    InputDateTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    UpdateBy?: NullableStringFieldUpdateOperationsInput | string | null
+    UpdateDateTime?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type sendoutCreateInput = {
+    Id?: bigint | number
+    IdQueue: bigint | number
+    QueueCode?: string | null
+    PatientName?: string | null
+    IdBUFrom: string
+    IdBUTo: string
+    Items?: string | null
+    Notes?: string | null
+    Status?: number
+    SentBy?: string | null
+    SentDate?: Date | string
+    ReceivedBy?: string | null
+    DateReceived?: Date | string | null
+    CompletedBy?: string | null
+    DateCompleted?: Date | string | null
+    UpdateBy?: string | null
+    UpdateDate?: Date | string | null
+  }
+
+  export type sendoutUncheckedCreateInput = {
+    Id?: bigint | number
+    IdQueue: bigint | number
+    QueueCode?: string | null
+    PatientName?: string | null
+    IdBUFrom: string
+    IdBUTo: string
+    Items?: string | null
+    Notes?: string | null
+    Status?: number
+    SentBy?: string | null
+    SentDate?: Date | string
+    ReceivedBy?: string | null
+    DateReceived?: Date | string | null
+    CompletedBy?: string | null
+    DateCompleted?: Date | string | null
+    UpdateBy?: string | null
+    UpdateDate?: Date | string | null
+  }
+
+  export type sendoutUpdateInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdQueue?: BigIntFieldUpdateOperationsInput | bigint | number
+    QueueCode?: NullableStringFieldUpdateOperationsInput | string | null
+    PatientName?: NullableStringFieldUpdateOperationsInput | string | null
+    IdBUFrom?: StringFieldUpdateOperationsInput | string
+    IdBUTo?: StringFieldUpdateOperationsInput | string
+    Items?: NullableStringFieldUpdateOperationsInput | string | null
+    Notes?: NullableStringFieldUpdateOperationsInput | string | null
+    Status?: IntFieldUpdateOperationsInput | number
+    SentBy?: NullableStringFieldUpdateOperationsInput | string | null
+    SentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    ReceivedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    DateReceived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    CompletedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    DateCompleted?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    UpdateBy?: NullableStringFieldUpdateOperationsInput | string | null
+    UpdateDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type sendoutUncheckedUpdateInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdQueue?: BigIntFieldUpdateOperationsInput | bigint | number
+    QueueCode?: NullableStringFieldUpdateOperationsInput | string | null
+    PatientName?: NullableStringFieldUpdateOperationsInput | string | null
+    IdBUFrom?: StringFieldUpdateOperationsInput | string
+    IdBUTo?: StringFieldUpdateOperationsInput | string
+    Items?: NullableStringFieldUpdateOperationsInput | string | null
+    Notes?: NullableStringFieldUpdateOperationsInput | string | null
+    Status?: IntFieldUpdateOperationsInput | number
+    SentBy?: NullableStringFieldUpdateOperationsInput | string | null
+    SentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    ReceivedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    DateReceived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    CompletedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    DateCompleted?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    UpdateBy?: NullableStringFieldUpdateOperationsInput | string | null
+    UpdateDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type sendoutCreateManyInput = {
+    Id?: bigint | number
+    IdQueue: bigint | number
+    QueueCode?: string | null
+    PatientName?: string | null
+    IdBUFrom: string
+    IdBUTo: string
+    Items?: string | null
+    Notes?: string | null
+    Status?: number
+    SentBy?: string | null
+    SentDate?: Date | string
+    ReceivedBy?: string | null
+    DateReceived?: Date | string | null
+    CompletedBy?: string | null
+    DateCompleted?: Date | string | null
+    UpdateBy?: string | null
+    UpdateDate?: Date | string | null
+  }
+
+  export type sendoutUpdateManyMutationInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdQueue?: BigIntFieldUpdateOperationsInput | bigint | number
+    QueueCode?: NullableStringFieldUpdateOperationsInput | string | null
+    PatientName?: NullableStringFieldUpdateOperationsInput | string | null
+    IdBUFrom?: StringFieldUpdateOperationsInput | string
+    IdBUTo?: StringFieldUpdateOperationsInput | string
+    Items?: NullableStringFieldUpdateOperationsInput | string | null
+    Notes?: NullableStringFieldUpdateOperationsInput | string | null
+    Status?: IntFieldUpdateOperationsInput | number
+    SentBy?: NullableStringFieldUpdateOperationsInput | string | null
+    SentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    ReceivedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    DateReceived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    CompletedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    DateCompleted?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    UpdateBy?: NullableStringFieldUpdateOperationsInput | string | null
+    UpdateDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type sendoutUncheckedUpdateManyInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    IdQueue?: BigIntFieldUpdateOperationsInput | bigint | number
+    QueueCode?: NullableStringFieldUpdateOperationsInput | string | null
+    PatientName?: NullableStringFieldUpdateOperationsInput | string | null
+    IdBUFrom?: StringFieldUpdateOperationsInput | string
+    IdBUTo?: StringFieldUpdateOperationsInput | string
+    Items?: NullableStringFieldUpdateOperationsInput | string | null
+    Notes?: NullableStringFieldUpdateOperationsInput | string | null
+    Status?: IntFieldUpdateOperationsInput | number
+    SentBy?: NullableStringFieldUpdateOperationsInput | string | null
+    SentDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    ReceivedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    DateReceived?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    CompletedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    DateCompleted?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    UpdateBy?: NullableStringFieldUpdateOperationsInput | string | null
+    UpdateDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -69490,6 +72568,148 @@ export namespace Prisma {
 
   export type cardVerifiedSumOrderByAggregateInput = {
     id?: SortOrder
+  }
+
+  export type appointmentCountOrderByAggregateInput = {
+    Id?: SortOrder
+    IdBU?: SortOrder
+    IdPatient?: SortOrder
+    PatientName?: SortOrder
+    IdPhysician?: SortOrder
+    PhysicianName?: SortOrder
+    AppointmentDate?: SortOrder
+    TimeSlot?: SortOrder
+    Notes?: SortOrder
+    IdQueue?: SortOrder
+    Status?: SortOrder
+    InputBy?: SortOrder
+    InputDateTime?: SortOrder
+    UpdateBy?: SortOrder
+    UpdateDateTime?: SortOrder
+  }
+
+  export type appointmentAvgOrderByAggregateInput = {
+    Id?: SortOrder
+    IdPatient?: SortOrder
+    IdPhysician?: SortOrder
+    IdQueue?: SortOrder
+    Status?: SortOrder
+  }
+
+  export type appointmentMaxOrderByAggregateInput = {
+    Id?: SortOrder
+    IdBU?: SortOrder
+    IdPatient?: SortOrder
+    PatientName?: SortOrder
+    IdPhysician?: SortOrder
+    PhysicianName?: SortOrder
+    AppointmentDate?: SortOrder
+    TimeSlot?: SortOrder
+    Notes?: SortOrder
+    IdQueue?: SortOrder
+    Status?: SortOrder
+    InputBy?: SortOrder
+    InputDateTime?: SortOrder
+    UpdateBy?: SortOrder
+    UpdateDateTime?: SortOrder
+  }
+
+  export type appointmentMinOrderByAggregateInput = {
+    Id?: SortOrder
+    IdBU?: SortOrder
+    IdPatient?: SortOrder
+    PatientName?: SortOrder
+    IdPhysician?: SortOrder
+    PhysicianName?: SortOrder
+    AppointmentDate?: SortOrder
+    TimeSlot?: SortOrder
+    Notes?: SortOrder
+    IdQueue?: SortOrder
+    Status?: SortOrder
+    InputBy?: SortOrder
+    InputDateTime?: SortOrder
+    UpdateBy?: SortOrder
+    UpdateDateTime?: SortOrder
+  }
+
+  export type appointmentSumOrderByAggregateInput = {
+    Id?: SortOrder
+    IdPatient?: SortOrder
+    IdPhysician?: SortOrder
+    IdQueue?: SortOrder
+    Status?: SortOrder
+  }
+
+  export type sendoutCountOrderByAggregateInput = {
+    Id?: SortOrder
+    IdQueue?: SortOrder
+    QueueCode?: SortOrder
+    PatientName?: SortOrder
+    IdBUFrom?: SortOrder
+    IdBUTo?: SortOrder
+    Items?: SortOrder
+    Notes?: SortOrder
+    Status?: SortOrder
+    SentBy?: SortOrder
+    SentDate?: SortOrder
+    ReceivedBy?: SortOrder
+    DateReceived?: SortOrder
+    CompletedBy?: SortOrder
+    DateCompleted?: SortOrder
+    UpdateBy?: SortOrder
+    UpdateDate?: SortOrder
+  }
+
+  export type sendoutAvgOrderByAggregateInput = {
+    Id?: SortOrder
+    IdQueue?: SortOrder
+    Status?: SortOrder
+  }
+
+  export type sendoutMaxOrderByAggregateInput = {
+    Id?: SortOrder
+    IdQueue?: SortOrder
+    QueueCode?: SortOrder
+    PatientName?: SortOrder
+    IdBUFrom?: SortOrder
+    IdBUTo?: SortOrder
+    Items?: SortOrder
+    Notes?: SortOrder
+    Status?: SortOrder
+    SentBy?: SortOrder
+    SentDate?: SortOrder
+    ReceivedBy?: SortOrder
+    DateReceived?: SortOrder
+    CompletedBy?: SortOrder
+    DateCompleted?: SortOrder
+    UpdateBy?: SortOrder
+    UpdateDate?: SortOrder
+  }
+
+  export type sendoutMinOrderByAggregateInput = {
+    Id?: SortOrder
+    IdQueue?: SortOrder
+    QueueCode?: SortOrder
+    PatientName?: SortOrder
+    IdBUFrom?: SortOrder
+    IdBUTo?: SortOrder
+    Items?: SortOrder
+    Notes?: SortOrder
+    Status?: SortOrder
+    SentBy?: SortOrder
+    SentDate?: SortOrder
+    ReceivedBy?: SortOrder
+    DateReceived?: SortOrder
+    CompletedBy?: SortOrder
+    DateCompleted?: SortOrder
+    UpdateBy?: SortOrder
+    UpdateDate?: SortOrder
+  }
+
+  export type sendoutSumOrderByAggregateInput = {
+    Id?: SortOrder
+    IdQueue?: SortOrder
+    Status?: SortOrder
   }
 
   export type NullableStringFieldUpdateOperationsInput = {

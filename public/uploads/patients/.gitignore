@@ -1,0 +1,6 @@
+# Ignore uploaded patient photos — not committed to git
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
