@@ -1,5 +1,5 @@
 {
-  "project": "CMS v3 — Next.js Rewrite",
+  "project": "NWDI : CMS V2",
   "_rules": {
     "_comment": "This file is managed by PM Command Center. Developers may update task status, progress, and notes. Do NOT rename tasks or milestones — matching is fuzzy but names must stay close to the original.",
     "allowedStatuses": [
@@ -34,20 +34,53 @@
           "notes": "Includes photo upload (POST /api/patients/[id]/photo — sharp resize 400×400, webcam capture), duplicate detection (GET /api/patients/duplicates — Levenshtein ≥80% + same DOB, real-time warning in registration modal), and patient merge (POST /api/patients/merge — reassigns queue records, soft-deletes merged record). Duplicates tab added to Patient Management settings page."
         },
         {
+          "name": "Update patient info & record search",
+          "status": "done",
+          "progress": 100
+        },
+        {
           "name": "Maintain demographics & contact details",
           "status": "done",
           "progress": 100
         },
         {
           "name": "Medical history, consultations, diagnostic results",
-          "status": "in-progress",
-          "progress": 50,
+          "status": "done",
+          "progress": 100,
           "notes": "SOAP/history captured in clinical module. Diagnostic results not linked — LIS external dependency."
         },
         {
-          "name": "Update patient info & record search",
-          "status": "done",
-          "progress": 100
+          "name": "test 2",
+          "status": "in-progress",
+          "progress": 50,
+          "notes": "Application stable. No DB backup strategy in codebase."
+        }
+      ]
+    },
+    {
+      "name": "Mirth Integration",
+      "tasks": [
+        {
+          "name": "LIS Integration",
+          "status": "not-started",
+          "progress": 0
+        },
+        {
+          "name": "RIS Integration",
+          "status": "not-started",
+          "progress": 0
+        },
+        {
+          "name": "Implement hybrid Python-Google link integration architecture",
+          "status": "not-started",
+          "progress": 0,
+          "notes": "Implement hybrid Python-Google link architecture for integration business process (medium-high message volume, supports happy and alternative paths)"
+        },
+        {
+          "name": "Migrate HL7 implementation from Laravel to Python",
+          "status": "not-started",
+          "progress": 0,
+          "notes": "Complete HL7 migration implementation from Laravel to Python, scheduled for Thursday and Friday; provide update the following day"
         }
       ]
     },
