@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { apiFetch } from "@/lib/api";
 import { PatientFormModal } from "@/components/queue/patient-form-modal";
-import { Search, UserPlus, Pencil, ChevronLeft, ChevronRight, History, X, FlaskConical } from "lucide-react";
+import { Search, UserPlus, Pencil, ChevronLeft, ChevronRight, History, X, FlaskConical, Copy, RefreshCw, ArrowRight, CheckCircle2 } from "lucide-react";
 
 interface PatientRow {
   id: number;
@@ -27,19 +27,19 @@ interface PatientRow {
 
 interface PatientsResponse {
   data: PatientRow[];
-  total: number;
+  hasMore: boolean;
   page: number;
   pageSize: number;
-  totalPages: number;
 }
 
 export function PatientManagementClient() {
+  const [activeTab, setActiveTab] = useState<"patients" | "duplicates">("patients");
+
   const [search, setSearch]       = useState("");
   const [query, setQuery]         = useState("");
   const [page, setPage]           = useState(1);
   const [patients, setPatients]   = useState<PatientRow[]>([]);
-  const [total, setTotal]         = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
+  const [hasMore, setHasMore]     = useState(false);
   const [loading, setLoading]     = useState(false);
   const [error, setError]         = useState<string | null>(null);
 
@@ -60,8 +60,7 @@ export function PatientManagementClient() {
       if (query) params.set("search", query);
       const res = await apiFetch<PatientsResponse>(`/api/patients?${params}`);
       setPatients(res.data);
-      setTotal(res.total);
-      setTotalPages(res.totalPages);
+      setHasMore(res.hasMore);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Failed to load patients");
     } finally {
@@ -72,7 +71,7 @@ export function PatientManagementClient() {
   useEffect(() => { fetchPatients(); }, [fetchPatients]);
 
   function handleSearch() {
-    setQuery(search);
+    setQuery(search.trim());
     setPage(1);
   }
 
@@ -94,6 +93,38 @@ export function PatientManagementClient() {
 
   return (
     <div>
+      {/* Tabs */}
+      <div className="mb-4 flex items-center gap-1 border-b border-slate-200 dark:border-slate-700">
+        <button
+          onClick={() => setActiveTab("patients")}
+          className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px ${
+            activeTab === "patients"
+              ? "border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400"
+              : "border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+          }`}
+        >
+          <Search className="h-4 w-4" />
+          Patients
+        </button>
+        <button
+          onClick={() => setActiveTab("duplicates")}
+          className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors border-b-2 -mb-px ${
+            activeTab === "duplicates"
+              ? "border-amber-500 text-amber-600 dark:text-amber-400 dark:border-amber-400"
+              : "border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200"
+          }`}
+        >
+          <Copy className="h-4 w-4" />
+          Duplicates
+        </button>
+      </div>
+
+      {/* Duplicates tab */}
+      {activeTab === "duplicates" && <DuplicatesTab />}
+
+      {/* Patients tab content */}
+      {activeTab === "patients" && <>
+
       {/* Toolbar */}
       <div className="mb-4 flex items-center gap-3">
         <div className="relative flex-1">
@@ -190,9 +221,9 @@ export function PatientManagementClient() {
       </div>
 
       {/* Pagination */}
-      {totalPages > 1 && (
+      {(page > 1 || hasMore) && (
         <div className="mt-4 flex items-center justify-between text-sm text-slate-600 dark:text-slate-400">
-          <span>{total} patients · Page {page} of {totalPages}</span>
+          <span>Page {page}{hasMore ? "" : " (last)"}</span>
           <div className="flex items-center gap-2">
             <button
               disabled={page <= 1}
@@ -202,7 +233,7 @@ export function PatientManagementClient() {
               <ChevronLeft className="h-4 w-4" />
             </button>
             <button
-              disabled={page >= totalPages}
+              disabled={!hasMore}
               onClick={() => setPage(p => p + 1)}
               className="rounded p-1.5 hover:bg-slate-100 disabled:opacity-40 dark:hover:bg-slate-800"
             >
@@ -211,6 +242,8 @@ export function PatientManagementClient() {
           </div>
         </div>
       )}
+
+      </> /* end patients tab */}
 
       {/* Patient form modal */}
       <PatientFormModal
@@ -224,6 +257,209 @@ export function PatientManagementClient() {
       {historyPatient && (
         <PatientHistoryModal patient={historyPatient} onClose={() => setHistoryPatient(null)} />
       )}
+    </div>
+  );
+}
+
+/* ─── Duplicates Tab ─────────────────────────────────────────────────────── */
+
+interface DuplicatePatientInfo {
+  id: number;
+  code: string | null;
+  fullName: string | null;
+  lastName: string;
+  firstName: string;
+  middleName: string;
+  gender: string;
+  dob: string | null;
+  contactNo: string;
+  pictureLink: string | null;
+}
+
+interface DuplicatePair {
+  patient1: DuplicatePatientInfo;
+  patient2: DuplicatePatientInfo;
+  score: number;
+}
+
+function DuplicatesTab() {
+  const [pairs, setPairs]         = useState<DuplicatePair[]>([]);
+  const [loading, setLoading]     = useState(false);
+  const [error, setError]         = useState<string | null>(null);
+  const [merging, setMerging]     = useState<string | null>(null); // "keepId-mergeId"
+  const [merged, setMerged]       = useState<Set<string>>(new Set());
+  const [mergeError, setMergeError] = useState<string | null>(null);
+  const [hasLoaded, setHasLoaded] = useState(false);
+
+  const loadPairs = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    setHasLoaded(true);
+    try {
+      const res = await apiFetch<{ pairs: DuplicatePair[]; total: number }>("/api/patients/duplicates");
+      setPairs(res.pairs);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to load duplicates");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  async function handleMerge(keepId: number, mergeId: number) {
+    const key = `${keepId}-${mergeId}`;
+    setMerging(key);
+    setMergeError(null);
+    try {
+      await apiFetch("/api/patients/merge", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ keepId, mergeId }),
+      });
+      setMerged((prev) => new Set(prev).add(`${Math.min(keepId, mergeId)}-${Math.max(keepId, mergeId)}`));
+    } catch (e) {
+      setMergeError(e instanceof Error ? e.message : "Merge failed");
+    } finally {
+      setMerging(null);
+    }
+  }
+
+  function isPairMerged(p1Id: number, p2Id: number) {
+    return merged.has(`${Math.min(p1Id, p2Id)}-${Math.max(p1Id, p2Id)}`);
+  }
+
+  const activePairs = pairs.filter((p) => !isPairMerged(p.patient1.id, p.patient2.id));
+
+  return (
+    <div>
+      <div className="mb-4 flex items-center justify-between">
+        <div>
+          <h3 className="text-sm font-semibold text-slate-800 dark:text-slate-100">Duplicate Patient Detection</h3>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+            Patients with the same date of birth and similar names (≥80% match).
+          </p>
+        </div>
+        <button
+          onClick={loadPairs}
+          disabled={loading}
+          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-300"
+        >
+          <RefreshCw className={`h-3.5 w-3.5 ${loading ? "animate-spin" : ""}`} />
+          Refresh
+        </button>
+      </div>
+
+      {mergeError && (
+        <div className="mb-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs text-red-700 dark:border-red-700/40 dark:bg-red-900/20 dark:text-red-300">
+          {mergeError}
+        </div>
+      )}
+
+      {!hasLoaded && !loading && (
+        <div className="flex flex-col items-center gap-3 py-16 text-slate-400">
+          <Copy className="h-10 w-10 text-slate-300 dark:text-slate-600" />
+          <p className="text-sm font-medium text-slate-600 dark:text-slate-300">Duplicate scan is manual</p>
+          <p className="text-xs text-center max-w-xs">Click <strong>Scan Now</strong> to search for potential duplicate patient records. This may take a moment on large databases.</p>
+          <button
+            onClick={loadPairs}
+            className="mt-1 inline-flex items-center gap-1.5 rounded-lg bg-amber-600 px-4 py-2 text-xs font-semibold text-white hover:bg-amber-700"
+          >
+            <RefreshCw className="h-3.5 w-3.5" />
+            Scan Now
+          </button>
+        </div>
+      )}
+
+      {loading && (
+        <div className="py-12 text-center text-sm text-slate-400">Scanning for duplicates…</div>
+      )}
+
+      {!loading && error && (
+        <div className="py-8 text-center text-sm text-red-500">{error}</div>
+      )}
+
+      {hasLoaded && !loading && !error && activePairs.length === 0 && (
+        <div className="flex flex-col items-center gap-3 py-16 text-slate-400">
+          <CheckCircle2 className="h-10 w-10 text-emerald-400" />
+          <p className="text-sm font-medium text-slate-600 dark:text-slate-300">No duplicates found</p>
+          <p className="text-xs">All patient records appear to be unique.</p>
+        </div>
+      )}
+
+      {!loading && activePairs.length > 0 && (
+        <div className="space-y-3">
+          {activePairs.map((pair, i) => {
+            const mergeKey = `${pair.patient1.id}-${pair.patient2.id}`;
+            const isMergingThis = merging === mergeKey || merging === `${pair.patient2.id}-${pair.patient1.id}`;
+            return (
+              <div key={i} className="rounded-xl border border-amber-200 bg-amber-50/50 p-4 dark:border-amber-700/40 dark:bg-amber-900/10">
+                {/* Score badge */}
+                <div className="mb-3 flex items-center gap-2">
+                  <span className="inline-flex items-center rounded-full bg-amber-100 px-2.5 py-0.5 text-xs font-semibold text-amber-800 dark:bg-amber-900/40 dark:text-amber-300">
+                    {pair.score}% match
+                  </span>
+                  <span className="text-xs text-slate-500">Same DOB · Similar name</span>
+                </div>
+
+                {/* Side-by-side comparison */}
+                <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-3">
+                  <PatientCard patient={pair.patient1} />
+                  <div className="flex flex-col items-center gap-1 pt-4">
+                    <ArrowRight className="h-5 w-5 text-slate-400" />
+                  </div>
+                  <PatientCard patient={pair.patient2} />
+                </div>
+
+                {/* Merge actions */}
+                <div className="mt-3 flex items-center justify-center gap-3 border-t border-amber-100 pt-3 dark:border-amber-700/30">
+                  <button
+                    onClick={() => handleMerge(pair.patient1.id, pair.patient2.id)}
+                    disabled={!!merging}
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700 disabled:opacity-50 active:scale-[0.98]"
+                  >
+                    {isMergingThis ? (
+                      <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                    ) : null}
+                    Keep Left, merge Right
+                  </button>
+                  <span className="text-xs text-slate-400">or</span>
+                  <button
+                    onClick={() => handleMerge(pair.patient2.id, pair.patient1.id)}
+                    disabled={!!merging}
+                    className="inline-flex items-center gap-1.5 rounded-lg bg-amber-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-amber-700 disabled:opacity-50 active:scale-[0.98]"
+                  >
+                    {isMergingThis ? (
+                      <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                    ) : null}
+                    Keep Right, merge Left
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function PatientCard({ patient }: { patient: DuplicatePatientInfo }) {
+  return (
+    <div className="flex items-start gap-3 rounded-lg border border-slate-200 bg-white p-3 dark:border-slate-700 dark:bg-slate-800">
+      {patient.pictureLink ? (
+        <img src={patient.pictureLink} alt="" className="h-12 w-12 flex-shrink-0 rounded-lg object-cover border border-slate-200 dark:border-slate-600" />
+      ) : (
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-700">
+          <svg className="h-6 w-6 text-slate-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+          </svg>
+        </div>
+      )}
+      <div className="min-w-0 flex-1">
+        <p className="text-xs font-semibold text-slate-800 dark:text-slate-100 truncate">{patient.fullName ?? "—"}</p>
+        <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{patient.code ?? "No code"}</p>
+        <p className="text-[11px] text-slate-500 dark:text-slate-400">DOB: {patient.dob ?? "—"}</p>
+        <p className="text-[11px] text-slate-500 dark:text-slate-400">{patient.gender || "—"} · {patient.contactNo || "No contact"}</p>
+      </div>
     </div>
   );
 }

@@ -234,7 +234,13 @@ const isDark = resolvedTheme === "dark";
 
 ## Status Reporting
 
-**Always update `CMS Status Reporting.html`** after every milestone, feature completion, fix, or module work. File location: `c:\Clicktek\Projects\NWDI\CMS - Claude\CMS-v3\CMS Status Reporting.html`
+**After every milestone, feature completion, fix, or module work — always update ALL THREE tracking files:**
+
+| File | Location |
+|------|----------|
+| `CMS Status Reporting.html` | `c:\Clicktek\Projects\NWDI\CMS - Claude\CMS-v3\CMS Status Reporting.html` |
+| `CMS Gap Analysis.html` | `c:\Clicktek\Projects\NWDI\CMS - Claude\CMS-v3\CMS Gap Analysis.html` |
+| `.pmcc-tasks.json` | `c:\Clicktek\Projects\NWDI\CMS - Claude\CMS-v3\.pmcc-tasks.json` |
 
 A **milestone** includes: completing a priority item, finishing a module section, fixing a critical bug, or any work the user marks as done.
 
@@ -244,10 +250,11 @@ Use these three sources as reference when updating:
 3. **`CMS_FRD.pdf`** (`c:\Clicktek\Projects\NWDI\CMS - Claude\CMS_FRD.pdf`) — the functional requirements document
 
 Update rules:
-- Mark features as ✅ Done, 🔄 In Progress, or ❌ Not Started based on actual code state
-- Cross-reference v1 behavior and FRD requirements — flag any gaps or deviations
-- Keep module sections (Queue, Past Queue, Payment, Amendment, Reports, etc.) up to date
+- **`CMS Status Reporting.html`** — update module sections, mark features ✅ Done / 🔄 In Progress / ❌ Not Started, update header date and footer counts
+- **`CMS Gap Analysis.html`** — update summary cards (Done/Not Started counts), matrix completion %, process table rows, and remove items from blockers/Not Started sections when resolved
+- **`.pmcc-tasks.json`** — update task `status` (`done`, `in-progress`, `not-started`, etc.), `progress` (0–100), and `notes` fields for affected tasks
 - Do not guess status — only mark Done if the feature is fully implemented and working
+- Cross-reference v1 behavior and FRD requirements — flag any gaps or deviations
 
 ## Common Issues & Fixes
 

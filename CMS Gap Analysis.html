@@ -157,7 +157,7 @@
   <h1>Gap Analysis &amp; Blocker Report</h1>
   <div class="sub">Cross-referenced against FRD, CMS v1 (Laravel), and actual v3 codebase</div>
   <div class="meta">
-    <span>📅 Generated: March 16, 2026</span>
+    <span>📅 Updated: March 17, 2026</span>
     <span>📁 Project: CMS-v3 (Next.js 16 · Prisma 7 · PostgreSQL)</span>
     <span>📋 Modules reviewed: 13</span>
     <span>📌 Total processes analysed: 87</span>
@@ -178,9 +178,9 @@
   <div class="sum-grid">
     <div class="scard s-done">
       <div class="scard-label">Fully Implemented</div>
-      <div class="scard-num">52</div>
+      <div class="scard-num">54</div>
       <div class="scard-desc">Processes with complete API + UI</div>
-      <div class="scard-bar"><span style="width:60%"></span></div>
+      <div class="scard-bar"><span style="width:62%"></span></div>
     </div>
     <div class="scard s-ui">
       <div class="scard-label">UI Gap (API Ready)</div>
@@ -190,9 +190,9 @@
     </div>
     <div class="scard s-miss">
       <div class="scard-label">Not Started</div>
-      <div class="scard-num">13</div>
+      <div class="scard-num">11</div>
       <div class="scard-desc">No API, no UI — design decision needed</div>
-      <div class="scard-bar"><span style="width:15%"></span></div>
+      <div class="scard-bar"><span style="width:13%"></span></div>
     </div>
     <div class="scard s-block">
       <div class="scard-label">External Blockers</div>
@@ -282,11 +282,11 @@
           <td class="mx-cell" style="font-size:11px;color:#94a3b8">§12</td>
         </tr>
         <tr>
-          <td class="mx-mod">Patient Management<small>Demographics, history, search</small></td>
-          <td class="mx-cell"><div class="prog-wrap"><div class="prog-bar"><span style="width:70%;background:#22c55e"></span></div><span class="prog-val" style="color:#16a34a">70%</span></div></td>
-          <td class="mx-cell"><span class="pill p-done"><span class="dot-sm dg"></span>4</span></td>
+          <td class="mx-mod">Patient Management<small>Demographics, history, photo, deduplication</small></td>
+          <td class="mx-cell"><div class="prog-wrap"><div class="prog-bar"><span style="width:95%;background:#22c55e"></span></div><span class="prog-val" style="color:#16a34a">95%</span></div></td>
+          <td class="mx-cell"><span class="pill p-done"><span class="dot-sm dg"></span>6</span></td>
           <td class="mx-cell"><span class="pill p-ui"><span class="dot-sm dy"></span>0</span></td>
-          <td class="mx-cell"><span class="pill p-miss"><span class="dot-sm dr"></span>2</span></td>
+          <td class="mx-cell"><span class="pill p-miss"><span class="dot-sm dr"></span>0</span></td>
           <td class="mx-cell"><span class="pill p-block"><span class="dot-sm dp"></span>0</span></td>
           <td class="mx-cell" style="font-size:11px;color:#94a3b8">§4</td>
         </tr>
@@ -450,8 +450,8 @@
         <tr><td class="td-proc">Patient search</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"></td></tr>
         <tr><td class="td-proc">Create / update patient demographics</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">Full form modal, all demographic fields</td></tr>
         <tr><td class="td-proc">Patient history (past queues)</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"><code>/api/patients/[id]/history</code></td></tr>
-        <tr><td class="td-proc">Patient photo upload</td><td class="td-status"><span class="pill p-miss"><span class="dot-sm dr"></span>Missing</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">No API or UI; needs file storage decision</td></tr>
-        <tr><td class="td-proc">Patient duplicate detection / merge</td><td class="td-status"><span class="pill p-miss"><span class="dot-sm dr"></span>Missing</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes">No deduplication workflow</td></tr>
+        <tr><td class="td-proc">Patient photo upload</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"><code>POST /api/patients/[id]/photo</code> — sharp 400×400 JPEG, local <code>public/uploads/patients/</code>; webcam capture via getUserMedia; <code>PictureLink</code> field</td></tr>
+        <tr><td class="td-proc">Patient duplicate detection / merge</td><td class="td-status"><span class="pill p-done"><span class="dot-sm dg"></span>Done</span></td><td class="td-block"><span class="btag bt-none">—</span></td><td class="td-notes"><code>GET /api/patients/duplicates</code> Levenshtein ≥80% + same DOB; real-time warning banner in registration modal; <code>POST /api/patients/merge</code> reassigns queue records + soft-deletes merged patient; Duplicates tab in Patient Management</td></tr>
 
         <!-- APPOINTMENTS -->
         <tr class="grp-row"><td colspan="4">§5 — Appointments / Scheduling</td></tr>
@@ -549,10 +549,9 @@
       <div class="bcard-head"><div class="bcard-icon">💾</div><div><div class="bcard-title">File Storage Infrastructure</div><div class="bcard-sub">DICOM · Images · Uploads</div></div></div>
       <ul>
         <li><strong>DICOM imaging files</strong> from PACS</li>
-        <li><strong>Patient photo uploads</strong></li>
         <li><strong>Imaging reports</strong> file storage</li>
       </ul>
-      <div class="bcard-need"><b>What's needed:</b> Decision on storage: S3 bucket (AWS/MinIO) or local NAS mount path</div>
+      <div class="bcard-need"><b>What's needed:</b> Decision on storage for DICOM/imaging: S3 bucket (AWS/MinIO) or local NAS mount path. <em>Patient photos resolved — using local <code>public/uploads/patients/</code>.</em></div>
     </div>
   </div>
 
@@ -638,16 +637,6 @@
       <div class="mod-tag">Queue</div>
       <h4>Multi-branch Cross-queue View</h4>
       <p>Session is single-clinic scoped. Need a multi-clinic session mode or a supervisor view that reads across branches (CEN/SMB/TAR).</p>
-    </div>
-    <div class="ns-card">
-      <div class="mod-tag">Patient</div>
-      <h4>Patient Photo Upload</h4>
-      <p>No API or UI for photo capture or upload. Requires a file storage decision (local vs S3/MinIO) before implementation.</p>
-    </div>
-    <div class="ns-card">
-      <div class="mod-tag">Patient</div>
-      <h4>Duplicate Patient Detection / Merge</h4>
-      <p>No deduplication logic. When the same patient is registered twice under slightly different names, there's no merge tool.</p>
     </div>
     <div class="ns-card">
       <div class="mod-tag">Auth</div>

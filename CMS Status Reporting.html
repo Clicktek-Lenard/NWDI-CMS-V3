@@ -124,7 +124,7 @@
 
 <!-- HEADER -->
 <div class="hdr">
-  <div class="eyebrow">Feature Comparison · March 15, 2026 (updated — all buildable gaps completed)</div>
+  <div class="eyebrow">Feature Comparison · March 17, 2026 (updated — patient photo upload, duplicate detection &amp; merge completed)</div>
   <h1>CMS v1 (PHP Laravel) &nbsp;vs&nbsp; CMS v3 (Next.js) &nbsp;vs&nbsp; FRD Requirements</h1>
   <div class="meta">
     <span>&#128196; FRD: CMS_FRD.pdf — 15 sections, 40+ requirements</span>
@@ -278,7 +278,7 @@
         <tr>
           <td><div class="td-req">Create patient records &amp; unique IDs</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">PatientController.php</span> Full CRUD, unique Code generation, webcam photo capture</td>
-          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>POST /api/patients</code> · <code>PATCH /api/patients/[id]</code> · <code>PatientFormModal</code> with name, DOB, gender, contact, address, PhilHealth/Senior/PWD IDs · "New Patient" button in Add-to-Queue modal (auto-selects on save)</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>POST /api/patients</code> · <code>PATCH /api/patients/[id]</code> · <code>PatientFormModal</code> with name, DOB, gender, contact, address, PhilHealth/Senior/PWD IDs · "New Patient" button in Add-to-Queue modal (auto-selects on save) · <strong>Photo upload:</strong> <code>POST /api/patients/[id]/photo</code> — sharp resize 400×400 JPEG, stored in <code>public/uploads/patients/</code>, <code>PictureLink</code> field · webcam capture via <code>getUserMedia</code> · <strong>Duplicate detection:</strong> <code>GET /api/patients/duplicates</code> — Levenshtein name + same DOB ≥80% match · real-time warning banner in PatientFormModal when creating · <strong>Merge:</strong> <code>POST /api/patients/merge</code> — reassigns queue records, soft-deletes merged patient (Status=MERGED) · Duplicates tab in Patient Management with side-by-side comparison and merge actions</td>
           <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
@@ -753,6 +753,6 @@
   </div>
 
 </div><!-- /wrap -->
-<footer>CMS Feature Comparison &nbsp;·&nbsp; March 14, 2026 (P1–P7 complete) &nbsp;·&nbsp; FRD: CMS_FRD.pdf &nbsp;·&nbsp; v1: 138 controllers, 38 models &nbsp;·&nbsp; v3: 70+ API handlers, 25 components, 9 PDF types, 4 services</footer>
+<footer>CMS Feature Comparison &nbsp;·&nbsp; March 17, 2026 &nbsp;·&nbsp; FRD: CMS_FRD.pdf &nbsp;·&nbsp; v1: 138 controllers, 38 models &nbsp;·&nbsp; v3: 72+ API handlers, 26 components, 9 PDF types, 4 services</footer>
 </body>
 </html>

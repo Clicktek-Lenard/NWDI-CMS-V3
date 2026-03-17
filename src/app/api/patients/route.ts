@@ -13,46 +13,47 @@ export async function GET(request: NextRequest) {
   const pageSize = Math.min(100, Math.max(1, parseInt(searchParams.get("pageSize") ?? "20")));
   const skip     = (page - 1) * pageSize;
 
+  // FullName contains covers LastName+FirstName without extra OR branches.
+  // Code uses startsWith so the DB can use a btree index prefix scan.
   const where = search
     ? {
         OR: [
-          { FullName:  { contains: search, mode: "insensitive" as const } },
-          { LastName:  { contains: search, mode: "insensitive" as const } },
-          { FirstName: { contains: search, mode: "insensitive" as const } },
-          { Code:      { contains: search, mode: "insensitive" as const } },
+          { FullName: { contains: search, mode: "insensitive" as const } },
+          { Code:     { startsWith: search, mode: "insensitive" as const } },
         ],
         Status: { not: "Inactive" },
       }
     : { Status: { not: "Inactive" } };
 
-  const [total, patients] = await Promise.all([
-    prisma.patient.count({ where }),
-    prisma.patient.findMany({
-      where,
-      orderBy: { FullName: "asc" },
-      skip,
-      take: pageSize,
-      select: {
-        Id:         true,
-        Code:       true,
-        FullName:   true,
-        LastName:   true,
-        FirstName:  true,
-        MiddleName: true,
-        Suffix:     true,
-        Gender:     true,
-        DOB:        true,
-        ContactNo:  true,
-        Email:      true,
-        Address:    true,
-        PhilHealth: true,
-        SeniorId:   true,
-        PWD:        true,
-        Status:     true,
-        InputDate:  true,
-      },
-    }),
-  ]);
+  const rows = await prisma.patient.findMany({
+    where,
+    orderBy: { Id: "asc" },
+    skip,
+    take: pageSize + 1,
+    select: {
+      Id:          true,
+      Code:        true,
+      FullName:    true,
+      LastName:    true,
+      FirstName:   true,
+      MiddleName:  true,
+      Suffix:      true,
+      Gender:      true,
+      DOB:         true,
+      ContactNo:   true,
+      Email:       true,
+      Address:     true,
+      PhilHealth:  true,
+      SeniorId:    true,
+      PWD:         true,
+      Status:      true,
+      InputDate:   true,
+      PictureLink: true,
+    },
+  });
+
+  const hasMore  = rows.length > pageSize;
+  const patients = hasMore ? rows.slice(0, pageSize) : rows;
 
   return NextResponse.json({
     data: patients.map((p) => ({
@@ -70,14 +71,14 @@ export async function GET(request: NextRequest) {
       address:    p.Address ?? "",
       philHealth: p.PhilHealth ?? "",
       seniorId:   p.SeniorId ?? "",
-      pwd:        p.PWD ?? "",
-      status:     p.Status ?? "",
-      inputDate:  p.InputDate?.toISOString() ?? null,
+      pwd:         p.PWD ?? "",
+      status:      p.Status ?? "",
+      inputDate:   p.InputDate?.toISOString() ?? null,
+      pictureLink: p.PictureLink ?? null,
     })),
-    total,
+    hasMore,
     page,
     pageSize,
-    totalPages: Math.ceil(total / pageSize),
   });
 }
 
@@ -120,14 +121,18 @@ export async function POST(request: NextRequest) {
   const now = new Date();
 
   try {
+    const { _max } = await prisma.patient.aggregate({ _max: { Id: true } });
+    const nextId = (_max.Id ?? BigInt(0)) + BigInt(1);
+
     const patient = await prisma.patient.create({
       data: {
+        Id:          nextId,
         FullName:    fullName,
         LastName:    d.lastName.toUpperCase(),
         FirstName:   d.firstName.toUpperCase(),
         MiddleName:  d.middleName.toUpperCase(),
         Suffix:      d.suffix || null,
-        Gender:      d.gender,
+        Gender:      d.gender === "Male" ? "M" : "F",
         DOB:         new Date(d.dob),
         ContactNo:   d.contactNo || null,
         Email:       d.email || null,
@@ -142,26 +147,28 @@ export async function POST(request: NextRequest) {
         UploadDateTime: now,
       },
       select: {
-        Id:         true,
-        Code:       true,
-        FullName:   true,
-        LastName:   true,
-        FirstName:  true,
-        MiddleName: true,
-        Gender:     true,
-        DOB:        true,
+        Id:          true,
+        Code:        true,
+        FullName:    true,
+        LastName:    true,
+        FirstName:   true,
+        MiddleName:  true,
+        Gender:      true,
+        DOB:         true,
+        PictureLink: true,
       },
     });
 
     return NextResponse.json({
-      id:         Number(patient.Id),
-      code:       patient.Code,
-      fullName:   patient.FullName,
-      lastName:   patient.LastName ?? "",
-      firstName:  patient.FirstName ?? "",
-      middleName: patient.MiddleName ?? "",
-      gender:     patient.Gender ?? "",
-      dob:        patient.DOB?.toISOString().split("T")[0] ?? null,
+      id:          Number(patient.Id),
+      code:        patient.Code,
+      fullName:    patient.FullName,
+      lastName:    patient.LastName ?? "",
+      firstName:   patient.FirstName ?? "",
+      middleName:  patient.MiddleName ?? "",
+      gender:      patient.Gender ?? "",
+      dob:         patient.DOB?.toISOString().split("T")[0] ?? null,
+      pictureLink: patient.PictureLink ?? null,
     }, { status: 201 });
   } catch (error) {
     console.error("Patient create error:", error);
