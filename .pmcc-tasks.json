@@ -57,6 +57,11 @@
           "name": "RIS Integration",
           "status": "not-started",
           "progress": 0
+        },
+        {
+          "name": "LIS Integration",
+          "status": "not-started",
+          "progress": 0
         }
       ]
     },
