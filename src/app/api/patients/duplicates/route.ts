@@ -71,6 +71,14 @@ export async function GET(request: NextRequest) {
       },
     });
 
+    const candidateIds = candidates.map((c) => c.Id);
+    const visitCounts1 = await prisma.queue.groupBy({
+      by: ["IdPatient"],
+      where: { IdPatient: { in: candidateIds }, Status: { not: 650 } },
+      _count: { Id: true },
+    });
+    const visitCountMap1 = new Map(visitCounts1.map((v) => [String(v.IdPatient), v._count.Id]));
+
     const targetFullName = `${lastName} ${firstName}`.toUpperCase();
     const matches = candidates
       .map((p) => {
@@ -93,6 +101,7 @@ export async function GET(request: NextRequest) {
         dob:         p.DOB?.toISOString().split("T")[0] ?? null,
         contactNo:   p.ContactNo ?? "",
         pictureLink: p.PictureLink ?? null,
+        txCount:     visitCountMap1.get(String(p.Id)) ?? 0,
         score:       Math.round(score * 100),
       })),
     });
@@ -111,6 +120,7 @@ export async function GET(request: NextRequest) {
     where: { Status: { notIn: ["Inactive", "MERGED"] } },
     having: { Id: { _count: { gte: 2 } } },
     _count: { Id: true },
+    orderBy: { DOB: "asc" },
     take: MAX_DOB_GROUPS * 2,
   });
 
@@ -145,6 +155,14 @@ export async function GET(request: NextRequest) {
     },
     orderBy: { InputDate: "asc" },
   });
+
+  const allCandidateIds = candidates.map((c) => c.Id);
+  const visitCounts2 = await prisma.queue.groupBy({
+    by: ["IdPatient"],
+    where: { IdPatient: { in: allCandidateIds }, Status: { not: 650 } },
+    _count: { Id: true },
+  });
+  const visitCountMap2 = new Map(visitCounts2.map((v) => [String(v.IdPatient), v._count.Id]));
 
   // Group by DOB string and compare within each group
   const byDob = new Map<string, typeof candidates>();
@@ -193,6 +211,7 @@ export async function GET(request: NextRequest) {
       dob:         p.DOB?.toISOString().split("T")[0] ?? null,
       contactNo:   p.ContactNo ?? "",
       pictureLink: p.PictureLink ?? null,
+      txCount:     visitCountMap2.get(String(p.Id)) ?? 0,
     };
   }
 

@@ -90,8 +90,8 @@
         {
           "name": "Schedule physician consultations",
           "status": "in-progress",
-          "progress": 55,
-          "notes": "Daily schedule view exists at /appointments. No pre-booking form — needs appointment table."
+          "progress": 90,
+          "notes": "Appointment table created. Pre-booking form with physician availability/time slots, conflict detection, and upcoming appointments view built. Check-in to queue link implemented. Remaining: integration testing."
         },
         {
           "name": "Teleconsultation & ECU/home services",
@@ -278,8 +278,8 @@
         {
           "name": "Branch-to-branch referrals",
           "status": "in-progress",
-          "progress": 40,
-          "notes": "Sendout tab + Referral Slip PDF done. Full EROS/CRUD referral tracking not built."
+          "progress": 85,
+          "notes": "Sendout table created. CRUD API + service built. SendoutPanel now persists records on send, with tracking sub-tab showing status lifecycle (Sent→Received→Completed). Referral Slip PDF still generates. Remaining: full EROS integration."
         },
         {
           "name": "Refer patients for lab/imaging procedures",
@@ -289,9 +289,9 @@
         },
         {
           "name": "Track referral completion",
-          "status": "not-started",
-          "progress": 0,
-          "notes": "Receiving/transfer workflow not implemented."
+          "status": "in-progress",
+          "progress": 80,
+          "notes": "Sendout tracking built into Results SendoutPanel: summary cards (pending/received/completed), inbound receive + complete actions, outbound status tracking. Remaining: dedicated reporting view."
         }
       ]
     },
@@ -371,8 +371,8 @@
         {
           "name": "Reliability & backups",
           "status": "in-progress",
-          "progress": 50,
-          "notes": "Application stable. No DB backup strategy in codebase."
+          "progress": 90,
+          "notes": "Backup/restore shell scripts created (pg_dump/pg_restore with retention, verification). Admin API endpoint (DEVTEAM-only) for manual trigger. Documentation in docs/backup-restore.md. Remaining: cron/Task Scheduler setup on production."
         },
         {
           "name": "Usability",

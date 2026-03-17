@@ -1208,3 +1208,51 @@ model cardVerified {
   @@map("cardverified")
 }
 
+model appointment {
+  Id              BigInt    @id @default(autoincrement()) @map("id")
+  IdBU            String    @map("idbu") @db.VarChar(10)
+  IdPatient       BigInt    @map("idpatient")
+  PatientName     String?   @map("patientname") @db.VarChar(200)
+  IdPhysician     BigInt    @map("idphysician")
+  PhysicianName   String?   @map("physicianname") @db.VarChar(200)
+  AppointmentDate DateTime  @map("appointmentdate") @db.Date
+  TimeSlot        String?   @map("timeslot") @db.VarChar(20)
+  Notes           String?   @map("notes") @db.VarChar(2000)
+  IdQueue         BigInt?   @map("idqueue")
+  Status          Int       @default(201) @map("status") @db.SmallInt
+  InputBy         String?   @map("inputby") @db.VarChar(30)
+  InputDateTime   DateTime  @default(now()) @map("inputdatetime") @db.Timestamp(6)
+  UpdateBy        String?   @map("updateby") @db.VarChar(30)
+  UpdateDateTime  DateTime? @map("updatedatetime") @db.Timestamp(6)
+
+  @@index([IdBU, AppointmentDate])
+  @@index([IdPhysician, AppointmentDate])
+  @@index([IdPatient])
+  @@map("appointment")
+}
+
+model sendout {
+  Id            BigInt    @id @default(autoincrement()) @map("id")
+  IdQueue       BigInt    @map("idqueue")
+  QueueCode     String?   @map("queuecode") @db.VarChar(30)
+  PatientName   String?   @map("patientname") @db.VarChar(200)
+  IdBUFrom      String    @map("idbufrom") @db.VarChar(10)
+  IdBUTo        String    @map("idbuto") @db.VarChar(10)
+  Items         String?   @map("items")
+  Notes         String?   @map("notes") @db.VarChar(2000)
+  Status        Int       @default(201) @map("status") @db.SmallInt
+  SentBy        String?   @map("sentby") @db.VarChar(30)
+  SentDate      DateTime  @default(now()) @map("sentdate") @db.Timestamp(6)
+  ReceivedBy    String?   @map("receivedby") @db.VarChar(30)
+  DateReceived  DateTime? @map("datereceived") @db.Timestamp(6)
+  CompletedBy   String?   @map("completedby") @db.VarChar(30)
+  DateCompleted DateTime? @map("datecompleted") @db.Timestamp(6)
+  UpdateBy      String?   @map("updateby") @db.VarChar(30)
+  UpdateDate    DateTime? @map("updatedate") @db.Timestamp(6)
+
+  @@index([IdBUFrom, SentDate])
+  @@index([IdBUTo, Status])
+  @@index([IdQueue])
+  @@map("sendout")
+}
+

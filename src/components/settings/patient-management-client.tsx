@@ -274,6 +274,7 @@ interface DuplicatePatientInfo {
   dob: string | null;
   contactNo: string;
   pictureLink: string | null;
+  txCount: number;
 }
 
 interface DuplicatePair {
@@ -459,6 +460,17 @@ function PatientCard({ patient }: { patient: DuplicatePatientInfo }) {
         <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{patient.code ?? "No code"}</p>
         <p className="text-[11px] text-slate-500 dark:text-slate-400">DOB: {patient.dob ?? "—"}</p>
         <p className="text-[11px] text-slate-500 dark:text-slate-400">{patient.gender || "—"} · {patient.contactNo || "No contact"}</p>
+        <p className="mt-1">
+          {patient.txCount > 0 ? (
+            <span className="inline-flex items-center gap-1 rounded-full bg-blue-100 px-2 py-0.5 text-[10px] font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
+              {patient.txCount} visit{patient.txCount !== 1 ? "s" : ""}
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-500 dark:bg-slate-700 dark:text-slate-400">
+              No visits
+            </span>
+          )}
+        </p>
       </div>
     </div>
   );
