@@ -33,34 +33,6 @@
   },
   "milestones": [
     {
-      "name": "Mirth Integration",
-      "tasks": [
-        {
-          "name": "Implement hybrid Python-Google link integration architecture",
-          "status": "not-started",
-          "progress": 0,
-          "notes": "Implement hybrid Python-Google link architecture for integration business process (medium-high message volume, supports happy and alternative paths)"
-        },
-        {
-          "name": "Migrate HL7 implementation from Laravel to Python",
-          "status": "not-started",
-          "progress": 0,
-          "notes": "Complete HL7 migration implementation from Laravel to Python, scheduled for Thursday and Friday; provide update the following day"
-        },
-        {
-          "name": "RIS Integration",
-          "status": "done",
-          "progress": 100
-        },
-        {
-          "name": "LIS Integration",
-          "status": "not-started",
-          "progress": 0,
-          "priority": "urgent"
-        }
-      ]
-    },
-    {
       "name": "§4 Patient Management",
       "tasks": [
         {
@@ -89,6 +61,35 @@
           "status": "in-progress",
           "progress": 50,
           "notes": "Application stable. No DB backup strategy in codebase."
+        }
+      ]
+    },
+    {
+      "name": "Mirth Integration",
+      "tasks": [
+        {
+          "name": "Implement hybrid Python-Google link integration architecture",
+          "status": "not-started",
+          "progress": 0,
+          "notes": "Implement hybrid Python-Google link architecture for integration business process (medium-high message volume, supports happy and alternative paths)"
+        },
+        {
+          "name": "RIS Integration",
+          "status": "done",
+          "progress": 100
+        },
+        {
+          "name": "LIS Integration",
+          "status": "not-started",
+          "progress": 0,
+          "priority": "urgent"
+        },
+        {
+          "name": "Migrate HL7 implementation from Laravel to Python",
+          "status": "not-started",
+          "progress": 0,
+          "notes": "Complete HL7 migration implementation from Laravel to Python, scheduled for Thursday and Friday; provide update the following day",
+          "priority": "urgent"
         }
       ]
     },
