@@ -51,6 +51,10 @@
       ]
     },
     {
+      "name": "Mirth Integration",
+      "tasks": []
+    },
+    {
       "name": "§5 Appointment and Scheduling",
       "tasks": [
         {
@@ -349,11 +353,6 @@
           "name": "Scalability — multiple branches",
           "status": "done",
           "progress": 100
-        },
-        {
-          "name": "Scalability — multiple branches Test",
-          "status": "not-started",
-          "progress": 0
         }
       ]
     }
