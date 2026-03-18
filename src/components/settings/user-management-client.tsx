@@ -15,11 +15,13 @@ import {
   RefreshCw,
   ShieldCheck,
   Users,
+  KeyRound,
 } from "lucide-react";
 import { UserModal, PERMISSION_GROUPS } from "./user-modal";
 import type { UserRecord } from "./user-modal";
 import { ViewUserModal } from "./view-user-modal";
 import { DeleteUserDialog } from "./delete-user-dialog";
+import { ResetPasswordDialog } from "./reset-password-dialog";
 import { apiFetch } from "@/lib/api";
 import { useToast, ToastContainer } from "@/components/ui/toast";
 
@@ -135,6 +137,7 @@ export function UserManagementClient() {
   const [editOpen, setEditOpen] = useState(false);
   const [viewOpen, setViewOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const [resetOpen, setResetOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserRecord | null>(null);
 
   // ── Fetch ─────────────────────────────────────────────────
@@ -187,6 +190,11 @@ export function UserManagementClient() {
     setDeleteOpen(true);
   }
 
+  function openResetPassword(user: UserRecord) {
+    setSelectedUser(user);
+    setResetOpen(true);
+  }
+
   const handleSaved = useCallback(() => {
     fetchUsers();
     toast("User saved successfully.");
@@ -196,6 +204,10 @@ export function UserManagementClient() {
     fetchUsers();
     toast("User deleted successfully.", "error");
   }, [fetchUsers, toast]);
+
+  const handlePasswordReset = useCallback(() => {
+    toast("Password reset successfully.");
+  }, [toast]);
 
   // ── Render ────────────────────────────────────────────────
   const startIdx = (page - 1) * PAGE_SIZE + 1;
@@ -410,6 +422,13 @@ export function UserManagementClient() {
                             <Pencil className="h-4 w-4" />
                           </button>
                           <button
+                            onClick={() => openResetPassword(user)}
+                            className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-amber-50 hover:text-amber-600 dark:hover:bg-amber-900/20 dark:hover:text-amber-400"
+                            title="Reset Password"
+                          >
+                            <KeyRound className="h-4 w-4" />
+                          </button>
+                          <button
                             onClick={() => openDelete(user)}
                             className="rounded-lg p-1.5 text-slate-400 transition-colors hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400"
                             title="Delete"
@@ -511,6 +530,13 @@ export function UserManagementClient() {
         user={selectedUser}
         onClose={() => setDeleteOpen(false)}
         onDeleted={handleDeleted}
+      />
+
+      <ResetPasswordDialog
+        open={resetOpen}
+        user={selectedUser}
+        onClose={() => setResetOpen(false)}
+        onReset={handlePasswordReset}
       />
 
       <ToastContainer toasts={toasts} dismiss={dismiss} />

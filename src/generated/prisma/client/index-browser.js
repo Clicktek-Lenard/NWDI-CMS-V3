@@ -833,6 +833,14 @@ exports.Prisma.AccessionnoScalarFieldEnum = {
   RISSeverity: 'RISSeverity'
 };
 
+exports.Prisma.UpdatequeueScalarFieldEnum = {
+  Id: 'Id',
+  Module: 'Module',
+  ModuleId: 'ModuleId',
+  QueueCode: 'QueueCode',
+  Status: 'Status'
+};
+
 exports.Prisma.PaymenthistoryScalarFieldEnum = {
   Id: 'Id',
   IdQueue: 'IdQueue',
@@ -1106,6 +1114,18 @@ exports.Prisma.SendoutScalarFieldEnum = {
   UpdateDate: 'UpdateDate'
 };
 
+exports.Prisma.AssesmentcodeScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  findings: 'findings',
+  assesment: 'assesment',
+  recommendation: 'recommendation',
+  Class: 'Class',
+  testgroup: 'testgroup',
+  testcode: 'testcode',
+  status: 'status'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -1149,6 +1169,7 @@ exports.Prisma.ModelName = {
   transactiontype: 'transactiontype',
   role: 'role',
   accessionno: 'accessionno',
+  updatequeue: 'updatequeue',
   paymenthistory: 'paymenthistory',
   cardEnrollment: 'cardEnrollment',
   VitalSign: 'VitalSign',
@@ -1162,7 +1183,8 @@ exports.Prisma.ModelName = {
   cardNumber: 'cardNumber',
   cardVerified: 'cardVerified',
   appointment: 'appointment',
-  sendout: 'sendout'
+  sendout: 'sendout',
+  assesmentcode: 'assesmentcode'
 };
 
 /**

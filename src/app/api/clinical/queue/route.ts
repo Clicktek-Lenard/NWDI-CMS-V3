@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     // Load consultation notes for display status and details
     let notes: {
       queue_id: number;
-      status: string;
+      status: string | null;
       pcp_doctor: string | null;
       diagnosis: string | null;
       is_draft: number;
@@ -69,7 +69,7 @@ export async function GET(request: NextRequest) {
         accessionNo: q.AccessionNo,
         companyCode: null as string | null,
         companyName: null as string | null,
-        status: getDisplayStatus(note?.status),
+        status: getDisplayStatus(note?.status ?? undefined),
         priority: 0,
         clinicCode: q.IdBU,
         queueCode: q.Code,

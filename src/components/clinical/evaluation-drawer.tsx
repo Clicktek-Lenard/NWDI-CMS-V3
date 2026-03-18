@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import {
   X, Activity, ClipboardList, Stethoscope, Save, CheckCircle,
   Loader2, AlertTriangle, Heart, Thermometer, Wind, Droplets,
   Scale, Ruler, Eye, FileText, FlaskConical, Plus, Trash2,
-  ChevronDown, ChevronUp, UserCheck,
+  ChevronDown, ChevronUp, UserCheck, Search,
 } from "lucide-react";
 
 // ── Types ─────────────────────────────────────────────────────
@@ -158,6 +158,95 @@ function CheckRow({ label, checked, onChange, disabled }: { label: string; check
   );
 }
 
+// ── Assessment Code Types & Picker ───────────────────────────
+interface AssessmentCode {
+  id: number;
+  code: string | null;
+  findings: string | null;
+  assesment: string | null;
+  recommendation: string | null;
+  Class: string | null;
+  testgroup: string | null;
+  testcode: string | null;
+}
+
+function AssessmentCodePicker({
+  codes,
+  onSelect,
+  disabled,
+}: {
+  codes: AssessmentCode[];
+  onSelect: (code: AssessmentCode) => void;
+  disabled: boolean;
+}) {
+  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const filtered = query.length < 1
+    ? []
+    : codes.filter(
+        (c) =>
+          c.findings?.toLowerCase().includes(query.toLowerCase()) ||
+          c.assesment?.toLowerCase().includes(query.toLowerCase()) ||
+          c.code?.toLowerCase().includes(query.toLowerCase())
+      ).slice(0, 20);
+
+  return (
+    <div ref={ref} className="relative">
+      <div className="relative">
+        <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400 pointer-events-none" />
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
+          onFocus={() => query.length >= 1 && setOpen(true)}
+          placeholder="Search assessment codes..."
+          disabled={disabled}
+          className={`${INP} pl-8 text-xs`}
+        />
+      </div>
+      {open && filtered.length > 0 && (
+        <div className="absolute z-50 mt-1 max-h-48 w-full overflow-y-auto rounded-lg border border-slate-200 bg-white shadow-lg dark:border-slate-600 dark:bg-slate-800">
+          {filtered.map((c) => (
+            <button
+              key={c.id}
+              type="button"
+              onClick={() => { onSelect(c); setQuery(""); setOpen(false); }}
+              className="flex w-full flex-col px-3 py-2 text-left text-xs hover:bg-blue-50 dark:hover:bg-blue-900/20 border-b border-slate-100 last:border-0 dark:border-slate-700"
+            >
+              <span className="font-semibold text-slate-700 dark:text-slate-200">
+                {c.code && <span className="text-blue-600 dark:text-blue-400 mr-1">[{c.code}]</span>}
+                {c.findings}
+              </span>
+              <span className="text-slate-400 truncate">{c.assesment}</span>
+              {c.Class && (
+                <span className={`mt-0.5 inline-block w-fit rounded px-1.5 py-0.5 text-[10px] font-bold ${
+                  c.Class === "A" ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400"
+                    : c.Class === "B" ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                    : c.Class === "C" ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"
+                    : c.Class === "D" ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+                    : "bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300"
+                }`}>
+                  Class {c.Class}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── Drawer ────────────────────────────────────────────────────
 interface Props { patient: ClinicalQueueEntry | null; onClose: () => void; onCompleted: () => void; }
 type Tab = "vitals" | "soap" | "pe" | "medeval" | "prescription";
@@ -172,6 +261,7 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
   const [pcpResults, setPcpResults] = useState<{ id: number; code: string; name: string; specialty: string | null }[]>([]);
   const [physicians, setPhysicians] = useState<{ id: number; name: string }[]>([]);
   const [overallClass, setOverallClass] = useState<string | null>(null);
+  const [assessmentCodes, setAssessmentCodes] = useState<AssessmentCode[]>([]);
 
   const vitalsForm = useForm<VitalsData>({
     defaultValues: {
@@ -252,11 +342,15 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
     return () => clearTimeout(t);
   }, [pcpSearch]);
 
-  // Load physician list once on mount
+  // Load physician list and assessment codes once on mount
   useEffect(() => {
     fetch("/api/clinical/physicians")
       .then(r => r.json())
       .then(j => { if (j.success) setPhysicians(j.data); })
+      .catch(() => { /* ignore */ });
+    fetch("/api/assessment-codes")
+      .then(r => r.json())
+      .then(j => { if (j.success) setAssessmentCodes(j.data); })
       .catch(() => { /* ignore */ });
   }, []);
 
@@ -1102,6 +1196,22 @@ export function EvaluationDrawer({ patient, onClose, onCompleted }: Props) {
                         </button>
                       )}
                     </div>
+                    {/* Assessment Code Picker — auto-fills fields like v1 datalist */}
+                    {!isCompleted && assessmentCodes.length > 0 && (
+                      <div>
+                        <p className={LBL}>Quick Fill from Assessment Codes</p>
+                        <AssessmentCodePicker
+                          codes={assessmentCodes}
+                          disabled={isCompleted}
+                          onSelect={(ac) => {
+                            medEvalForm.setValue(`items.${idx}.findings`, ac.findings ?? "");
+                            medEvalForm.setValue(`items.${idx}.assessment`, ac.assesment ?? "");
+                            medEvalForm.setValue(`items.${idx}.recommendation`, ac.recommendation ?? "");
+                            medEvalForm.setValue(`items.${idx}.class_value`, ac.Class ?? "Pending");
+                          }}
+                        />
+                      </div>
+                    )}
                     <div className="grid grid-cols-3 gap-2">
                       <div>
                         <p className={LBL}>Findings</p>

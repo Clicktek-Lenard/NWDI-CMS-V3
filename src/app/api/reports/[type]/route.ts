@@ -12,6 +12,9 @@ const VALID_TYPES = [
   "sendout",
   "summary",
   "amendment",
+  "census",
+  "doctor-productivity",
+  "corporate-soa",
 ] as const;
 
 type ReportType = (typeof VALID_TYPES)[number];
@@ -109,6 +112,30 @@ const EXPORT_COLS: Record<ReportType, ExportCol[]> = {
     { key: "company",         label: "Company" },
     { key: "modifiedBy",      label: "Modified By" },
   ],
+  census: [
+    { key: "date",         label: "Date" },
+    { key: "branch",       label: "Branch" },
+    { key: "visitCount",   label: "Visits" },
+    { key: "patientCount", label: "Unique Patients" },
+  ],
+  "doctor-productivity": [
+    { key: "doctorName",  label: "Doctor" },
+    { key: "txCount",     label: "# Transactions" },
+    { key: "totalAmount", label: "Total Amount", fmt: "amount" },
+    { key: "readersFee",  label: "Readers Fee",  fmt: "amount" },
+  ],
+  "corporate-soa": [
+    { key: "date",            label: "Date" },
+    { key: "queueCode",       label: "Queue No." },
+    { key: "accessionNo",     label: "Accession No." },
+    { key: "patientName",     label: "Patient" },
+    { key: "company",         label: "Company" },
+    { key: "cardNumber",      label: "Card No." },
+    { key: "itemCode",        label: "Item Code" },
+    { key: "itemDescription", label: "Description" },
+    { key: "amount",          label: "Amount",    fmt: "amount" },
+    { key: "balance",         label: "Balance",   fmt: "amount" },
+  ],
 };
 
 export async function GET(
@@ -128,6 +155,7 @@ export async function GET(
     const branch   = searchParams.get("branch")   || "";
     const dateFrom = searchParams.get("dateFrom")  || "";
     const dateTo   = searchParams.get("dateTo")    || "";
+    const company  = searchParams.get("company")   || "";
     const format   = searchParams.get("format")    || "json"; // json | csv | xlsx
     const page     = Math.max(1, parseInt(searchParams.get("page")     || "1",  10));
     // For exports fetch all rows (cap at 50k)
@@ -137,6 +165,15 @@ export async function GET(
 
     if (!dateFrom || !dateTo) {
       return NextResponse.json({ success: false, error: "dateFrom and dateTo are required" }, { status: 400 });
+    }
+
+    // Validate date format (YYYY-MM-DD) and that they parse to real dates
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(dateFrom) || !dateRegex.test(dateTo)) {
+      return NextResponse.json({ success: false, error: "Dates must be in YYYY-MM-DD format" }, { status: 400 });
+    }
+    if (isNaN(new Date(dateFrom + "T00:00:00").getTime()) || isNaN(new Date(dateTo + "T00:00:00").getTime())) {
+      return NextResponse.json({ success: false, error: "Invalid date value" }, { status: 400 });
     }
 
     const branchCodes = branch ? branch.split(",").map((b) => b.trim()).filter(Boolean) : [];
@@ -149,6 +186,7 @@ export async function GET(
       page,
       pageSize,
       offset,
+      company,
     });
 
     // ── Export: CSV ──────────────────────────────────────────────────────────
@@ -244,6 +282,7 @@ interface ReportParams {
   page: number;
   pageSize: number;
   offset: number;
+  company?: string;
 }
 
 // Builds the SQL fragment for branch filter on queue.idbu
@@ -262,6 +301,7 @@ function n(v: unknown): number {
 
 function strVal(v: unknown): string {
   if (v === null || v === undefined) return "";
+  if (v instanceof Date) return v.toISOString();
   return String(v);
 }
 
@@ -269,14 +309,17 @@ function strVal(v: unknown): string {
 
 async function runReport(type: ReportType, p: ReportParams) {
   switch (type) {
-    case "bookkeeper":      return bookkeeper(p);
-    case "cash":            return cash(p);
-    case "cashier-summary": return cashierSummary(p);
-    case "hmo":             return hmo(p);
-    case "per-item":        return perItem(p);
-    case "sendout":         return sendout(p);
-    case "summary":         return summary(p);
-    case "amendment":       return amendment(p);
+    case "bookkeeper":           return bookkeeper(p);
+    case "cash":                 return cash(p);
+    case "cashier-summary":      return cashierSummary(p);
+    case "hmo":                  return hmo(p);
+    case "per-item":             return perItem(p);
+    case "sendout":              return sendout(p);
+    case "summary":              return summary(p);
+    case "amendment":            return amendment(p);
+    case "census":               return census(p);
+    case "doctor-productivity":  return doctorProductivity(p);
+    case "corporate-soa":        return corporateSoa(p);
   }
 }
 
@@ -761,6 +804,192 @@ async function amendment(p: ReportParams) {
     summary: {
       totalAmendments: total,
       totalDifference: n(s.total_diff),
+    },
+  };
+}
+
+// ─── 9. Census ────────────────────────────────────────────────────────────────
+
+async function census(p: ReportParams) {
+  const dateStart = new Date(p.dateFrom + "T00:00:00+08:00");
+  const dateEnd   = new Date(p.dateTo + "T23:59:59.999+08:00");
+
+  const rows = await prisma.queue.findMany({
+    where: {
+      Date:   { gte: dateStart, lte: dateEnd },
+      Status: { not: 650 },
+      ...(p.branchCodes.length > 0 ? { IdBU: { in: p.branchCodes } } : {}),
+    },
+    select: { Id: true, Date: true, IdBU: true, IdPatient: true },
+    orderBy: { Date: "asc" },
+  });
+
+  // Group by date + branch in JS, counting distinct patients
+  const grouped = new Map<string, { date: string; branch: string; patientIds: Set<bigint>; count: number }>();
+  for (const r of rows) {
+    const dateStr = r.Date.toISOString().slice(0, 10);
+    const branch  = r.IdBU ?? "—";
+    const key     = `${dateStr}|${branch}`;
+    if (!grouped.has(key)) grouped.set(key, { date: dateStr, branch, patientIds: new Set(), count: 0 });
+    const g = grouped.get(key)!;
+    g.patientIds.add(r.IdPatient);
+    g.count++;
+  }
+
+  const all = Array.from(grouped.values())
+    .map((g) => ({ date: g.date, branch: g.branch, visitCount: g.count, patientCount: g.patientIds.size }))
+    .sort((a, b) => a.date.localeCompare(b.date) || a.branch.localeCompare(b.branch));
+
+  const total = all.length;
+  const paged = all.slice(p.offset, p.offset + p.pageSize);
+
+  return {
+    data: paged,
+    total,
+    page: p.page,
+    pageSize: p.pageSize,
+    totalPages: Math.ceil(Math.max(total, 1) / p.pageSize),
+    summary: {
+      totalVisits:   all.reduce((s, r) => s + r.visitCount,   0),
+      totalPatients: all.reduce((s, r) => s + r.patientCount, 0),
+    },
+  };
+}
+
+// ─── 10. Doctor Productivity ─────────────────────────────────────────────────
+
+async function doctorProductivity(p: ReportParams) {
+  const dateStart = new Date(p.dateFrom + "T00:00:00+08:00");
+  const dateEnd   = new Date(p.dateTo + "T23:59:59.999+08:00");
+
+  // If branch filter given, get matching queue IDs first
+  let idQueueIn: bigint[] | undefined;
+  if (p.branchCodes.length > 0) {
+    const qs = await prisma.queue.findMany({
+      where: { IdBU: { in: p.branchCodes }, Date: { gte: dateStart, lte: dateEnd } },
+      select: { Id: true },
+    });
+    idQueueIn = qs.map((q) => q.Id);
+  }
+
+  const groups = await prisma.transactions.groupBy({
+    by: ["NameDoctor", "IdDoctor"],
+    where: {
+      Date:       { gte: dateStart, lte: dateEnd },
+      Status:     { lt: 650 },
+      NameDoctor: { not: null },
+      ...(idQueueIn ? { IdQueue: { in: idQueueIn } } : {}),
+    },
+    _count: { Id: true },
+    _sum:   { AmountItemPrice: true, ReadersFee: true },
+    orderBy: { _count: { Id: "desc" } },
+  });
+
+  const total = groups.length;
+  const paged = groups.slice(p.offset, p.offset + p.pageSize);
+
+  return {
+    data: paged.map((g) => ({
+      doctorId:    Number(g.IdDoctor ?? 0),
+      doctorName:  g.NameDoctor ?? "—",
+      txCount:     g._count.Id,
+      totalAmount: Number(g._sum.AmountItemPrice ?? 0),
+      readersFee:  Number(g._sum.ReadersFee ?? 0),
+    })),
+    total,
+    page: p.page,
+    pageSize: p.pageSize,
+    totalPages: Math.ceil(Math.max(total, 1) / p.pageSize),
+    summary: {
+      totalTransactions: groups.reduce((s, g) => s + g._count.Id,                        0),
+      totalAmount:       groups.reduce((s, g) => s + Number(g._sum.AmountItemPrice ?? 0), 0),
+      totalReadersFee:   groups.reduce((s, g) => s + Number(g._sum.ReadersFee      ?? 0), 0),
+    },
+  };
+}
+
+// ─── 11. Corporate SOA ────────────────────────────────────────────────────────
+
+async function corporateSoa(p: ReportParams) {
+  const dateStart = new Date(p.dateFrom + "T00:00:00+08:00");
+  const dateEnd   = new Date(p.dateTo + "T23:59:59.999+08:00");
+
+  // Branch pre-filter
+  let idQueueIn: bigint[] | undefined;
+  if (p.branchCodes.length > 0) {
+    const qs = await prisma.queue.findMany({
+      where: { IdBU: { in: p.branchCodes }, Date: { gte: dateStart, lte: dateEnd } },
+      select: { Id: true },
+    });
+    idQueueIn = qs.map((q) => q.Id);
+  }
+
+  const where = {
+    Date:   { gte: dateStart, lte: dateEnd },
+    Status: { lt: 650 },
+    AND: [
+      { NameCompany: { not: null   } },
+      { NameCompany: { not: ""     } },
+      ...(p.company ? [{ NameCompany: { contains: p.company, mode: "insensitive" as const } }] : []),
+    ],
+    ...(idQueueIn ? { IdQueue: { in: idQueueIn } } : {}),
+  };
+
+  const [total, txs, sumResult] = await Promise.all([
+    prisma.transactions.count({ where }),
+    prisma.transactions.findMany({
+      where,
+      orderBy: [{ NameCompany: "asc" }, { Date: "desc" }],
+      skip: p.offset,
+      take: p.pageSize,
+      select: {
+        Id: true, IdQueue: true, Date: true, NameCompany: true, HCardNumber: true,
+        CodeItemPrice: true, DescriptionItemPrice: true,
+        AmountItemPrice: true, AmountRemaining: true, ReadersFee: true, Status: true,
+      },
+    }),
+    prisma.transactions.aggregate({
+      where,
+      _sum: { AmountItemPrice: true, AmountRemaining: true, ReadersFee: true },
+    }),
+  ]);
+
+  // Enrich with queue code + patient name
+  const queueIds = [...new Set(txs.map((t) => t.IdQueue))];
+  const queues   = await prisma.queue.findMany({
+    where:  { Id: { in: queueIds } },
+    select: { Id: true, Code: true, QFullName: true, AccessionNo: true },
+  });
+  const qmap = new Map(queues.map((q) => [String(q.Id), q]));
+
+  return {
+    data: txs.map((t) => {
+      const q = qmap.get(String(t.IdQueue));
+      return {
+        id:              Number(t.Id),
+        date:            t.Date.toISOString().slice(0, 10),
+        queueCode:       q?.Code        ?? "—",
+        accessionNo:     q?.AccessionNo ?? "—",
+        patientName:     q?.QFullName   ?? "—",
+        company:         t.NameCompany  ?? "—",
+        cardNumber:      t.HCardNumber  ?? "—",
+        itemCode:        t.CodeItemPrice        ?? "—",
+        itemDescription: t.DescriptionItemPrice ?? "—",
+        amount:          Number(t.AmountItemPrice  ?? 0),
+        balance:         Number(t.AmountRemaining  ?? 0),
+        readersFee:      Number(t.ReadersFee       ?? 0),
+        status:          t.Status,
+      };
+    }),
+    total,
+    page: p.page,
+    pageSize: p.pageSize,
+    totalPages: Math.ceil(Math.max(total, 1) / p.pageSize),
+    summary: {
+      totalTransactions: total,
+      totalAmount:     Number(sumResult._sum.AmountItemPrice  ?? 0),
+      totalBalance:    Number(sumResult._sum.AmountRemaining  ?? 0),
+      totalReadersFee: Number(sumResult._sum.ReadersFee       ?? 0),
     },
   };
 }

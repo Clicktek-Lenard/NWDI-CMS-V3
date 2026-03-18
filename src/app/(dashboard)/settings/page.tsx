@@ -1,11 +1,15 @@
 import { requireAuth, CMS_MODULES } from "@/lib/auth/rbac";
+import { auth } from "@/lib/auth/auth";
 import { UserManagementClient } from "@/components/settings/user-management-client";
 import { PatientManagementClient } from "@/components/settings/patient-management-client";
+import { DatabaseBackupClient } from "@/components/settings/database-backup-client";
 import Link from "next/link";
 import { CreditCard, Building2, UserCheck, Shield } from "lucide-react";
 
 export default async function SettingsPage() {
   await requireAuth(CMS_MODULES.SETTINGS.module, CMS_MODULES.SETTINGS.tab);
+  const session = await auth();
+  const isDevTeam = (session?.user?.role || "").includes("[DEVTEAM]");
 
   return (
     <div>
@@ -92,6 +96,19 @@ export default async function SettingsPage() {
         </div>
         <UserManagementClient />
       </div>
+
+      {/* ── Database Backup (DEVTEAM only) ── */}
+      {isDevTeam && (
+        <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+          <div className="mb-5">
+            <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Database Backup</h2>
+            <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">
+              Manually trigger a database backup — DEVTEAM access only
+            </p>
+          </div>
+          <DatabaseBackupClient />
+        </div>
+      )}
 
       {/* ── System Config ── */}
       <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">

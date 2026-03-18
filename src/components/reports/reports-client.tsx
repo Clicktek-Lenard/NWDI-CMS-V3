@@ -13,15 +13,18 @@ import { useToast, ToastContainer } from "@/components/ui/toast";
 // ─── Report type config ───────────────────────────────────────────────────────
 
 const REPORT_TYPES = [
-  { key: "bookkeeper",      label: "Bookkeeper Report" },
-  { key: "cash",            label: "Cash Report" },
-  { key: "cashier-summary", label: "Cashier Summary Report" },
-  { key: "hmo",             label: "HMO / Corporate Report" },
-  { key: "per-item",        label: "Per Item Report" },
-  { key: "sendout",         label: "Sendout Report" },
-  { key: "summary",         label: "Summary Report" },
-  { key: "amendment",       label: "Amendment Transaction" },
-  { key: "discount",        label: "Discount Report" },
+  { key: "bookkeeper",           label: "Bookkeeper Report" },
+  { key: "cash",                 label: "Cash Report" },
+  { key: "cashier-summary",      label: "Cashier Summary Report" },
+  { key: "hmo",                  label: "HMO / Corporate Report" },
+  { key: "per-item",             label: "Per Item Report" },
+  { key: "sendout",              label: "Sendout Report" },
+  { key: "summary",              label: "Summary Report" },
+  { key: "amendment",            label: "Amendment Transaction" },
+  { key: "discount",             label: "Discount Report" },
+  { key: "census",               label: "Census Report" },
+  { key: "doctor-productivity",  label: "Doctor Productivity" },
+  { key: "corporate-soa",        label: "Corporate SOA" },
 ] as const;
 
 type ReportKey = (typeof REPORT_TYPES)[number]["key"];
@@ -133,6 +136,30 @@ const COLUMNS: Record<ReportKey, ColDef[]> = {
     { key: "orNum",       label: "OR No." },
     { key: "paymentType", label: "Payment Type" },
     { key: "inputBy",     label: "Cashier" },
+  ],
+  census: [
+    { key: "date",         label: "Date",            fmt: "date" },
+    { key: "branch",       label: "Branch" },
+    { key: "visitCount",   label: "Visits",          align: "right" },
+    { key: "patientCount", label: "Unique Patients", align: "right" },
+  ],
+  "doctor-productivity": [
+    { key: "doctorName",  label: "Doctor" },
+    { key: "txCount",     label: "# Transactions", align: "right" },
+    { key: "totalAmount", label: "Total Amount",   align: "right", fmt: "amount" },
+    { key: "readersFee",  label: "Readers Fee",    align: "right", fmt: "amount" },
+  ],
+  "corporate-soa": [
+    { key: "date",            label: "Date",        fmt: "date" },
+    { key: "queueCode",       label: "Queue No." },
+    { key: "accessionNo",     label: "Accession No." },
+    { key: "patientName",     label: "Patient" },
+    { key: "company",         label: "Company" },
+    { key: "cardNumber",      label: "Card No." },
+    { key: "itemCode",        label: "Item Code" },
+    { key: "itemDescription", label: "Description" },
+    { key: "amount",          label: "Amount",  align: "right", fmt: "amount" },
+    { key: "balance",         label: "Balance", align: "right", fmt: "amount" },
   ],
 };
 
@@ -251,6 +278,8 @@ function SummaryCards({ summary }: { summary: Record<string, number> | null }) {
     totalAmendments:   "Total Amendments",
     totalDifference:   "Total Difference",
     txCount:           "# Transactions",
+    totalVisits:       "Total Visits",
+    totalBalance:      "Total Balance",
   };
   function labelFor(key: string) {
     return LABEL_MAP[key] ?? key
@@ -260,10 +289,10 @@ function SummaryCards({ summary }: { summary: Record<string, number> | null }) {
   }
 
   function isAmount(key: string) {
-    return key.toLowerCase().includes("amount") || key.toLowerCase().includes("collected") ||
-           key.toLowerCase().includes("gross") || key.toLowerCase().includes("net") ||
-           key.toLowerCase().includes("remaining") || key.toLowerCase().includes("fee") ||
-           key.toLowerCase().includes("paid") || key.toLowerCase().includes("diff");
+    const k = key.toLowerCase();
+    return k.includes("amount") || k.includes("collected") || k.includes("gross") ||
+           k.includes("net")    || k.includes("remaining") || k.includes("fee")   ||
+           k.includes("paid")   || k.includes("diff")      || k.includes("balance");
   }
 
   return (
@@ -300,6 +329,7 @@ export function ReportsClient() {
 
   const [reportType,   setReportType]   = useState<ReportKey>("bookkeeper");
   const [branch,       setBranch]       = useState("");
+  const [company,      setCompany]      = useState("");
   const [dateFrom,     setDateFrom]     = useState(firstOfMonth());
   const [dateTo,       setDateTo]       = useState(today());
   const [branches,     setBranches]     = useState<Branch[]>([]);
@@ -334,7 +364,8 @@ export function ReportsClient() {
         dateTo,
         page: String(p),
         pageSize: String(PAGE_SIZE),
-        ...(branch ? { branch } : {}),
+        ...(branch   ? { branch }   : {}),
+        ...(company  ? { company }  : {}),
       });
       const res = await apiFetch<ReportApiResponse>(`/api/reports/${reportType}?${params}`);
       setRows(res.data);
@@ -347,7 +378,7 @@ export function ReportsClient() {
     } finally {
       setLoading(false);
     }
-  }, [reportType, branch, dateFrom, dateTo, toast]);
+  }, [reportType, branch, company, dateFrom, dateTo, toast]);
 
   function handleGenerate() {
     setPage(1);
@@ -365,7 +396,8 @@ export function ReportsClient() {
       dateFrom,
       dateTo,
       format,
-      ...(branch ? { branch } : {}),
+      ...(branch  ? { branch }  : {}),
+      ...(company ? { company } : {}),
     });
     return `/api/reports/${reportType}?${params}`;
   }
@@ -410,7 +442,7 @@ export function ReportsClient() {
             <button
               key={rt.key}
               type="button"
-              onClick={() => { setReportType(rt.key); setGenerated(false); setRows([]); setSummary(null); }}
+              onClick={() => { setReportType(rt.key); setGenerated(false); setRows([]); setSummary(null); setCompany(""); }}
               className={`rounded-xl px-4 py-2 text-sm font-medium transition-all ${
                 reportType === rt.key
                   ? "bg-blue-600 text-white shadow-lg shadow-blue-600/20"
@@ -461,6 +493,25 @@ export function ReportsClient() {
               </div>
             )}
           </div>
+
+          {/* Company (Corporate SOA only) */}
+          {reportType === "corporate-soa" && (
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-200">
+                Company / HMO
+              </label>
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                  placeholder="All companies"
+                  className={INPUT_CLS + " pl-9"}
+                />
+              </div>
+            </div>
+          )}
 
           {/* Date From */}
           <div>

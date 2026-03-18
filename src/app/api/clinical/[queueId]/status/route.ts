@@ -29,7 +29,7 @@ export async function PATCH(
     }
 
     // Check current consultation status
-    let current: { status: string; patient_id: string } | null = null;
+    let current: { status: string | null; patient_id: string | null } | null = null;
     try {
       current = await prisma.consultationNote.findUnique({
         where: { queue_id: id },

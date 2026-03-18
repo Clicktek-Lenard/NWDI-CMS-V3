@@ -151,7 +151,8 @@
         {
           "name": "Complaints, medical history, physician notes",
           "status": "done",
-          "progress": 100
+          "progress": 100,
+          "notes": "Assessment Code Picker (P3-A) done — searchable dropdown using v1 assesmentcode table, auto-fills Findings/Assessment/Recommendation/Class. GET /api/assessment-codes endpoint + AssessmentCodePicker component in evaluation drawer. Also fixed assesmentcode Prisma model (@id, removed @@ignore) and 3 pre-existing type errors in clinical routes."
         },
         {
           "name": "Physical examination (PE & vitals)",
@@ -186,9 +187,9 @@
         },
         {
           "name": "Encode laboratory results & validate",
-          "status": "in-progress",
-          "progress": 60,
-          "notes": "EncodingModal done. Full LIS auto-encode not built — needs HCLAB integration."
+          "status": "done",
+          "progress": 100,
+          "notes": "EncodingModal done (per-accession value, unit, flag H/L/C, normal range, remarks). Validate button in releasing tab (PATCH /api/results/[id]/validate). Full LIS auto-encode still requires HCLAB integration."
         },
         {
           "name": "Flag critical results",
@@ -214,7 +215,8 @@
         {
           "name": "Radiologist encodes interpretations",
           "status": "done",
-          "progress": 100
+          "progress": 100,
+          "notes": "ImagingModal in results-client.tsx — per-accession interpretation, impression, radiologist name. POST /api/results/[id]/imaging-encode. Imaging Report PDF (A4, per-study findings/impression with signature block). Imaging PDF print link in Released Today panel."
         },
         {
           "name": "Store imaging reports & attach images",
@@ -266,12 +268,13 @@
           "name": "Multi-level validation workflow",
           "status": "in-progress",
           "progress": 40,
-          "notes": "Single-step release done. Med Tech → Pathologist multi-level approval needs LIS integration."
+          "notes": "Single-step release done. Validate button (ENCODED → VALIDATED) in releasing tab done. Med Tech → Pathologist multi-level approval needs LIS integration."
         },
         {
           "name": "Print or email results",
           "status": "done",
-          "progress": 100
+          "progress": 100,
+          "notes": "Lab Result PDF + Imaging Report PDF. Email delivery via POST /api/results/[id]/send-email (nodemailer SMTP). Email button with address input in Released Today panel."
         },
         {
           "name": "Online result access (patient portal)",
@@ -330,12 +333,14 @@
         {
           "name": "Monitor queue and operational status",
           "status": "done",
-          "progress": 100
+          "progress": 100,
+          "notes": "Operations Dashboard with stats + auto-refresh. 7-day trend sparkline charts added for daily queue visits and daily revenue (SVG sparklines, trend field in stats API, dashboard-client.tsx). HL7 resend button per transaction in edit-queue form (POST /api/transactions/[id]/hl7-resend)."
         },
         {
           "name": "Generate operational & workload reports",
           "status": "done",
-          "progress": 100
+          "progress": 100,
+          "notes": "11 report types: bookkeeper, cash, cashier-summary, HMO, per-item, sendout, summary, amendment, census (daily patient visits + unique patients per day per branch), doctor-productivity (transactions + amounts grouped by doctor), corporate-soa (transactions per company with patient/queue details). CSV + XLSX export."
         },
         {
           "name": "Maintain audit logs",
@@ -350,7 +355,8 @@
         {
           "name": "User authentication",
           "status": "done",
-          "progress": 100
+          "progress": 100,
+          "notes": "NextAuth v5 JWT, 2hr sessions. Session timeout warning modal added (src/components/ui/session-timeout-modal.tsx) — 5-min countdown with Stay Logged In / Log Out buttons, mounted in dashboard Header. Admin password reset done — POST /api/users/[id]/reset-password (admin/devteam, bcryptjs hash, audit logged), reset-password-dialog.tsx modal in Settings > User Management. Self-service forgot-password is a future enhancement."
         },
         {
           "name": "Role-based access control",
@@ -379,9 +385,9 @@
         },
         {
           "name": "Reliability & backups",
-          "status": "in-progress",
-          "progress": 90,
-          "notes": "Backup/restore shell scripts created (pg_dump/pg_restore with retention, verification). Admin API endpoint (DEVTEAM-only) for manual trigger. Documentation in docs/backup-restore.md. Remaining: cron/Task Scheduler setup on production."
+          "status": "done",
+          "progress": 100,
+          "notes": "Backup/restore shell scripts created (pg_dump/pg_restore with retention, verification). Admin API endpoint (DEVTEAM-only) for manual trigger. Documentation in docs/backup-restore.md. Database Backup UI added to Settings page (DEVTEAM-only) — database selector (cms_v2, cms_audit, or all), Run Backup Now button with loading state and result display. Remaining: cron/Task Scheduler setup on production."
         },
         {
           "name": "Usability",
