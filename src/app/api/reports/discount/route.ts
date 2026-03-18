@@ -15,8 +15,16 @@ export async function GET(request: NextRequest) {
   const page     = parseInt(sp.get("page")     || "1");
   const pageSize = Math.min(parseInt(sp.get("pageSize") || "50"), 200);
 
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+  if (!dateRegex.test(dateFrom) || !dateRegex.test(dateTo)) {
+    return NextResponse.json({ error: "Dates must be in YYYY-MM-DD format" }, { status: 400 });
+  }
+  if (isNaN(new Date(dateFrom + "T00:00:00").getTime()) || isNaN(new Date(dateTo + "T00:00:00").getTime())) {
+    return NextResponse.json({ error: "Invalid date value" }, { status: 400 });
+  }
+
   const start = new Date(`${dateFrom}T00:00:00+08:00`);
-  const end   = new Date(`${dateTo}T23:59:59+08:00`);
+  const end   = new Date(`${dateTo}T23:59:59.999+08:00`);
 
   // Get queues in range for this clinic
   const clinicCode = session.user.clinicCode || "CEN";

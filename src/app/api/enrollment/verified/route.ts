@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
   }
 
   // Join with cardkey to get year / batch / month
-  const cardNums = verifiedData.map((v) => v.verifiedcardnumbers);
+  const cardNums = verifiedData.map((v) => v.verifiedcardnumbers).filter((v): v is string => v !== null);
   const keys = cardNums.length > 0
     ? await prisma.cardNumber.findMany({
         where: { generatedcardnumber: { in: cardNums } },

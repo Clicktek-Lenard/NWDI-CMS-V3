@@ -15,12 +15,18 @@ export async function GET(request: NextRequest) {
   const todayStart = new Date(`${todayStr}T00:00:00+08:00`);
   const todayEnd   = new Date(`${todayStr}T23:59:59+08:00`);
 
+  // Build 7-day window (today − 6 days → today)
+  const sevenDaysAgo = new Date(`${todayStr}T00:00:00+08:00`);
+  sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+
   const [
     queueCounts,
     transactionStats,
     pendingAmendments,
     specimenCounts,
     releasedCount,
+    weeklyQueueRows,
+    weeklyRevenueRows,
   ] = await Promise.all([
     // Queue counts by status for today — use DateTime (creation timestamp), not Date (v1-set date field which is unreliable)
     prisma.queue.groupBy({
@@ -53,6 +59,18 @@ export async function GET(request: NextRequest) {
     prisma.queue.count({
       where: { IdBU: clinicCode, Status: 600, SystemUpdateTime: { gte: todayStart, lte: todayEnd } },
     }),
+    // Weekly queue counts: group by Date over last 7 days
+    prisma.queue.groupBy({
+      by: ["Date"],
+      where: { IdBU: clinicCode, DateTime: { gte: sevenDaysAgo, lte: todayEnd } },
+      _count: { Id: true },
+      orderBy: { Date: "asc" },
+    }),
+    // Weekly revenue: group paymenthistory by InputDate date-part over last 7 days
+    prisma.paymenthistory.findMany({
+      where: { InputDate: { gte: sevenDaysAgo, lte: todayEnd } },
+      select: { InputDate: true, PayAmount: true },
+    }),
   ]);
 
   // Build status count map for today's queue
@@ -69,6 +87,31 @@ export async function GET(request: NextRequest) {
   const specimenMap  = Object.fromEntries(
     specimenCounts.map((g) => [g.Status, g._count.Id])
   );
+
+  // Build 7-day trend arrays (one entry per day, oldest → newest)
+  const trendDays: string[] = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(`${todayStr}T00:00:00+08:00`);
+    d.setDate(d.getDate() - i);
+    trendDays.push(d.toLocaleDateString("en-CA")); // YYYY-MM-DD
+  }
+
+  const queueByDate = new Map(
+    weeklyQueueRows.map((r) => [r.Date.toLocaleDateString("en-CA"), r._count.Id])
+  );
+  const revenueByDate = new Map<string, number>();
+  for (const r of weeklyRevenueRows) {
+    if (!r.InputDate) continue;
+    const key = new Date(r.InputDate).toLocaleDateString("en-CA");
+    revenueByDate.set(key, (revenueByDate.get(key) ?? 0) + Number(r.PayAmount ?? 0));
+  }
+
+  const trend = trendDays.map((day) => ({
+    date:    day,
+    label:   new Date(day + "T00:00:00+08:00").toLocaleDateString("en-PH", { month: "short", day: "numeric" }),
+    visits:  queueByDate.get(day)  ?? 0,
+    revenue: revenueByDate.get(day) ?? 0,
+  }));
 
   return NextResponse.json({
     today: {
@@ -91,6 +134,7 @@ export async function GET(request: NextRequest) {
       received:            specimenMap[311] ?? 0,
       released:            releasedCount,
     },
+    trend,
     generatedAt: new Date().toISOString(),
   });
 }

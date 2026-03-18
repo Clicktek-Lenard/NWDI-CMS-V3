@@ -124,7 +124,7 @@
 
 <!-- HEADER -->
 <div class="hdr">
-  <div class="eyebrow">Feature Comparison · March 17, 2026 (updated — appointment scheduling, referral/sendout tracking, backup/restore)</div>
+  <div class="eyebrow">Feature Comparison · March 17, 2026 (updated — session timeout warning, HL7 resend button, result validation + email buttons, lab/imaging encoding UI, census + doctor-productivity + corporate-SOA reports, 7-day trend dashboard charts)</div>
   <h1>CMS v1 (PHP Laravel) &nbsp;vs&nbsp; CMS v3 (Next.js) &nbsp;vs&nbsp; FRD Requirements</h1>
   <div class="meta">
     <span>&#128196; FRD: CMS_FRD.pdf — 15 sections, 40+ requirements</span>
@@ -164,9 +164,9 @@
       <div class="sc-label">CMS v3 · Next.js</div>
       <div class="sc-title">Rewrite In Progress</div>
       <div class="sc-sub">Multi-tenant · API-first</div>
-      <div class="sc-pct">89%</div>
-      <div class="sc-bar"><span style="width:89%"></span></div>
-      <div class="sc-chips">75+ API handlers · 27 components · Queue + Clinical + Payment core done · Full specimen workflow 210→300→360→311→600 complete · Results monitoring + receiving + releasing + barcode labels done · Lab result encoding + validate (EncodingModal) · Critical result flagging (H/L/C badges, color-coded rows, flag chips in releasing panel) · Imaging result encoding + validate (ImagingModal) · Lab Result PDF with real values · Imaging Result PDF (A4, per-study findings/impression) · Email lab results via nodemailer · Prescription module (form + PDF) · Operations Dashboard (stats + auto-refresh) · Patient visit history modal (paginated, accession drill-down) · Discount report (date fixed) · Branch sendout + referral slip PDF + sendout CRUD &amp; tracking (Sent→Received→Completed) · Amendment module complete · Audit logging fully implemented (separate cms_audit DB · viewer UI) · Patient Management (search, create, edit, history) · Payment History tab + OR Reprint button · Consultation Summary PDF · 10 PDF types total · Reports (8 types + discount) · Appointments module (appointment table, pre-booking form, physician availability, conflict detection, upcoming view, check-in link) · Admin Settings hub · Sidebar consolidated · EROS Admin: Companies + Items &amp; Packages + Item Master List full CRUD (search, paginate, add, edit, delete) · Kiosk Display Board (/kiosk) — public TV display, 10s auto-refresh, filter tabs, priority badges, marquee ticker · DB backup/restore scripts (pg_dump) + admin API endpoint (DEVTEAM-only)</div>
+      <div class="sc-pct">93%</div>
+      <div class="sc-bar"><span style="width:93%"></span></div>
+      <div class="sc-chips">75+ API handlers · 28 components · Queue + Clinical + Payment core done · Full specimen workflow 210→300→360→311→600 complete · Results monitoring + receiving + releasing + barcode labels done · Lab result encoding UI (EncodingModal) + validate button (ENCODED→VALIDATED) · Critical result flagging (H/L/C badges, color-coded rows, flag chips in releasing panel) · Imaging findings UI (ImagingModal) + validate button · Lab Result PDF with real values · Imaging Result PDF (A4, per-study findings/impression) · Email lab results via nodemailer (button + address input in Released Today panel) · HL7 resend button per transaction in edit-queue form · Session timeout warning modal (5-min countdown, Stay Logged In / Log Out) · Prescription module (form + PDF) · Operations Dashboard (stats + auto-refresh + 7-day SVG sparkline trend charts for queue visits &amp; revenue) · Patient visit history modal (paginated, accession drill-down) · Discount report · Branch sendout + referral slip PDF + sendout CRUD &amp; tracking (Sent→Received→Completed) · Amendment module complete · Audit logging fully implemented (separate cms_audit DB · viewer UI) · Patient Management (search, create, edit, history) · Payment History tab + OR Reprint button · Consultation Summary PDF · 10 PDF types total · Reports (11 types: 8 financial + census + doctor-productivity + corporate-SOA) · Appointments module (appointment table, pre-booking form, physician availability, conflict detection, upcoming view, check-in link) · Admin Settings hub · Sidebar consolidated · EROS Admin: Companies + Items &amp; Packages + Item Master List full CRUD (search, paginate, add, edit, delete) · Kiosk Display Board (/kiosk) — public TV display, 10s auto-refresh, filter tabs, priority badges, marquee ticker · DB backup/restore scripts (pg_dump) + admin API endpoint (DEVTEAM-only) + Database Backup UI in Settings (database selector, Run Backup Now)</div>
     </div>
   </div>
 
@@ -353,13 +353,13 @@
         <tr>
           <td><div class="td-req">Encode consultation details</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">MedicalEvaluationController.php</span> · Company &amp; patient variants · Modal UI</td>
-          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>POST /api/clinical/[id]/evaluation</code> · Full SOAP in evaluation drawer</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>POST /api/clinical/[id]/evaluation</code> · Full SOAP in evaluation drawer · Assessment Code Picker (searchable dropdown from v1 <code>assesmentcode</code> table, auto-fills Findings/Assessment/Recommendation/Class)</td>
           <td class="td-gap"><span class="gap-ok">OK</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Complaints, medical history, physician notes</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Vitals history modal · consultation history · SOAP + ICD coding</td>
-          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Chief complaint, HPI, past history, family history, ICD code — all fields captured</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Chief complaint, HPI, past history, family history, ICD code — all fields captured · Assessment code autocomplete via <code>GET /api/assessment-codes</code> (v1 table parity)</td>
           <td class="td-gap"><span class="gap-ok">OK</span></td>
         </tr>
         <tr>
@@ -398,8 +398,8 @@
         <tr>
           <td><div class="td-req">Encode laboratory results &amp; validate</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ResultsMonitoringController.php</span> · Multi-level validation · LIS integration</td>
-          <td class="td-v3"><span class="pill p-part"><span class="dot d-y"></span>Partial</span><br><code>GET /api/results</code> · Monitoring UI with accession tracking · Specimen receiving workflow (Blood/Specimen/Imaging). No result VALUE entry (needs HCLAB/LIS integration).</td>
-          <td class="td-gap"><span class="gap-par">Partial</span></td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><code>GET /api/results</code> · Monitoring UI with accession tracking · Specimen receiving workflow (Blood/Specimen/Imaging) · EncodingModal — per-accession value, unit, flag H/L/C, normal range, remarks (<code>POST /api/results/[id]/encode</code>) · Validate button (ENCODED → VALIDATED) in releasing tab (<code>PATCH /api/results/[id]/validate</code>). LIS auto-encode still requires HCLAB integration.</td>
+          <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
           <td><div class="td-req">Flag critical results</div></td>
@@ -464,7 +464,7 @@
         <tr>
           <td><div class="td-req">Cashier summary reports</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ReportsController.php</span> · Daily sales · Excel export via <span class="tag">DailySalesExport.php</span></td>
-          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>8 report types: bookkeeper, cash, cashier-summary, HMO, per-item, sendout, summary, amendment · <code>GET /api/reports/[type]</code> · JSON / CSV / XLSX (ExcelJS) export · Sortable table, pagination, summary cards, date range + branch filters</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>11 report types: bookkeeper, cash, cashier-summary, HMO, per-item, sendout, summary, amendment, census (daily visits + unique patients per day/branch), doctor-productivity (transactions + amounts by doctor), corporate-soa (transactions per company with patient/queue details) · <code>GET /api/reports/[type]</code> · JSON / CSV / XLSX (ExcelJS) export · Sortable table, pagination, summary cards, date range + branch filters</td>
           <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
 
@@ -548,7 +548,7 @@
         <tr>
           <td><div class="td-req">Generate operational &amp; workload reports</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br><span class="tag">ReportsController.php</span> · Daily sales · <span class="tag">ReportsLABController.php</span> · TAT · HMO reports · Excel exports</td>
-          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>8 report types fully implemented · <code>GET /api/reports/[type]</code> · bookkeeper · cash · cashier-summary · HMO · per-item · sendout · summary · amendment · CSV + XLSX (ExcelJS) + print · All queries implemented</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>11 report types fully implemented · <code>GET /api/reports/[type]</code> · bookkeeper · cash · cashier-summary · HMO · per-item · sendout · summary · amendment · census · doctor-productivity · corporate-soa · CSV + XLSX (ExcelJS) + print · All queries implemented</td>
           <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
@@ -563,7 +563,7 @@
         <tr>
           <td><div class="td-req">User authentication</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Laravel Breeze · LDAP · Session-based auth · Password reset</td>
-          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>NextAuth v5 JWT · 2hr sessions · LDAP stub · Clinic selector</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>NextAuth v5 JWT · 2hr sessions · LDAP stub · Clinic selector · Session timeout warning modal (<code>src/components/ui/session-timeout-modal.tsx</code>) — 5-min countdown with Stay Logged In / Log Out buttons, mounted in dashboard Header · <strong>Admin password reset</strong> — <code>POST /api/users/[id]/reset-password</code> (admin/devteam, bcryptjs, audit logged) + <code>reset-password-dialog.tsx</code> modal in Settings &gt; User Management (validation, confirmation, show/hide toggle). Self-service forgot-password deferred as future enhancement.</td>
           <td class="td-gap"><span class="gap-ok">OK</span></td>
         </tr>
         <tr>
@@ -596,7 +596,7 @@
         <tr>
           <td><div class="td-req">Reliability &amp; backups</div></td>
           <td class="td-v1"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Production-hardened across 10+ clinic branches</td>
-          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Backup/restore shell scripts (<code>pg_dump</code> / <code>pg_restore</code>) · Admin API endpoint (<code>POST /api/admin/backup</code>, DEVTEAM-only) · Documented backup procedures · Application stable &amp; production-ready</td>
+          <td class="td-v3"><span class="pill p-done"><span class="dot d-g"></span>Done</span><br>Backup/restore shell scripts (<code>pg_dump</code> / <code>pg_restore</code>) · Admin API endpoint (<code>POST /api/admin/backup</code>, DEVTEAM-only) · Database Backup UI in Settings page (database selector, Run Backup Now button, loading &amp; result display) · Documented backup procedures · Application stable &amp; production-ready</td>
           <td class="td-gap"><span class="gap-ok">Done</span></td>
         </tr>
         <tr>
@@ -632,7 +632,9 @@
       <ul>
         <li>✅ Lab EncodingModal — per-accession result value, unit, flag, range</li>
         <li>✅ ImagingModal — interpretation, impression, radiologist</li>
-        <li>✅ Validate all → ENCODED/VALIDATED before release</li>
+        <li>✅ Validate button (ENCODED → VALIDATED) in releasing tab</li>
+        <li>✅ Send results by email — "Email" button + address input in Released Today panel</li>
+        <li>✅ HL7 resend button per transaction in edit-queue form</li>
         <li>Multi-level Med Tech → Pathologist approval not built (needs LIS)</li>
       </ul>
     </div>
@@ -688,6 +690,9 @@
         <li>✅ HMO report — <code>GET /api/reports/hmo</code></li>
         <li>✅ Sendout report — <code>GET /api/reports/sendout</code></li>
         <li>✅ Per-item report — <code>GET /api/reports/per-item</code></li>
+        <li>✅ Census report — daily visits + unique patients per day/branch</li>
+        <li>✅ Doctor Productivity report — transactions + amounts grouped by doctor</li>
+        <li>✅ Corporate SOA report — transactions per company with patient/queue details</li>
         <li>TAT analytics (<code>TurnaroundTimeController.php</code>) — not built (needs LIS)</li>
       </ul>
     </div>
@@ -753,6 +758,6 @@
   </div>
 
 </div><!-- /wrap -->
-<footer>CMS Feature Comparison &nbsp;·&nbsp; March 17, 2026 &nbsp;·&nbsp; FRD: CMS_FRD.pdf &nbsp;·&nbsp; v1: 138 controllers, 38 models &nbsp;·&nbsp; v3: 72+ API handlers, 26 components, 9 PDF types, 4 services</footer>
+<footer>CMS Feature Comparison &nbsp;·&nbsp; March 17, 2026 &nbsp;·&nbsp; FRD: CMS_FRD.pdf &nbsp;·&nbsp; v1: 138 controllers, 38 models &nbsp;·&nbsp; v3: 75+ API handlers, 28 components, 10 PDF types, 11 report types, 4 services</footer>
 </body>
 </html>

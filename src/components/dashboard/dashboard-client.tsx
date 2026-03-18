@@ -15,6 +15,13 @@ import {
   SendHorizonal,
 } from "lucide-react";
 
+interface TrendDay {
+  date:    string;
+  label:   string;
+  visits:  number;
+  revenue: number;
+}
+
 interface DashboardStats {
   today: {
     total:      number;
@@ -36,6 +43,7 @@ interface DashboardStats {
     received:          number;
     released:          number;
   };
+  trend: TrendDay[];
   generatedAt: string;
 }
 
@@ -54,6 +62,71 @@ interface StatCardProps {
   icon:     React.ReactNode;
   color:    string; // tailwind bg/text classes
   alert?:   boolean;
+}
+
+// ── Trend Chart (SVG sparkline, no external deps) ──────────────────────────
+
+function TrendChart({ data, valueKey, color, label }: {
+  data: TrendDay[];
+  valueKey: "visits" | "revenue";
+  color: string;
+  label: string;
+}) {
+  const values = data.map((d) => d[valueKey]);
+  const max    = Math.max(...values, 1);
+  const W = 320;
+  const H = 80;
+  const pad = 6;
+  const innerW = W - pad * 2;
+  const innerH = H - pad * 2;
+  const n = data.length;
+
+  const pts = values.map((v, i) => ({
+    x: pad + (i / (n - 1)) * innerW,
+    y: pad + (1 - v / max) * innerH,
+    v,
+    label: data[i].label,
+  }));
+
+  const pathD = pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(" ");
+  const areaD = `${pathD} L${pts[pts.length - 1].x.toFixed(1)},${(H - pad).toFixed(1)} L${pts[0].x.toFixed(1)},${(H - pad).toFixed(1)} Z`;
+
+  const fmt = valueKey === "revenue"
+    ? (v: number) => `₱${(v / 1000).toFixed(1)}k`
+    : (v: number) => String(v);
+
+  return (
+    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900">
+      <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">{label}</p>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full overflow-visible" style={{ height: H }}>
+        {/* Area fill */}
+        <path d={areaD} fill={color} fillOpacity="0.12" />
+        {/* Line */}
+        <path d={pathD} fill="none" stroke={color} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
+        {/* Data points */}
+        {pts.map((p, i) => (
+          <g key={i}>
+            <circle cx={p.x} cy={p.y} r="3.5" fill={color} />
+            {/* Value label on top of each point */}
+            <text
+              x={p.x} y={p.y - 7}
+              textAnchor="middle"
+              fontSize="9"
+              fill={color}
+              fontWeight="600"
+            >{fmt(p.v)}</text>
+            {/* X-axis label */}
+            <text
+              x={p.x} y={H + 2}
+              textAnchor="middle"
+              fontSize="8.5"
+              fill="#94a3b8"
+            >{p.label}</text>
+          </g>
+        ))}
+      </svg>
+    </div>
+  );
 }
 
 function StatCard({ label, value, sub, icon, color, alert }: StatCardProps) {
@@ -238,6 +311,19 @@ export function DashboardClient() {
                 />
               </div>
             </section>
+
+            {/* 7-Day Trend */}
+            {stats.trend && stats.trend.length > 1 && (
+              <section className="mb-6">
+                <h2 className="mb-3 text-xs font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-500">
+                  7-Day Trend
+                </h2>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <TrendChart data={stats.trend} valueKey="visits"  color="#3b82f6" label="Daily Queue Visits" />
+                  <TrendChart data={stats.trend} valueKey="revenue" color="#10b981" label="Daily Revenue (PHP)" />
+                </div>
+              </section>
+            )}
 
             {/* Footer */}
             <p className="text-center text-xs text-slate-400 dark:text-slate-600">

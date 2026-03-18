@@ -50,9 +50,12 @@ src/
 │   │   ├── eros/            # EROS (partial)
 │   │   ├── settings/        # Settings / User management
 │   │   └── cms/payment/     # Legacy path — still active at /cms/payment
-│   └── api/                 # API routes (auth, clinical, companies, enrollment,
-│                            #   item-prices, patients, payment, physicians,
-│                            #   queue, transaction-types, transactions, users)
+│   └── api/                 # API routes (accession, admin, appointments,
+│                            #   assessment-codes, auth, clinical, companies,
+│                            #   dashboard, enrollment, eros, item-prices,
+│                            #   kiosk, patients, payment, physicians, queue,
+│                            #   reports, results, sendouts, transaction-types,
+│                            #   transactions, users)
 ├── components/              # Client components (filename = kebab-case)
 ├── services/                # Business logic classes (called by API routes)
 ├── lib/

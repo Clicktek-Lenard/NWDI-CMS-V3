@@ -144,6 +144,11 @@ export type role = $Result.DefaultSelection<Prisma.$rolePayload>
  */
 export type accessionno = $Result.DefaultSelection<Prisma.$accessionnoPayload>
 /**
+ * Model updatequeue
+ * 
+ */
+export type updatequeue = $Result.DefaultSelection<Prisma.$updatequeuePayload>
+/**
  * Model paymenthistory
  * The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
  */
@@ -213,6 +218,11 @@ export type appointment = $Result.DefaultSelection<Prisma.$appointmentPayload>
  * 
  */
 export type sendout = $Result.DefaultSelection<Prisma.$sendoutPayload>
+/**
+ * Model assesmentcode
+ * 
+ */
+export type assesmentcode = $Result.DefaultSelection<Prisma.$assesmentcodePayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -592,6 +602,16 @@ export class PrismaClient<
   get accessionno(): Prisma.accessionnoDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.updatequeue`: Exposes CRUD operations for the **updatequeue** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Updatequeues
+    * const updatequeues = await prisma.updatequeue.findMany()
+    * ```
+    */
+  get updatequeue(): Prisma.updatequeueDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.paymenthistory`: Exposes CRUD operations for the **paymenthistory** model.
     * Example usage:
     * ```ts
@@ -730,6 +750,16 @@ export class PrismaClient<
     * ```
     */
   get sendout(): Prisma.sendoutDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.assesmentcode`: Exposes CRUD operations for the **assesmentcode** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Assesmentcodes
+    * const assesmentcodes = await prisma.assesmentcode.findMany()
+    * ```
+    */
+  get assesmentcode(): Prisma.assesmentcodeDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1190,6 +1220,7 @@ export namespace Prisma {
     transactiontype: 'transactiontype',
     role: 'role',
     accessionno: 'accessionno',
+    updatequeue: 'updatequeue',
     paymenthistory: 'paymenthistory',
     cardEnrollment: 'cardEnrollment',
     VitalSign: 'VitalSign',
@@ -1203,7 +1234,8 @@ export namespace Prisma {
     cardNumber: 'cardNumber',
     cardVerified: 'cardVerified',
     appointment: 'appointment',
-    sendout: 'sendout'
+    sendout: 'sendout',
+    assesmentcode: 'assesmentcode'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1219,7 +1251,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "users_from_cdb" | "cache" | "cache_locks" | "sessions" | "password_reset_tokens" | "failed_jobs" | "job_batches" | "jobs" | "migrations" | "settings" | "businessunits" | "company" | "department" | "patient" | "physician" | "queue" | "queuestatus" | "transactions" | "vitals" | "itemmaster" | "itemprice" | "msg_queue" | "transactiontype" | "role" | "accessionno" | "paymenthistory" | "cardEnrollment" | "vitalSign" | "consultationNote" | "physicalExamination" | "medicalEvaluation" | "prescription" | "prescriptionItem" | "resultValue" | "imagingResult" | "cardNumber" | "cardVerified" | "appointment" | "sendout"
+      modelProps: "user" | "users_from_cdb" | "cache" | "cache_locks" | "sessions" | "password_reset_tokens" | "failed_jobs" | "job_batches" | "jobs" | "migrations" | "settings" | "businessunits" | "company" | "department" | "patient" | "physician" | "queue" | "queuestatus" | "transactions" | "vitals" | "itemmaster" | "itemprice" | "msg_queue" | "transactiontype" | "role" | "accessionno" | "updatequeue" | "paymenthistory" | "cardEnrollment" | "vitalSign" | "consultationNote" | "physicalExamination" | "medicalEvaluation" | "prescription" | "prescriptionItem" | "resultValue" | "imagingResult" | "cardNumber" | "cardVerified" | "appointment" | "sendout" | "assesmentcode"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3147,6 +3179,80 @@ export namespace Prisma {
           }
         }
       }
+      updatequeue: {
+        payload: Prisma.$updatequeuePayload<ExtArgs>
+        fields: Prisma.updatequeueFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.updatequeueFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$updatequeuePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.updatequeueFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$updatequeuePayload>
+          }
+          findFirst: {
+            args: Prisma.updatequeueFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$updatequeuePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.updatequeueFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$updatequeuePayload>
+          }
+          findMany: {
+            args: Prisma.updatequeueFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$updatequeuePayload>[]
+          }
+          create: {
+            args: Prisma.updatequeueCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$updatequeuePayload>
+          }
+          createMany: {
+            args: Prisma.updatequeueCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.updatequeueCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$updatequeuePayload>[]
+          }
+          delete: {
+            args: Prisma.updatequeueDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$updatequeuePayload>
+          }
+          update: {
+            args: Prisma.updatequeueUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$updatequeuePayload>
+          }
+          deleteMany: {
+            args: Prisma.updatequeueDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.updatequeueUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.updatequeueUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$updatequeuePayload>[]
+          }
+          upsert: {
+            args: Prisma.updatequeueUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$updatequeuePayload>
+          }
+          aggregate: {
+            args: Prisma.UpdatequeueAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUpdatequeue>
+          }
+          groupBy: {
+            args: Prisma.updatequeueGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UpdatequeueGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.updatequeueCountArgs<ExtArgs>
+            result: $Utils.Optional<UpdatequeueCountAggregateOutputType> | number
+          }
+        }
+      }
       paymenthistory: {
         payload: Prisma.$paymenthistoryPayload<ExtArgs>
         fields: Prisma.paymenthistoryFieldRefs
@@ -4183,6 +4289,80 @@ export namespace Prisma {
           }
         }
       }
+      assesmentcode: {
+        payload: Prisma.$assesmentcodePayload<ExtArgs>
+        fields: Prisma.assesmentcodeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.assesmentcodeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assesmentcodePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.assesmentcodeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assesmentcodePayload>
+          }
+          findFirst: {
+            args: Prisma.assesmentcodeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assesmentcodePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.assesmentcodeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assesmentcodePayload>
+          }
+          findMany: {
+            args: Prisma.assesmentcodeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assesmentcodePayload>[]
+          }
+          create: {
+            args: Prisma.assesmentcodeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assesmentcodePayload>
+          }
+          createMany: {
+            args: Prisma.assesmentcodeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.assesmentcodeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assesmentcodePayload>[]
+          }
+          delete: {
+            args: Prisma.assesmentcodeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assesmentcodePayload>
+          }
+          update: {
+            args: Prisma.assesmentcodeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assesmentcodePayload>
+          }
+          deleteMany: {
+            args: Prisma.assesmentcodeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.assesmentcodeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.assesmentcodeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assesmentcodePayload>[]
+          }
+          upsert: {
+            args: Prisma.assesmentcodeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$assesmentcodePayload>
+          }
+          aggregate: {
+            args: Prisma.AssesmentcodeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAssesmentcode>
+          }
+          groupBy: {
+            args: Prisma.assesmentcodeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AssesmentcodeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.assesmentcodeCountArgs<ExtArgs>
+            result: $Utils.Optional<AssesmentcodeCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4317,6 +4497,7 @@ export namespace Prisma {
     transactiontype?: transactiontypeOmit
     role?: roleOmit
     accessionno?: accessionnoOmit
+    updatequeue?: updatequeueOmit
     paymenthistory?: paymenthistoryOmit
     cardEnrollment?: cardEnrollmentOmit
     vitalSign?: VitalSignOmit
@@ -4331,6 +4512,7 @@ export namespace Prisma {
     cardVerified?: cardVerifiedOmit
     appointment?: appointmentOmit
     sendout?: sendoutOmit
+    assesmentcode?: assesmentcodeOmit
   }
 
   /* Types for Logging */
@@ -38259,6 +38441,1043 @@ export namespace Prisma {
 
 
   /**
+   * Model updatequeue
+   */
+
+  export type AggregateUpdatequeue = {
+    _count: UpdatequeueCountAggregateOutputType | null
+    _avg: UpdatequeueAvgAggregateOutputType | null
+    _sum: UpdatequeueSumAggregateOutputType | null
+    _min: UpdatequeueMinAggregateOutputType | null
+    _max: UpdatequeueMaxAggregateOutputType | null
+  }
+
+  export type UpdatequeueAvgAggregateOutputType = {
+    Id: number | null
+    ModuleId: number | null
+    Status: number | null
+  }
+
+  export type UpdatequeueSumAggregateOutputType = {
+    Id: bigint | null
+    ModuleId: bigint | null
+    Status: number | null
+  }
+
+  export type UpdatequeueMinAggregateOutputType = {
+    Id: bigint | null
+    Module: string | null
+    ModuleId: bigint | null
+    QueueCode: string | null
+    Status: number | null
+  }
+
+  export type UpdatequeueMaxAggregateOutputType = {
+    Id: bigint | null
+    Module: string | null
+    ModuleId: bigint | null
+    QueueCode: string | null
+    Status: number | null
+  }
+
+  export type UpdatequeueCountAggregateOutputType = {
+    Id: number
+    Module: number
+    ModuleId: number
+    QueueCode: number
+    Status: number
+    _all: number
+  }
+
+
+  export type UpdatequeueAvgAggregateInputType = {
+    Id?: true
+    ModuleId?: true
+    Status?: true
+  }
+
+  export type UpdatequeueSumAggregateInputType = {
+    Id?: true
+    ModuleId?: true
+    Status?: true
+  }
+
+  export type UpdatequeueMinAggregateInputType = {
+    Id?: true
+    Module?: true
+    ModuleId?: true
+    QueueCode?: true
+    Status?: true
+  }
+
+  export type UpdatequeueMaxAggregateInputType = {
+    Id?: true
+    Module?: true
+    ModuleId?: true
+    QueueCode?: true
+    Status?: true
+  }
+
+  export type UpdatequeueCountAggregateInputType = {
+    Id?: true
+    Module?: true
+    ModuleId?: true
+    QueueCode?: true
+    Status?: true
+    _all?: true
+  }
+
+  export type UpdatequeueAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which updatequeue to aggregate.
+     */
+    where?: updatequeueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of updatequeues to fetch.
+     */
+    orderBy?: updatequeueOrderByWithRelationInput | updatequeueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: updatequeueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` updatequeues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` updatequeues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned updatequeues
+    **/
+    _count?: true | UpdatequeueCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: UpdatequeueAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UpdatequeueSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UpdatequeueMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UpdatequeueMaxAggregateInputType
+  }
+
+  export type GetUpdatequeueAggregateType<T extends UpdatequeueAggregateArgs> = {
+        [P in keyof T & keyof AggregateUpdatequeue]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUpdatequeue[P]>
+      : GetScalarType<T[P], AggregateUpdatequeue[P]>
+  }
+
+
+
+
+  export type updatequeueGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: updatequeueWhereInput
+    orderBy?: updatequeueOrderByWithAggregationInput | updatequeueOrderByWithAggregationInput[]
+    by: UpdatequeueScalarFieldEnum[] | UpdatequeueScalarFieldEnum
+    having?: updatequeueScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UpdatequeueCountAggregateInputType | true
+    _avg?: UpdatequeueAvgAggregateInputType
+    _sum?: UpdatequeueSumAggregateInputType
+    _min?: UpdatequeueMinAggregateInputType
+    _max?: UpdatequeueMaxAggregateInputType
+  }
+
+  export type UpdatequeueGroupByOutputType = {
+    Id: bigint
+    Module: string | null
+    ModuleId: bigint
+    QueueCode: string | null
+    Status: number
+    _count: UpdatequeueCountAggregateOutputType | null
+    _avg: UpdatequeueAvgAggregateOutputType | null
+    _sum: UpdatequeueSumAggregateOutputType | null
+    _min: UpdatequeueMinAggregateOutputType | null
+    _max: UpdatequeueMaxAggregateOutputType | null
+  }
+
+  type GetUpdatequeueGroupByPayload<T extends updatequeueGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UpdatequeueGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UpdatequeueGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UpdatequeueGroupByOutputType[P]>
+            : GetScalarType<T[P], UpdatequeueGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type updatequeueSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    Id?: boolean
+    Module?: boolean
+    ModuleId?: boolean
+    QueueCode?: boolean
+    Status?: boolean
+  }, ExtArgs["result"]["updatequeue"]>
+
+  export type updatequeueSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    Id?: boolean
+    Module?: boolean
+    ModuleId?: boolean
+    QueueCode?: boolean
+    Status?: boolean
+  }, ExtArgs["result"]["updatequeue"]>
+
+  export type updatequeueSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    Id?: boolean
+    Module?: boolean
+    ModuleId?: boolean
+    QueueCode?: boolean
+    Status?: boolean
+  }, ExtArgs["result"]["updatequeue"]>
+
+  export type updatequeueSelectScalar = {
+    Id?: boolean
+    Module?: boolean
+    ModuleId?: boolean
+    QueueCode?: boolean
+    Status?: boolean
+  }
+
+  export type updatequeueOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"Id" | "Module" | "ModuleId" | "QueueCode" | "Status", ExtArgs["result"]["updatequeue"]>
+
+  export type $updatequeuePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "updatequeue"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      Id: bigint
+      Module: string | null
+      ModuleId: bigint
+      QueueCode: string | null
+      Status: number
+    }, ExtArgs["result"]["updatequeue"]>
+    composites: {}
+  }
+
+  type updatequeueGetPayload<S extends boolean | null | undefined | updatequeueDefaultArgs> = $Result.GetResult<Prisma.$updatequeuePayload, S>
+
+  type updatequeueCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<updatequeueFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UpdatequeueCountAggregateInputType | true
+    }
+
+  export interface updatequeueDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['updatequeue'], meta: { name: 'updatequeue' } }
+    /**
+     * Find zero or one Updatequeue that matches the filter.
+     * @param {updatequeueFindUniqueArgs} args - Arguments to find a Updatequeue
+     * @example
+     * // Get one Updatequeue
+     * const updatequeue = await prisma.updatequeue.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends updatequeueFindUniqueArgs>(args: SelectSubset<T, updatequeueFindUniqueArgs<ExtArgs>>): Prisma__updatequeueClient<$Result.GetResult<Prisma.$updatequeuePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Updatequeue that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {updatequeueFindUniqueOrThrowArgs} args - Arguments to find a Updatequeue
+     * @example
+     * // Get one Updatequeue
+     * const updatequeue = await prisma.updatequeue.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends updatequeueFindUniqueOrThrowArgs>(args: SelectSubset<T, updatequeueFindUniqueOrThrowArgs<ExtArgs>>): Prisma__updatequeueClient<$Result.GetResult<Prisma.$updatequeuePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Updatequeue that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {updatequeueFindFirstArgs} args - Arguments to find a Updatequeue
+     * @example
+     * // Get one Updatequeue
+     * const updatequeue = await prisma.updatequeue.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends updatequeueFindFirstArgs>(args?: SelectSubset<T, updatequeueFindFirstArgs<ExtArgs>>): Prisma__updatequeueClient<$Result.GetResult<Prisma.$updatequeuePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Updatequeue that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {updatequeueFindFirstOrThrowArgs} args - Arguments to find a Updatequeue
+     * @example
+     * // Get one Updatequeue
+     * const updatequeue = await prisma.updatequeue.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends updatequeueFindFirstOrThrowArgs>(args?: SelectSubset<T, updatequeueFindFirstOrThrowArgs<ExtArgs>>): Prisma__updatequeueClient<$Result.GetResult<Prisma.$updatequeuePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Updatequeues that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {updatequeueFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Updatequeues
+     * const updatequeues = await prisma.updatequeue.findMany()
+     * 
+     * // Get first 10 Updatequeues
+     * const updatequeues = await prisma.updatequeue.findMany({ take: 10 })
+     * 
+     * // Only select the `Id`
+     * const updatequeueWithIdOnly = await prisma.updatequeue.findMany({ select: { Id: true } })
+     * 
+     */
+    findMany<T extends updatequeueFindManyArgs>(args?: SelectSubset<T, updatequeueFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$updatequeuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Updatequeue.
+     * @param {updatequeueCreateArgs} args - Arguments to create a Updatequeue.
+     * @example
+     * // Create one Updatequeue
+     * const Updatequeue = await prisma.updatequeue.create({
+     *   data: {
+     *     // ... data to create a Updatequeue
+     *   }
+     * })
+     * 
+     */
+    create<T extends updatequeueCreateArgs>(args: SelectSubset<T, updatequeueCreateArgs<ExtArgs>>): Prisma__updatequeueClient<$Result.GetResult<Prisma.$updatequeuePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Updatequeues.
+     * @param {updatequeueCreateManyArgs} args - Arguments to create many Updatequeues.
+     * @example
+     * // Create many Updatequeues
+     * const updatequeue = await prisma.updatequeue.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends updatequeueCreateManyArgs>(args?: SelectSubset<T, updatequeueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Updatequeues and returns the data saved in the database.
+     * @param {updatequeueCreateManyAndReturnArgs} args - Arguments to create many Updatequeues.
+     * @example
+     * // Create many Updatequeues
+     * const updatequeue = await prisma.updatequeue.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Updatequeues and only return the `Id`
+     * const updatequeueWithIdOnly = await prisma.updatequeue.createManyAndReturn({
+     *   select: { Id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends updatequeueCreateManyAndReturnArgs>(args?: SelectSubset<T, updatequeueCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$updatequeuePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Updatequeue.
+     * @param {updatequeueDeleteArgs} args - Arguments to delete one Updatequeue.
+     * @example
+     * // Delete one Updatequeue
+     * const Updatequeue = await prisma.updatequeue.delete({
+     *   where: {
+     *     // ... filter to delete one Updatequeue
+     *   }
+     * })
+     * 
+     */
+    delete<T extends updatequeueDeleteArgs>(args: SelectSubset<T, updatequeueDeleteArgs<ExtArgs>>): Prisma__updatequeueClient<$Result.GetResult<Prisma.$updatequeuePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Updatequeue.
+     * @param {updatequeueUpdateArgs} args - Arguments to update one Updatequeue.
+     * @example
+     * // Update one Updatequeue
+     * const updatequeue = await prisma.updatequeue.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends updatequeueUpdateArgs>(args: SelectSubset<T, updatequeueUpdateArgs<ExtArgs>>): Prisma__updatequeueClient<$Result.GetResult<Prisma.$updatequeuePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Updatequeues.
+     * @param {updatequeueDeleteManyArgs} args - Arguments to filter Updatequeues to delete.
+     * @example
+     * // Delete a few Updatequeues
+     * const { count } = await prisma.updatequeue.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends updatequeueDeleteManyArgs>(args?: SelectSubset<T, updatequeueDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Updatequeues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {updatequeueUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Updatequeues
+     * const updatequeue = await prisma.updatequeue.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends updatequeueUpdateManyArgs>(args: SelectSubset<T, updatequeueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Updatequeues and returns the data updated in the database.
+     * @param {updatequeueUpdateManyAndReturnArgs} args - Arguments to update many Updatequeues.
+     * @example
+     * // Update many Updatequeues
+     * const updatequeue = await prisma.updatequeue.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Updatequeues and only return the `Id`
+     * const updatequeueWithIdOnly = await prisma.updatequeue.updateManyAndReturn({
+     *   select: { Id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends updatequeueUpdateManyAndReturnArgs>(args: SelectSubset<T, updatequeueUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$updatequeuePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Updatequeue.
+     * @param {updatequeueUpsertArgs} args - Arguments to update or create a Updatequeue.
+     * @example
+     * // Update or create a Updatequeue
+     * const updatequeue = await prisma.updatequeue.upsert({
+     *   create: {
+     *     // ... data to create a Updatequeue
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Updatequeue we want to update
+     *   }
+     * })
+     */
+    upsert<T extends updatequeueUpsertArgs>(args: SelectSubset<T, updatequeueUpsertArgs<ExtArgs>>): Prisma__updatequeueClient<$Result.GetResult<Prisma.$updatequeuePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Updatequeues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {updatequeueCountArgs} args - Arguments to filter Updatequeues to count.
+     * @example
+     * // Count the number of Updatequeues
+     * const count = await prisma.updatequeue.count({
+     *   where: {
+     *     // ... the filter for the Updatequeues we want to count
+     *   }
+     * })
+    **/
+    count<T extends updatequeueCountArgs>(
+      args?: Subset<T, updatequeueCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UpdatequeueCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Updatequeue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UpdatequeueAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UpdatequeueAggregateArgs>(args: Subset<T, UpdatequeueAggregateArgs>): Prisma.PrismaPromise<GetUpdatequeueAggregateType<T>>
+
+    /**
+     * Group by Updatequeue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {updatequeueGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends updatequeueGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: updatequeueGroupByArgs['orderBy'] }
+        : { orderBy?: updatequeueGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, updatequeueGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUpdatequeueGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the updatequeue model
+   */
+  readonly fields: updatequeueFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for updatequeue.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__updatequeueClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the updatequeue model
+   */
+  interface updatequeueFieldRefs {
+    readonly Id: FieldRef<"updatequeue", 'BigInt'>
+    readonly Module: FieldRef<"updatequeue", 'String'>
+    readonly ModuleId: FieldRef<"updatequeue", 'BigInt'>
+    readonly QueueCode: FieldRef<"updatequeue", 'String'>
+    readonly Status: FieldRef<"updatequeue", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * updatequeue findUnique
+   */
+  export type updatequeueFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the updatequeue
+     */
+    select?: updatequeueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the updatequeue
+     */
+    omit?: updatequeueOmit<ExtArgs> | null
+    /**
+     * Filter, which updatequeue to fetch.
+     */
+    where: updatequeueWhereUniqueInput
+  }
+
+  /**
+   * updatequeue findUniqueOrThrow
+   */
+  export type updatequeueFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the updatequeue
+     */
+    select?: updatequeueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the updatequeue
+     */
+    omit?: updatequeueOmit<ExtArgs> | null
+    /**
+     * Filter, which updatequeue to fetch.
+     */
+    where: updatequeueWhereUniqueInput
+  }
+
+  /**
+   * updatequeue findFirst
+   */
+  export type updatequeueFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the updatequeue
+     */
+    select?: updatequeueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the updatequeue
+     */
+    omit?: updatequeueOmit<ExtArgs> | null
+    /**
+     * Filter, which updatequeue to fetch.
+     */
+    where?: updatequeueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of updatequeues to fetch.
+     */
+    orderBy?: updatequeueOrderByWithRelationInput | updatequeueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for updatequeues.
+     */
+    cursor?: updatequeueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` updatequeues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` updatequeues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of updatequeues.
+     */
+    distinct?: UpdatequeueScalarFieldEnum | UpdatequeueScalarFieldEnum[]
+  }
+
+  /**
+   * updatequeue findFirstOrThrow
+   */
+  export type updatequeueFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the updatequeue
+     */
+    select?: updatequeueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the updatequeue
+     */
+    omit?: updatequeueOmit<ExtArgs> | null
+    /**
+     * Filter, which updatequeue to fetch.
+     */
+    where?: updatequeueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of updatequeues to fetch.
+     */
+    orderBy?: updatequeueOrderByWithRelationInput | updatequeueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for updatequeues.
+     */
+    cursor?: updatequeueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` updatequeues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` updatequeues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of updatequeues.
+     */
+    distinct?: UpdatequeueScalarFieldEnum | UpdatequeueScalarFieldEnum[]
+  }
+
+  /**
+   * updatequeue findMany
+   */
+  export type updatequeueFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the updatequeue
+     */
+    select?: updatequeueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the updatequeue
+     */
+    omit?: updatequeueOmit<ExtArgs> | null
+    /**
+     * Filter, which updatequeues to fetch.
+     */
+    where?: updatequeueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of updatequeues to fetch.
+     */
+    orderBy?: updatequeueOrderByWithRelationInput | updatequeueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing updatequeues.
+     */
+    cursor?: updatequeueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` updatequeues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` updatequeues.
+     */
+    skip?: number
+    distinct?: UpdatequeueScalarFieldEnum | UpdatequeueScalarFieldEnum[]
+  }
+
+  /**
+   * updatequeue create
+   */
+  export type updatequeueCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the updatequeue
+     */
+    select?: updatequeueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the updatequeue
+     */
+    omit?: updatequeueOmit<ExtArgs> | null
+    /**
+     * The data needed to create a updatequeue.
+     */
+    data: XOR<updatequeueCreateInput, updatequeueUncheckedCreateInput>
+  }
+
+  /**
+   * updatequeue createMany
+   */
+  export type updatequeueCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many updatequeues.
+     */
+    data: updatequeueCreateManyInput | updatequeueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * updatequeue createManyAndReturn
+   */
+  export type updatequeueCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the updatequeue
+     */
+    select?: updatequeueSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the updatequeue
+     */
+    omit?: updatequeueOmit<ExtArgs> | null
+    /**
+     * The data used to create many updatequeues.
+     */
+    data: updatequeueCreateManyInput | updatequeueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * updatequeue update
+   */
+  export type updatequeueUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the updatequeue
+     */
+    select?: updatequeueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the updatequeue
+     */
+    omit?: updatequeueOmit<ExtArgs> | null
+    /**
+     * The data needed to update a updatequeue.
+     */
+    data: XOR<updatequeueUpdateInput, updatequeueUncheckedUpdateInput>
+    /**
+     * Choose, which updatequeue to update.
+     */
+    where: updatequeueWhereUniqueInput
+  }
+
+  /**
+   * updatequeue updateMany
+   */
+  export type updatequeueUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update updatequeues.
+     */
+    data: XOR<updatequeueUpdateManyMutationInput, updatequeueUncheckedUpdateManyInput>
+    /**
+     * Filter which updatequeues to update
+     */
+    where?: updatequeueWhereInput
+    /**
+     * Limit how many updatequeues to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * updatequeue updateManyAndReturn
+   */
+  export type updatequeueUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the updatequeue
+     */
+    select?: updatequeueSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the updatequeue
+     */
+    omit?: updatequeueOmit<ExtArgs> | null
+    /**
+     * The data used to update updatequeues.
+     */
+    data: XOR<updatequeueUpdateManyMutationInput, updatequeueUncheckedUpdateManyInput>
+    /**
+     * Filter which updatequeues to update
+     */
+    where?: updatequeueWhereInput
+    /**
+     * Limit how many updatequeues to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * updatequeue upsert
+   */
+  export type updatequeueUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the updatequeue
+     */
+    select?: updatequeueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the updatequeue
+     */
+    omit?: updatequeueOmit<ExtArgs> | null
+    /**
+     * The filter to search for the updatequeue to update in case it exists.
+     */
+    where: updatequeueWhereUniqueInput
+    /**
+     * In case the updatequeue found by the `where` argument doesn't exist, create a new updatequeue with this data.
+     */
+    create: XOR<updatequeueCreateInput, updatequeueUncheckedCreateInput>
+    /**
+     * In case the updatequeue was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<updatequeueUpdateInput, updatequeueUncheckedUpdateInput>
+  }
+
+  /**
+   * updatequeue delete
+   */
+  export type updatequeueDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the updatequeue
+     */
+    select?: updatequeueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the updatequeue
+     */
+    omit?: updatequeueOmit<ExtArgs> | null
+    /**
+     * Filter which updatequeue to delete.
+     */
+    where: updatequeueWhereUniqueInput
+  }
+
+  /**
+   * updatequeue deleteMany
+   */
+  export type updatequeueDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which updatequeues to delete
+     */
+    where?: updatequeueWhereInput
+    /**
+     * Limit how many updatequeues to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * updatequeue without action
+   */
+  export type updatequeueDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the updatequeue
+     */
+    select?: updatequeueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the updatequeue
+     */
+    omit?: updatequeueOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model paymenthistory
    */
 
@@ -55100,6 +56319,1087 @@ export namespace Prisma {
 
 
   /**
+   * Model assesmentcode
+   */
+
+  export type AggregateAssesmentcode = {
+    _count: AssesmentcodeCountAggregateOutputType | null
+    _avg: AssesmentcodeAvgAggregateOutputType | null
+    _sum: AssesmentcodeSumAggregateOutputType | null
+    _min: AssesmentcodeMinAggregateOutputType | null
+    _max: AssesmentcodeMaxAggregateOutputType | null
+  }
+
+  export type AssesmentcodeAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type AssesmentcodeSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type AssesmentcodeMinAggregateOutputType = {
+    id: number | null
+    code: string | null
+    findings: string | null
+    assesment: string | null
+    recommendation: string | null
+    Class: string | null
+    testgroup: string | null
+    testcode: string | null
+    status: string | null
+  }
+
+  export type AssesmentcodeMaxAggregateOutputType = {
+    id: number | null
+    code: string | null
+    findings: string | null
+    assesment: string | null
+    recommendation: string | null
+    Class: string | null
+    testgroup: string | null
+    testcode: string | null
+    status: string | null
+  }
+
+  export type AssesmentcodeCountAggregateOutputType = {
+    id: number
+    code: number
+    findings: number
+    assesment: number
+    recommendation: number
+    Class: number
+    testgroup: number
+    testcode: number
+    status: number
+    _all: number
+  }
+
+
+  export type AssesmentcodeAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type AssesmentcodeSumAggregateInputType = {
+    id?: true
+  }
+
+  export type AssesmentcodeMinAggregateInputType = {
+    id?: true
+    code?: true
+    findings?: true
+    assesment?: true
+    recommendation?: true
+    Class?: true
+    testgroup?: true
+    testcode?: true
+    status?: true
+  }
+
+  export type AssesmentcodeMaxAggregateInputType = {
+    id?: true
+    code?: true
+    findings?: true
+    assesment?: true
+    recommendation?: true
+    Class?: true
+    testgroup?: true
+    testcode?: true
+    status?: true
+  }
+
+  export type AssesmentcodeCountAggregateInputType = {
+    id?: true
+    code?: true
+    findings?: true
+    assesment?: true
+    recommendation?: true
+    Class?: true
+    testgroup?: true
+    testcode?: true
+    status?: true
+    _all?: true
+  }
+
+  export type AssesmentcodeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which assesmentcode to aggregate.
+     */
+    where?: assesmentcodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of assesmentcodes to fetch.
+     */
+    orderBy?: assesmentcodeOrderByWithRelationInput | assesmentcodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: assesmentcodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` assesmentcodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` assesmentcodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned assesmentcodes
+    **/
+    _count?: true | AssesmentcodeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AssesmentcodeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AssesmentcodeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AssesmentcodeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AssesmentcodeMaxAggregateInputType
+  }
+
+  export type GetAssesmentcodeAggregateType<T extends AssesmentcodeAggregateArgs> = {
+        [P in keyof T & keyof AggregateAssesmentcode]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAssesmentcode[P]>
+      : GetScalarType<T[P], AggregateAssesmentcode[P]>
+  }
+
+
+
+
+  export type assesmentcodeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: assesmentcodeWhereInput
+    orderBy?: assesmentcodeOrderByWithAggregationInput | assesmentcodeOrderByWithAggregationInput[]
+    by: AssesmentcodeScalarFieldEnum[] | AssesmentcodeScalarFieldEnum
+    having?: assesmentcodeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AssesmentcodeCountAggregateInputType | true
+    _avg?: AssesmentcodeAvgAggregateInputType
+    _sum?: AssesmentcodeSumAggregateInputType
+    _min?: AssesmentcodeMinAggregateInputType
+    _max?: AssesmentcodeMaxAggregateInputType
+  }
+
+  export type AssesmentcodeGroupByOutputType = {
+    id: number
+    code: string | null
+    findings: string | null
+    assesment: string | null
+    recommendation: string | null
+    Class: string | null
+    testgroup: string | null
+    testcode: string | null
+    status: string | null
+    _count: AssesmentcodeCountAggregateOutputType | null
+    _avg: AssesmentcodeAvgAggregateOutputType | null
+    _sum: AssesmentcodeSumAggregateOutputType | null
+    _min: AssesmentcodeMinAggregateOutputType | null
+    _max: AssesmentcodeMaxAggregateOutputType | null
+  }
+
+  type GetAssesmentcodeGroupByPayload<T extends assesmentcodeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AssesmentcodeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AssesmentcodeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AssesmentcodeGroupByOutputType[P]>
+            : GetScalarType<T[P], AssesmentcodeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type assesmentcodeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    findings?: boolean
+    assesment?: boolean
+    recommendation?: boolean
+    Class?: boolean
+    testgroup?: boolean
+    testcode?: boolean
+    status?: boolean
+  }, ExtArgs["result"]["assesmentcode"]>
+
+  export type assesmentcodeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    findings?: boolean
+    assesment?: boolean
+    recommendation?: boolean
+    Class?: boolean
+    testgroup?: boolean
+    testcode?: boolean
+    status?: boolean
+  }, ExtArgs["result"]["assesmentcode"]>
+
+  export type assesmentcodeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    findings?: boolean
+    assesment?: boolean
+    recommendation?: boolean
+    Class?: boolean
+    testgroup?: boolean
+    testcode?: boolean
+    status?: boolean
+  }, ExtArgs["result"]["assesmentcode"]>
+
+  export type assesmentcodeSelectScalar = {
+    id?: boolean
+    code?: boolean
+    findings?: boolean
+    assesment?: boolean
+    recommendation?: boolean
+    Class?: boolean
+    testgroup?: boolean
+    testcode?: boolean
+    status?: boolean
+  }
+
+  export type assesmentcodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "findings" | "assesment" | "recommendation" | "Class" | "testgroup" | "testcode" | "status", ExtArgs["result"]["assesmentcode"]>
+
+  export type $assesmentcodePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "assesmentcode"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      code: string | null
+      findings: string | null
+      assesment: string | null
+      recommendation: string | null
+      Class: string | null
+      testgroup: string | null
+      testcode: string | null
+      status: string | null
+    }, ExtArgs["result"]["assesmentcode"]>
+    composites: {}
+  }
+
+  type assesmentcodeGetPayload<S extends boolean | null | undefined | assesmentcodeDefaultArgs> = $Result.GetResult<Prisma.$assesmentcodePayload, S>
+
+  type assesmentcodeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<assesmentcodeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AssesmentcodeCountAggregateInputType | true
+    }
+
+  export interface assesmentcodeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['assesmentcode'], meta: { name: 'assesmentcode' } }
+    /**
+     * Find zero or one Assesmentcode that matches the filter.
+     * @param {assesmentcodeFindUniqueArgs} args - Arguments to find a Assesmentcode
+     * @example
+     * // Get one Assesmentcode
+     * const assesmentcode = await prisma.assesmentcode.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends assesmentcodeFindUniqueArgs>(args: SelectSubset<T, assesmentcodeFindUniqueArgs<ExtArgs>>): Prisma__assesmentcodeClient<$Result.GetResult<Prisma.$assesmentcodePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Assesmentcode that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {assesmentcodeFindUniqueOrThrowArgs} args - Arguments to find a Assesmentcode
+     * @example
+     * // Get one Assesmentcode
+     * const assesmentcode = await prisma.assesmentcode.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends assesmentcodeFindUniqueOrThrowArgs>(args: SelectSubset<T, assesmentcodeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__assesmentcodeClient<$Result.GetResult<Prisma.$assesmentcodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Assesmentcode that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {assesmentcodeFindFirstArgs} args - Arguments to find a Assesmentcode
+     * @example
+     * // Get one Assesmentcode
+     * const assesmentcode = await prisma.assesmentcode.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends assesmentcodeFindFirstArgs>(args?: SelectSubset<T, assesmentcodeFindFirstArgs<ExtArgs>>): Prisma__assesmentcodeClient<$Result.GetResult<Prisma.$assesmentcodePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Assesmentcode that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {assesmentcodeFindFirstOrThrowArgs} args - Arguments to find a Assesmentcode
+     * @example
+     * // Get one Assesmentcode
+     * const assesmentcode = await prisma.assesmentcode.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends assesmentcodeFindFirstOrThrowArgs>(args?: SelectSubset<T, assesmentcodeFindFirstOrThrowArgs<ExtArgs>>): Prisma__assesmentcodeClient<$Result.GetResult<Prisma.$assesmentcodePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Assesmentcodes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {assesmentcodeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Assesmentcodes
+     * const assesmentcodes = await prisma.assesmentcode.findMany()
+     * 
+     * // Get first 10 Assesmentcodes
+     * const assesmentcodes = await prisma.assesmentcode.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const assesmentcodeWithIdOnly = await prisma.assesmentcode.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends assesmentcodeFindManyArgs>(args?: SelectSubset<T, assesmentcodeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$assesmentcodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Assesmentcode.
+     * @param {assesmentcodeCreateArgs} args - Arguments to create a Assesmentcode.
+     * @example
+     * // Create one Assesmentcode
+     * const Assesmentcode = await prisma.assesmentcode.create({
+     *   data: {
+     *     // ... data to create a Assesmentcode
+     *   }
+     * })
+     * 
+     */
+    create<T extends assesmentcodeCreateArgs>(args: SelectSubset<T, assesmentcodeCreateArgs<ExtArgs>>): Prisma__assesmentcodeClient<$Result.GetResult<Prisma.$assesmentcodePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Assesmentcodes.
+     * @param {assesmentcodeCreateManyArgs} args - Arguments to create many Assesmentcodes.
+     * @example
+     * // Create many Assesmentcodes
+     * const assesmentcode = await prisma.assesmentcode.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends assesmentcodeCreateManyArgs>(args?: SelectSubset<T, assesmentcodeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Assesmentcodes and returns the data saved in the database.
+     * @param {assesmentcodeCreateManyAndReturnArgs} args - Arguments to create many Assesmentcodes.
+     * @example
+     * // Create many Assesmentcodes
+     * const assesmentcode = await prisma.assesmentcode.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Assesmentcodes and only return the `id`
+     * const assesmentcodeWithIdOnly = await prisma.assesmentcode.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends assesmentcodeCreateManyAndReturnArgs>(args?: SelectSubset<T, assesmentcodeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$assesmentcodePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Assesmentcode.
+     * @param {assesmentcodeDeleteArgs} args - Arguments to delete one Assesmentcode.
+     * @example
+     * // Delete one Assesmentcode
+     * const Assesmentcode = await prisma.assesmentcode.delete({
+     *   where: {
+     *     // ... filter to delete one Assesmentcode
+     *   }
+     * })
+     * 
+     */
+    delete<T extends assesmentcodeDeleteArgs>(args: SelectSubset<T, assesmentcodeDeleteArgs<ExtArgs>>): Prisma__assesmentcodeClient<$Result.GetResult<Prisma.$assesmentcodePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Assesmentcode.
+     * @param {assesmentcodeUpdateArgs} args - Arguments to update one Assesmentcode.
+     * @example
+     * // Update one Assesmentcode
+     * const assesmentcode = await prisma.assesmentcode.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends assesmentcodeUpdateArgs>(args: SelectSubset<T, assesmentcodeUpdateArgs<ExtArgs>>): Prisma__assesmentcodeClient<$Result.GetResult<Prisma.$assesmentcodePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Assesmentcodes.
+     * @param {assesmentcodeDeleteManyArgs} args - Arguments to filter Assesmentcodes to delete.
+     * @example
+     * // Delete a few Assesmentcodes
+     * const { count } = await prisma.assesmentcode.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends assesmentcodeDeleteManyArgs>(args?: SelectSubset<T, assesmentcodeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Assesmentcodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {assesmentcodeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Assesmentcodes
+     * const assesmentcode = await prisma.assesmentcode.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends assesmentcodeUpdateManyArgs>(args: SelectSubset<T, assesmentcodeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Assesmentcodes and returns the data updated in the database.
+     * @param {assesmentcodeUpdateManyAndReturnArgs} args - Arguments to update many Assesmentcodes.
+     * @example
+     * // Update many Assesmentcodes
+     * const assesmentcode = await prisma.assesmentcode.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Assesmentcodes and only return the `id`
+     * const assesmentcodeWithIdOnly = await prisma.assesmentcode.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends assesmentcodeUpdateManyAndReturnArgs>(args: SelectSubset<T, assesmentcodeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$assesmentcodePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Assesmentcode.
+     * @param {assesmentcodeUpsertArgs} args - Arguments to update or create a Assesmentcode.
+     * @example
+     * // Update or create a Assesmentcode
+     * const assesmentcode = await prisma.assesmentcode.upsert({
+     *   create: {
+     *     // ... data to create a Assesmentcode
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Assesmentcode we want to update
+     *   }
+     * })
+     */
+    upsert<T extends assesmentcodeUpsertArgs>(args: SelectSubset<T, assesmentcodeUpsertArgs<ExtArgs>>): Prisma__assesmentcodeClient<$Result.GetResult<Prisma.$assesmentcodePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Assesmentcodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {assesmentcodeCountArgs} args - Arguments to filter Assesmentcodes to count.
+     * @example
+     * // Count the number of Assesmentcodes
+     * const count = await prisma.assesmentcode.count({
+     *   where: {
+     *     // ... the filter for the Assesmentcodes we want to count
+     *   }
+     * })
+    **/
+    count<T extends assesmentcodeCountArgs>(
+      args?: Subset<T, assesmentcodeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AssesmentcodeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Assesmentcode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AssesmentcodeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AssesmentcodeAggregateArgs>(args: Subset<T, AssesmentcodeAggregateArgs>): Prisma.PrismaPromise<GetAssesmentcodeAggregateType<T>>
+
+    /**
+     * Group by Assesmentcode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {assesmentcodeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends assesmentcodeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: assesmentcodeGroupByArgs['orderBy'] }
+        : { orderBy?: assesmentcodeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, assesmentcodeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAssesmentcodeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the assesmentcode model
+   */
+  readonly fields: assesmentcodeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for assesmentcode.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__assesmentcodeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the assesmentcode model
+   */
+  interface assesmentcodeFieldRefs {
+    readonly id: FieldRef<"assesmentcode", 'Int'>
+    readonly code: FieldRef<"assesmentcode", 'String'>
+    readonly findings: FieldRef<"assesmentcode", 'String'>
+    readonly assesment: FieldRef<"assesmentcode", 'String'>
+    readonly recommendation: FieldRef<"assesmentcode", 'String'>
+    readonly Class: FieldRef<"assesmentcode", 'String'>
+    readonly testgroup: FieldRef<"assesmentcode", 'String'>
+    readonly testcode: FieldRef<"assesmentcode", 'String'>
+    readonly status: FieldRef<"assesmentcode", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * assesmentcode findUnique
+   */
+  export type assesmentcodeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assesmentcode
+     */
+    select?: assesmentcodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assesmentcode
+     */
+    omit?: assesmentcodeOmit<ExtArgs> | null
+    /**
+     * Filter, which assesmentcode to fetch.
+     */
+    where: assesmentcodeWhereUniqueInput
+  }
+
+  /**
+   * assesmentcode findUniqueOrThrow
+   */
+  export type assesmentcodeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assesmentcode
+     */
+    select?: assesmentcodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assesmentcode
+     */
+    omit?: assesmentcodeOmit<ExtArgs> | null
+    /**
+     * Filter, which assesmentcode to fetch.
+     */
+    where: assesmentcodeWhereUniqueInput
+  }
+
+  /**
+   * assesmentcode findFirst
+   */
+  export type assesmentcodeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assesmentcode
+     */
+    select?: assesmentcodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assesmentcode
+     */
+    omit?: assesmentcodeOmit<ExtArgs> | null
+    /**
+     * Filter, which assesmentcode to fetch.
+     */
+    where?: assesmentcodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of assesmentcodes to fetch.
+     */
+    orderBy?: assesmentcodeOrderByWithRelationInput | assesmentcodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for assesmentcodes.
+     */
+    cursor?: assesmentcodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` assesmentcodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` assesmentcodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of assesmentcodes.
+     */
+    distinct?: AssesmentcodeScalarFieldEnum | AssesmentcodeScalarFieldEnum[]
+  }
+
+  /**
+   * assesmentcode findFirstOrThrow
+   */
+  export type assesmentcodeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assesmentcode
+     */
+    select?: assesmentcodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assesmentcode
+     */
+    omit?: assesmentcodeOmit<ExtArgs> | null
+    /**
+     * Filter, which assesmentcode to fetch.
+     */
+    where?: assesmentcodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of assesmentcodes to fetch.
+     */
+    orderBy?: assesmentcodeOrderByWithRelationInput | assesmentcodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for assesmentcodes.
+     */
+    cursor?: assesmentcodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` assesmentcodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` assesmentcodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of assesmentcodes.
+     */
+    distinct?: AssesmentcodeScalarFieldEnum | AssesmentcodeScalarFieldEnum[]
+  }
+
+  /**
+   * assesmentcode findMany
+   */
+  export type assesmentcodeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assesmentcode
+     */
+    select?: assesmentcodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assesmentcode
+     */
+    omit?: assesmentcodeOmit<ExtArgs> | null
+    /**
+     * Filter, which assesmentcodes to fetch.
+     */
+    where?: assesmentcodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of assesmentcodes to fetch.
+     */
+    orderBy?: assesmentcodeOrderByWithRelationInput | assesmentcodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing assesmentcodes.
+     */
+    cursor?: assesmentcodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` assesmentcodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` assesmentcodes.
+     */
+    skip?: number
+    distinct?: AssesmentcodeScalarFieldEnum | AssesmentcodeScalarFieldEnum[]
+  }
+
+  /**
+   * assesmentcode create
+   */
+  export type assesmentcodeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assesmentcode
+     */
+    select?: assesmentcodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assesmentcode
+     */
+    omit?: assesmentcodeOmit<ExtArgs> | null
+    /**
+     * The data needed to create a assesmentcode.
+     */
+    data?: XOR<assesmentcodeCreateInput, assesmentcodeUncheckedCreateInput>
+  }
+
+  /**
+   * assesmentcode createMany
+   */
+  export type assesmentcodeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many assesmentcodes.
+     */
+    data: assesmentcodeCreateManyInput | assesmentcodeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * assesmentcode createManyAndReturn
+   */
+  export type assesmentcodeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assesmentcode
+     */
+    select?: assesmentcodeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the assesmentcode
+     */
+    omit?: assesmentcodeOmit<ExtArgs> | null
+    /**
+     * The data used to create many assesmentcodes.
+     */
+    data: assesmentcodeCreateManyInput | assesmentcodeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * assesmentcode update
+   */
+  export type assesmentcodeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assesmentcode
+     */
+    select?: assesmentcodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assesmentcode
+     */
+    omit?: assesmentcodeOmit<ExtArgs> | null
+    /**
+     * The data needed to update a assesmentcode.
+     */
+    data: XOR<assesmentcodeUpdateInput, assesmentcodeUncheckedUpdateInput>
+    /**
+     * Choose, which assesmentcode to update.
+     */
+    where: assesmentcodeWhereUniqueInput
+  }
+
+  /**
+   * assesmentcode updateMany
+   */
+  export type assesmentcodeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update assesmentcodes.
+     */
+    data: XOR<assesmentcodeUpdateManyMutationInput, assesmentcodeUncheckedUpdateManyInput>
+    /**
+     * Filter which assesmentcodes to update
+     */
+    where?: assesmentcodeWhereInput
+    /**
+     * Limit how many assesmentcodes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * assesmentcode updateManyAndReturn
+   */
+  export type assesmentcodeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assesmentcode
+     */
+    select?: assesmentcodeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the assesmentcode
+     */
+    omit?: assesmentcodeOmit<ExtArgs> | null
+    /**
+     * The data used to update assesmentcodes.
+     */
+    data: XOR<assesmentcodeUpdateManyMutationInput, assesmentcodeUncheckedUpdateManyInput>
+    /**
+     * Filter which assesmentcodes to update
+     */
+    where?: assesmentcodeWhereInput
+    /**
+     * Limit how many assesmentcodes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * assesmentcode upsert
+   */
+  export type assesmentcodeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assesmentcode
+     */
+    select?: assesmentcodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assesmentcode
+     */
+    omit?: assesmentcodeOmit<ExtArgs> | null
+    /**
+     * The filter to search for the assesmentcode to update in case it exists.
+     */
+    where: assesmentcodeWhereUniqueInput
+    /**
+     * In case the assesmentcode found by the `where` argument doesn't exist, create a new assesmentcode with this data.
+     */
+    create: XOR<assesmentcodeCreateInput, assesmentcodeUncheckedCreateInput>
+    /**
+     * In case the assesmentcode was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<assesmentcodeUpdateInput, assesmentcodeUncheckedUpdateInput>
+  }
+
+  /**
+   * assesmentcode delete
+   */
+  export type assesmentcodeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assesmentcode
+     */
+    select?: assesmentcodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assesmentcode
+     */
+    omit?: assesmentcodeOmit<ExtArgs> | null
+    /**
+     * Filter which assesmentcode to delete.
+     */
+    where: assesmentcodeWhereUniqueInput
+  }
+
+  /**
+   * assesmentcode deleteMany
+   */
+  export type assesmentcodeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which assesmentcodes to delete
+     */
+    where?: assesmentcodeWhereInput
+    /**
+     * Limit how many assesmentcodes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * assesmentcode without action
+   */
+  export type assesmentcodeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the assesmentcode
+     */
+    select?: assesmentcodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the assesmentcode
+     */
+    omit?: assesmentcodeOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -55904,6 +58204,17 @@ export namespace Prisma {
   export type AccessionnoScalarFieldEnum = (typeof AccessionnoScalarFieldEnum)[keyof typeof AccessionnoScalarFieldEnum]
 
 
+  export const UpdatequeueScalarFieldEnum: {
+    Id: 'Id',
+    Module: 'Module',
+    ModuleId: 'ModuleId',
+    QueueCode: 'QueueCode',
+    Status: 'Status'
+  };
+
+  export type UpdatequeueScalarFieldEnum = (typeof UpdatequeueScalarFieldEnum)[keyof typeof UpdatequeueScalarFieldEnum]
+
+
   export const PaymenthistoryScalarFieldEnum: {
     Id: 'Id',
     IdQueue: 'IdQueue',
@@ -56217,6 +58528,21 @@ export namespace Prisma {
   };
 
   export type SendoutScalarFieldEnum = (typeof SendoutScalarFieldEnum)[keyof typeof SendoutScalarFieldEnum]
+
+
+  export const AssesmentcodeScalarFieldEnum: {
+    id: 'id',
+    code: 'code',
+    findings: 'findings',
+    assesment: 'assesment',
+    recommendation: 'recommendation',
+    Class: 'Class',
+    testgroup: 'testgroup',
+    testcode: 'testcode',
+    status: 'status'
+  };
+
+  export type AssesmentcodeScalarFieldEnum = (typeof AssesmentcodeScalarFieldEnum)[keyof typeof AssesmentcodeScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -60270,6 +62596,60 @@ export namespace Prisma {
     RISSeverity?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
   }
 
+  export type updatequeueWhereInput = {
+    AND?: updatequeueWhereInput | updatequeueWhereInput[]
+    OR?: updatequeueWhereInput[]
+    NOT?: updatequeueWhereInput | updatequeueWhereInput[]
+    Id?: BigIntFilter<"updatequeue"> | bigint | number
+    Module?: StringNullableFilter<"updatequeue"> | string | null
+    ModuleId?: BigIntFilter<"updatequeue"> | bigint | number
+    QueueCode?: StringNullableFilter<"updatequeue"> | string | null
+    Status?: IntFilter<"updatequeue"> | number
+  }
+
+  export type updatequeueOrderByWithRelationInput = {
+    Id?: SortOrder
+    Module?: SortOrderInput | SortOrder
+    ModuleId?: SortOrder
+    QueueCode?: SortOrderInput | SortOrder
+    Status?: SortOrder
+  }
+
+  export type updatequeueWhereUniqueInput = Prisma.AtLeast<{
+    Id?: bigint | number
+    AND?: updatequeueWhereInput | updatequeueWhereInput[]
+    OR?: updatequeueWhereInput[]
+    NOT?: updatequeueWhereInput | updatequeueWhereInput[]
+    Module?: StringNullableFilter<"updatequeue"> | string | null
+    ModuleId?: BigIntFilter<"updatequeue"> | bigint | number
+    QueueCode?: StringNullableFilter<"updatequeue"> | string | null
+    Status?: IntFilter<"updatequeue"> | number
+  }, "Id">
+
+  export type updatequeueOrderByWithAggregationInput = {
+    Id?: SortOrder
+    Module?: SortOrderInput | SortOrder
+    ModuleId?: SortOrder
+    QueueCode?: SortOrderInput | SortOrder
+    Status?: SortOrder
+    _count?: updatequeueCountOrderByAggregateInput
+    _avg?: updatequeueAvgOrderByAggregateInput
+    _max?: updatequeueMaxOrderByAggregateInput
+    _min?: updatequeueMinOrderByAggregateInput
+    _sum?: updatequeueSumOrderByAggregateInput
+  }
+
+  export type updatequeueScalarWhereWithAggregatesInput = {
+    AND?: updatequeueScalarWhereWithAggregatesInput | updatequeueScalarWhereWithAggregatesInput[]
+    OR?: updatequeueScalarWhereWithAggregatesInput[]
+    NOT?: updatequeueScalarWhereWithAggregatesInput | updatequeueScalarWhereWithAggregatesInput[]
+    Id?: BigIntWithAggregatesFilter<"updatequeue"> | bigint | number
+    Module?: StringNullableWithAggregatesFilter<"updatequeue"> | string | null
+    ModuleId?: BigIntWithAggregatesFilter<"updatequeue"> | bigint | number
+    QueueCode?: StringNullableWithAggregatesFilter<"updatequeue"> | string | null
+    Status?: IntWithAggregatesFilter<"updatequeue"> | number
+  }
+
   export type paymenthistoryWhereInput = {
     AND?: paymenthistoryWhereInput | paymenthistoryWhereInput[]
     OR?: paymenthistoryWhereInput[]
@@ -61836,6 +64216,80 @@ export namespace Prisma {
     DateCompleted?: DateTimeNullableWithAggregatesFilter<"sendout"> | Date | string | null
     UpdateBy?: StringNullableWithAggregatesFilter<"sendout"> | string | null
     UpdateDate?: DateTimeNullableWithAggregatesFilter<"sendout"> | Date | string | null
+  }
+
+  export type assesmentcodeWhereInput = {
+    AND?: assesmentcodeWhereInput | assesmentcodeWhereInput[]
+    OR?: assesmentcodeWhereInput[]
+    NOT?: assesmentcodeWhereInput | assesmentcodeWhereInput[]
+    id?: IntFilter<"assesmentcode"> | number
+    code?: StringNullableFilter<"assesmentcode"> | string | null
+    findings?: StringNullableFilter<"assesmentcode"> | string | null
+    assesment?: StringNullableFilter<"assesmentcode"> | string | null
+    recommendation?: StringNullableFilter<"assesmentcode"> | string | null
+    Class?: StringNullableFilter<"assesmentcode"> | string | null
+    testgroup?: StringNullableFilter<"assesmentcode"> | string | null
+    testcode?: StringNullableFilter<"assesmentcode"> | string | null
+    status?: StringNullableFilter<"assesmentcode"> | string | null
+  }
+
+  export type assesmentcodeOrderByWithRelationInput = {
+    id?: SortOrder
+    code?: SortOrderInput | SortOrder
+    findings?: SortOrderInput | SortOrder
+    assesment?: SortOrderInput | SortOrder
+    recommendation?: SortOrderInput | SortOrder
+    Class?: SortOrderInput | SortOrder
+    testgroup?: SortOrderInput | SortOrder
+    testcode?: SortOrderInput | SortOrder
+    status?: SortOrderInput | SortOrder
+  }
+
+  export type assesmentcodeWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: assesmentcodeWhereInput | assesmentcodeWhereInput[]
+    OR?: assesmentcodeWhereInput[]
+    NOT?: assesmentcodeWhereInput | assesmentcodeWhereInput[]
+    code?: StringNullableFilter<"assesmentcode"> | string | null
+    findings?: StringNullableFilter<"assesmentcode"> | string | null
+    assesment?: StringNullableFilter<"assesmentcode"> | string | null
+    recommendation?: StringNullableFilter<"assesmentcode"> | string | null
+    Class?: StringNullableFilter<"assesmentcode"> | string | null
+    testgroup?: StringNullableFilter<"assesmentcode"> | string | null
+    testcode?: StringNullableFilter<"assesmentcode"> | string | null
+    status?: StringNullableFilter<"assesmentcode"> | string | null
+  }, "id">
+
+  export type assesmentcodeOrderByWithAggregationInput = {
+    id?: SortOrder
+    code?: SortOrderInput | SortOrder
+    findings?: SortOrderInput | SortOrder
+    assesment?: SortOrderInput | SortOrder
+    recommendation?: SortOrderInput | SortOrder
+    Class?: SortOrderInput | SortOrder
+    testgroup?: SortOrderInput | SortOrder
+    testcode?: SortOrderInput | SortOrder
+    status?: SortOrderInput | SortOrder
+    _count?: assesmentcodeCountOrderByAggregateInput
+    _avg?: assesmentcodeAvgOrderByAggregateInput
+    _max?: assesmentcodeMaxOrderByAggregateInput
+    _min?: assesmentcodeMinOrderByAggregateInput
+    _sum?: assesmentcodeSumOrderByAggregateInput
+  }
+
+  export type assesmentcodeScalarWhereWithAggregatesInput = {
+    AND?: assesmentcodeScalarWhereWithAggregatesInput | assesmentcodeScalarWhereWithAggregatesInput[]
+    OR?: assesmentcodeScalarWhereWithAggregatesInput[]
+    NOT?: assesmentcodeScalarWhereWithAggregatesInput | assesmentcodeScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"assesmentcode"> | number
+    code?: StringNullableWithAggregatesFilter<"assesmentcode"> | string | null
+    findings?: StringNullableWithAggregatesFilter<"assesmentcode"> | string | null
+    assesment?: StringNullableWithAggregatesFilter<"assesmentcode"> | string | null
+    recommendation?: StringNullableWithAggregatesFilter<"assesmentcode"> | string | null
+    Class?: StringNullableWithAggregatesFilter<"assesmentcode"> | string | null
+    testgroup?: StringNullableWithAggregatesFilter<"assesmentcode"> | string | null
+    testcode?: StringNullableWithAggregatesFilter<"assesmentcode"> | string | null
+    status?: StringNullableWithAggregatesFilter<"assesmentcode"> | string | null
   }
 
   export type UserCreateInput = {
@@ -66826,6 +69280,62 @@ export namespace Prisma {
     RISSeverity?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type updatequeueCreateInput = {
+    Id?: bigint | number
+    Module?: string | null
+    ModuleId: bigint | number
+    QueueCode?: string | null
+    Status: number
+  }
+
+  export type updatequeueUncheckedCreateInput = {
+    Id?: bigint | number
+    Module?: string | null
+    ModuleId: bigint | number
+    QueueCode?: string | null
+    Status: number
+  }
+
+  export type updatequeueUpdateInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    Module?: NullableStringFieldUpdateOperationsInput | string | null
+    ModuleId?: BigIntFieldUpdateOperationsInput | bigint | number
+    QueueCode?: NullableStringFieldUpdateOperationsInput | string | null
+    Status?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type updatequeueUncheckedUpdateInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    Module?: NullableStringFieldUpdateOperationsInput | string | null
+    ModuleId?: BigIntFieldUpdateOperationsInput | bigint | number
+    QueueCode?: NullableStringFieldUpdateOperationsInput | string | null
+    Status?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type updatequeueCreateManyInput = {
+    Id?: bigint | number
+    Module?: string | null
+    ModuleId: bigint | number
+    QueueCode?: string | null
+    Status: number
+  }
+
+  export type updatequeueUpdateManyMutationInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    Module?: NullableStringFieldUpdateOperationsInput | string | null
+    ModuleId?: BigIntFieldUpdateOperationsInput | bigint | number
+    QueueCode?: NullableStringFieldUpdateOperationsInput | string | null
+    Status?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type updatequeueUncheckedUpdateManyInput = {
+    Id?: BigIntFieldUpdateOperationsInput | bigint | number
+    Module?: NullableStringFieldUpdateOperationsInput | string | null
+    ModuleId?: BigIntFieldUpdateOperationsInput | bigint | number
+    QueueCode?: NullableStringFieldUpdateOperationsInput | string | null
+    Status?: IntFieldUpdateOperationsInput | number
+  }
+
   export type paymenthistoryCreateInput = {
     Id?: bigint | number
     IdQueue: bigint | number
@@ -68711,6 +71221,87 @@ export namespace Prisma {
     DateCompleted?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     UpdateBy?: NullableStringFieldUpdateOperationsInput | string | null
     UpdateDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type assesmentcodeCreateInput = {
+    code?: string | null
+    findings?: string | null
+    assesment?: string | null
+    recommendation?: string | null
+    Class?: string | null
+    testgroup?: string | null
+    testcode?: string | null
+    status?: string | null
+  }
+
+  export type assesmentcodeUncheckedCreateInput = {
+    id?: number
+    code?: string | null
+    findings?: string | null
+    assesment?: string | null
+    recommendation?: string | null
+    Class?: string | null
+    testgroup?: string | null
+    testcode?: string | null
+    status?: string | null
+  }
+
+  export type assesmentcodeUpdateInput = {
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    findings?: NullableStringFieldUpdateOperationsInput | string | null
+    assesment?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: NullableStringFieldUpdateOperationsInput | string | null
+    Class?: NullableStringFieldUpdateOperationsInput | string | null
+    testgroup?: NullableStringFieldUpdateOperationsInput | string | null
+    testcode?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type assesmentcodeUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    findings?: NullableStringFieldUpdateOperationsInput | string | null
+    assesment?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: NullableStringFieldUpdateOperationsInput | string | null
+    Class?: NullableStringFieldUpdateOperationsInput | string | null
+    testgroup?: NullableStringFieldUpdateOperationsInput | string | null
+    testcode?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type assesmentcodeCreateManyInput = {
+    id?: number
+    code?: string | null
+    findings?: string | null
+    assesment?: string | null
+    recommendation?: string | null
+    Class?: string | null
+    testgroup?: string | null
+    testcode?: string | null
+    status?: string | null
+  }
+
+  export type assesmentcodeUpdateManyMutationInput = {
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    findings?: NullableStringFieldUpdateOperationsInput | string | null
+    assesment?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: NullableStringFieldUpdateOperationsInput | string | null
+    Class?: NullableStringFieldUpdateOperationsInput | string | null
+    testgroup?: NullableStringFieldUpdateOperationsInput | string | null
+    testcode?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type assesmentcodeUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    code?: NullableStringFieldUpdateOperationsInput | string | null
+    findings?: NullableStringFieldUpdateOperationsInput | string | null
+    assesment?: NullableStringFieldUpdateOperationsInput | string | null
+    recommendation?: NullableStringFieldUpdateOperationsInput | string | null
+    Class?: NullableStringFieldUpdateOperationsInput | string | null
+    testgroup?: NullableStringFieldUpdateOperationsInput | string | null
+    testcode?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -71632,6 +74223,42 @@ export namespace Prisma {
     Status?: SortOrder
   }
 
+  export type updatequeueCountOrderByAggregateInput = {
+    Id?: SortOrder
+    Module?: SortOrder
+    ModuleId?: SortOrder
+    QueueCode?: SortOrder
+    Status?: SortOrder
+  }
+
+  export type updatequeueAvgOrderByAggregateInput = {
+    Id?: SortOrder
+    ModuleId?: SortOrder
+    Status?: SortOrder
+  }
+
+  export type updatequeueMaxOrderByAggregateInput = {
+    Id?: SortOrder
+    Module?: SortOrder
+    ModuleId?: SortOrder
+    QueueCode?: SortOrder
+    Status?: SortOrder
+  }
+
+  export type updatequeueMinOrderByAggregateInput = {
+    Id?: SortOrder
+    Module?: SortOrder
+    ModuleId?: SortOrder
+    QueueCode?: SortOrder
+    Status?: SortOrder
+  }
+
+  export type updatequeueSumOrderByAggregateInput = {
+    Id?: SortOrder
+    ModuleId?: SortOrder
+    Status?: SortOrder
+  }
+
   export type FloatNullableFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel> | null
     in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
@@ -72710,6 +75337,50 @@ export namespace Prisma {
     Id?: SortOrder
     IdQueue?: SortOrder
     Status?: SortOrder
+  }
+
+  export type assesmentcodeCountOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    findings?: SortOrder
+    assesment?: SortOrder
+    recommendation?: SortOrder
+    Class?: SortOrder
+    testgroup?: SortOrder
+    testcode?: SortOrder
+    status?: SortOrder
+  }
+
+  export type assesmentcodeAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type assesmentcodeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    findings?: SortOrder
+    assesment?: SortOrder
+    recommendation?: SortOrder
+    Class?: SortOrder
+    testgroup?: SortOrder
+    testcode?: SortOrder
+    status?: SortOrder
+  }
+
+  export type assesmentcodeMinOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    findings?: SortOrder
+    assesment?: SortOrder
+    recommendation?: SortOrder
+    Class?: SortOrder
+    testgroup?: SortOrder
+    testcode?: SortOrder
+    status?: SortOrder
+  }
+
+  export type assesmentcodeSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type NullableStringFieldUpdateOperationsInput = {

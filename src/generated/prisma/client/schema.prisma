@@ -727,15 +727,12 @@ model accessionno {
   @@map("accessionno")
 }
 
-/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
 model updatequeue {
-  Id        BigInt  @default(autoincrement())
+  Id        BigInt  @id @default(autoincrement()) @map("Id")
   Module    String? @db.VarChar(50)
   ModuleId  BigInt
   QueueCode String? @db.VarChar(30)
   Status    Int     @db.SmallInt
-
-  @@ignore
 }
 
 /// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
@@ -1254,4 +1251,16 @@ model sendout {
   @@index([IdBUTo, Status])
   @@index([IdQueue])
   @@map("sendout")
+}
+
+model assesmentcode {
+  id             Int     @id @default(autoincrement())
+  code           String? @db.VarChar(30)
+  findings       String? @db.VarChar(1000)
+  assesment      String? @db.VarChar(3000)
+  recommendation String? @db.VarChar(3000)
+  Class          String? @map("Class") @db.VarChar(10)
+  testgroup      String? @db.VarChar(150)
+  testcode       String? @db.VarChar(25)
+  status         String? @db.VarChar(15)
 }

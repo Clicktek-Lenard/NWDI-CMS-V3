@@ -27,12 +27,11 @@ export async function POST(request: NextRequest, { params }: Params) {
 
     await prisma.consultationNote.upsert({
       where: { queue_id: qid },
-      update: { status: "COMPLETED", completed_at: new Date() },
+      update: { status: "COMPLETED" },
       create: {
         queue_id: qid,
         patient_id: String(queue.IdPatient),
         status: "COMPLETED",
-        completed_at: new Date(),
       },
     });
 

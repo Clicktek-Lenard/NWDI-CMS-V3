@@ -2,6 +2,7 @@
 
 import { MapPin } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { SessionTimeoutModal } from "@/components/ui/session-timeout-modal";
 
 interface HeaderProps {
   userName?: string;
@@ -19,6 +20,8 @@ export function Header({ userName = "User", clinicName = "—" }: HeaderProps) {
   const initials = getInitials(userName);
 
   return (
+    <>
+    <SessionTimeoutModal />
     <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-6 shadow-sm dark:border-slate-700 dark:bg-slate-900">
       <div>
         <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">
@@ -44,5 +47,6 @@ export function Header({ userName = "User", clinicName = "—" }: HeaderProps) {
         </div>
       </div>
     </header>
+    </>
   );
 }
