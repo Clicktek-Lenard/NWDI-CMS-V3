@@ -71,6 +71,7 @@ export async function POST(request: NextRequest) {
   try {
     const item = await prisma.itemmaster.create({
       data: {
+        Id:              BigInt(Date.now()),
         Code:            d.Code,
         Description:     d.Description,
         ShortName:       d.ShortName       ?? null,

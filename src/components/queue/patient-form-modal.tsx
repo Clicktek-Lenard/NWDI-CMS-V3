@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { apiFetch } from "@/lib/api";
 
-interface PatientResult {
+export interface PatientResult {
   id: number;
   code: string | null;
   fullName: string | null;

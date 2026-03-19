@@ -833,6 +833,32 @@ exports.Prisma.AccessionnoScalarFieldEnum = {
   RISSeverity: 'RISSeverity'
 };
 
+exports.Prisma.KioskQueueScalarFieldEnum = {
+  id: 'id',
+  queue_id: 'queue_id',
+  station: 'station',
+  idbu: 'idbu',
+  room: 'room',
+  status: 'status',
+  call_count: 'call_count',
+  input_by: 'input_by',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.KioskCounterScalarFieldEnum = {
+  id: 'id',
+  station_number: 'station_number',
+  ipv4: 'ipv4',
+  department: 'department',
+  location: 'location',
+  idbu: 'idbu',
+  input_by: 'input_by',
+  input_date: 'input_date',
+  update_by: 'update_by',
+  update_date: 'update_date'
+};
+
 exports.Prisma.UpdatequeueScalarFieldEnum = {
   Id: 'Id',
   Module: 'Module',
@@ -1169,6 +1195,8 @@ exports.Prisma.ModelName = {
   transactiontype: 'transactiontype',
   role: 'role',
   accessionno: 'accessionno',
+  kioskQueue: 'kioskQueue',
+  kioskCounter: 'kioskCounter',
   updatequeue: 'updatequeue',
   paymenthistory: 'paymenthistory',
   cardEnrollment: 'cardEnrollment',

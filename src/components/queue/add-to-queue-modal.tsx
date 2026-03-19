@@ -1,19 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { PatientFormModal } from "./patient-form-modal";
-
-// ── Types ─────────────────────────────────────────────────────
-interface PatientResult {
-  id: number;
-  code: string;
-  fullName: string;
-  lastName: string;
-  firstName: string;
-  middleName: string;
-  gender: string;
-  dob: string | null;
-}
+import { PatientFormModal, PatientResult } from "./patient-form-modal";
 
 interface AddToQueueModalProps {
   open: boolean;
@@ -110,7 +98,7 @@ export function AddToQueueModal({ open, onClose, onSuccess }: AddToQueueModalPro
 
   function selectPatient(p: PatientResult) {
     setSelectedPatient(p);
-    setSearchTerm(p.fullName);
+    setSearchTerm(p.fullName ?? "");
     setShowDropdown(false);
     setSearchResults([]);
   }

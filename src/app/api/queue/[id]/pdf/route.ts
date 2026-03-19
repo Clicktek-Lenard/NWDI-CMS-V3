@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireApiAuth } from "@/lib/auth/rbac";
 import prisma from "@/lib/db/prisma";
 import React from "react";
-import { renderToBuffer } from "@react-pdf/renderer";
+import { renderToBuffer, DocumentProps } from "@react-pdf/renderer";
 
 import { ChargeSlipDocument }  from "@/lib/pdf/charge-slip";
 import { OfficialReceiptDocument } from "@/lib/pdf/official-receipt";
@@ -57,7 +57,7 @@ export async function GET(
     return NextResponse.json({ error: "Queue not found" }, { status: 404 });
   }
 
-  const statusMap = new Map(statuses.map((s) => [s.Id, s.Name]));
+  void statuses; // reserved for future use
   const clinicCode = queue.IdBU ?? "CEN";
   const clinic = getClinic(clinicCode);
   const now = new Date().toLocaleString("en-PH", { timeZone: "Asia/Manila" });
@@ -68,9 +68,9 @@ export async function GET(
     date:        queue.Date.toISOString().slice(0, 10),
     accessionNo: queue.Code ?? "",
     patientName: queue.QFullName ?? "",
-    dob:         queue.DateOfBirth?.toISOString().slice(0, 10) ?? null,
-    gender:      queue.Gender ?? "",
-    age:         queue.Age ? Number(queue.Age) : null,
+    dob:         queue.QDOB?.toISOString().slice(0, 10) ?? null,
+    gender:      queue.QGender ?? "",
+    age:         queue.AgePatient ? Number(queue.AgePatient) : null,
     patientType: queue.PatientType ?? "",
     inputBy:     queue.InputBy ?? "",
   };
@@ -328,7 +328,7 @@ export async function GET(
     // Build accession map for accessionNo lookup
     const accessions = await prisma.accessionno.findMany({
       where: { IdQueue: queueId },
-      select: { Id: true, AccessionNo: true, CodeItemPrice: true, DescriptionItemPrice: true },
+      select: { Id: true, AccessionNo: true, ItemCode: true, ItemDescription: true },
     });
     const accMap = new Map(accessions.map((a) => [a.Id, a]));
 
@@ -341,8 +341,8 @@ export async function GET(
           const acc = accMap.get(ir.accession_id);
           return {
             accessionNo:     acc?.AccessionNo ?? "",
-            itemCode:        ir.item_code ?? acc?.CodeItemPrice ?? "",
-            itemDescription: ir.item_description ?? acc?.DescriptionItemPrice ?? "",
+            itemCode:        ir.item_code ?? acc?.ItemCode ?? "",
+            itemDescription: ir.item_description ?? acc?.ItemDescription ?? "",
             interpretation:  ir.interpretation ?? "",
             impression:      ir.impression ?? "",
             radiologistName: ir.radiologist_name ?? "",
@@ -362,7 +362,7 @@ export async function GET(
   // ── Render to PDF buffer ────────────────────────────────────
   let buffer: Buffer;
   try {
-    buffer = await renderToBuffer(docElement);
+    buffer = await renderToBuffer(docElement as React.ReactElement<DocumentProps>);
   } catch (err) {
     console.error("[PDF render error]", err);
     return NextResponse.json(
@@ -371,7 +371,7 @@ export async function GET(
     );
   }
 
-  return new NextResponse(buffer, {
+  return new NextResponse(new Uint8Array(buffer), {
     status: 200,
     headers: {
       "Content-Type":        "application/pdf",

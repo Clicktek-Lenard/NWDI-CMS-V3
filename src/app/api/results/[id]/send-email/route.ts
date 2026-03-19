@@ -4,7 +4,7 @@ import prisma from "@/lib/db/prisma";
 import { z } from "zod";
 import nodemailer from "nodemailer";
 import React from "react";
-import { renderToBuffer } from "@react-pdf/renderer";
+import { renderToBuffer, DocumentProps } from "@react-pdf/renderer";
 import { LabResultDocument } from "@/lib/pdf/lab-result";
 
 const bodySchema = z.object({
@@ -71,9 +71,9 @@ export async function POST(
     date:        queue.Date.toISOString().slice(0, 10),
     accessionNo: queue.Code ?? "",
     patientName: queue.QFullName ?? "",
-    dob:         queue.DateOfBirth?.toISOString().slice(0, 10) ?? null,
-    gender:      queue.Gender ?? "",
-    age:         queue.Age ? Number(queue.Age) : null,
+    dob:         queue.QDOB?.toISOString().slice(0, 10) ?? null,
+    gender:      queue.QGender ?? "",
+    age:         queue.AgePatient ? Number(queue.AgePatient) : null,
     patientType: queue.PatientType ?? "",
     inputBy:     queue.InputBy ?? "",
   };
@@ -103,7 +103,7 @@ export async function POST(
       generatedAt: now,
     },
   });
-  const pdfBuffer = await renderToBuffer(docElement);
+  const pdfBuffer = await renderToBuffer(docElement as React.ReactElement<DocumentProps>);
 
   // ── Send via SMTP ─────────────────────────────────────────────
   const smtpHost = process.env.SMTP_HOST;

@@ -144,6 +144,16 @@ export type role = $Result.DefaultSelection<Prisma.$rolePayload>
  */
 export type accessionno = $Result.DefaultSelection<Prisma.$accessionnoPayload>
 /**
+ * Model kioskQueue
+ * 
+ */
+export type kioskQueue = $Result.DefaultSelection<Prisma.$kioskQueuePayload>
+/**
+ * Model kioskCounter
+ * 
+ */
+export type kioskCounter = $Result.DefaultSelection<Prisma.$kioskCounterPayload>
+/**
  * Model updatequeue
  * 
  */
@@ -600,6 +610,26 @@ export class PrismaClient<
     * ```
     */
   get accessionno(): Prisma.accessionnoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.kioskQueue`: Exposes CRUD operations for the **kioskQueue** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more KioskQueues
+    * const kioskQueues = await prisma.kioskQueue.findMany()
+    * ```
+    */
+  get kioskQueue(): Prisma.kioskQueueDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.kioskCounter`: Exposes CRUD operations for the **kioskCounter** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more KioskCounters
+    * const kioskCounters = await prisma.kioskCounter.findMany()
+    * ```
+    */
+  get kioskCounter(): Prisma.kioskCounterDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.updatequeue`: Exposes CRUD operations for the **updatequeue** model.
@@ -1220,6 +1250,8 @@ export namespace Prisma {
     transactiontype: 'transactiontype',
     role: 'role',
     accessionno: 'accessionno',
+    kioskQueue: 'kioskQueue',
+    kioskCounter: 'kioskCounter',
     updatequeue: 'updatequeue',
     paymenthistory: 'paymenthistory',
     cardEnrollment: 'cardEnrollment',
@@ -1251,7 +1283,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "users_from_cdb" | "cache" | "cache_locks" | "sessions" | "password_reset_tokens" | "failed_jobs" | "job_batches" | "jobs" | "migrations" | "settings" | "businessunits" | "company" | "department" | "patient" | "physician" | "queue" | "queuestatus" | "transactions" | "vitals" | "itemmaster" | "itemprice" | "msg_queue" | "transactiontype" | "role" | "accessionno" | "updatequeue" | "paymenthistory" | "cardEnrollment" | "vitalSign" | "consultationNote" | "physicalExamination" | "medicalEvaluation" | "prescription" | "prescriptionItem" | "resultValue" | "imagingResult" | "cardNumber" | "cardVerified" | "appointment" | "sendout" | "assesmentcode"
+      modelProps: "user" | "users_from_cdb" | "cache" | "cache_locks" | "sessions" | "password_reset_tokens" | "failed_jobs" | "job_batches" | "jobs" | "migrations" | "settings" | "businessunits" | "company" | "department" | "patient" | "physician" | "queue" | "queuestatus" | "transactions" | "vitals" | "itemmaster" | "itemprice" | "msg_queue" | "transactiontype" | "role" | "accessionno" | "kioskQueue" | "kioskCounter" | "updatequeue" | "paymenthistory" | "cardEnrollment" | "vitalSign" | "consultationNote" | "physicalExamination" | "medicalEvaluation" | "prescription" | "prescriptionItem" | "resultValue" | "imagingResult" | "cardNumber" | "cardVerified" | "appointment" | "sendout" | "assesmentcode"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3179,6 +3211,154 @@ export namespace Prisma {
           }
         }
       }
+      kioskQueue: {
+        payload: Prisma.$kioskQueuePayload<ExtArgs>
+        fields: Prisma.kioskQueueFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.kioskQueueFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskQueuePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.kioskQueueFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskQueuePayload>
+          }
+          findFirst: {
+            args: Prisma.kioskQueueFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskQueuePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.kioskQueueFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskQueuePayload>
+          }
+          findMany: {
+            args: Prisma.kioskQueueFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskQueuePayload>[]
+          }
+          create: {
+            args: Prisma.kioskQueueCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskQueuePayload>
+          }
+          createMany: {
+            args: Prisma.kioskQueueCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.kioskQueueCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskQueuePayload>[]
+          }
+          delete: {
+            args: Prisma.kioskQueueDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskQueuePayload>
+          }
+          update: {
+            args: Prisma.kioskQueueUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskQueuePayload>
+          }
+          deleteMany: {
+            args: Prisma.kioskQueueDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.kioskQueueUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.kioskQueueUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskQueuePayload>[]
+          }
+          upsert: {
+            args: Prisma.kioskQueueUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskQueuePayload>
+          }
+          aggregate: {
+            args: Prisma.KioskQueueAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateKioskQueue>
+          }
+          groupBy: {
+            args: Prisma.kioskQueueGroupByArgs<ExtArgs>
+            result: $Utils.Optional<KioskQueueGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.kioskQueueCountArgs<ExtArgs>
+            result: $Utils.Optional<KioskQueueCountAggregateOutputType> | number
+          }
+        }
+      }
+      kioskCounter: {
+        payload: Prisma.$kioskCounterPayload<ExtArgs>
+        fields: Prisma.kioskCounterFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.kioskCounterFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskCounterPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.kioskCounterFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskCounterPayload>
+          }
+          findFirst: {
+            args: Prisma.kioskCounterFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskCounterPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.kioskCounterFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskCounterPayload>
+          }
+          findMany: {
+            args: Prisma.kioskCounterFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskCounterPayload>[]
+          }
+          create: {
+            args: Prisma.kioskCounterCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskCounterPayload>
+          }
+          createMany: {
+            args: Prisma.kioskCounterCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.kioskCounterCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskCounterPayload>[]
+          }
+          delete: {
+            args: Prisma.kioskCounterDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskCounterPayload>
+          }
+          update: {
+            args: Prisma.kioskCounterUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskCounterPayload>
+          }
+          deleteMany: {
+            args: Prisma.kioskCounterDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.kioskCounterUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.kioskCounterUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskCounterPayload>[]
+          }
+          upsert: {
+            args: Prisma.kioskCounterUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$kioskCounterPayload>
+          }
+          aggregate: {
+            args: Prisma.KioskCounterAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateKioskCounter>
+          }
+          groupBy: {
+            args: Prisma.kioskCounterGroupByArgs<ExtArgs>
+            result: $Utils.Optional<KioskCounterGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.kioskCounterCountArgs<ExtArgs>
+            result: $Utils.Optional<KioskCounterCountAggregateOutputType> | number
+          }
+        }
+      }
       updatequeue: {
         payload: Prisma.$updatequeuePayload<ExtArgs>
         fields: Prisma.updatequeueFieldRefs
@@ -4497,6 +4677,8 @@ export namespace Prisma {
     transactiontype?: transactiontypeOmit
     role?: roleOmit
     accessionno?: accessionnoOmit
+    kioskQueue?: kioskQueueOmit
+    kioskCounter?: kioskCounterOmit
     updatequeue?: updatequeueOmit
     paymenthistory?: paymenthistoryOmit
     cardEnrollment?: cardEnrollmentOmit
@@ -38441,6 +38623,2202 @@ export namespace Prisma {
 
 
   /**
+   * Model kioskQueue
+   */
+
+  export type AggregateKioskQueue = {
+    _count: KioskQueueCountAggregateOutputType | null
+    _avg: KioskQueueAvgAggregateOutputType | null
+    _sum: KioskQueueSumAggregateOutputType | null
+    _min: KioskQueueMinAggregateOutputType | null
+    _max: KioskQueueMaxAggregateOutputType | null
+  }
+
+  export type KioskQueueAvgAggregateOutputType = {
+    id: number | null
+    queue_id: number | null
+    call_count: number | null
+  }
+
+  export type KioskQueueSumAggregateOutputType = {
+    id: number | null
+    queue_id: bigint | null
+    call_count: number | null
+  }
+
+  export type KioskQueueMinAggregateOutputType = {
+    id: number | null
+    queue_id: bigint | null
+    station: string | null
+    idbu: string | null
+    room: string | null
+    status: string | null
+    call_count: number | null
+    input_by: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type KioskQueueMaxAggregateOutputType = {
+    id: number | null
+    queue_id: bigint | null
+    station: string | null
+    idbu: string | null
+    room: string | null
+    status: string | null
+    call_count: number | null
+    input_by: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type KioskQueueCountAggregateOutputType = {
+    id: number
+    queue_id: number
+    station: number
+    idbu: number
+    room: number
+    status: number
+    call_count: number
+    input_by: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type KioskQueueAvgAggregateInputType = {
+    id?: true
+    queue_id?: true
+    call_count?: true
+  }
+
+  export type KioskQueueSumAggregateInputType = {
+    id?: true
+    queue_id?: true
+    call_count?: true
+  }
+
+  export type KioskQueueMinAggregateInputType = {
+    id?: true
+    queue_id?: true
+    station?: true
+    idbu?: true
+    room?: true
+    status?: true
+    call_count?: true
+    input_by?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type KioskQueueMaxAggregateInputType = {
+    id?: true
+    queue_id?: true
+    station?: true
+    idbu?: true
+    room?: true
+    status?: true
+    call_count?: true
+    input_by?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type KioskQueueCountAggregateInputType = {
+    id?: true
+    queue_id?: true
+    station?: true
+    idbu?: true
+    room?: true
+    status?: true
+    call_count?: true
+    input_by?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type KioskQueueAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which kioskQueue to aggregate.
+     */
+    where?: kioskQueueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of kioskQueues to fetch.
+     */
+    orderBy?: kioskQueueOrderByWithRelationInput | kioskQueueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: kioskQueueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` kioskQueues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` kioskQueues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned kioskQueues
+    **/
+    _count?: true | KioskQueueCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: KioskQueueAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: KioskQueueSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: KioskQueueMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: KioskQueueMaxAggregateInputType
+  }
+
+  export type GetKioskQueueAggregateType<T extends KioskQueueAggregateArgs> = {
+        [P in keyof T & keyof AggregateKioskQueue]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateKioskQueue[P]>
+      : GetScalarType<T[P], AggregateKioskQueue[P]>
+  }
+
+
+
+
+  export type kioskQueueGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: kioskQueueWhereInput
+    orderBy?: kioskQueueOrderByWithAggregationInput | kioskQueueOrderByWithAggregationInput[]
+    by: KioskQueueScalarFieldEnum[] | KioskQueueScalarFieldEnum
+    having?: kioskQueueScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: KioskQueueCountAggregateInputType | true
+    _avg?: KioskQueueAvgAggregateInputType
+    _sum?: KioskQueueSumAggregateInputType
+    _min?: KioskQueueMinAggregateInputType
+    _max?: KioskQueueMaxAggregateInputType
+  }
+
+  export type KioskQueueGroupByOutputType = {
+    id: number
+    queue_id: bigint
+    station: string
+    idbu: string | null
+    room: string | null
+    status: string
+    call_count: number
+    input_by: string | null
+    created_at: Date
+    updated_at: Date
+    _count: KioskQueueCountAggregateOutputType | null
+    _avg: KioskQueueAvgAggregateOutputType | null
+    _sum: KioskQueueSumAggregateOutputType | null
+    _min: KioskQueueMinAggregateOutputType | null
+    _max: KioskQueueMaxAggregateOutputType | null
+  }
+
+  type GetKioskQueueGroupByPayload<T extends kioskQueueGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<KioskQueueGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof KioskQueueGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], KioskQueueGroupByOutputType[P]>
+            : GetScalarType<T[P], KioskQueueGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type kioskQueueSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    station?: boolean
+    idbu?: boolean
+    room?: boolean
+    status?: boolean
+    call_count?: boolean
+    input_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["kioskQueue"]>
+
+  export type kioskQueueSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    station?: boolean
+    idbu?: boolean
+    room?: boolean
+    status?: boolean
+    call_count?: boolean
+    input_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["kioskQueue"]>
+
+  export type kioskQueueSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    queue_id?: boolean
+    station?: boolean
+    idbu?: boolean
+    room?: boolean
+    status?: boolean
+    call_count?: boolean
+    input_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }, ExtArgs["result"]["kioskQueue"]>
+
+  export type kioskQueueSelectScalar = {
+    id?: boolean
+    queue_id?: boolean
+    station?: boolean
+    idbu?: boolean
+    room?: boolean
+    status?: boolean
+    call_count?: boolean
+    input_by?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type kioskQueueOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "queue_id" | "station" | "idbu" | "room" | "status" | "call_count" | "input_by" | "created_at" | "updated_at", ExtArgs["result"]["kioskQueue"]>
+
+  export type $kioskQueuePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "kioskQueue"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      queue_id: bigint
+      station: string
+      idbu: string | null
+      room: string | null
+      status: string
+      call_count: number
+      input_by: string | null
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["kioskQueue"]>
+    composites: {}
+  }
+
+  type kioskQueueGetPayload<S extends boolean | null | undefined | kioskQueueDefaultArgs> = $Result.GetResult<Prisma.$kioskQueuePayload, S>
+
+  type kioskQueueCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<kioskQueueFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: KioskQueueCountAggregateInputType | true
+    }
+
+  export interface kioskQueueDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['kioskQueue'], meta: { name: 'kioskQueue' } }
+    /**
+     * Find zero or one KioskQueue that matches the filter.
+     * @param {kioskQueueFindUniqueArgs} args - Arguments to find a KioskQueue
+     * @example
+     * // Get one KioskQueue
+     * const kioskQueue = await prisma.kioskQueue.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends kioskQueueFindUniqueArgs>(args: SelectSubset<T, kioskQueueFindUniqueArgs<ExtArgs>>): Prisma__kioskQueueClient<$Result.GetResult<Prisma.$kioskQueuePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one KioskQueue that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {kioskQueueFindUniqueOrThrowArgs} args - Arguments to find a KioskQueue
+     * @example
+     * // Get one KioskQueue
+     * const kioskQueue = await prisma.kioskQueue.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends kioskQueueFindUniqueOrThrowArgs>(args: SelectSubset<T, kioskQueueFindUniqueOrThrowArgs<ExtArgs>>): Prisma__kioskQueueClient<$Result.GetResult<Prisma.$kioskQueuePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KioskQueue that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kioskQueueFindFirstArgs} args - Arguments to find a KioskQueue
+     * @example
+     * // Get one KioskQueue
+     * const kioskQueue = await prisma.kioskQueue.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends kioskQueueFindFirstArgs>(args?: SelectSubset<T, kioskQueueFindFirstArgs<ExtArgs>>): Prisma__kioskQueueClient<$Result.GetResult<Prisma.$kioskQueuePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KioskQueue that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kioskQueueFindFirstOrThrowArgs} args - Arguments to find a KioskQueue
+     * @example
+     * // Get one KioskQueue
+     * const kioskQueue = await prisma.kioskQueue.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends kioskQueueFindFirstOrThrowArgs>(args?: SelectSubset<T, kioskQueueFindFirstOrThrowArgs<ExtArgs>>): Prisma__kioskQueueClient<$Result.GetResult<Prisma.$kioskQueuePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more KioskQueues that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kioskQueueFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all KioskQueues
+     * const kioskQueues = await prisma.kioskQueue.findMany()
+     * 
+     * // Get first 10 KioskQueues
+     * const kioskQueues = await prisma.kioskQueue.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const kioskQueueWithIdOnly = await prisma.kioskQueue.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends kioskQueueFindManyArgs>(args?: SelectSubset<T, kioskQueueFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$kioskQueuePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a KioskQueue.
+     * @param {kioskQueueCreateArgs} args - Arguments to create a KioskQueue.
+     * @example
+     * // Create one KioskQueue
+     * const KioskQueue = await prisma.kioskQueue.create({
+     *   data: {
+     *     // ... data to create a KioskQueue
+     *   }
+     * })
+     * 
+     */
+    create<T extends kioskQueueCreateArgs>(args: SelectSubset<T, kioskQueueCreateArgs<ExtArgs>>): Prisma__kioskQueueClient<$Result.GetResult<Prisma.$kioskQueuePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many KioskQueues.
+     * @param {kioskQueueCreateManyArgs} args - Arguments to create many KioskQueues.
+     * @example
+     * // Create many KioskQueues
+     * const kioskQueue = await prisma.kioskQueue.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends kioskQueueCreateManyArgs>(args?: SelectSubset<T, kioskQueueCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many KioskQueues and returns the data saved in the database.
+     * @param {kioskQueueCreateManyAndReturnArgs} args - Arguments to create many KioskQueues.
+     * @example
+     * // Create many KioskQueues
+     * const kioskQueue = await prisma.kioskQueue.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many KioskQueues and only return the `id`
+     * const kioskQueueWithIdOnly = await prisma.kioskQueue.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends kioskQueueCreateManyAndReturnArgs>(args?: SelectSubset<T, kioskQueueCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$kioskQueuePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a KioskQueue.
+     * @param {kioskQueueDeleteArgs} args - Arguments to delete one KioskQueue.
+     * @example
+     * // Delete one KioskQueue
+     * const KioskQueue = await prisma.kioskQueue.delete({
+     *   where: {
+     *     // ... filter to delete one KioskQueue
+     *   }
+     * })
+     * 
+     */
+    delete<T extends kioskQueueDeleteArgs>(args: SelectSubset<T, kioskQueueDeleteArgs<ExtArgs>>): Prisma__kioskQueueClient<$Result.GetResult<Prisma.$kioskQueuePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one KioskQueue.
+     * @param {kioskQueueUpdateArgs} args - Arguments to update one KioskQueue.
+     * @example
+     * // Update one KioskQueue
+     * const kioskQueue = await prisma.kioskQueue.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends kioskQueueUpdateArgs>(args: SelectSubset<T, kioskQueueUpdateArgs<ExtArgs>>): Prisma__kioskQueueClient<$Result.GetResult<Prisma.$kioskQueuePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more KioskQueues.
+     * @param {kioskQueueDeleteManyArgs} args - Arguments to filter KioskQueues to delete.
+     * @example
+     * // Delete a few KioskQueues
+     * const { count } = await prisma.kioskQueue.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends kioskQueueDeleteManyArgs>(args?: SelectSubset<T, kioskQueueDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KioskQueues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kioskQueueUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many KioskQueues
+     * const kioskQueue = await prisma.kioskQueue.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends kioskQueueUpdateManyArgs>(args: SelectSubset<T, kioskQueueUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KioskQueues and returns the data updated in the database.
+     * @param {kioskQueueUpdateManyAndReturnArgs} args - Arguments to update many KioskQueues.
+     * @example
+     * // Update many KioskQueues
+     * const kioskQueue = await prisma.kioskQueue.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more KioskQueues and only return the `id`
+     * const kioskQueueWithIdOnly = await prisma.kioskQueue.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends kioskQueueUpdateManyAndReturnArgs>(args: SelectSubset<T, kioskQueueUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$kioskQueuePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one KioskQueue.
+     * @param {kioskQueueUpsertArgs} args - Arguments to update or create a KioskQueue.
+     * @example
+     * // Update or create a KioskQueue
+     * const kioskQueue = await prisma.kioskQueue.upsert({
+     *   create: {
+     *     // ... data to create a KioskQueue
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the KioskQueue we want to update
+     *   }
+     * })
+     */
+    upsert<T extends kioskQueueUpsertArgs>(args: SelectSubset<T, kioskQueueUpsertArgs<ExtArgs>>): Prisma__kioskQueueClient<$Result.GetResult<Prisma.$kioskQueuePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of KioskQueues.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kioskQueueCountArgs} args - Arguments to filter KioskQueues to count.
+     * @example
+     * // Count the number of KioskQueues
+     * const count = await prisma.kioskQueue.count({
+     *   where: {
+     *     // ... the filter for the KioskQueues we want to count
+     *   }
+     * })
+    **/
+    count<T extends kioskQueueCountArgs>(
+      args?: Subset<T, kioskQueueCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], KioskQueueCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a KioskQueue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KioskQueueAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends KioskQueueAggregateArgs>(args: Subset<T, KioskQueueAggregateArgs>): Prisma.PrismaPromise<GetKioskQueueAggregateType<T>>
+
+    /**
+     * Group by KioskQueue.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kioskQueueGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends kioskQueueGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: kioskQueueGroupByArgs['orderBy'] }
+        : { orderBy?: kioskQueueGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, kioskQueueGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetKioskQueueGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the kioskQueue model
+   */
+  readonly fields: kioskQueueFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for kioskQueue.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__kioskQueueClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the kioskQueue model
+   */
+  interface kioskQueueFieldRefs {
+    readonly id: FieldRef<"kioskQueue", 'Int'>
+    readonly queue_id: FieldRef<"kioskQueue", 'BigInt'>
+    readonly station: FieldRef<"kioskQueue", 'String'>
+    readonly idbu: FieldRef<"kioskQueue", 'String'>
+    readonly room: FieldRef<"kioskQueue", 'String'>
+    readonly status: FieldRef<"kioskQueue", 'String'>
+    readonly call_count: FieldRef<"kioskQueue", 'Int'>
+    readonly input_by: FieldRef<"kioskQueue", 'String'>
+    readonly created_at: FieldRef<"kioskQueue", 'DateTime'>
+    readonly updated_at: FieldRef<"kioskQueue", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * kioskQueue findUnique
+   */
+  export type kioskQueueFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskQueue
+     */
+    select?: kioskQueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskQueue
+     */
+    omit?: kioskQueueOmit<ExtArgs> | null
+    /**
+     * Filter, which kioskQueue to fetch.
+     */
+    where: kioskQueueWhereUniqueInput
+  }
+
+  /**
+   * kioskQueue findUniqueOrThrow
+   */
+  export type kioskQueueFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskQueue
+     */
+    select?: kioskQueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskQueue
+     */
+    omit?: kioskQueueOmit<ExtArgs> | null
+    /**
+     * Filter, which kioskQueue to fetch.
+     */
+    where: kioskQueueWhereUniqueInput
+  }
+
+  /**
+   * kioskQueue findFirst
+   */
+  export type kioskQueueFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskQueue
+     */
+    select?: kioskQueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskQueue
+     */
+    omit?: kioskQueueOmit<ExtArgs> | null
+    /**
+     * Filter, which kioskQueue to fetch.
+     */
+    where?: kioskQueueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of kioskQueues to fetch.
+     */
+    orderBy?: kioskQueueOrderByWithRelationInput | kioskQueueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for kioskQueues.
+     */
+    cursor?: kioskQueueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` kioskQueues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` kioskQueues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of kioskQueues.
+     */
+    distinct?: KioskQueueScalarFieldEnum | KioskQueueScalarFieldEnum[]
+  }
+
+  /**
+   * kioskQueue findFirstOrThrow
+   */
+  export type kioskQueueFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskQueue
+     */
+    select?: kioskQueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskQueue
+     */
+    omit?: kioskQueueOmit<ExtArgs> | null
+    /**
+     * Filter, which kioskQueue to fetch.
+     */
+    where?: kioskQueueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of kioskQueues to fetch.
+     */
+    orderBy?: kioskQueueOrderByWithRelationInput | kioskQueueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for kioskQueues.
+     */
+    cursor?: kioskQueueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` kioskQueues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` kioskQueues.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of kioskQueues.
+     */
+    distinct?: KioskQueueScalarFieldEnum | KioskQueueScalarFieldEnum[]
+  }
+
+  /**
+   * kioskQueue findMany
+   */
+  export type kioskQueueFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskQueue
+     */
+    select?: kioskQueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskQueue
+     */
+    omit?: kioskQueueOmit<ExtArgs> | null
+    /**
+     * Filter, which kioskQueues to fetch.
+     */
+    where?: kioskQueueWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of kioskQueues to fetch.
+     */
+    orderBy?: kioskQueueOrderByWithRelationInput | kioskQueueOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing kioskQueues.
+     */
+    cursor?: kioskQueueWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` kioskQueues from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` kioskQueues.
+     */
+    skip?: number
+    distinct?: KioskQueueScalarFieldEnum | KioskQueueScalarFieldEnum[]
+  }
+
+  /**
+   * kioskQueue create
+   */
+  export type kioskQueueCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskQueue
+     */
+    select?: kioskQueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskQueue
+     */
+    omit?: kioskQueueOmit<ExtArgs> | null
+    /**
+     * The data needed to create a kioskQueue.
+     */
+    data: XOR<kioskQueueCreateInput, kioskQueueUncheckedCreateInput>
+  }
+
+  /**
+   * kioskQueue createMany
+   */
+  export type kioskQueueCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many kioskQueues.
+     */
+    data: kioskQueueCreateManyInput | kioskQueueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * kioskQueue createManyAndReturn
+   */
+  export type kioskQueueCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskQueue
+     */
+    select?: kioskQueueSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskQueue
+     */
+    omit?: kioskQueueOmit<ExtArgs> | null
+    /**
+     * The data used to create many kioskQueues.
+     */
+    data: kioskQueueCreateManyInput | kioskQueueCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * kioskQueue update
+   */
+  export type kioskQueueUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskQueue
+     */
+    select?: kioskQueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskQueue
+     */
+    omit?: kioskQueueOmit<ExtArgs> | null
+    /**
+     * The data needed to update a kioskQueue.
+     */
+    data: XOR<kioskQueueUpdateInput, kioskQueueUncheckedUpdateInput>
+    /**
+     * Choose, which kioskQueue to update.
+     */
+    where: kioskQueueWhereUniqueInput
+  }
+
+  /**
+   * kioskQueue updateMany
+   */
+  export type kioskQueueUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update kioskQueues.
+     */
+    data: XOR<kioskQueueUpdateManyMutationInput, kioskQueueUncheckedUpdateManyInput>
+    /**
+     * Filter which kioskQueues to update
+     */
+    where?: kioskQueueWhereInput
+    /**
+     * Limit how many kioskQueues to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * kioskQueue updateManyAndReturn
+   */
+  export type kioskQueueUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskQueue
+     */
+    select?: kioskQueueSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskQueue
+     */
+    omit?: kioskQueueOmit<ExtArgs> | null
+    /**
+     * The data used to update kioskQueues.
+     */
+    data: XOR<kioskQueueUpdateManyMutationInput, kioskQueueUncheckedUpdateManyInput>
+    /**
+     * Filter which kioskQueues to update
+     */
+    where?: kioskQueueWhereInput
+    /**
+     * Limit how many kioskQueues to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * kioskQueue upsert
+   */
+  export type kioskQueueUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskQueue
+     */
+    select?: kioskQueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskQueue
+     */
+    omit?: kioskQueueOmit<ExtArgs> | null
+    /**
+     * The filter to search for the kioskQueue to update in case it exists.
+     */
+    where: kioskQueueWhereUniqueInput
+    /**
+     * In case the kioskQueue found by the `where` argument doesn't exist, create a new kioskQueue with this data.
+     */
+    create: XOR<kioskQueueCreateInput, kioskQueueUncheckedCreateInput>
+    /**
+     * In case the kioskQueue was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<kioskQueueUpdateInput, kioskQueueUncheckedUpdateInput>
+  }
+
+  /**
+   * kioskQueue delete
+   */
+  export type kioskQueueDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskQueue
+     */
+    select?: kioskQueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskQueue
+     */
+    omit?: kioskQueueOmit<ExtArgs> | null
+    /**
+     * Filter which kioskQueue to delete.
+     */
+    where: kioskQueueWhereUniqueInput
+  }
+
+  /**
+   * kioskQueue deleteMany
+   */
+  export type kioskQueueDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which kioskQueues to delete
+     */
+    where?: kioskQueueWhereInput
+    /**
+     * Limit how many kioskQueues to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * kioskQueue without action
+   */
+  export type kioskQueueDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskQueue
+     */
+    select?: kioskQueueSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskQueue
+     */
+    omit?: kioskQueueOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model kioskCounter
+   */
+
+  export type AggregateKioskCounter = {
+    _count: KioskCounterCountAggregateOutputType | null
+    _avg: KioskCounterAvgAggregateOutputType | null
+    _sum: KioskCounterSumAggregateOutputType | null
+    _min: KioskCounterMinAggregateOutputType | null
+    _max: KioskCounterMaxAggregateOutputType | null
+  }
+
+  export type KioskCounterAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type KioskCounterSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type KioskCounterMinAggregateOutputType = {
+    id: number | null
+    station_number: string | null
+    ipv4: string | null
+    department: string | null
+    location: string | null
+    idbu: string | null
+    input_by: string | null
+    input_date: Date | null
+    update_by: string | null
+    update_date: Date | null
+  }
+
+  export type KioskCounterMaxAggregateOutputType = {
+    id: number | null
+    station_number: string | null
+    ipv4: string | null
+    department: string | null
+    location: string | null
+    idbu: string | null
+    input_by: string | null
+    input_date: Date | null
+    update_by: string | null
+    update_date: Date | null
+  }
+
+  export type KioskCounterCountAggregateOutputType = {
+    id: number
+    station_number: number
+    ipv4: number
+    department: number
+    location: number
+    idbu: number
+    input_by: number
+    input_date: number
+    update_by: number
+    update_date: number
+    _all: number
+  }
+
+
+  export type KioskCounterAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type KioskCounterSumAggregateInputType = {
+    id?: true
+  }
+
+  export type KioskCounterMinAggregateInputType = {
+    id?: true
+    station_number?: true
+    ipv4?: true
+    department?: true
+    location?: true
+    idbu?: true
+    input_by?: true
+    input_date?: true
+    update_by?: true
+    update_date?: true
+  }
+
+  export type KioskCounterMaxAggregateInputType = {
+    id?: true
+    station_number?: true
+    ipv4?: true
+    department?: true
+    location?: true
+    idbu?: true
+    input_by?: true
+    input_date?: true
+    update_by?: true
+    update_date?: true
+  }
+
+  export type KioskCounterCountAggregateInputType = {
+    id?: true
+    station_number?: true
+    ipv4?: true
+    department?: true
+    location?: true
+    idbu?: true
+    input_by?: true
+    input_date?: true
+    update_by?: true
+    update_date?: true
+    _all?: true
+  }
+
+  export type KioskCounterAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which kioskCounter to aggregate.
+     */
+    where?: kioskCounterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of kioskCounters to fetch.
+     */
+    orderBy?: kioskCounterOrderByWithRelationInput | kioskCounterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: kioskCounterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` kioskCounters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` kioskCounters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned kioskCounters
+    **/
+    _count?: true | KioskCounterCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: KioskCounterAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: KioskCounterSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: KioskCounterMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: KioskCounterMaxAggregateInputType
+  }
+
+  export type GetKioskCounterAggregateType<T extends KioskCounterAggregateArgs> = {
+        [P in keyof T & keyof AggregateKioskCounter]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateKioskCounter[P]>
+      : GetScalarType<T[P], AggregateKioskCounter[P]>
+  }
+
+
+
+
+  export type kioskCounterGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: kioskCounterWhereInput
+    orderBy?: kioskCounterOrderByWithAggregationInput | kioskCounterOrderByWithAggregationInput[]
+    by: KioskCounterScalarFieldEnum[] | KioskCounterScalarFieldEnum
+    having?: kioskCounterScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: KioskCounterCountAggregateInputType | true
+    _avg?: KioskCounterAvgAggregateInputType
+    _sum?: KioskCounterSumAggregateInputType
+    _min?: KioskCounterMinAggregateInputType
+    _max?: KioskCounterMaxAggregateInputType
+  }
+
+  export type KioskCounterGroupByOutputType = {
+    id: number
+    station_number: string | null
+    ipv4: string
+    department: string
+    location: string | null
+    idbu: string | null
+    input_by: string | null
+    input_date: Date | null
+    update_by: string | null
+    update_date: Date | null
+    _count: KioskCounterCountAggregateOutputType | null
+    _avg: KioskCounterAvgAggregateOutputType | null
+    _sum: KioskCounterSumAggregateOutputType | null
+    _min: KioskCounterMinAggregateOutputType | null
+    _max: KioskCounterMaxAggregateOutputType | null
+  }
+
+  type GetKioskCounterGroupByPayload<T extends kioskCounterGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<KioskCounterGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof KioskCounterGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], KioskCounterGroupByOutputType[P]>
+            : GetScalarType<T[P], KioskCounterGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type kioskCounterSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    station_number?: boolean
+    ipv4?: boolean
+    department?: boolean
+    location?: boolean
+    idbu?: boolean
+    input_by?: boolean
+    input_date?: boolean
+    update_by?: boolean
+    update_date?: boolean
+  }, ExtArgs["result"]["kioskCounter"]>
+
+  export type kioskCounterSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    station_number?: boolean
+    ipv4?: boolean
+    department?: boolean
+    location?: boolean
+    idbu?: boolean
+    input_by?: boolean
+    input_date?: boolean
+    update_by?: boolean
+    update_date?: boolean
+  }, ExtArgs["result"]["kioskCounter"]>
+
+  export type kioskCounterSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    station_number?: boolean
+    ipv4?: boolean
+    department?: boolean
+    location?: boolean
+    idbu?: boolean
+    input_by?: boolean
+    input_date?: boolean
+    update_by?: boolean
+    update_date?: boolean
+  }, ExtArgs["result"]["kioskCounter"]>
+
+  export type kioskCounterSelectScalar = {
+    id?: boolean
+    station_number?: boolean
+    ipv4?: boolean
+    department?: boolean
+    location?: boolean
+    idbu?: boolean
+    input_by?: boolean
+    input_date?: boolean
+    update_by?: boolean
+    update_date?: boolean
+  }
+
+  export type kioskCounterOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "station_number" | "ipv4" | "department" | "location" | "idbu" | "input_by" | "input_date" | "update_by" | "update_date", ExtArgs["result"]["kioskCounter"]>
+
+  export type $kioskCounterPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "kioskCounter"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      station_number: string | null
+      ipv4: string
+      department: string
+      location: string | null
+      idbu: string | null
+      input_by: string | null
+      input_date: Date | null
+      update_by: string | null
+      update_date: Date | null
+    }, ExtArgs["result"]["kioskCounter"]>
+    composites: {}
+  }
+
+  type kioskCounterGetPayload<S extends boolean | null | undefined | kioskCounterDefaultArgs> = $Result.GetResult<Prisma.$kioskCounterPayload, S>
+
+  type kioskCounterCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<kioskCounterFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: KioskCounterCountAggregateInputType | true
+    }
+
+  export interface kioskCounterDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['kioskCounter'], meta: { name: 'kioskCounter' } }
+    /**
+     * Find zero or one KioskCounter that matches the filter.
+     * @param {kioskCounterFindUniqueArgs} args - Arguments to find a KioskCounter
+     * @example
+     * // Get one KioskCounter
+     * const kioskCounter = await prisma.kioskCounter.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends kioskCounterFindUniqueArgs>(args: SelectSubset<T, kioskCounterFindUniqueArgs<ExtArgs>>): Prisma__kioskCounterClient<$Result.GetResult<Prisma.$kioskCounterPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one KioskCounter that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {kioskCounterFindUniqueOrThrowArgs} args - Arguments to find a KioskCounter
+     * @example
+     * // Get one KioskCounter
+     * const kioskCounter = await prisma.kioskCounter.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends kioskCounterFindUniqueOrThrowArgs>(args: SelectSubset<T, kioskCounterFindUniqueOrThrowArgs<ExtArgs>>): Prisma__kioskCounterClient<$Result.GetResult<Prisma.$kioskCounterPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KioskCounter that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kioskCounterFindFirstArgs} args - Arguments to find a KioskCounter
+     * @example
+     * // Get one KioskCounter
+     * const kioskCounter = await prisma.kioskCounter.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends kioskCounterFindFirstArgs>(args?: SelectSubset<T, kioskCounterFindFirstArgs<ExtArgs>>): Prisma__kioskCounterClient<$Result.GetResult<Prisma.$kioskCounterPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KioskCounter that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kioskCounterFindFirstOrThrowArgs} args - Arguments to find a KioskCounter
+     * @example
+     * // Get one KioskCounter
+     * const kioskCounter = await prisma.kioskCounter.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends kioskCounterFindFirstOrThrowArgs>(args?: SelectSubset<T, kioskCounterFindFirstOrThrowArgs<ExtArgs>>): Prisma__kioskCounterClient<$Result.GetResult<Prisma.$kioskCounterPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more KioskCounters that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kioskCounterFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all KioskCounters
+     * const kioskCounters = await prisma.kioskCounter.findMany()
+     * 
+     * // Get first 10 KioskCounters
+     * const kioskCounters = await prisma.kioskCounter.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const kioskCounterWithIdOnly = await prisma.kioskCounter.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends kioskCounterFindManyArgs>(args?: SelectSubset<T, kioskCounterFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$kioskCounterPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a KioskCounter.
+     * @param {kioskCounterCreateArgs} args - Arguments to create a KioskCounter.
+     * @example
+     * // Create one KioskCounter
+     * const KioskCounter = await prisma.kioskCounter.create({
+     *   data: {
+     *     // ... data to create a KioskCounter
+     *   }
+     * })
+     * 
+     */
+    create<T extends kioskCounterCreateArgs>(args: SelectSubset<T, kioskCounterCreateArgs<ExtArgs>>): Prisma__kioskCounterClient<$Result.GetResult<Prisma.$kioskCounterPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many KioskCounters.
+     * @param {kioskCounterCreateManyArgs} args - Arguments to create many KioskCounters.
+     * @example
+     * // Create many KioskCounters
+     * const kioskCounter = await prisma.kioskCounter.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends kioskCounterCreateManyArgs>(args?: SelectSubset<T, kioskCounterCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many KioskCounters and returns the data saved in the database.
+     * @param {kioskCounterCreateManyAndReturnArgs} args - Arguments to create many KioskCounters.
+     * @example
+     * // Create many KioskCounters
+     * const kioskCounter = await prisma.kioskCounter.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many KioskCounters and only return the `id`
+     * const kioskCounterWithIdOnly = await prisma.kioskCounter.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends kioskCounterCreateManyAndReturnArgs>(args?: SelectSubset<T, kioskCounterCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$kioskCounterPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a KioskCounter.
+     * @param {kioskCounterDeleteArgs} args - Arguments to delete one KioskCounter.
+     * @example
+     * // Delete one KioskCounter
+     * const KioskCounter = await prisma.kioskCounter.delete({
+     *   where: {
+     *     // ... filter to delete one KioskCounter
+     *   }
+     * })
+     * 
+     */
+    delete<T extends kioskCounterDeleteArgs>(args: SelectSubset<T, kioskCounterDeleteArgs<ExtArgs>>): Prisma__kioskCounterClient<$Result.GetResult<Prisma.$kioskCounterPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one KioskCounter.
+     * @param {kioskCounterUpdateArgs} args - Arguments to update one KioskCounter.
+     * @example
+     * // Update one KioskCounter
+     * const kioskCounter = await prisma.kioskCounter.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends kioskCounterUpdateArgs>(args: SelectSubset<T, kioskCounterUpdateArgs<ExtArgs>>): Prisma__kioskCounterClient<$Result.GetResult<Prisma.$kioskCounterPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more KioskCounters.
+     * @param {kioskCounterDeleteManyArgs} args - Arguments to filter KioskCounters to delete.
+     * @example
+     * // Delete a few KioskCounters
+     * const { count } = await prisma.kioskCounter.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends kioskCounterDeleteManyArgs>(args?: SelectSubset<T, kioskCounterDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KioskCounters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kioskCounterUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many KioskCounters
+     * const kioskCounter = await prisma.kioskCounter.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends kioskCounterUpdateManyArgs>(args: SelectSubset<T, kioskCounterUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KioskCounters and returns the data updated in the database.
+     * @param {kioskCounterUpdateManyAndReturnArgs} args - Arguments to update many KioskCounters.
+     * @example
+     * // Update many KioskCounters
+     * const kioskCounter = await prisma.kioskCounter.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more KioskCounters and only return the `id`
+     * const kioskCounterWithIdOnly = await prisma.kioskCounter.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends kioskCounterUpdateManyAndReturnArgs>(args: SelectSubset<T, kioskCounterUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$kioskCounterPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one KioskCounter.
+     * @param {kioskCounterUpsertArgs} args - Arguments to update or create a KioskCounter.
+     * @example
+     * // Update or create a KioskCounter
+     * const kioskCounter = await prisma.kioskCounter.upsert({
+     *   create: {
+     *     // ... data to create a KioskCounter
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the KioskCounter we want to update
+     *   }
+     * })
+     */
+    upsert<T extends kioskCounterUpsertArgs>(args: SelectSubset<T, kioskCounterUpsertArgs<ExtArgs>>): Prisma__kioskCounterClient<$Result.GetResult<Prisma.$kioskCounterPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of KioskCounters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kioskCounterCountArgs} args - Arguments to filter KioskCounters to count.
+     * @example
+     * // Count the number of KioskCounters
+     * const count = await prisma.kioskCounter.count({
+     *   where: {
+     *     // ... the filter for the KioskCounters we want to count
+     *   }
+     * })
+    **/
+    count<T extends kioskCounterCountArgs>(
+      args?: Subset<T, kioskCounterCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], KioskCounterCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a KioskCounter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KioskCounterAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends KioskCounterAggregateArgs>(args: Subset<T, KioskCounterAggregateArgs>): Prisma.PrismaPromise<GetKioskCounterAggregateType<T>>
+
+    /**
+     * Group by KioskCounter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {kioskCounterGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends kioskCounterGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: kioskCounterGroupByArgs['orderBy'] }
+        : { orderBy?: kioskCounterGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, kioskCounterGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetKioskCounterGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the kioskCounter model
+   */
+  readonly fields: kioskCounterFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for kioskCounter.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__kioskCounterClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the kioskCounter model
+   */
+  interface kioskCounterFieldRefs {
+    readonly id: FieldRef<"kioskCounter", 'Int'>
+    readonly station_number: FieldRef<"kioskCounter", 'String'>
+    readonly ipv4: FieldRef<"kioskCounter", 'String'>
+    readonly department: FieldRef<"kioskCounter", 'String'>
+    readonly location: FieldRef<"kioskCounter", 'String'>
+    readonly idbu: FieldRef<"kioskCounter", 'String'>
+    readonly input_by: FieldRef<"kioskCounter", 'String'>
+    readonly input_date: FieldRef<"kioskCounter", 'DateTime'>
+    readonly update_by: FieldRef<"kioskCounter", 'String'>
+    readonly update_date: FieldRef<"kioskCounter", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * kioskCounter findUnique
+   */
+  export type kioskCounterFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskCounter
+     */
+    select?: kioskCounterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskCounter
+     */
+    omit?: kioskCounterOmit<ExtArgs> | null
+    /**
+     * Filter, which kioskCounter to fetch.
+     */
+    where: kioskCounterWhereUniqueInput
+  }
+
+  /**
+   * kioskCounter findUniqueOrThrow
+   */
+  export type kioskCounterFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskCounter
+     */
+    select?: kioskCounterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskCounter
+     */
+    omit?: kioskCounterOmit<ExtArgs> | null
+    /**
+     * Filter, which kioskCounter to fetch.
+     */
+    where: kioskCounterWhereUniqueInput
+  }
+
+  /**
+   * kioskCounter findFirst
+   */
+  export type kioskCounterFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskCounter
+     */
+    select?: kioskCounterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskCounter
+     */
+    omit?: kioskCounterOmit<ExtArgs> | null
+    /**
+     * Filter, which kioskCounter to fetch.
+     */
+    where?: kioskCounterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of kioskCounters to fetch.
+     */
+    orderBy?: kioskCounterOrderByWithRelationInput | kioskCounterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for kioskCounters.
+     */
+    cursor?: kioskCounterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` kioskCounters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` kioskCounters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of kioskCounters.
+     */
+    distinct?: KioskCounterScalarFieldEnum | KioskCounterScalarFieldEnum[]
+  }
+
+  /**
+   * kioskCounter findFirstOrThrow
+   */
+  export type kioskCounterFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskCounter
+     */
+    select?: kioskCounterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskCounter
+     */
+    omit?: kioskCounterOmit<ExtArgs> | null
+    /**
+     * Filter, which kioskCounter to fetch.
+     */
+    where?: kioskCounterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of kioskCounters to fetch.
+     */
+    orderBy?: kioskCounterOrderByWithRelationInput | kioskCounterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for kioskCounters.
+     */
+    cursor?: kioskCounterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` kioskCounters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` kioskCounters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of kioskCounters.
+     */
+    distinct?: KioskCounterScalarFieldEnum | KioskCounterScalarFieldEnum[]
+  }
+
+  /**
+   * kioskCounter findMany
+   */
+  export type kioskCounterFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskCounter
+     */
+    select?: kioskCounterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskCounter
+     */
+    omit?: kioskCounterOmit<ExtArgs> | null
+    /**
+     * Filter, which kioskCounters to fetch.
+     */
+    where?: kioskCounterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of kioskCounters to fetch.
+     */
+    orderBy?: kioskCounterOrderByWithRelationInput | kioskCounterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing kioskCounters.
+     */
+    cursor?: kioskCounterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` kioskCounters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` kioskCounters.
+     */
+    skip?: number
+    distinct?: KioskCounterScalarFieldEnum | KioskCounterScalarFieldEnum[]
+  }
+
+  /**
+   * kioskCounter create
+   */
+  export type kioskCounterCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskCounter
+     */
+    select?: kioskCounterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskCounter
+     */
+    omit?: kioskCounterOmit<ExtArgs> | null
+    /**
+     * The data needed to create a kioskCounter.
+     */
+    data: XOR<kioskCounterCreateInput, kioskCounterUncheckedCreateInput>
+  }
+
+  /**
+   * kioskCounter createMany
+   */
+  export type kioskCounterCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many kioskCounters.
+     */
+    data: kioskCounterCreateManyInput | kioskCounterCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * kioskCounter createManyAndReturn
+   */
+  export type kioskCounterCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskCounter
+     */
+    select?: kioskCounterSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskCounter
+     */
+    omit?: kioskCounterOmit<ExtArgs> | null
+    /**
+     * The data used to create many kioskCounters.
+     */
+    data: kioskCounterCreateManyInput | kioskCounterCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * kioskCounter update
+   */
+  export type kioskCounterUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskCounter
+     */
+    select?: kioskCounterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskCounter
+     */
+    omit?: kioskCounterOmit<ExtArgs> | null
+    /**
+     * The data needed to update a kioskCounter.
+     */
+    data: XOR<kioskCounterUpdateInput, kioskCounterUncheckedUpdateInput>
+    /**
+     * Choose, which kioskCounter to update.
+     */
+    where: kioskCounterWhereUniqueInput
+  }
+
+  /**
+   * kioskCounter updateMany
+   */
+  export type kioskCounterUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update kioskCounters.
+     */
+    data: XOR<kioskCounterUpdateManyMutationInput, kioskCounterUncheckedUpdateManyInput>
+    /**
+     * Filter which kioskCounters to update
+     */
+    where?: kioskCounterWhereInput
+    /**
+     * Limit how many kioskCounters to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * kioskCounter updateManyAndReturn
+   */
+  export type kioskCounterUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskCounter
+     */
+    select?: kioskCounterSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskCounter
+     */
+    omit?: kioskCounterOmit<ExtArgs> | null
+    /**
+     * The data used to update kioskCounters.
+     */
+    data: XOR<kioskCounterUpdateManyMutationInput, kioskCounterUncheckedUpdateManyInput>
+    /**
+     * Filter which kioskCounters to update
+     */
+    where?: kioskCounterWhereInput
+    /**
+     * Limit how many kioskCounters to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * kioskCounter upsert
+   */
+  export type kioskCounterUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskCounter
+     */
+    select?: kioskCounterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskCounter
+     */
+    omit?: kioskCounterOmit<ExtArgs> | null
+    /**
+     * The filter to search for the kioskCounter to update in case it exists.
+     */
+    where: kioskCounterWhereUniqueInput
+    /**
+     * In case the kioskCounter found by the `where` argument doesn't exist, create a new kioskCounter with this data.
+     */
+    create: XOR<kioskCounterCreateInput, kioskCounterUncheckedCreateInput>
+    /**
+     * In case the kioskCounter was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<kioskCounterUpdateInput, kioskCounterUncheckedUpdateInput>
+  }
+
+  /**
+   * kioskCounter delete
+   */
+  export type kioskCounterDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskCounter
+     */
+    select?: kioskCounterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskCounter
+     */
+    omit?: kioskCounterOmit<ExtArgs> | null
+    /**
+     * Filter which kioskCounter to delete.
+     */
+    where: kioskCounterWhereUniqueInput
+  }
+
+  /**
+   * kioskCounter deleteMany
+   */
+  export type kioskCounterDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which kioskCounters to delete
+     */
+    where?: kioskCounterWhereInput
+    /**
+     * Limit how many kioskCounters to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * kioskCounter without action
+   */
+  export type kioskCounterDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the kioskCounter
+     */
+    select?: kioskCounterSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the kioskCounter
+     */
+    omit?: kioskCounterOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model updatequeue
    */
 
@@ -58204,6 +60582,38 @@ export namespace Prisma {
   export type AccessionnoScalarFieldEnum = (typeof AccessionnoScalarFieldEnum)[keyof typeof AccessionnoScalarFieldEnum]
 
 
+  export const KioskQueueScalarFieldEnum: {
+    id: 'id',
+    queue_id: 'queue_id',
+    station: 'station',
+    idbu: 'idbu',
+    room: 'room',
+    status: 'status',
+    call_count: 'call_count',
+    input_by: 'input_by',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type KioskQueueScalarFieldEnum = (typeof KioskQueueScalarFieldEnum)[keyof typeof KioskQueueScalarFieldEnum]
+
+
+  export const KioskCounterScalarFieldEnum: {
+    id: 'id',
+    station_number: 'station_number',
+    ipv4: 'ipv4',
+    department: 'department',
+    location: 'location',
+    idbu: 'idbu',
+    input_by: 'input_by',
+    input_date: 'input_date',
+    update_by: 'update_by',
+    update_date: 'update_date'
+  };
+
+  export type KioskCounterScalarFieldEnum = (typeof KioskCounterScalarFieldEnum)[keyof typeof KioskCounterScalarFieldEnum]
+
+
   export const UpdatequeueScalarFieldEnum: {
     Id: 'Id',
     Module: 'Module',
@@ -62594,6 +65004,164 @@ export namespace Prisma {
     ExamDate?: DateTimeNullableWithAggregatesFilter<"accessionno"> | Date | string | null
     ReceivedBU?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
     RISSeverity?: StringNullableWithAggregatesFilter<"accessionno"> | string | null
+  }
+
+  export type kioskQueueWhereInput = {
+    AND?: kioskQueueWhereInput | kioskQueueWhereInput[]
+    OR?: kioskQueueWhereInput[]
+    NOT?: kioskQueueWhereInput | kioskQueueWhereInput[]
+    id?: IntFilter<"kioskQueue"> | number
+    queue_id?: BigIntFilter<"kioskQueue"> | bigint | number
+    station?: StringFilter<"kioskQueue"> | string
+    idbu?: StringNullableFilter<"kioskQueue"> | string | null
+    room?: StringNullableFilter<"kioskQueue"> | string | null
+    status?: StringFilter<"kioskQueue"> | string
+    call_count?: IntFilter<"kioskQueue"> | number
+    input_by?: StringNullableFilter<"kioskQueue"> | string | null
+    created_at?: DateTimeFilter<"kioskQueue"> | Date | string
+    updated_at?: DateTimeFilter<"kioskQueue"> | Date | string
+  }
+
+  export type kioskQueueOrderByWithRelationInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    station?: SortOrder
+    idbu?: SortOrderInput | SortOrder
+    room?: SortOrderInput | SortOrder
+    status?: SortOrder
+    call_count?: SortOrder
+    input_by?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type kioskQueueWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: kioskQueueWhereInput | kioskQueueWhereInput[]
+    OR?: kioskQueueWhereInput[]
+    NOT?: kioskQueueWhereInput | kioskQueueWhereInput[]
+    queue_id?: BigIntFilter<"kioskQueue"> | bigint | number
+    station?: StringFilter<"kioskQueue"> | string
+    idbu?: StringNullableFilter<"kioskQueue"> | string | null
+    room?: StringNullableFilter<"kioskQueue"> | string | null
+    status?: StringFilter<"kioskQueue"> | string
+    call_count?: IntFilter<"kioskQueue"> | number
+    input_by?: StringNullableFilter<"kioskQueue"> | string | null
+    created_at?: DateTimeFilter<"kioskQueue"> | Date | string
+    updated_at?: DateTimeFilter<"kioskQueue"> | Date | string
+  }, "id">
+
+  export type kioskQueueOrderByWithAggregationInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    station?: SortOrder
+    idbu?: SortOrderInput | SortOrder
+    room?: SortOrderInput | SortOrder
+    status?: SortOrder
+    call_count?: SortOrder
+    input_by?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: kioskQueueCountOrderByAggregateInput
+    _avg?: kioskQueueAvgOrderByAggregateInput
+    _max?: kioskQueueMaxOrderByAggregateInput
+    _min?: kioskQueueMinOrderByAggregateInput
+    _sum?: kioskQueueSumOrderByAggregateInput
+  }
+
+  export type kioskQueueScalarWhereWithAggregatesInput = {
+    AND?: kioskQueueScalarWhereWithAggregatesInput | kioskQueueScalarWhereWithAggregatesInput[]
+    OR?: kioskQueueScalarWhereWithAggregatesInput[]
+    NOT?: kioskQueueScalarWhereWithAggregatesInput | kioskQueueScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"kioskQueue"> | number
+    queue_id?: BigIntWithAggregatesFilter<"kioskQueue"> | bigint | number
+    station?: StringWithAggregatesFilter<"kioskQueue"> | string
+    idbu?: StringNullableWithAggregatesFilter<"kioskQueue"> | string | null
+    room?: StringNullableWithAggregatesFilter<"kioskQueue"> | string | null
+    status?: StringWithAggregatesFilter<"kioskQueue"> | string
+    call_count?: IntWithAggregatesFilter<"kioskQueue"> | number
+    input_by?: StringNullableWithAggregatesFilter<"kioskQueue"> | string | null
+    created_at?: DateTimeWithAggregatesFilter<"kioskQueue"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"kioskQueue"> | Date | string
+  }
+
+  export type kioskCounterWhereInput = {
+    AND?: kioskCounterWhereInput | kioskCounterWhereInput[]
+    OR?: kioskCounterWhereInput[]
+    NOT?: kioskCounterWhereInput | kioskCounterWhereInput[]
+    id?: IntFilter<"kioskCounter"> | number
+    station_number?: StringNullableFilter<"kioskCounter"> | string | null
+    ipv4?: StringFilter<"kioskCounter"> | string
+    department?: StringFilter<"kioskCounter"> | string
+    location?: StringNullableFilter<"kioskCounter"> | string | null
+    idbu?: StringNullableFilter<"kioskCounter"> | string | null
+    input_by?: StringNullableFilter<"kioskCounter"> | string | null
+    input_date?: DateTimeNullableFilter<"kioskCounter"> | Date | string | null
+    update_by?: StringNullableFilter<"kioskCounter"> | string | null
+    update_date?: DateTimeNullableFilter<"kioskCounter"> | Date | string | null
+  }
+
+  export type kioskCounterOrderByWithRelationInput = {
+    id?: SortOrder
+    station_number?: SortOrderInput | SortOrder
+    ipv4?: SortOrder
+    department?: SortOrder
+    location?: SortOrderInput | SortOrder
+    idbu?: SortOrderInput | SortOrder
+    input_by?: SortOrderInput | SortOrder
+    input_date?: SortOrderInput | SortOrder
+    update_by?: SortOrderInput | SortOrder
+    update_date?: SortOrderInput | SortOrder
+  }
+
+  export type kioskCounterWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: kioskCounterWhereInput | kioskCounterWhereInput[]
+    OR?: kioskCounterWhereInput[]
+    NOT?: kioskCounterWhereInput | kioskCounterWhereInput[]
+    station_number?: StringNullableFilter<"kioskCounter"> | string | null
+    ipv4?: StringFilter<"kioskCounter"> | string
+    department?: StringFilter<"kioskCounter"> | string
+    location?: StringNullableFilter<"kioskCounter"> | string | null
+    idbu?: StringNullableFilter<"kioskCounter"> | string | null
+    input_by?: StringNullableFilter<"kioskCounter"> | string | null
+    input_date?: DateTimeNullableFilter<"kioskCounter"> | Date | string | null
+    update_by?: StringNullableFilter<"kioskCounter"> | string | null
+    update_date?: DateTimeNullableFilter<"kioskCounter"> | Date | string | null
+  }, "id">
+
+  export type kioskCounterOrderByWithAggregationInput = {
+    id?: SortOrder
+    station_number?: SortOrderInput | SortOrder
+    ipv4?: SortOrder
+    department?: SortOrder
+    location?: SortOrderInput | SortOrder
+    idbu?: SortOrderInput | SortOrder
+    input_by?: SortOrderInput | SortOrder
+    input_date?: SortOrderInput | SortOrder
+    update_by?: SortOrderInput | SortOrder
+    update_date?: SortOrderInput | SortOrder
+    _count?: kioskCounterCountOrderByAggregateInput
+    _avg?: kioskCounterAvgOrderByAggregateInput
+    _max?: kioskCounterMaxOrderByAggregateInput
+    _min?: kioskCounterMinOrderByAggregateInput
+    _sum?: kioskCounterSumOrderByAggregateInput
+  }
+
+  export type kioskCounterScalarWhereWithAggregatesInput = {
+    AND?: kioskCounterScalarWhereWithAggregatesInput | kioskCounterScalarWhereWithAggregatesInput[]
+    OR?: kioskCounterScalarWhereWithAggregatesInput[]
+    NOT?: kioskCounterScalarWhereWithAggregatesInput | kioskCounterScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"kioskCounter"> | number
+    station_number?: StringNullableWithAggregatesFilter<"kioskCounter"> | string | null
+    ipv4?: StringWithAggregatesFilter<"kioskCounter"> | string
+    department?: StringWithAggregatesFilter<"kioskCounter"> | string
+    location?: StringNullableWithAggregatesFilter<"kioskCounter"> | string | null
+    idbu?: StringNullableWithAggregatesFilter<"kioskCounter"> | string | null
+    input_by?: StringNullableWithAggregatesFilter<"kioskCounter"> | string | null
+    input_date?: DateTimeNullableWithAggregatesFilter<"kioskCounter"> | Date | string | null
+    update_by?: StringNullableWithAggregatesFilter<"kioskCounter"> | string | null
+    update_date?: DateTimeNullableWithAggregatesFilter<"kioskCounter"> | Date | string | null
   }
 
   export type updatequeueWhereInput = {
@@ -69280,6 +71848,182 @@ export namespace Prisma {
     RISSeverity?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type kioskQueueCreateInput = {
+    queue_id: bigint | number
+    station: string
+    idbu?: string | null
+    room?: string | null
+    status?: string
+    call_count?: number
+    input_by?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type kioskQueueUncheckedCreateInput = {
+    id?: number
+    queue_id: bigint | number
+    station: string
+    idbu?: string | null
+    room?: string | null
+    status?: string
+    call_count?: number
+    input_by?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type kioskQueueUpdateInput = {
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    station?: StringFieldUpdateOperationsInput | string
+    idbu?: NullableStringFieldUpdateOperationsInput | string | null
+    room?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    call_count?: IntFieldUpdateOperationsInput | number
+    input_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type kioskQueueUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    station?: StringFieldUpdateOperationsInput | string
+    idbu?: NullableStringFieldUpdateOperationsInput | string | null
+    room?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    call_count?: IntFieldUpdateOperationsInput | number
+    input_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type kioskQueueCreateManyInput = {
+    id?: number
+    queue_id: bigint | number
+    station: string
+    idbu?: string | null
+    room?: string | null
+    status?: string
+    call_count?: number
+    input_by?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type kioskQueueUpdateManyMutationInput = {
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    station?: StringFieldUpdateOperationsInput | string
+    idbu?: NullableStringFieldUpdateOperationsInput | string | null
+    room?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    call_count?: IntFieldUpdateOperationsInput | number
+    input_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type kioskQueueUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    queue_id?: BigIntFieldUpdateOperationsInput | bigint | number
+    station?: StringFieldUpdateOperationsInput | string
+    idbu?: NullableStringFieldUpdateOperationsInput | string | null
+    room?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    call_count?: IntFieldUpdateOperationsInput | number
+    input_by?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type kioskCounterCreateInput = {
+    station_number?: string | null
+    ipv4: string
+    department: string
+    location?: string | null
+    idbu?: string | null
+    input_by?: string | null
+    input_date?: Date | string | null
+    update_by?: string | null
+    update_date?: Date | string | null
+  }
+
+  export type kioskCounterUncheckedCreateInput = {
+    id?: number
+    station_number?: string | null
+    ipv4: string
+    department: string
+    location?: string | null
+    idbu?: string | null
+    input_by?: string | null
+    input_date?: Date | string | null
+    update_by?: string | null
+    update_date?: Date | string | null
+  }
+
+  export type kioskCounterUpdateInput = {
+    station_number?: NullableStringFieldUpdateOperationsInput | string | null
+    ipv4?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    idbu?: NullableStringFieldUpdateOperationsInput | string | null
+    input_by?: NullableStringFieldUpdateOperationsInput | string | null
+    input_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    update_by?: NullableStringFieldUpdateOperationsInput | string | null
+    update_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type kioskCounterUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    station_number?: NullableStringFieldUpdateOperationsInput | string | null
+    ipv4?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    idbu?: NullableStringFieldUpdateOperationsInput | string | null
+    input_by?: NullableStringFieldUpdateOperationsInput | string | null
+    input_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    update_by?: NullableStringFieldUpdateOperationsInput | string | null
+    update_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type kioskCounterCreateManyInput = {
+    id?: number
+    station_number?: string | null
+    ipv4: string
+    department: string
+    location?: string | null
+    idbu?: string | null
+    input_by?: string | null
+    input_date?: Date | string | null
+    update_by?: string | null
+    update_date?: Date | string | null
+  }
+
+  export type kioskCounterUpdateManyMutationInput = {
+    station_number?: NullableStringFieldUpdateOperationsInput | string | null
+    ipv4?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    idbu?: NullableStringFieldUpdateOperationsInput | string | null
+    input_by?: NullableStringFieldUpdateOperationsInput | string | null
+    input_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    update_by?: NullableStringFieldUpdateOperationsInput | string | null
+    update_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type kioskCounterUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    station_number?: NullableStringFieldUpdateOperationsInput | string | null
+    ipv4?: StringFieldUpdateOperationsInput | string
+    department?: StringFieldUpdateOperationsInput | string
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    idbu?: NullableStringFieldUpdateOperationsInput | string | null
+    input_by?: NullableStringFieldUpdateOperationsInput | string | null
+    input_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    update_by?: NullableStringFieldUpdateOperationsInput | string | null
+    update_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type updatequeueCreateInput = {
     Id?: bigint | number
     Module?: string | null
@@ -74221,6 +76965,104 @@ export namespace Prisma {
     IdCompany?: SortOrder
     IdDoctor?: SortOrder
     Status?: SortOrder
+  }
+
+  export type kioskQueueCountOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    station?: SortOrder
+    idbu?: SortOrder
+    room?: SortOrder
+    status?: SortOrder
+    call_count?: SortOrder
+    input_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type kioskQueueAvgOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    call_count?: SortOrder
+  }
+
+  export type kioskQueueMaxOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    station?: SortOrder
+    idbu?: SortOrder
+    room?: SortOrder
+    status?: SortOrder
+    call_count?: SortOrder
+    input_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type kioskQueueMinOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    station?: SortOrder
+    idbu?: SortOrder
+    room?: SortOrder
+    status?: SortOrder
+    call_count?: SortOrder
+    input_by?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type kioskQueueSumOrderByAggregateInput = {
+    id?: SortOrder
+    queue_id?: SortOrder
+    call_count?: SortOrder
+  }
+
+  export type kioskCounterCountOrderByAggregateInput = {
+    id?: SortOrder
+    station_number?: SortOrder
+    ipv4?: SortOrder
+    department?: SortOrder
+    location?: SortOrder
+    idbu?: SortOrder
+    input_by?: SortOrder
+    input_date?: SortOrder
+    update_by?: SortOrder
+    update_date?: SortOrder
+  }
+
+  export type kioskCounterAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type kioskCounterMaxOrderByAggregateInput = {
+    id?: SortOrder
+    station_number?: SortOrder
+    ipv4?: SortOrder
+    department?: SortOrder
+    location?: SortOrder
+    idbu?: SortOrder
+    input_by?: SortOrder
+    input_date?: SortOrder
+    update_by?: SortOrder
+    update_date?: SortOrder
+  }
+
+  export type kioskCounterMinOrderByAggregateInput = {
+    id?: SortOrder
+    station_number?: SortOrder
+    ipv4?: SortOrder
+    department?: SortOrder
+    location?: SortOrder
+    idbu?: SortOrder
+    input_by?: SortOrder
+    input_date?: SortOrder
+    update_by?: SortOrder
+    update_date?: SortOrder
+  }
+
+  export type kioskCounterSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type updatequeueCountOrderByAggregateInput = {

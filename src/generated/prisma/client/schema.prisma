@@ -727,6 +727,36 @@ model accessionno {
   @@map("accessionno")
 }
 
+model kioskQueue {
+  id         Int      @id @default(autoincrement())
+  queue_id   BigInt
+  station    String   @db.VarChar(50)
+  idbu       String?  @db.VarChar(20)
+  room       String?  @db.VarChar(50)
+  status     String   @default("waiting") @db.VarChar(30)
+  call_count Int      @default(0)
+  input_by   String?  @db.VarChar(80)
+  created_at DateTime @default(now()) @db.Timestamp(6)
+  updated_at DateTime @updatedAt @db.Timestamp(6)
+
+  @@map("kiosk_queue")
+}
+
+model kioskCounter {
+  id             Int       @id @default(autoincrement())
+  station_number String?   @db.VarChar(20)
+  ipv4           String    @db.VarChar(50)
+  department     String    @db.VarChar(50)
+  location       String?   @db.VarChar(100)
+  idbu           String?   @db.VarChar(20)
+  input_by       String?   @db.VarChar(80)
+  input_date     DateTime? @db.Timestamp(6)
+  update_by      String?   @db.VarChar(80)
+  update_date    DateTime? @db.Timestamp(6)
+
+  @@map("kiosk_counter")
+}
+
 model updatequeue {
   Id        BigInt  @id @default(autoincrement()) @map("Id")
   Module    String? @db.VarChar(50)

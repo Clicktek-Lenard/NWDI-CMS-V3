@@ -128,7 +128,6 @@ export async function POST(
           OrigAmount:           t.OrigAmount,
           GroupItemMaster:      t.GroupItemMaster,
           HCardNumber:          t.HCardNumber,
-          Stat:                 t.Stat,
           InputId:              t.InputId,
           InputBy:              inputBy,
           Status:               202,

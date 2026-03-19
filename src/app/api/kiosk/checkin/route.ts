@@ -46,9 +46,10 @@ export async function POST(request: NextRequest) {
           FullName:  fullName,
           Gender:    gender ?? null,
           DOB:       dob ? new Date(`${dob}T00:00:00Z`) : new Date("1900-01-01"),
-          IsActive:  1,
-          InputDate: new Date(),
-          InputBy:   "KIOSK",
+          IsActive:       1,
+          InputDate:      new Date(),
+          InputBy:        "KIOSK",
+          UploadDateTime: new Date(),
         },
         select: { Id: true },
       });

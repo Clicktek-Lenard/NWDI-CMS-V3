@@ -75,7 +75,7 @@ export async function logActivity(
       action,
       resource,
       resource_id: resourceId != null ? String(resourceId) : null,
-      detail:      detail ?? undefined,
+      detail:      detail ? (detail as object) : undefined,
     },
   }).catch((err) => {
     console.warn("[audit] write failed silently:", err?.message ?? err);

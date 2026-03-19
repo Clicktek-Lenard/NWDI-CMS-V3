@@ -76,6 +76,8 @@ export async function POST(request: NextRequest) {
   try {
     const item = await prisma.itemprice.create({
       data: {
+        Id:              BigInt(Date.now()),
+        SystemUpdateTime: new Date(),
         Code:        d.Code,
         Description: d.Description,
         CompanyCode: d.CompanyCode ?? null,
