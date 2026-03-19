@@ -79,6 +79,10 @@ export async function POST(request: NextRequest) {
   try {
     const company = await prisma.company.create({
       data: {
+        Id:          Date.now() % 2147483647,
+        Parent:      BigInt(0),
+        KeyLeft:     0,
+        KeyRight:    0,
         Code:        d.Code,
         Name:        d.Name,
         ShortName:   d.ShortName ?? null,
