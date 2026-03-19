@@ -53,3 +53,9 @@ prisma/*.db-journal
 
 # local planning / notes documents
 queue-transaction-*.md
+
+# large data and doc files
+*.sql
+*.txt
+*.md
+scripts/fix-schema.cjs
